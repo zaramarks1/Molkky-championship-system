@@ -21,11 +21,7 @@ public class Team {
     @Column(name = "nbPlayers")
     private Integer nbPlayers;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "match_team",
-            joinColumns = @JoinColumn(name = "idTeam"),
-            inverseJoinColumns = @JoinColumn(name = "idMatch"))
+    @ManyToMany(mappedBy = "teams")
     private Set<Match> matchs;
 
     public Team( String name, Integer nbPlayers) {
