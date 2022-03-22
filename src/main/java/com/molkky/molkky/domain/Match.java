@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Getter
 @Entity
@@ -11,11 +12,14 @@ import javax.persistence.*;
 @Table(name = "match")
 public class Match {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idCourt")
     private Court court;
+
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "matchs")
+    private Set<Team> teams;
 }
