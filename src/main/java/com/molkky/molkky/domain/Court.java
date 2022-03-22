@@ -20,8 +20,8 @@ public class Court {
     @Column(name = "isAvailable")
     private boolean isAvailable;
 
-    @OneToMany(targetEntity=Match.class)
-    private List<Match> matchs = new ArrayList<>();;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "court")
+    private List<Match > matchs = new ArrayList<>();
 
     public Court(Integer id, boolean isAvailable) {
         this.id = id;
