@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.Set;
 
 @Getter
@@ -13,7 +12,7 @@ import java.util.Set;
 @Table(name = "team")
 public class Team {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(name = "name")
@@ -28,4 +27,12 @@ public class Team {
             joinColumns = @JoinColumn(name = "idTeam"),
             inverseJoinColumns = @JoinColumn(name = "idMatch"))
     private Set<Match> matchs;
+
+    public Team( String name, Integer nbPlayers) {
+        this.name = name;
+        this.nbPlayers = nbPlayers;
+    }
+
+    public Team() {
+    }
 }
