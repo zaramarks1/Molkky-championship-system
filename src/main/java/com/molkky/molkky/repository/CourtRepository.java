@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CourtRepository extends JpaRepository<Court, String>, JpaSpecificationExecutor<Court> {
+    Court findById(Integer id);
 }

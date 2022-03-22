@@ -20,12 +20,15 @@ public class Court {
     @Column(name = "isAvailable")
     private boolean isAvailable;
 
+    @Column(name = "name")
+    private String name;
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "court")
     private List<Match > matchs = new ArrayList<>();
 
-    public Court(Integer id, boolean isAvailable) {
-        this.id = id;
+    public Court(boolean isAvailable, String name) {
         this.isAvailable = isAvailable;
+        this.name = name;
     }
 
     public Court() {
