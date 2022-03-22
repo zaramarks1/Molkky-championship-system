@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Entity
@@ -18,8 +20,15 @@ public class Court {
     @Column(name = "isAvailable")
     private boolean isAvailable;
 
+    @OneToMany(targetEntity=Match.class)
+    private List<Match> matchs = new ArrayList<>();;
+
     public Court(Integer id, boolean isAvailable) {
         this.id = id;
         this.isAvailable = isAvailable;
+    }
+
+    public Court() {
+
     }
 }
