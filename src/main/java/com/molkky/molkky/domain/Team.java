@@ -33,6 +33,12 @@ public class Team {
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     private Set<User> users;
 
+    @ManyToMany
+    @JoinTable(name = "tournament_admin",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "tournament_id"))
+    private Set<Tournament> tournamentAdmin;
+
     public Team( String name, Integer nbPlayers) {
         this.name = name;
         this.nbPlayers = nbPlayers;

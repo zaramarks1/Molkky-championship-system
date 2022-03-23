@@ -44,6 +44,10 @@ public class Round {
             inverseJoinColumns = @JoinColumn(name = "team_id"))
     private Set<Team> teams;
 
+    @ManyToOne
+    @JoinColumn(name="tournament_id", nullable=false)
+    private Tournament tournament;
+
     public Round(String type, Integer nbTeams) {
         this.type = type;
         this.nbTeams = nbTeams;
