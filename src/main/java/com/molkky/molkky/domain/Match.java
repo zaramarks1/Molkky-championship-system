@@ -32,7 +32,7 @@ public class Match {
     private Pool pool;
 
     @ManyToOne(optional = true)
-    @JoinColumn(name="idSimpleGame", nullable = true)
+    @JoinColumn(name="idSimplegame", nullable = true)
     private SimpleGame simpleGame;
 
     public Match(Court court, Set<Team> teams) {

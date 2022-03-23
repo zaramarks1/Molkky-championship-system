@@ -26,4 +26,8 @@ public class SimpleGame {
 
     public SimpleGame(){
     }
+
+    public SimpleGame(Integer nbSets){
+        this.nbSets = nbSets;
+    }
 }
