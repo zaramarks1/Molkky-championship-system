@@ -27,6 +27,10 @@ public class Match {
             inverseJoinColumns = @JoinColumn(name = "idTeam"))
     private Set<Team> teams;
 
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Pool.class, cascade = CascadeType.MERGE)
+    @JoinColumn(name = "idPool")
+    private Pool pool;
+
     public Match(Court court, Set<Team> teams) {
         this.court = court;
         this.teams = teams;
