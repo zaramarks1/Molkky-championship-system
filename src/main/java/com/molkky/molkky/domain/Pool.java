@@ -21,6 +21,10 @@ public class Pool {
     @JoinColumn(name = "idPool")
     private List<Match> matches = new ArrayList<>();
 
+    @OneToOne(optional = false)
+    @JoinColumn(name = "idRound")
+    private Round round;
+
     public Pool(){
     }
 }

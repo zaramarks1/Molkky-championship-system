@@ -24,6 +24,10 @@ public class SimpleGame {
     @JoinColumn(name = "idSimplegame")
     private List<Match> matches = new ArrayList<>();
 
+    @OneToOne(optional = false)
+    @JoinColumn(name = "idRound")
+    private Round round;
+
     public SimpleGame(){
     }
 

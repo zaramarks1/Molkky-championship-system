@@ -27,6 +27,10 @@ public class SwissPool {
     @JoinColumn(name = "idSwisspool")
     private List<Match> matches = new ArrayList<>();
 
+    @OneToOne(optional = false)
+    @JoinColumn(name = "idRound")
+    private Round round;
+
     public SwissPool(){
     }
 

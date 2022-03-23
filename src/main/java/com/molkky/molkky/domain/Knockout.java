@@ -24,6 +24,10 @@ public class Knockout {
     @JoinColumn(name = "idKnockout")
     private List<Match> matches = new ArrayList<>();
 
+    @OneToOne(optional = false)
+    @JoinColumn(name = "idRound")
+    private Round round;
+
     public Knockout(){
     }
 

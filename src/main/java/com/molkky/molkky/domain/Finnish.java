@@ -27,6 +27,10 @@ public class Finnish {
     @JoinColumn(name = "idFinnish")
     private List<Match> matches = new ArrayList<>();
 
+    @OneToOne(optional = false)
+    @JoinColumn(name = "idRound")
+    private Round round;
+
     public Finnish(){
     }
 
