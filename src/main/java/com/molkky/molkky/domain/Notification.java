@@ -24,10 +24,15 @@ public class Notification {
     @Column(name = "isRead")
     private boolean isRead;
 
-    public Notification(String link, String message, boolean isRead) {
+    @ManyToOne(optional = true)
+    @JoinColumn(name="idUser")
+    private User user;
+
+    public Notification(String link, String message, boolean isRead, User user) {
         this.link = link;
         this.message = message;
         this.isRead = isRead;
+        this.user = user;
     }
 
     public Notification() {
