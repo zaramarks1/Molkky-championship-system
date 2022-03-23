@@ -2,14 +2,13 @@ package com.molkky.molkky;
 
 import com.molkky.molkky.domain.Knockout;
 import com.molkky.molkky.domain.Match;
-import com.molkky.molkky.domain.SimpleGame;
 import com.molkky.molkky.repository.KnockoutRepository;
 import com.molkky.molkky.repository.MatchRepository;
-import com.molkky.molkky.repository.SimpleGameRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 
 import javax.transaction.Transactional;
 import java.util.Arrays;
@@ -24,6 +23,7 @@ class KnockoutEntityTest {
 
     @Test
     @Transactional
+    @Rollback(false)
     void testInsertSimpleGame() {
         Match match = new Match();
         Match match2 = new Match();
