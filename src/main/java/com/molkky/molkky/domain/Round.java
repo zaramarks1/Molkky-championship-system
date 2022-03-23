@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Getter
 @Entity
@@ -36,6 +37,12 @@ public class Round {
     @OneToOne(mappedBy = "round", optional = true)
     private Finnish finnish;
 
+    @ManyToMany
+    @JoinTable(
+            name = "team_round",
+            joinColumns = @JoinColumn(name = "round_id"),
+            inverseJoinColumns = @JoinColumn(name = "team_id"))
+    private Set<Team> teams;
 
     public Round(String type, Integer nbTeams) {
         this.type = type;

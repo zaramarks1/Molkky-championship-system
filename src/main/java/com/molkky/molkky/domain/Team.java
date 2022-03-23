@@ -24,6 +24,9 @@ public class Team {
     @ManyToMany(mappedBy = "teams")
     private Set<Match> matchs;
 
+    @ManyToMany(mappedBy = "teams")
+    private Set<Round> rounds;
+
     public Team( String name, Integer nbPlayers) {
         this.name = name;
         this.nbPlayers = nbPlayers;
