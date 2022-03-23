@@ -2,15 +2,18 @@ package com.molkky.molkky;
 
 import com.molkky.molkky.domain.Court;
 import com.molkky.molkky.domain.Match;
+import com.molkky.molkky.domain.Pool;
 import com.molkky.molkky.domain.Team;
 import com.molkky.molkky.repository.CourtRepository;
 import com.molkky.molkky.repository.MatchRepository;
+import com.molkky.molkky.repository.PoolRepository;
 import com.molkky.molkky.repository.TeamRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import javax.transaction.Transactional;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -22,6 +25,8 @@ class MatchEntityTest {
     private TeamRepository teamRepository;
     @Autowired
     private CourtRepository courtRepository;
+    @Autowired
+    private PoolRepository poolRepository;
 
     @Test
     void testInsertMatch() {
@@ -35,6 +40,7 @@ class MatchEntityTest {
         teams.add(team2);
         Court court = courtRepository.save(new Court(true, "court_testMatch"));
 //        Court court = new Court(true, "court_testMatch");
+
 
         Match match = matchRepository.save(new Match(court, teams));
 //        match.setTeams(teams);

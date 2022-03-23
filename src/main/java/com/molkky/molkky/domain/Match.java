@@ -28,8 +28,8 @@ public class Match {
             inverseJoinColumns = @JoinColumn(name = "idTeam"))
     private Set<Team> teams;
 
-    @ManyToOne
-    @JoinColumn(name="idPool",nullable = false)
+    @ManyToOne(optional = true)
+    @JoinColumn(name="idPool", nullable = true)
     private Pool pool;
 
     public Match(Court court, Set<Team> teams) {
