@@ -1,5 +1,6 @@
-package com.molkky.molkky;
+package com.molkky.molkky.entity;
 
+import com.molkky.molkky.MolkkyApplication;
 import com.molkky.molkky.domain.User;
 import com.molkky.molkky.repository.UserRepository;
 import org.junit.jupiter.api.Assertions;

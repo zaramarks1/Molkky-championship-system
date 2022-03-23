@@ -1,5 +1,6 @@
-package com.molkky.molkky;
+package com.molkky.molkky.entity;
 
+import com.molkky.molkky.MolkkyApplication;
 import com.molkky.molkky.domain.Match;
 import com.molkky.molkky.domain.SimpleGame;
 import com.molkky.molkky.repository.MatchRepository;
