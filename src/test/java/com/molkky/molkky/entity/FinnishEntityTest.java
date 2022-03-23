@@ -3,8 +3,10 @@ package com.molkky.molkky.entity;
 import com.molkky.molkky.MolkkyApplication;
 import com.molkky.molkky.domain.Finnish;
 import com.molkky.molkky.domain.Match;
+import com.molkky.molkky.domain.Round;
 import com.molkky.molkky.repository.FinnishRepository;
 import com.molkky.molkky.repository.MatchRepository;
+import com.molkky.molkky.repository.RoundRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,8 @@ class FinnishEntityTest {
     private FinnishRepository finnishRepository;
     @Autowired
     private MatchRepository matchRepository;
+    @Autowired
+    private RoundRepository roundRepository;
 
     @Test
     @Transactional
@@ -34,6 +38,9 @@ class FinnishEntityTest {
         match.setFinnish(finnish);
         match2.setFinnish(finnish);
         finnish.setMatches(matches);
+
+        Round round = roundRepository.save(new Round("finnish", 2));
+        finnish.setRound(round);
 
         finnish = finnishRepository.save(finnish);
         System.out.println(finnish.getMatches());

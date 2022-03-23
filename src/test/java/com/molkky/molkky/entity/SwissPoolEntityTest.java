@@ -2,8 +2,10 @@ package com.molkky.molkky.entity;
 
 import com.molkky.molkky.MolkkyApplication;
 import com.molkky.molkky.domain.Match;
+import com.molkky.molkky.domain.Round;
 import com.molkky.molkky.domain.SwissPool;
 import com.molkky.molkky.repository.MatchRepository;
+import com.molkky.molkky.repository.RoundRepository;
 import com.molkky.molkky.repository.SwissPoolRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -21,6 +23,8 @@ class SwissPoolEntityTest {
     private SwissPoolRepository swissPoolRepository;
     @Autowired
     private MatchRepository matchRepository;
+    @Autowired
+    private RoundRepository roundRepository;
 
     @Test
     @Transactional
@@ -34,6 +38,9 @@ class SwissPoolEntityTest {
         match.setSwissPool(swissPool);
         match2.setSwissPool(swissPool);
         swissPool.setMatches(matches);
+
+        Round round = roundRepository.save(new Round("swisspool", 2));
+        swissPool.setRound(round);
 
         swissPool = swissPoolRepository.save(swissPool);
         System.out.println(swissPool.getMatches());

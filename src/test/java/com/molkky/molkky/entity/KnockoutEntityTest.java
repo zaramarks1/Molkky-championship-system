@@ -3,8 +3,10 @@ package com.molkky.molkky.entity;
 import com.molkky.molkky.MolkkyApplication;
 import com.molkky.molkky.domain.Knockout;
 import com.molkky.molkky.domain.Match;
+import com.molkky.molkky.domain.Round;
 import com.molkky.molkky.repository.KnockoutRepository;
 import com.molkky.molkky.repository.MatchRepository;
+import com.molkky.molkky.repository.RoundRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,8 @@ class KnockoutEntityTest {
     private KnockoutRepository knockoutRepository;
     @Autowired
     private MatchRepository matchRepository;
+    @Autowired
+    private RoundRepository roundRepository;
 
     @Test
     @Transactional
@@ -34,6 +38,9 @@ class KnockoutEntityTest {
         match.setKnockout(knockout);
         match2.setKnockout(knockout);
         knockout.setMatches(matches);
+
+        Round round = roundRepository.save(new Round("knockout", 2));
+        knockout.setRound(round);
 
         knockout = knockoutRepository.save(knockout);
         System.out.println(knockout.getMatches());

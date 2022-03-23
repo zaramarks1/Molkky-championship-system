@@ -2,8 +2,10 @@ package com.molkky.molkky.entity;
 
 import com.molkky.molkky.MolkkyApplication;
 import com.molkky.molkky.domain.Match;
+import com.molkky.molkky.domain.Round;
 import com.molkky.molkky.domain.SimpleGame;
 import com.molkky.molkky.repository.MatchRepository;
+import com.molkky.molkky.repository.RoundRepository;
 import com.molkky.molkky.repository.SimpleGameRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -21,6 +23,9 @@ class SimpleGameEntityTest {
     private SimpleGameRepository simpleGameRepository;
     @Autowired
     private MatchRepository matchRepository;
+    @Autowired
+    private RoundRepository roundRepository;
+
 
     @Test
     @Transactional
@@ -34,6 +39,9 @@ class SimpleGameEntityTest {
         match.setSimpleGame(simpleGame);
         match2.setSimpleGame(simpleGame);
         simpleGame.setMatches(matches);
+
+        Round round = roundRepository.save(new Round("simplegame", 2));
+        simpleGame.setRound(round);
 
         simpleGame = simpleGameRepository.save(simpleGame);
         System.out.println(simpleGame.getMatches());

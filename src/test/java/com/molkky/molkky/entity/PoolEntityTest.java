@@ -3,8 +3,10 @@ package com.molkky.molkky.entity;
 import com.molkky.molkky.MolkkyApplication;
 import com.molkky.molkky.domain.Match;
 import com.molkky.molkky.domain.Pool;
+import com.molkky.molkky.domain.Round;
 import com.molkky.molkky.repository.MatchRepository;
 import com.molkky.molkky.repository.PoolRepository;
+import com.molkky.molkky.repository.RoundRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,8 @@ class PoolEntityTest {
     private PoolRepository poolRepository;
     @Autowired
     private MatchRepository matchRepository;
+    @Autowired
+    private RoundRepository roundRepository;
 
     @Test
     @Transactional
@@ -30,10 +34,14 @@ class PoolEntityTest {
         Match match2 = new Match();
         List<Match> matches = Arrays.asList(match, match2);
 
+
         Pool pool = new Pool();
         match.setPool(pool);
         match2.setPool(pool);
         pool.setMatches(matches);
+
+        Round round = roundRepository.save(new Round("pool", 2));
+        pool.setRound(round);
 
         pool = poolRepository.save(pool);
         System.out.println(pool.getMatches());
