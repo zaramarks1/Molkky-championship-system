@@ -35,22 +35,19 @@ class TeamEntityTest {
     @Rollback(false)
     @Transactional
     void testTeamWithUsers(){
-        Team team = teamRepository.save(new Team("Team_test", 2));
+        Team team = teamRepository.save(new Team("Team_test", 1));
         Set<User> users = new HashSet<>();
         User user1 = userRepository.save(new User("pseudoUser1", "surname1", "forename1", "club1", "email1", false));
-        User user2 = userRepository.save(new User("pseudoUser2", "surname2", "forename2", "club2", "email2", false));
         users.add(user1);
-        users.add(user2);
         team.setUsers(users);
         teamRepository.save(team);
-        Assertions.assertEquals(2, team.getUsers().size(), "Team has not 2 users");
+        Assertions.assertEquals(1, team.getUsers().size(), "Team has not 2 users");
         Team recupTeam = teamRepository.findById(team.getId());
         Set<User> recupUsers = recupTeam.getUsers();
-        Assertions.assertEquals(2, recupUsers.size(), "Team has not 2 users");
+        Assertions.assertEquals(1, recupUsers.size(), "Team has not 2 users");
 
         Iterator<User> iter = recupUsers.iterator();
 
         Assertions.assertEquals("pseudoUser1", iter.next().getPseudo(), "User pseudo is not correct");
-        Assertions.assertEquals("pseudoUser2", iter.next().getPseudo(), "User pseudo is not correct");
     }
 }

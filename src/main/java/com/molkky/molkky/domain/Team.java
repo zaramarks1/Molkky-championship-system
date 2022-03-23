@@ -27,7 +27,10 @@ public class Team {
     @ManyToMany(mappedBy = "teams")
     private Set<Round> rounds;
 
-    @ManyToMany(mappedBy = "teams")
+    @ManyToMany
+    @JoinTable(name = "team_user",
+            joinColumns = @JoinColumn(name = "team_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
     private Set<User> users;
 
     public Team( String name, Integer nbPlayers) {
