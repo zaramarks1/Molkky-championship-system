@@ -36,7 +36,7 @@ public class User {
     private Boolean isRegistered;
 
     @OneToMany
-    @JoinColumn(name="idUser")
+    @JoinColumn(name="idUser", nullable = true)
     private List<Notification> notifications = new ArrayList<>();
 
     public User(String pseudo, String surname, String forename, String club, String email, Boolean isRegistered) {
