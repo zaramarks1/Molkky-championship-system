@@ -4,8 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Set;
 
 @Getter
 @Entity
@@ -37,7 +36,7 @@ public class User {
 
     @OneToMany
     @JoinColumn(name="idUser", nullable = true)
-    private List<Notification> notifications = new ArrayList<>();
+    private Set<Notification> notifications;
 
     public User(String pseudo, String surname, String forename, String club, String email, Boolean isRegistered) {
         this.pseudo = pseudo;
