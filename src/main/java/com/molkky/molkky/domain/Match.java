@@ -23,8 +23,8 @@ public class Match {
     @ManyToMany
     @JoinTable(
             name = "match_team",
-            joinColumns = @JoinColumn(name = "idMatch"),
-            inverseJoinColumns = @JoinColumn(name = "idTeam"))
+            joinColumns = @JoinColumn(name = "match_id"),
+            inverseJoinColumns = @JoinColumn(name = "team_id"))
     private Set<Team> teams;
 
     @ManyToOne(optional = true)

@@ -13,6 +13,7 @@ import org.springframework.test.annotation.Rollback;
 
 import javax.transaction.Transactional;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 @SpringBootTest(classes = MolkkyApplication.class)
@@ -31,8 +32,8 @@ class TeamEntityTest {
     }
 
     @Test
-    @Transactional
     @Rollback(false)
+    @Transactional
     void testTeamWithUsers(){
         Team team = teamRepository.save(new Team("Team_test", 2));
         Set<User> users = new HashSet<>();
@@ -46,6 +47,10 @@ class TeamEntityTest {
         Team recupTeam = teamRepository.findById(team.getId());
         Set<User> recupUsers = recupTeam.getUsers();
         Assertions.assertEquals(2, recupUsers.size(), "Team has not 2 users");
-        Assertions.assertEquals("pseudoUser1", recupUsers.iterator().next().getPseudo(), "User pseudo is not correct");
+
+        Iterator<User> iter = recupUsers.iterator();
+
+        Assertions.assertEquals("pseudoUser1", iter.next().getPseudo(), "User pseudo is not correct");
+        Assertions.assertEquals("pseudoUser2", iter.next().getPseudo(), "User pseudo is not correct");
     }
 }
