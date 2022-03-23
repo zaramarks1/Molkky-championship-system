@@ -38,6 +38,12 @@ public class User {
     @JoinColumn(name="idUser", nullable = true)
     private Set<Notification> notifications;
 
+    @ManyToMany
+    @JoinTable(name = "team_user",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "team_id"))
+    private Set<Team> teams;
+
     public User(String pseudo, String surname, String forename, String club, String email, Boolean isRegistered) {
         this.pseudo = pseudo;
         this.surname = surname;
