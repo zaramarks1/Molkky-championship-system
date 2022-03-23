@@ -4,9 +4,11 @@ import com.molkky.molkky.MolkkyApplication;
 import com.molkky.molkky.domain.Match;
 import com.molkky.molkky.domain.Round;
 import com.molkky.molkky.domain.SimpleGame;
+import com.molkky.molkky.domain.Tournament;
 import com.molkky.molkky.repository.MatchRepository;
 import com.molkky.molkky.repository.RoundRepository;
 import com.molkky.molkky.repository.SimpleGameRepository;
+import com.molkky.molkky.repository.TournamentRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,7 @@ import org.springframework.test.annotation.Rollback;
 
 import javax.transaction.Transactional;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 @SpringBootTest(classes = MolkkyApplication.class)
@@ -25,7 +28,8 @@ class SimpleGameEntityTest {
     private MatchRepository matchRepository;
     @Autowired
     private RoundRepository roundRepository;
-
+    @Autowired
+    private TournamentRepository tournamentRepository;
 
     @Test
     @Transactional
@@ -40,7 +44,20 @@ class SimpleGameEntityTest {
         match2.setSimpleGame(simpleGame);
         simpleGame.setMatches(matches);
 
-        Round round = roundRepository.save(new Round("simplegame", 2));
+        Tournament tournament = tournamentRepository.save(new Tournament(
+                "tournament_name",
+                "location",
+                new Date(),
+                new Date(),
+                1,
+                2,
+                true,
+                2,
+                3
+        ));
+        Round round = new Round("simplegame", 2);
+        round.setTournament(tournament);
+        roundRepository.save(round);
         simpleGame.setRound(round);
 
         simpleGame = simpleGameRepository.save(simpleGame);
