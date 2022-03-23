@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +22,5 @@ public class Pool {
     private List<Match> matches = new ArrayList<>();
 
     public Pool(){
-
     }
 }
