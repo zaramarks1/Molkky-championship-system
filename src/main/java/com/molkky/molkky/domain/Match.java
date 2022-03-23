@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.transaction.Transactional;
 import java.util.Set;
 
 @Getter
@@ -27,8 +28,8 @@ public class Match {
             inverseJoinColumns = @JoinColumn(name = "idTeam"))
     private Set<Team> teams;
 
-    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Pool.class, cascade = CascadeType.MERGE)
-    @JoinColumn(name = "idPool")
+    @ManyToOne
+    @JoinColumn(name="idPool",nullable = false)
     private Pool pool;
 
     public Match(Court court, Set<Team> teams) {
