@@ -1,9 +1,7 @@
 package com.molkky.molkky;
 
 import com.molkky.molkky.domain.Court;
-import com.molkky.molkky.domain.Team;
 import com.molkky.molkky.repository.CourtRepository;
-import com.molkky.molkky.repository.TeamRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
