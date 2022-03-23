@@ -39,6 +39,10 @@ public class Match {
     @JoinColumn(name="idKnockout", nullable = true)
     private Knockout knockout;
 
+    @ManyToOne(optional = true)
+    @JoinColumn(name="idSwisspool", nullable = true)
+    private SwissPool swissPool;
+
     public Match(Court court, Set<Team> teams) {
         this.court = court;
         this.teams = teams;
