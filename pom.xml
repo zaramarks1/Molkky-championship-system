@@ -16,6 +16,8 @@
 	<properties>
 		<java.version>11</java.version>
 		<sonar.host.url>https://172.24.1.33/sonar</sonar.host.url>
+		<sonar.login>5da1e6ee849091ca8fec6cf16062bc190df5382e</sonar.login>
+		<sonar.projectKey>Molkky:${JOB_NAME}</sonar.projectKey>
 	</properties>
 	<dependencies>
 		<dependency>
