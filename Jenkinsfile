@@ -7,15 +7,15 @@ pipeline {
         MYSQL_USER = "calembel"
     }
     stages {
-        stage('test') {
-            steps {
-                sh 'echo lol'
-            }
-        }
         stage('Build') {
             steps {
                 sh 'mvn clean install'
             }
+        }
+    }
+    post {
+        always {
+            junit 'target/surefire-reports/*.xml'
         }
     }
 }
