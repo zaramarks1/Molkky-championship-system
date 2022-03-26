@@ -15,6 +15,7 @@ pipeline {
         stage('Sonar'){
 //         5da1e6ee849091ca8fec6cf16062bc190df5382e
             steps {
+                sh 'printenv'
                 sh 'mvn sonar:sonar'
             }
         }
