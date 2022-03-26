@@ -22,11 +22,13 @@
 		<sonar.coverage.jacoco.xmlReportPaths>target/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
 	</properties>
 	<pluginManagement>
-		<plugin>
-			<groupId>org.jacoco</groupId>
-			<artifactId>jacoco-maven-plugin</artifactId>
-			<version>0.8.7</version>
-		</plugin>
+		<plugins>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.7</version>
+			</plugin>
+		</plugins>
 	</pluginManagement>
 	<dependencies>
 		<dependency>
