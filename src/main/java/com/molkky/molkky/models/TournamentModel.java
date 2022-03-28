@@ -1,10 +1,14 @@
 package com.molkky.molkky.models;
 
 import lombok.Getter;
+import lombok.Setter;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Getter
+@Setter
 public class TournamentModel {
     private String name;
     private String location;
@@ -12,11 +16,29 @@ public class TournamentModel {
     private Date cutOffDate;
     private Integer minTeam;
     private Integer maxTeam;
-    private boolean isVisible;
     private Integer nbRounds;
     private Integer nbCounts;
+    private boolean visible;
 
-    public boolean getIsVisible() {
-        return isVisible;
+    public void setDate(String date) throws ParseException {
+        System.out.println(date);
+        this.date = new SimpleDateFormat("yyyy-MM-dd").parse(date);
     }
+
+    public void setCutOffDate(String cutOffDate) throws ParseException {
+        this.cutOffDate = new SimpleDateFormat("yyyy-MM-dd").parse(cutOffDate);
+    }
+
+//    public void setIsVisible(boolean isVisible) {
+//        this.isVisible = isVisible;
+//    }
+//
+//    public boolean getIsVisible() {
+////        return this.isVisible != null;
+//        return this.isVisible;
+//    }
+//
+//    public void setIsVisible(String isVisible) {
+//        this.isVisible = isVisible;
+//    }
 }

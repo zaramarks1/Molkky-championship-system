@@ -72,7 +72,7 @@ public class Tournament {
         this.cutOffDate = tournamentModel.getCutOffDate();
         this.minTeam = tournamentModel.getMinTeam();
         this.maxTeam = tournamentModel.getMaxTeam();
-        this.isVisible = tournamentModel.getIsVisible();
+        this.isVisible = tournamentModel.isVisible();
         this.nbRounds = tournamentModel.getNbRounds();
         this.nbCounts = tournamentModel.getNbCounts();
     }

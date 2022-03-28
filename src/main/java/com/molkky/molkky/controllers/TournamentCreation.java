@@ -17,12 +17,15 @@ public class TournamentCreation {
 
     @GetMapping("/tournament/create")
     public String tournamentForm(Model model) {
+        model.addAttribute("tournament", new TournamentModel());
         return "tournament/create";
     }
 
     @PostMapping("/tournament/create")
-    public String tournamentSubmit(@ModelAttribute TournamentModel tournament, Model model) {
+    public String tournamentSubmit(@ModelAttribute("tournament") TournamentModel tournament, Model model) {
+
         Tournament tournamentEntity = tournamentRepository.save(new Tournament(tournament));
+        
         model.addAttribute("tournament", tournamentEntity);
 //        return tournamentEntity;
         return "tournament/create";
