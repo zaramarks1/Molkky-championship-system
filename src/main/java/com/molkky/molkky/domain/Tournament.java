@@ -1,5 +1,6 @@
 package com.molkky.molkky.domain;
 
+import com.molkky.molkky.models.TournamentModel;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -62,6 +63,18 @@ public class Tournament {
         this.isVisible = isVisible;
         this.nbRounds = nbRounds;
         this.nbCounts = nbCounts;
+    }
+
+    public Tournament(TournamentModel tournamentModel) {
+        this.name = tournamentModel.getName();
+        this.location = tournamentModel.getLocation();
+        this.date = tournamentModel.getDate();
+        this.cutOffDate = tournamentModel.getCutOffDate();
+        this.minTeam = tournamentModel.getMinTeam();
+        this.maxTeam = tournamentModel.getMaxTeam();
+        this.isVisible = tournamentModel.getIsVisible();
+        this.nbRounds = tournamentModel.getNbRounds();
+        this.nbCounts = tournamentModel.getNbCounts();
     }
 
     public Tournament() {
