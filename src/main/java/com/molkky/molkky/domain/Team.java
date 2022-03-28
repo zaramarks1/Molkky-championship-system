@@ -24,6 +24,21 @@ public class Team {
     @ManyToMany(mappedBy = "teams")
     private Set<Match> matchs;
 
+    @ManyToMany(mappedBy = "teams")
+    private Set<Round> rounds;
+
+    @ManyToMany
+    @JoinTable(name = "team_user",
+            joinColumns = @JoinColumn(name = "team_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private Set<User> users;
+
+    @ManyToMany
+    @JoinTable(name = "tournament_admin",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "tournament_id"))
+    private Set<Tournament> tournamentAdmin;
+
     public Team( String name, Integer nbPlayers) {
         this.name = name;
         this.nbPlayers = nbPlayers;

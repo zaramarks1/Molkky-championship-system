@@ -23,13 +23,29 @@ public class Match {
     @ManyToMany
     @JoinTable(
             name = "match_team",
-            joinColumns = @JoinColumn(name = "idMatch"),
-            inverseJoinColumns = @JoinColumn(name = "idTeam"))
+            joinColumns = @JoinColumn(name = "match_id"),
+            inverseJoinColumns = @JoinColumn(name = "team_id"))
     private Set<Team> teams;
 
-    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Pool.class, cascade = CascadeType.MERGE)
-    @JoinColumn(name = "idPool")
+    @ManyToOne(optional = true)
+    @JoinColumn(name="idPool", nullable = true)
     private Pool pool;
+
+    @ManyToOne(optional = true)
+    @JoinColumn(name="idSimplegame", nullable = true)
+    private SimpleGame simpleGame;
+
+    @ManyToOne(optional = true)
+    @JoinColumn(name="idKnockout", nullable = true)
+    private Knockout knockout;
+
+    @ManyToOne(optional = true)
+    @JoinColumn(name="idSwisspool", nullable = true)
+    private SwissPool swissPool;
+
+    @ManyToOne(optional = true)
+    @JoinColumn(name="idFinnish", nullable = true)
+    private Finnish finnish;
 
     public Match(Court court, Set<Team> teams) {
         this.court = court;

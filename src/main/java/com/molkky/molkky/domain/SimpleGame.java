@@ -10,21 +10,28 @@ import java.util.List;
 @Getter
 @Entity
 @Setter
-@Table(name = "pool")
-public class Pool {
+@Table(name = "simplegame")
+public class SimpleGame {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
 
+    @Column(name = "nbSets")
+    private Integer nbSets;
+
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "idPool")
+    @JoinColumn(name = "idSimplegame")
     private List<Match> matches = new ArrayList<>();
 
     @OneToOne(optional = false)
     @JoinColumn(name = "idRound")
     private Round round;
 
-    public Pool(){
+    public SimpleGame(){
+    }
+
+    public SimpleGame(Integer nbSets){
+        this.nbSets = nbSets;
     }
 }
