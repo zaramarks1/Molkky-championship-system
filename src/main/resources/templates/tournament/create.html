@@ -1,1 +1,37 @@
-<p>hello tournoi</p>
+<html xmlns:th="http://thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <title>Creation Nouveau Tournoi</title>
+</head>
+<h1>Nouveau Tournoi</h1>
+<form action="#" th:action="@{/tournament/create}" method="post" th:object="${tournament}">
+    <label for="nom">Nom du Tournoi</label>
+    <input id ="nom" name="nom" type="text" th:field="*{name}"/>
+
+    <label for="location">Location du Tournoi</label>
+    <input id="location" name="location" type="text" th:field="*{location}"/>
+
+    <label for="dateTournoi">Date Tournoi</label>
+    <input id="dateTournoi" name="dateTournoi" type="date" th:field="*{date}"/>
+
+    <label for="cutOffDate">Cut Off Date</label>
+    <input id="cutOffDate" name="cutOffDate" type="date" th:field="*{cutOffDate}"/>
+
+    <label for="minTeam">Minimum Team</label>
+    <input id="minTeam" name="minTeam" type="text" th:field="*{minTeam}"/>
+
+    <label for="maxTeam">Maximum Team</label>
+    <input id="maxTeam" name="maxTeam" type="text" th:field="*{maxTeam}"/>
+
+    <label for="visible">Visibilite</label>
+    <input id="visible" name="visible" type="checkbox" th:field="*{isVisible}"/>
+
+    <label for="nbRounds">Nombre de Rounds</label>
+    <input id="nbRounds" name="nbRounds" type="text" th:field="*{nbRounds}"/>
+
+    <label for="nbCounts">Nombre de Counts</label>
+    <input id="nbCounts" name="nbCounts" type="text" th:field="*{nbCounts}"/>
+
+    <button type="submit">Enregistrer Tournoi</button>
+</form>
+
+
