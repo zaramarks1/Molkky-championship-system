@@ -24,6 +24,7 @@ public class TournamentCreation {
     public String tournamentSubmit(@ModelAttribute TournamentModel tournament, Model model) {
         Tournament tournamentEntity = tournamentRepository.save(new Tournament(tournament));
         model.addAttribute("tournament", tournamentEntity);
+//        return tournamentEntity;
         return "tournament/create";
     }
 
