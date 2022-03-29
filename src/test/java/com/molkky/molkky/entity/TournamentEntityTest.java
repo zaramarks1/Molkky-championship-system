@@ -4,6 +4,7 @@ import com.molkky.molkky.MolkkyApplication;
 import com.molkky.molkky.domain.Round;
 import com.molkky.molkky.domain.Tournament;
 import com.molkky.molkky.domain.User;
+import com.molkky.molkky.models.TournamentModel;
 import com.molkky.molkky.repository.RoundRepository;
 import com.molkky.molkky.repository.TournamentRepository;
 import com.molkky.molkky.repository.UserRepository;
@@ -14,6 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 
 import javax.transaction.Transactional;
+import java.text.ParseException;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -96,5 +98,27 @@ class TournamentEntityTest {
         tournamentRepository.save(tournament);
 
         Assertions.assertEquals(1, tournament.getRounds().size(), "Tournament should have 1 round");
+    }
+
+    @Test
+    void testCreateTournamentWithModel() throws ParseException {
+        TournamentModel tournamentModel = new TournamentModel();
+        tournamentModel.setName("tournament_name");
+        tournamentModel.setLocation("location");
+        tournamentModel.setDate("01-01-2020");
+        tournamentModel.setCutOffDate("01-01-2020");
+        tournamentModel.setMaxTeam(1);
+        tournamentModel.setMinTeam(2);
+        tournamentModel.setNbRounds(2);
+        tournamentModel.setNbCounts(2);
+        tournamentModel.setVisible(true);
+        Tournament tournament = new Tournament(tournamentModel);
+        Assertions.assertEquals("tournament_name", tournament.getName(), "Tournament name should be tournament_name");
+        Assertions.assertEquals("location", tournament.getLocation(), "Tournament location should be location");
+        Assertions.assertEquals(1, tournament.getMaxTeam(), "Tournament maxTeam should be 1");
+        Assertions.assertEquals(2, tournament.getMinTeam(), "Tournament minTeam should be 2");
+        Assertions.assertEquals(2, tournament.getNbRounds(), "Tournament nbRounds should be 2");
+        Assertions.assertEquals(2, tournament.getNbCounts(), "Tournament nbCounts should be 2");
+        Assertions.assertTrue(tournament.isVisible(), "Tournament visible should be true");
     }
 }
