@@ -6,6 +6,7 @@ import lombok.Setter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 @Getter
 @Setter
@@ -21,11 +22,11 @@ public class TournamentModel {
     private boolean visible;
 
     public void setDate(String date) throws ParseException {
-        this.date = new SimpleDateFormat("yyyy-MM-dd").parse(date);
+        this.date = new SimpleDateFormat("yyyy-MM-dd", Locale.FRANCE).parse(date);
     }
 
     public void setCutOffDate(String cutOffDate) throws ParseException {
-        this.cutOffDate = new SimpleDateFormat("yyyy-MM-dd").parse(cutOffDate);
+        this.cutOffDate = new SimpleDateFormat("yyyy-MM-dd", Locale.FRANCE).parse(cutOffDate);
     }
 
 //    public void setIsVisible(boolean isVisible) {
