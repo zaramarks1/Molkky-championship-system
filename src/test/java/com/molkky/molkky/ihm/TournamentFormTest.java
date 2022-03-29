@@ -1,27 +1,25 @@
 package com.molkky.molkky.ihm;
 
 import com.molkky.molkky.SeleniumConfig;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.*;
 
-public class TournamentFormTest {
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+class TournamentFormTest {
     private SeleniumConfig config;
 
-    @Before
-    public void setUp() {
+    @BeforeAll
+    void setUp() {
         config = new SeleniumConfig();
     }
 
     @Test
-    public void createTournamentForm() {
+    void testTournamentForm() {
         config.getDriver().get("https://google.fr");
         Assertions.assertEquals("Google", config.getDriver().getTitle());
     }
 
-    @After
-    public void tearDown() {
+    @AfterAll
+    void tearDown() {
         config.getDriver().quit();
     }
 }
