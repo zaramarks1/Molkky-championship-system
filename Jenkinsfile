@@ -6,6 +6,7 @@ pipeline {
         MYSQL_PASSWORD = "GL2022"
         MYSQL_USER = "calembel"
         CHROME_DRIVER = "/bin/chrome_driver/chromedriver"
+        SERVER_PORT = 8175
     }
     stages {
         stage('Build') {
