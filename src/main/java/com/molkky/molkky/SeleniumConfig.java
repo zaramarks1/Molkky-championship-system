@@ -3,6 +3,7 @@ package com.molkky.molkky;
 import lombok.Getter;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 
 @Getter
 public class SeleniumConfig {
@@ -10,8 +11,16 @@ public class SeleniumConfig {
     private WebDriver driver;
 
     public SeleniumConfig() {
-        driver = new ChromeDriver();
-//        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--no-sandbox");
+
+        boolean isJenkins = System.getenv("JENKINS_HOME") != null;
+        if(isJenkins) {
+            options.addArguments("--headless");
+            options.addArguments("--disable-dev-shm-usage");
+            options.addArguments("--window-size=1920x1080");
+        }
+        driver = new ChromeDriver(options);
     }
 
     static {
