@@ -1,5 +1,6 @@
 .footerContainer {
-    height: 100px;
+    position: absolute;
+    bottom: 0;
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -26,4 +27,58 @@
 .footerLogo {
     height: 100px;
     filter: brightness(0);
+}
+
+.sidebarContainer {
+    width: 19%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-content: center;
+    font-family: "Inter", sans-serif;
+    font-weight: 600;
+    font-size: 15px;
+    line-height: 18px;
+}
+
+.sidebarLogo {
+    filter: brightness(0);
+    height: 118px;
+    object-fit: scale-down;
+}
+
+.sidebarButtons {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    margin: 26px;
+}
+
+.sidebarButton {
+    border-radius: 7px;
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    align-items: center;
+    width: 217px;
+    height: 49px;
+    cursor: pointer;
+    margin-top: 7px;
+    margin-bottom: 7px;
+}
+
+.sidebarIcon {
+    margin-left: 17px;
+}
+
+.sidebarIconInactive {
+    opacity: 70%;
+    filter: brightness(0);
+}
+
+.sidebarButtonContent {
+    margin-left: 17px;
+    bottom: -0.46%;
 }
