@@ -1,0 +1,29 @@
+.footerContainer {
+    height: 100px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-content: center;
+    font-family: "Inter", sans-serif;
+}
+
+.footerLine {
+    background: #0A142F;
+    mix-blend-mode: normal;
+    opacity: 0.2;
+    width: 80%;
+    border-radius: 2px;
+}
+
+.footerContent {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.footerLogo {
+    height: 100px;
+    filter: brightness(0);
+}

@@ -1,5 +1,5 @@
-<html xmlns:th="http://thymeleaf.org" xmlns="http://www.w3.org/1999/html">
-<head>
+<html xmlns:th="http://thymeleaf.org" xmlns="http://www.w3.org/1999/html" lang="fr">
+<head th:insert="fragments/header">
     <title>Creation Nouveau Tournoi</title>
 </head>
 <h1>Nouveau Tournoi</h1>
@@ -33,5 +33,5 @@
 
     <button id="sendTournament" type="submit">Enregistrer Tournoi</button>
 </form>
-
+<div th:replace="fragments/footer"></div>
 
