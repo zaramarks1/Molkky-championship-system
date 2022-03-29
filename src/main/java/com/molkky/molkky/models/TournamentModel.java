@@ -21,7 +21,6 @@ public class TournamentModel {
     private boolean visible;
 
     public void setDate(String date) throws ParseException {
-        System.out.println(date);
         this.date = new SimpleDateFormat("yyyy-MM-dd").parse(date);
     }
 
