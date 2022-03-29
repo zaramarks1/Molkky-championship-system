@@ -22,11 +22,15 @@ public class TournamentModel {
     private boolean visible;
 
     public void setDate(String date) throws ParseException {
-        this.date = new SimpleDateFormat("yyyy-MM-dd", Locale.FRANCE).parse(date);
+        this.date = formatDate(date);
     }
 
     public void setCutOffDate(String cutOffDate) throws ParseException {
-        this.cutOffDate = new SimpleDateFormat("yyyy-MM-dd", Locale.FRANCE).parse(cutOffDate);
+        this.cutOffDate = formatDate(cutOffDate);
+    }
+
+    public Date formatDate(String date) throws ParseException {
+        return new SimpleDateFormat("yyyy-MM-dd", Locale.FRANCE).parse(date);
     }
 
 //    public void setIsVisible(boolean isVisible) {
