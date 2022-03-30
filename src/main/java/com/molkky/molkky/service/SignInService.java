@@ -20,5 +20,9 @@ public class SignInService {
         return userRepository.findAll();
     }
 
+    public User saveUser(User user){
+        userRepository.save(user);
+        return user;
+    }
 
 }
