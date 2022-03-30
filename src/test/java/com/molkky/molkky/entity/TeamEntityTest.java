@@ -1,5 +1,6 @@
 package com.molkky.molkky.entity;
 
+import Type.UserRole;
 import com.molkky.molkky.MolkkyApplication;
 import com.molkky.molkky.domain.Team;
 import com.molkky.molkky.domain.User;
@@ -37,7 +38,7 @@ class TeamEntityTest {
     void testTeamWithUsers(){
         Team team = teamRepository.save(new Team("Team_test", 1));
         Set<User> users = new HashSet<>();
-        User user1 = userRepository.save(new User("pseudoUser1", "surname1", "forename1", "club1", "email1", false));
+        User user1 = userRepository.save(new User("pseudoUser1", "surname1", "forename1", "club1", "email1", false, UserRole.PLAYER));
         users.add(user1);
         team.setUsers(users);
         teamRepository.save(team);
