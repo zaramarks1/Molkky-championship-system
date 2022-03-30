@@ -45,7 +45,7 @@ public class User {
     private Set<Notification> notifications;
 
     @ManyToOne
-    @JoinColumn(name="idTournement", nullable = false)
+    @JoinColumn(name="idTournement", nullable = true)
     private Tournament tournament;
 
     @ManyToOne
