@@ -54,8 +54,10 @@
                     <label for="nbCounts" class="inputLabel">Nombre de terrains disponibles</label>
                     <input id="nbCounts" name="nbCounts" type="number" th:field="*{nbCounts}" class="inputTournament"/>
                 </div>
-
-                <button id="sendTournament" type="submit">Enregistrer Tournoi</button>
+                <div class="submitContainer">
+                    <button id="sendTournament" class="saveButton" type="submit">Créer le tournoi</button>
+                    <button id="cancelTournament" class="cancelButton" type="submit">Annuler</button>
+                </div>
             </form>
         </div>
     </div>

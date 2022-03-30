@@ -5,10 +5,14 @@
     border: 0;
     background-color: #F8FAFC;
     padding: 10px;
+    box-shadow: 0 0 7px #C4C4C4;
 }
 
-.inputTournament[type="text"] {
-
+.inputTournament[type="checkbox"] {
+    outline: #6D41F3 auto 2px;
+    width: 18px;
+    height: 18px;
+    box-shadow: none;
 }
 
 .inputTournament::placeholder {
@@ -40,4 +44,45 @@
     font-size: 16px;
     line-height: 150%;
     letter-spacing: 0.01em;
+}
+
+.submitContainer {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.saveButton {
+    width: 193px;
+    height: 56px;
+    background-color: #8C69F4;
+    box-shadow: 0 2px 10px #8C69F4;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-width: 0;
+    color: white;
+    margin-right: 10px;
+}
+
+.cancelButton {
+    width: 193px;
+    height: 56px;
+    background-color: #E9E4FA;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-width: 0;
+    color: #8C69F4;
+    margin-left: 10px;
 }
