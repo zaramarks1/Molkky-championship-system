@@ -3,10 +3,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Sign In</title>
+    <title>Register</title>
 </head>
 <body>
-    <h2>Liste des utilisateurs</h2>
+    <!--<h2>Liste des utilisateurs</h2>
     <table>
         <thead>
         <tr>
@@ -24,8 +24,8 @@
         </tr>
         </tbody>
     </table>
-
-    <form method="post" th:action="@{/saveUser}" th:object="${user}">
+ -->
+    <form method="post" th:action="@{/register}" th:object="${user}">
         <input type="text" th:field="*{email}">
         <button type="submit" c>Créer</button>
     </form>

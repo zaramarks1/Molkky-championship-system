@@ -11,7 +11,7 @@ import java.util.List;
 
 @Data
 @Service
-public class SignInService {
+public class RegisterService {
 
     @Autowired
     private UserRepository userRepository;
