@@ -31,15 +31,24 @@
                     <input id="cutOffDate" name="cutOffDate" type="date" th:field="*{cutOffDate}" class="inputTournament" placeholder="Date"/>
                 </div>
 
-                <div class="inputContainer">
-                    <label for="minTeam" class="inputLabel">Nombre minimum d'équipes</label>
-                    <input id="minTeam" name="minTeam" type="number" th:field="*{minTeam}" class="inputTournament"/>
-                </div>
+                <span class="inputContainer">
+                    <div class="inputLabel">Nombre d'équipes</div>
+                    <div class="multiSlider">
+                        <input type="range" min="0" max="50"  name="minTeam"  value="5" id="minTeam">
+                        <input type="range" min="0" max="50"  name="maxTeam" value="45" id="maxTeam" style="background: none;">
+                    </div>
+                </span>
 
-                <div class="inputContainer">
-                    <label for="maxTeam" class="inputLabel">Nombre maximum d'équipes</label>
-                    <input id="maxTeam" name="maxTeam" type="number" th:field="*{maxTeam}" class="inputTournament"/>
-                </div>
+<!--                <div class="inputContainer">-->
+<!--                    <label for="minTeam" class="inputLabel">Nombre minimum d'équipes</label>-->
+<!--                    <input min="0" id="minTeam" name="minTeam" type="number" th:field="*{minTeam}" class="inputTournament"/>-->
+<!--                </div>-->
+
+<!--                -->
+<!--                <div class="inputContainer">-->
+<!--                    <label for="maxTeam" class="inputLabel">Nombre maximum d'équipes</label>-->
+<!--                    <input min="0" id="maxTeam" name="maxTeam" type="number" th:field="*{maxTeam}" class="inputTournament"/>-->
+<!--                </div>-->
 
                 <div class="inputContainer">
                     <label for="visible" class="inputLabel">Tournoi ouvert</label>
@@ -62,6 +71,40 @@
             </form>
         </div>
     </div>
+    <script>
+        const lowerSlider = document.getElementById('minTeam');
+        const upperSlider = document.getElementById('maxTeam');
+        let lowerVal = parseInt(lowerSlider.value);
+        let upperVal = parseInt(upperSlider.value);
+
+        upperSlider.oninput = function() {
+            lowerVal = parseInt(lowerSlider.value);
+            upperVal = parseInt(upperSlider.value);
+
+            if (upperVal < lowerVal + 4) {
+                lowerSlider.value = upperVal - 4;
+
+                if (lowerVal === lowerSlider.min) {
+                    upperSlider.value = 4;
+                }
+            }
+        };
+
+
+        lowerSlider.oninput = function() {
+            lowerVal = parseInt(lowerSlider.value);
+            upperVal = parseInt(upperSlider.value);
+
+            if (lowerVal > upperVal - 4) {
+                upperSlider.value = lowerVal + 4;
+
+                if (upperVal === upperSlider.max) {
+                    lowerSlider.value = parseInt(upperSlider.max) - 4;
+                }
+
+            }
+        };
+    </script>
 </body>
 <div th:replace="fragments/footer"></div>
 
