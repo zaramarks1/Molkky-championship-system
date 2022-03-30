@@ -8,6 +8,7 @@
     <div class="pageContainer">
         <div th:replace="fragments/sidebar"> </div>
         <div class="contentContainer">
+            <div th:replace="fragments/searchbar"> </div>
             <div class="contentTitle">Création d'un tournoi</div>
             <form action="#" th:action="@{/tournament/create}" method="post" th:object="${tournament}" class="formContainer">
                 <div class="inputContainer">

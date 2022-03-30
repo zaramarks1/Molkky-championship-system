@@ -81,3 +81,72 @@
     margin-left: 17px;
     bottom: -0.46%;
 }
+
+.searchbarContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 130px;
+    padding: 22px 42px;
+}
+
+.searchbar {
+    width: 697px;
+    height: 58px;
+    background-color: #E7E7ED;
+    border-radius: 7px;
+    border-width: 0;
+    padding: 0 50px;
+    font-weight: 600;
+    font-size: 15px;
+    line-height: 18px;
+    color: #8787A1;
+}
+
+.searchbarIcon {
+    width: 25px;
+}
+
+.searchbarIconContainer {
+    padding: 18px;
+    position: absolute;
+}
+
+.searchbarButtonContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    height: 100%;
+}
+
+.notificationButton {
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    color: white;
+    background-color: #8C69F4;
+    margin-right: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.notificationButtonIcon {
+    width: 32px;
+    height: 32px;
+}
+
+.connectButton {
+    width: 173px;
+    height: 56px;
+    background-color: #8C69F4;
+    box-shadow: 0 2px 10px #8C69F4;
+    border-radius: 8px;
+    text-align: center;
+    padding: 16px 32px;
+    color: white;
+    border-width: 0;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 24px;
+}
