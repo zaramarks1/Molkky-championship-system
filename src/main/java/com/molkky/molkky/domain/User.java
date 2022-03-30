@@ -36,6 +36,8 @@ public class User {
 
     @Column(name = "role")
     private String role;
+    @Column(name = "code")
+    String code;
 
 
     @OneToMany
@@ -60,6 +62,19 @@ public class User {
         this.isRegistered = isRegistered;
         this.role = role;
 
+    }
+
+    public User(Integer id, String pseudo, String surname, String forename, String club, String email, Boolean isRegistered, String role, String code, Tournament tournament) {
+        this.id = id;
+        this.pseudo = pseudo;
+        this.surname = surname;
+        this.forename = forename;
+        this.club = club;
+        this.email = email;
+        this.isRegistered = isRegistered;
+        this.role = role;
+        this.code = code;
+        this.tournament = tournament;
     }
 
     public User() {
