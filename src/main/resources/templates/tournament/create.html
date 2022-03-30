@@ -1,39 +1,59 @@
 <html xmlns:th="http://thymeleaf.org" xmlns="http://www.w3.org/1999/html" lang="fr">
-<head th:insert="fragments/header">
+<head>
+    <div th:include="fragments/header"></div>
+    <link rel="stylesheet" th:href="@{/styles/tournament/create.css}" href="../" />
     <title>Creation Nouveau Tournoi</title>
 </head>
 <body class="bg">
     <div class="pageContainer">
         <div th:replace="fragments/sidebar"> </div>
         <div class="contentContainer">
-            <h1>Nouveau Tournoi</h1>
-            <form action="#" th:action="@{/tournament/create}" method="post" th:object="${tournament}">
-                <label for="nom">Nom du Tournoi</label>
-                <input id ="nom" name="nom" type="text" th:field="*{name}"/>
+            <p class="contentTitle">Création d'un tournoi</p>
+            <form action="#" th:action="@{/tournament/create}" method="post" th:object="${tournament}" class="formContainer">
+                <div class="inputContainer">
+                    <label for="nom" class="inputLabel">Nom du Tournoi</label>
+                    <input id ="nom" name="nom" type="text" th:field="*{name}"  class="inputTournament" placeholder="Nom"/>
+                </div>
 
-                <label for="location">Location du Tournoi</label>
-                <input id="location" name="location" type="text" th:field="*{location}"/>
+                <div class="inputContainer">
+                    <label for="location" class="inputLabel">Lieu du Tournoi</label>
+                    <input id="location" name="location" type="text" th:field="*{location}" class="inputTournament" placeholder="Localisation"/>
+                </div>
 
-                <label for="dateTournoi">Date Tournoi</label>
-                <input id="dateTournoi" name="dateTournoi" type="date" th:field="*{date}"/>
+                <div class="inputContainer">
+                    <label for="dateTournoi" class="inputLabel">Date du tournoi</label>
+                    <input id="dateTournoi" name="dateTournoi" type="date" th:field="*{date}" class="inputTournament" placeholder="Date"/>
+                </div>
 
-                <label for="cutOffDate">Cut Off Date</label>
-                <input id="cutOffDate" name="cutOffDate" type="date" th:field="*{cutOffDate}"/>
+                <div class="inputContainer">
+                    <label for="cutOffDate" class="inputLabel">Date de fin d'inscription</label>
+                    <input id="cutOffDate" name="cutOffDate" type="date" th:field="*{cutOffDate}" class="inputTournament" placeholder="Date"/>
+                </div>
 
-                <label for="minTeam">Minimum Team</label>
-                <input id="minTeam" name="minTeam" type="text" th:field="*{minTeam}"/>
+                <div class="inputContainer">
+                    <label for="minTeam" class="inputLabel">Nombre minimum d'équipes</label>
+                    <input id="minTeam" name="minTeam" type="number" th:field="*{minTeam}" class="inputTournament"/>
+                </div>
 
-                <label for="maxTeam">Maximum Team</label>
-                <input id="maxTeam" name="maxTeam" type="text" th:field="*{maxTeam}"/>
+                <div class="inputContainer">
+                    <label for="maxTeam" class="inputLabel">Nombre maximum d'équipes</label>
+                    <input id="maxTeam" name="maxTeam" type="number" th:field="*{maxTeam}" class="inputTournament"/>
+                </div>
 
-                <label for="visible">Visibilite</label>
-                <input id="visible" name="visible" type="checkbox" th:field="*{visible}"/>
+                <div class="inputContainer">
+                    <label for="visible" class="inputLabel">Tournoi ouvert</label>
+                    <input id="visible" name="visible" type="checkbox" th:field="*{visible}" class="inputTournament"/>
+                </div>
 
-                <label for="nbRounds">Nombre de Rounds</label>
-                <input id="nbRounds" name="nbRounds" type="text" th:field="*{nbRounds}"/>
+                <div class="inputContainer">
+                    <label for="nbRounds" class="inputLabel">Nombre de Rounds</label>
+                    <input id="nbRounds" name="nbRounds" type="number" th:field="*{nbRounds}" class="inputTournament"/>
+                </div>
 
-                <label for="nbCounts">Nombre de Counts</label>
-                <input id="nbCounts" name="nbCounts" type="text" th:field="*{nbCounts}"/>
+                <div class="inputContainer">
+                    <label for="nbCounts" class="inputLabel">Nombre de terrains disponibles</label>
+                    <input id="nbCounts" name="nbCounts" type="number" th:field="*{nbCounts}" class="inputTournament"/>
+                </div>
 
                 <button id="sendTournament" type="submit">Enregistrer Tournoi</button>
             </form>

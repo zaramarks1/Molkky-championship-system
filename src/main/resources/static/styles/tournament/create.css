@@ -1,0 +1,43 @@
+.inputTournament {
+    width: 460px;
+    height: 48px;
+    border-radius: 4px;
+    border: 0;
+    background-color: #F8FAFC;
+    padding: 10px;
+}
+
+.inputTournament[type="text"] {
+
+}
+
+.inputTournament::placeholder {
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 144%;
+}
+
+.formContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+}
+
+.inputContainer {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: start;
+}
+
+.inputLabel {
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 150%;
+    letter-spacing: 0.01em;
+}

@@ -18,6 +18,15 @@
 
 .contentContainer {
     flex: 1;
+    margin: 15px;
+    font-family: 'Inter', sans-serif;
+}
+
+.contentTitle {
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: 0.2px;
 }
 
 body {
