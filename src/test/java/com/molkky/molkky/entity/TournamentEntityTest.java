@@ -1,5 +1,6 @@
 package com.molkky.molkky.entity;
 
+import Type.UserRole;
 import com.molkky.molkky.MolkkyApplication;
 import com.molkky.molkky.domain.Round;
 import com.molkky.molkky.domain.Tournament;
@@ -62,13 +63,13 @@ class TournamentEntityTest {
                 2,
                 3
         ));
-        User user = userRepository.save(new User("pseudoUser1", "surname1", "forename1", "club1", "email1", false));
+        User user = userRepository.save(new User("pseudoUser1", "surname1", "forename1", "club1", "email1", false, UserRole.ADM));
         Set<User> admins = new HashSet<>();
         admins.add(user);
-        tournament.setAdmins(admins);
+        tournament.setUsers(admins);
         tournamentRepository.save(tournament);
 
-        Assertions.assertEquals(1, tournament.getAdmins().size(), "Tournament should have 1 admin");
+        Assertions.assertEquals(1, tournament.getUsers().size(), "Tournament should have 1 admin");
     }
 
     @Test
