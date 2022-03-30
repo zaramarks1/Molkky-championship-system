@@ -21,19 +21,19 @@
                 <input id="cutOffDate" name="cutOffDate" type="date" th:field="*{cutOffDate}"/>
 
                 <label for="minTeam">Minimum Team</label>
-                <input id="minTeam" name="minTeam" type="text" th:field="*{minTeam}"/>
+                <input id="minTeam" name="minTeam" type="number" min="1"  th:field="*{minTeam}"/>
 
                 <label for="maxTeam">Maximum Team</label>
-                <input id="maxTeam" name="maxTeam" type="text" th:field="*{maxTeam}"/>
+                <input id="maxTeam" name="maxTeam" type="number" min="1" th:field="*{maxTeam}"/>
 
                 <label for="visible">Visibilite</label>
                 <input id="visible" name="visible" type="checkbox" th:field="*{visible}"/>
 
                 <label for="nbRounds">Nombre de Rounds</label>
-                <input id="nbRounds" name="nbRounds" type="text" th:field="*{nbRounds}"/>
+                <input id="nbRounds" name="nbRounds" type="number" min="1" th:field="*{nbRounds}"/>
 
                 <label for="nbCounts">Nombre de Counts</label>
-                <input id="nbCounts" name="nbCounts" type="text" th:field="*{nbCounts}"/>
+                <input id="nbCounts" name="nbCounts" type="number" min="1" th:field="*{nbCounts}"/>
 
                 <button id="sendTournament" type="submit">Enregistrer Tournoi</button>
             </form>
