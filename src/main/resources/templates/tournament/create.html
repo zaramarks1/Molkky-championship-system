@@ -1,0 +1,67 @@
+<html xmlns:th="http://thymeleaf.org" xmlns="http://www.w3.org/1999/html" lang="fr">
+<head>
+    <div th:include="fragments/header"></div>
+    <link rel="stylesheet" th:href="@{/styles/tournament/create.css}" href="../" />
+    <title>Creation Nouveau Tournoi</title>
+</head>
+<body class="bg">
+    <div class="pageContainer">
+        <div th:replace="fragments/sidebar"> </div>
+        <div class="contentContainer">
+            <div th:replace="fragments/searchbar"> </div>
+            <div class="contentTitle">Création d'un tournoi</div>
+            <form action="#" th:action="@{/tournament/create}" method="post" th:object="${tournament}" class="formContainer">
+                <div class="inputContainer">
+                    <label for="nom" class="inputLabel">Nom du Tournoi</label>
+                    <input id ="nom" name="nom" type="text" th:field="*{name}"  class="inputTournament" placeholder="Nom"/>
+                </div>
+
+                <div class="inputContainer">
+                    <label for="location" class="inputLabel">Lieu du Tournoi</label>
+                    <input id="location" name="location" type="text" th:field="*{location}" class="inputTournament" placeholder="Localisation"/>
+                </div>
+
+                <div class="inputContainer">
+                    <label for="dateTournoi" class="inputLabel">Date du tournoi</label>
+                    <input id="dateTournoi" name="dateTournoi" type="date" th:field="*{date}" class="inputTournament" placeholder="Date"/>
+                </div>
+
+                <div class="inputContainer">
+                    <label for="cutOffDate" class="inputLabel">Date de fin d'inscription</label>
+                    <input id="cutOffDate" name="cutOffDate" type="date" th:field="*{cutOffDate}" class="inputTournament" placeholder="Date"/>
+                </div>
+
+                <div class="inputContainer">
+                    <label for="minTeam" class="inputLabel">Nombre minimum d'équipes</label>
+                    <input id="minTeam" name="minTeam" type="number" th:field="*{minTeam}" class="inputTournament"/>
+                </div>
+
+                <div class="inputContainer">
+                    <label for="maxTeam" class="inputLabel">Nombre maximum d'équipes</label>
+                    <input id="maxTeam" name="maxTeam" type="number" th:field="*{maxTeam}" class="inputTournament"/>
+                </div>
+
+                <div class="inputContainer">
+                    <label for="visible" class="inputLabel">Tournoi ouvert</label>
+                    <input id="visible" name="visible" type="checkbox" th:field="*{visible}" class="inputTournament"/>
+                </div>
+
+                <div class="inputContainer">
+                    <label for="nbRounds" class="inputLabel">Nombre de Rounds</label>
+                    <input id="nbRounds" name="nbRounds" type="number" th:field="*{nbRounds}" class="inputTournament"/>
+                </div>
+
+                <div class="inputContainer">
+                    <label for="nbCounts" class="inputLabel">Nombre de terrains disponibles</label>
+                    <input id="nbCounts" name="nbCounts" type="number" th:field="*{nbCounts}" class="inputTournament"/>
+                </div>
+                <div class="submitContainer">
+                    <button id="sendTournament" class="saveButton" type="submit">Créer le tournoi</button>
+                    <button id="cancelTournament" class="cancelButton" type="submit">Annuler</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+<div th:replace="fragments/footer"></div>
+
