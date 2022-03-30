@@ -34,23 +34,32 @@ public class User {
     @Column(name = "isRegistered")
     private Boolean isRegistered;
 
+    @Column(name = "role")
+    private String role;
+
+
     @OneToMany
     @JoinColumn(name="idUser", nullable = true)
     private Set<Notification> notifications;
 
-    @ManyToMany
-    @JoinTable(name = "team_user",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "team_id"))
-    private Set<Team> teams;
+    @ManyToOne
+    @JoinColumn(name="idTournement", nullable = false)
+    private Tournament tournament;
 
-    public User(String pseudo, String surname, String forename, String club, String email, Boolean isRegistered) {
+    @ManyToOne
+    @JoinColumn(name="idTeam", nullable = true)
+    private Team team;
+
+    public User(String pseudo, String surname, String forename, String club, String email, Boolean isRegistered, String role) {
+
         this.pseudo = pseudo;
         this.surname = surname;
         this.forename = forename;
         this.club = club;
         this.email = email;
         this.isRegistered = isRegistered;
+        this.role = role;
+
     }
 
     public User() {

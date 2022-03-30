@@ -1,7 +1,9 @@
 package com.molkky.molkky.entity;
 
+import Type.UserRole;
 import com.molkky.molkky.MolkkyApplication;
 import com.molkky.molkky.domain.Notification;
+
 import com.molkky.molkky.domain.User;
 import com.molkky.molkky.repository.NotificationRepository;
 import com.molkky.molkky.repository.UserRepository;
@@ -32,7 +34,9 @@ class NotificationTest {
                 "forename_test",
                 "club_test",
                 "email_test",
-                true
+                true,
+                UserRole.ADM
+
         ));
         Notification notification = notificationRepository.save(new Notification("test", "test", false, user));
         Set<Notification> notifs =  new HashSet<>();

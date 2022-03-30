@@ -5,6 +5,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -40,19 +41,17 @@ public class Tournament {
     @Column(name = "nbRounds")
     private Integer nbRounds;
 
-    @Column(name = "nbCounts")
-    private Integer nbCounts;
+    //XXX
+    @Column(name = "nbCorts")
+    private Integer nbCorts;
 
-    @ManyToMany
-    @JoinTable(name = "tournament_admin",
-            joinColumns = @JoinColumn(name = "tournament_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id"))
-    private Set<User> admins;
+    @OneToMany(mappedBy="tournament")
+    private Set<User> users;
 
     @OneToMany(mappedBy="tournament")
     private Set<Round> rounds;
 
-    public Tournament(String name, String location, Date date, Date cutOffDate, Integer minTeam, Integer maxTeam, boolean isVisible, Integer nbRounds, Integer nbCounts) {
+    public Tournament(String name, String location, Date date, Date cutOffDate, Integer minTeam, Integer maxTeam, boolean isVisible, Integer nbRounds, Integer nbCorts) {
         this.name = name;
         this.location = location;
         this.date = date;
@@ -61,7 +60,7 @@ public class Tournament {
         this.maxTeam = maxTeam;
         this.isVisible = isVisible;
         this.nbRounds = nbRounds;
-        this.nbCounts = nbCounts;
+        this.nbCorts = nbCorts;
     }
 
     public Tournament() {
