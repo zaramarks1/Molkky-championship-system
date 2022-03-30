@@ -1,0 +1,61 @@
+.primaryButton {
+    cursor: pointer;
+    width: 193px;
+    height: 56px;
+    background-color: #8C69F4;
+    box-shadow: 0 2px 10px #8C69F4;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-width: 0;
+    color: white;
+    margin-right: 10px;
+    transition: background-color,box-shadow, color;
+    transition-duration: .2s;
+    transition-timing-function: ease-in-out;
+}
+
+.primaryButton:hover {
+    background-color: #6D41F3;
+    box-shadow: 0 3px 7px #8C69F4;
+}
+
+.primaryButton:active {
+    background-color: #C6B5F7;
+    box-shadow: none;
+}
+
+.secondaryButton {
+    cursor: pointer;
+    width: 193px;
+    height: 56px;
+    background-color: #E9E4FA;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-width: 0;
+    color: #8C69F4;
+    margin-left: 10px;
+    transition: background-color,box-shadow, color;
+    transition-duration: .2s;
+    transition-timing-function: ease-in-out;
+}
+
+.secondaryButton:hover {
+    background-color: #DBD3FF;
+    box-shadow: 0 3px 10px #C6B5F7;
+}
+
+.secondaryButton:active {
+    color: white;
+    background-color: #C7B5FF;;
+    box-shadow: none;
+}
