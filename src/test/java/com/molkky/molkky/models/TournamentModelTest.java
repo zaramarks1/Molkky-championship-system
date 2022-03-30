@@ -1,5 +1,6 @@
 package com.molkky.molkky.models;
 
+import com.molkky.molkky.model.TournamentModel;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

@@ -1,11 +1,9 @@
 package com.molkky.molkky.ihm;
 
-import ch.qos.logback.core.net.SyslogOutputStream;
 import com.molkky.molkky.MolkkyApplication;
 import com.molkky.molkky.SeleniumConfig;
 import com.molkky.molkky.domain.Tournament;
 import com.molkky.molkky.repository.TournamentRepository;
-import org.apache.tomcat.util.log.SystemLogHandler;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +43,7 @@ class TournamentFormTest {
         Assertions.assertTrue(config.getDriver().findElement(new By.ById("maxTeam")).isDisplayed());
         Assertions.assertTrue(config.getDriver().findElement(new By.ById("visible")).isDisplayed());
         Assertions.assertTrue(config.getDriver().findElement(new By.ById("nbRounds")).isDisplayed());
-        Assertions.assertTrue(config.getDriver().findElement(new By.ById("nbCounts")).isDisplayed());
+        Assertions.assertTrue(config.getDriver().findElement(new By.ById("nbCourts")).isDisplayed());
         Assertions.assertTrue(config.getDriver().findElement(new By.ById("sendTournament")).isDisplayed());
     }
 
@@ -69,7 +67,7 @@ class TournamentFormTest {
         config.getDriver().findElement(new By.ById("maxTeam")).sendKeys(randomMaxTeam);
         config.getDriver().findElement(new By.ById("visible")).click();
         config.getDriver().findElement(new By.ById("nbRounds")).sendKeys(randomNbRounds);
-        config.getDriver().findElement(new By.ById("nbCounts")).sendKeys(randomNbCounts);
+        config.getDriver().findElement(new By.ById("nbCourts")).sendKeys(randomNbCounts);
         config.getDriver().findElement(new By.ById("sendTournament")).click();
 
         Tournament tournament = tournamentRepository.findByName(randomName);
@@ -86,7 +84,7 @@ class TournamentFormTest {
         Assertions.assertEquals(randomMaxTeam,String.valueOf(tournament.getMaxTeam()));
         Assertions.assertEquals(true,tournament.isVisible());
         Assertions.assertEquals(randomNbRounds,String.valueOf(tournament.getNbRounds()));
-        Assertions.assertEquals(randomNbCounts,String.valueOf(tournament.getNbCounts()));
+        Assertions.assertEquals(randomNbCounts,String.valueOf(tournament.getNbCourts()));
     }
 
     public String transformDate(String date){

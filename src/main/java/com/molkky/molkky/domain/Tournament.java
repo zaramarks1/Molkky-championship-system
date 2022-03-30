@@ -1,12 +1,11 @@
 package com.molkky.molkky.domain;
 
-import com.molkky.molkky.models.TournamentModel;
+import com.molkky.molkky.model.TournamentModel;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -43,8 +42,8 @@ public class Tournament {
     private Integer nbRounds;
 
     //XXX
-    @Column(name = "nbCorts")
-    private Integer nbCorts;
+    @Column(name = "nbCourts")
+    private Integer nbCourts;
 
     @OneToMany(mappedBy="tournament")
     private Set<User> users;
@@ -52,7 +51,7 @@ public class Tournament {
     @OneToMany(mappedBy="tournament")
     private Set<Round> rounds;
 
-    public Tournament(String name, String location, Date date, Date cutOffDate, Integer minTeam, Integer maxTeam, boolean isVisible, Integer nbRounds, Integer nbCorts) {
+    public Tournament(String name, String location, Date date, Date cutOffDate, Integer minTeam, Integer maxTeam, boolean isVisible, Integer nbRounds, Integer nbCourts) {
         this.name = name;
         this.location = location;
         this.date = date;
@@ -61,7 +60,7 @@ public class Tournament {
         this.maxTeam = maxTeam;
         this.isVisible = isVisible;
         this.nbRounds = nbRounds;
-        this.nbCorts = nbCorts;
+        this.nbCourts = nbCourts;
     }
 
     public Tournament(TournamentModel tournamentModel) {
@@ -73,7 +72,7 @@ public class Tournament {
         this.maxTeam = tournamentModel.getMaxTeam();
         this.isVisible = tournamentModel.isVisible();
         this.nbRounds = tournamentModel.getNbRounds();
-        this.nbCounts = tournamentModel.getNbCounts();
+        this.nbCourts = tournamentModel.getNbCourts();
     }
 
     public Tournament() {

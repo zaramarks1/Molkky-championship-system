@@ -1,7 +1,7 @@
 package com.molkky.molkky.controllers;
 
 import com.molkky.molkky.domain.Tournament;
-import com.molkky.molkky.models.TournamentModel;
+import com.molkky.molkky.model.TournamentModel;
 import com.molkky.molkky.repository.TournamentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,7 +27,6 @@ public class TournamentCreation {
         Tournament tournamentEntity = tournamentRepository.save(new Tournament(tournament));
         
         model.addAttribute("tournament", tournamentEntity);
-//        return tournamentEntity;
         return "tournament/create";
     }
 

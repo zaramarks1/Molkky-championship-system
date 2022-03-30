@@ -5,7 +5,7 @@ import com.molkky.molkky.MolkkyApplication;
 import com.molkky.molkky.domain.Round;
 import com.molkky.molkky.domain.Tournament;
 import com.molkky.molkky.domain.User;
-import com.molkky.molkky.models.TournamentModel;
+import com.molkky.molkky.model.TournamentModel;
 import com.molkky.molkky.repository.RoundRepository;
 import com.molkky.molkky.repository.TournamentRepository;
 import com.molkky.molkky.repository.UserRepository;
@@ -111,7 +111,7 @@ class TournamentEntityTest {
         tournamentModel.setMaxTeam(1);
         tournamentModel.setMinTeam(2);
         tournamentModel.setNbRounds(2);
-        tournamentModel.setNbCounts(2);
+        tournamentModel.setNbCourts(2);
         tournamentModel.setVisible(true);
         Tournament tournament = new Tournament(tournamentModel);
         Assertions.assertEquals("tournament_name", tournament.getName(), "Tournament name should be tournament_name");
@@ -119,7 +119,7 @@ class TournamentEntityTest {
         Assertions.assertEquals(1, tournament.getMaxTeam(), "Tournament maxTeam should be 1");
         Assertions.assertEquals(2, tournament.getMinTeam(), "Tournament minTeam should be 2");
         Assertions.assertEquals(2, tournament.getNbRounds(), "Tournament nbRounds should be 2");
-        Assertions.assertEquals(2, tournament.getNbCounts(), "Tournament nbCounts should be 2");
+        Assertions.assertEquals(2, tournament.getNbCourts(), "Tournament nbCounts should be 2");
         Assertions.assertTrue(tournament.isVisible(), "Tournament visible should be true");
     }
 }

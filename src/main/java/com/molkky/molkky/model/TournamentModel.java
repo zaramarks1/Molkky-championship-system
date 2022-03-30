@@ -1,4 +1,4 @@
-package com.molkky.molkky.models;
+package com.molkky.molkky.model;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -18,7 +18,7 @@ public class TournamentModel {
     private Integer minTeam;
     private Integer maxTeam;
     private Integer nbRounds;
-    private Integer nbCounts;
+    private Integer nbCourts;
     private boolean visible;
 
     public void setDate(String date) throws ParseException {
@@ -32,17 +32,4 @@ public class TournamentModel {
     public Date formatDate(String date) throws ParseException {
         return new SimpleDateFormat("yyyy-MM-dd", Locale.FRANCE).parse(date);
     }
-
-//    public void setIsVisible(boolean isVisible) {
-//        this.isVisible = isVisible;
-//    }
-//
-//    public boolean getIsVisible() {
-////        return this.isVisible != null;
-//        return this.isVisible;
-//    }
-//
-//    public void setIsVisible(String isVisible) {
-//        this.isVisible = isVisible;
-//    }
 }

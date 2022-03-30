@@ -36,7 +36,6 @@ class NotificationTest {
                 "email_test",
                 true,
                 UserRole.ADM
-
         ));
         Notification notification = notificationRepository.save(new Notification("test", "test", false, user));
         Set<Notification> notifs =  new HashSet<>();
