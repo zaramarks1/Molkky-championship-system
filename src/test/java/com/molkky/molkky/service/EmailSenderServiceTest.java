@@ -12,6 +12,6 @@ public class EmailSenderServiceTest {
 
     @Test
     void testMail(){
-        emailSenderService.SendEmail("test@gmail.com", "GPI LESGO", "Fonctionnement de l'envoie de test");
+        emailSenderService.SendEmail("calembel.molkky@gmail.com", "GPI LESGO", "Fonctionnement de l'envoi de test");
     }
 }
