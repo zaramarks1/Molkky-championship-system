@@ -12,4 +12,5 @@ import java.util.List;
 public interface UserRepository extends JpaRepository<User, String>, JpaSpecificationExecutor<User> {
     User findById(Integer id);
     List<User> findAll();
+    User findUsersByEmail(String email);
 }
