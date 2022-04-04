@@ -47,9 +47,10 @@ class UserEntityTest {
         Team team = teamRepository.save(new Team("team_test", 2));
 
         User user1 = new User("pseudoUser1", "surname1", "forename1", "club1", "email1", false, UserRole.PLAYER);
-        Set<Team> teams = new HashSet<>();
-        teams.add(team);
-        user1.setTeam(team);
+        Set<User> users = new HashSet<>();
+        users.add(user1);
+        team.setUsers(users);
+//        user1.setTeam(team);
         userRepository.save(user1);
         Assertions.assertEquals(1, team.getUsers().size(), "Team size is not correct");
         User recupUser = userRepository.findById(user1.getId());

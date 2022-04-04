@@ -1,0 +1,34 @@
+.bg {
+    background-color: #F5F4F9;
+}
+
+.bgButton {
+    background-color: #E7E3F9;
+}
+
+.textPrimary {
+    color: #8C69F4;
+}
+
+.pageContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+.contentContainer {
+    flex: 1;
+    margin: 15px;
+    font-family: 'Inter', sans-serif;
+}
+
+.contentTitle {
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 24px;
+    letter-spacing: 0.2px;
+}
+
+body {
+    margin: 0;
+}

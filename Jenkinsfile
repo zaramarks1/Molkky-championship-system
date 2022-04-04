@@ -3,8 +3,12 @@ pipeline {
     environment {
         MYSQL_DB = "molkky_test"
         MYSQL_HOST = "localhost"
-        MYSQL_PASSWORD = "GL2022"
-        MYSQL_USER = "calembel"
+        DB_PASSWORD = "password"
+        DB_USER = "sa"
+        CHROME_DRIVER = "/bin/chrome_driver/chromedriver"
+        SERVER_PORT = 8175
+        DB_URL = "jdbc:h2:mem:testdb"
+        DRIVER_CLASS_NAME = "org.h2.Driver"
     }
     stages {
         stage('Build') {
