@@ -38,14 +38,4 @@ public class RegisterService {
         String hashedPassword = passwordEncoder.encode(pwd);
         user.setCode(hashedPassword);
     }
-    //TO DO : To put in login service
-    public void decode(String passwordNotEncrypted, User user){
-        BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
-        String userDBPassword = String.valueOf(userRepository.findById(user.getCode()));
-        boolean isPasswordMatches = bcrypt.matches(passwordNotEncrypted, userDBPassword);
-        if(isPasswordMatches) {
-            System.out.println("Password Match");
-        }
-    }
-
 }
