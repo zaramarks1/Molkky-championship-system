@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Page de connexion</title>
+</head>
+<body>
+<h1>Connexion du joueur</h1>
+
+<form method="post" th:action="@{/connexion}" th:object="${user}">
+    <p>Mail: <input type="text" th:field="*{email}"></p>
+    <p>Mot de passe: <input type="password" th:field="*{code}"></p>
+    <button type="submit" c>Connexion</button>
+
+</form>
+</body>
+</html>
