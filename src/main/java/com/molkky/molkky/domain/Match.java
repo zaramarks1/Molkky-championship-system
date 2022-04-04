@@ -47,6 +47,9 @@ public class Match {
     @JoinColumn(name="idFinnish", nullable = true)
     private Finnish finnish;
 
+    @OneToMany(mappedBy = "match")
+    private Set<Shot> shots;
+
     public Match(Court court, Set<Team> teams) {
         this.court = court;
         this.teams = teams;
