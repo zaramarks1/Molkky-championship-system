@@ -43,5 +43,4 @@ public class ConnexionController {
         }
         return new ModelAndView("redirect:/connexion");
     }
-
 }
