@@ -29,15 +29,19 @@ public class ConnexionController {
 
     @PostMapping("/connexion")
     public ModelAndView connexionUser(@ModelAttribute("user")User user){
-        User userByEmail = userRepository.findUsersByEmail(user.getEmail());
-        userByEmail.setPseudo("test");
-        userRepository.save(userByEmail);
-        if(connexionService.decode(user.getCode(), userByEmail)) {
-          return new ModelAndView("redirect:/register");
+        try {
+            User userByEmail = userRepository.findUsersByEmail(user.getEmail());
+            userByEmail.setPseudo("test2");
+            userRepository.save(userByEmail);
+            if (connexionService.decode(user.getCode(), userByEmail)) {
+                return new ModelAndView("redirect:/tournament/create");
+            } else {
+                return new ModelAndView("redirect:/connexion");
+            }
+        }catch  (Exception e){
+            e.printStackTrace();
         }
-        else{
-            return new ModelAndView("redirect:/connexion");
-        }
+        return new ModelAndView("redirect:/connexion");
     }
 
 }
