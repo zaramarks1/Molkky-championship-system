@@ -30,6 +30,10 @@ public class Team {
     @OneToMany(mappedBy="team")
     private Set<User> users;
 
+    @ManyToOne
+    @JoinColumn(name="idTournament", nullable = true)
+    private Tournament tournament;
+
     public Team( String name, Integer nbPlayers) {
         this.name = name;
         this.nbPlayers = nbPlayers;

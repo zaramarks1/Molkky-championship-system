@@ -54,8 +54,8 @@ class TournamentFormTest {
         String randomLocation = "location de test";
         String randomDateTournoi = "01/01/2020";
         String randomCutOffDate = "01/01/2020";
-        String randomMinTeam = "1";
-        String randomMaxTeam = "1";
+        String randomMinTeam = "5";
+        String randomMaxTeam = "20";
         String randomNbRounds = "1";
         String randomNbCounts = "1";
 
@@ -63,8 +63,8 @@ class TournamentFormTest {
         config.getDriver().findElement(new By.ById("location")).sendKeys(randomLocation);
         config.getDriver().findElement(new By.ById("dateTournoi")).sendKeys(randomDateTournoi);
         config.getDriver().findElement(new By.ById("cutOffDate")).sendKeys(randomCutOffDate);
-        config.getDriver().findElement(new By.ById("minTeam")).sendKeys(randomMinTeam);
-        config.getDriver().findElement(new By.ById("maxTeam")).sendKeys(randomMaxTeam);
+//        config.getDriver().findElement(new By.ById("minTeam")).sendKeys(randomMinTeam);
+//        config.getDriver().findElement(new By.ById("maxTeam")).sendKeys(randomMaxTeam);
         config.getDriver().findElement(new By.ById("visible")).click();
         config.getDriver().findElement(new By.ById("nbRounds")).sendKeys(randomNbRounds);
         config.getDriver().findElement(new By.ById("nbCourts")).sendKeys(randomNbCounts);
@@ -82,7 +82,7 @@ class TournamentFormTest {
         Assertions.assertEquals(randomCutOffDate,cutOffSQL);
         Assertions.assertEquals(randomMinTeam,String.valueOf(tournament.getMinTeam()));
         Assertions.assertEquals(randomMaxTeam,String.valueOf(tournament.getMaxTeam()));
-        Assertions.assertEquals(true,tournament.isVisible());
+        Assertions.assertTrue(tournament.isVisible());
         Assertions.assertEquals(randomNbRounds,String.valueOf(tournament.getNbRounds()));
         Assertions.assertEquals(randomNbCounts,String.valueOf(tournament.getNbCourts()));
     }

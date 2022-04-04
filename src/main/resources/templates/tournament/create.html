@@ -31,15 +31,16 @@
                     <input id="cutOffDate" name="cutOffDate" type="date" th:field="*{cutOffDate}" class="inputTournament" placeholder="Date"/>
                 </div>
 
-                <div class="inputContainer">
-                    <label for="minTeam" class="inputLabel">Nombre minimum d'équipes</label>
-                    <input id="minTeam" name="minTeam" type="number" th:field="*{minTeam}" class="inputTournament"/>
-                </div>
-
-                <div class="inputContainer">
-                    <label for="maxTeam" class="inputLabel">Nombre maximum d'équipes</label>
-                    <input id="maxTeam" name="maxTeam" type="number" th:field="*{maxTeam}" class="inputTournament"/>
-                </div>
+                <span class="inputContainer">
+                    <div class="inputLabel nbEquipesContainer">Nombre d'équipes,
+                        <div id="nbMinTeam"></div> -
+                        <div id="nbMaxTeam"></div>
+                    </div>
+                    <div class="multiSlider">
+                        <input type="range" min="0" max="20"  name="minTeam"  value="5" id="minTeam">
+                        <input type="range" min="0" max="20"  name="maxTeam" value="45" id="maxTeam" style="background: none;">
+                    </div>
+                </span>
 
                 <div class="inputContainer">
                     <label for="visible" class="inputLabel">Tournoi ouvert</label>
@@ -56,12 +57,59 @@
                     <input id="nbCourts" name="nbCourts" type="number" th:field="*{nbCourts}" class="inputTournament"/>
                 </div>
                 <div class="submitContainer">
-                    <button id="sendTournament" class="saveButton" type="submit">Créer le tournoi</button>
-                    <button id="cancelTournament" class="cancelButton" type="submit">Annuler</button>
+                    <button id="sendTournament" class="primaryButton" type="submit">Créer le tournoi</button>
+                    <button id="cancelTournament" class="secondaryButton" type="submit">Annuler</button>
                 </div>
             </form>
         </div>
     </div>
+    <script>
+        const lowerSlider = document.getElementById('minTeam');
+        const upperSlider = document.getElementById('maxTeam');
+        let lowerVal = parseInt(lowerSlider.value);
+        let upperVal = parseInt(upperSlider.value);
+        const interval = 1
+
+
+        upperSlider.oninput = function() {
+            lowerVal = parseInt(lowerSlider.value);
+            upperVal = parseInt(upperSlider.value);
+
+            if (upperVal < lowerVal + interval) {
+                lowerSlider.value = upperVal - interval;
+
+                if (lowerVal === lowerSlider.min) {
+                    upperSlider.value = interval;
+                }
+            }
+            refreshTeams()
+        };
+
+
+        lowerSlider.oninput = function() {
+            lowerVal = parseInt(lowerSlider.value);
+            upperVal = parseInt(upperSlider.value);
+
+            if (lowerVal > upperVal - interval) {
+                upperSlider.value = lowerVal + interval;
+
+                if (upperVal === upperSlider.max) {
+                    lowerSlider.value = parseInt(upperSlider.max) - interval;
+                }
+
+            }
+            refreshTeams();
+        };
+
+        function refreshTeams(){
+            let minTeam = document.getElementById('nbMinTeam');
+            let maxTeam = document.getElementById('nbMaxTeam');
+            minTeam.innerHTML = lowerSlider.value;
+            maxTeam.innerHTML = upperSlider.value;
+        }
+
+        refreshTeams();
+    </script>
 </body>
 <div th:replace="fragments/footer"></div>
 

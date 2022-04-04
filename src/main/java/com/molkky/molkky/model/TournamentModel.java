@@ -7,6 +7,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -22,11 +23,11 @@ public class TournamentModel {
     private boolean visible;
 
     public void setDate(String date) throws ParseException {
-        this.date = formatDate(date);
+        if(!Objects.equals(date, "")) this.date = formatDate(date);
     }
 
     public void setCutOffDate(String cutOffDate) throws ParseException {
-        this.cutOffDate = formatDate(cutOffDate);
+        if(!Objects.equals(cutOffDate, "")) this.cutOffDate = formatDate(cutOffDate);
     }
 
     public Date formatDate(String date) throws ParseException {

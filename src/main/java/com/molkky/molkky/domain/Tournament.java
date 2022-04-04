@@ -51,6 +51,9 @@ public class Tournament {
     @OneToMany(mappedBy="tournament")
     private Set<Round> rounds;
 
+    @OneToMany(mappedBy="tournament")
+    private Set<Team> teams;
+
     public Tournament(String name, String location, Date date, Date cutOffDate, Integer minTeam, Integer maxTeam, boolean isVisible, Integer nbRounds, Integer nbCourts) {
         this.name = name;
         this.location = location;
@@ -75,6 +78,7 @@ public class Tournament {
         this.nbCourts = tournamentModel.getNbCourts();
     }
 
+ 
     public Tournament() {
     }
 }
