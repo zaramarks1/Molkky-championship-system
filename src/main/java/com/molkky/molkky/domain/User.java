@@ -78,6 +78,10 @@ public class User {
         this.tournament = tournament;
     }
 
+    public User(String email, String code){
+        this.email=email;
+        this.code=code;
+    }
     public User() {
 
     }
