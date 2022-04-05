@@ -1,0 +1,5 @@
+.playerFormContainer {
+    flex-wrap: wrap;
+    margin-top: -20px;
+    max-width: 1048px;
+}
