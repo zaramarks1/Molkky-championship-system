@@ -26,7 +26,7 @@
     </table>
  -->
     <form method="post" th:action="@{/register}" th:object="${user}">
-        <input type="text" th:field="*{email}">
+        <input type="email" pattern="[^@\s]+@[^@\s]+\.[^@\s]+" th:field="*{email}">
         <button type="submit" c>Créer</button>
     </form>
 </body>
