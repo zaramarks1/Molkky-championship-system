@@ -17,7 +17,7 @@ public class SendEmailTest {
     @Test
     @EventListener(ApplicationReadyEvent.class)
     public void sendMail(){
-        senderService.SendEmail("pierre.menanteau@reseau.eseo.fr","test","Un mail envoyé en java !");
+        senderService.SendEmail("calembel.molkky@gmail.com","test","Un mail envoyé en java !");
     }
 
 }

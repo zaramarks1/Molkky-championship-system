@@ -26,8 +26,8 @@
     </table>
  -->
     <form method="post" th:action="@{/register}" th:object="${user}">
-        <input type="text" th:field="*{email}">
-        <button type="submit" c>Créer</button>
+        <input id = "mail" type="text" th:field="*{email}">
+        <button id="valider" type="submit" c>Créer</button>
     </form>
 </body>
 </html>
