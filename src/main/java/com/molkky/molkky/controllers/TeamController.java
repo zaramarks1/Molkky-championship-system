@@ -9,6 +9,7 @@ import com.molkky.molkky.model.CreateTeamModel;
 import com.molkky.molkky.model.TournamentModel;
 import com.molkky.molkky.repository.TeamRepository;
 import com.molkky.molkky.repository.TournamentRepository;
+import com.molkky.molkky.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,6 +29,9 @@ public class TeamController {
     TeamRepository teamRepository;
     @Autowired
     TournamentRepository tournamentRepository;
+    @Autowired
+    UserRepository userRepository;
+
 
 
     @GetMapping("/create")
@@ -37,26 +41,6 @@ public class TeamController {
         return "/team/create";
     }
 
-    /*@PostMapping("/create")
-        public String submit(@ModelAttribute("team") CreateTeamModel team, Model model){
-
-
-        Integer idTournament = Integer.valueOf(team.getTournament());
-        Tournament tournament = tournamentRepository.findById(idTournament);
-
-        //System.out.println(team.getTournament().getName());
-        Team teamCreate = new Team();
-
-        teamCreate.setName(team.getName());
-        teamCreate.setNbPlayers(team.getNbPlayers());
-        teamCreate.setTournament(tournament);
-
-        Team teamNew = teamRepository.save(teamCreate);
-
-        model.addAttribute("team", teamNew);
-
-        return "redirect:/team/"+teamNew.getId()+"/addPlayer" ;
-        }*/
 
     @PostMapping("/create")
     public ModelAndView submit(@ModelAttribute("team") CreateTeamModel team, ModelMap model ){
@@ -83,30 +67,20 @@ public class TeamController {
         return new ModelAndView( "/team/addPlayer", model) ;
     }
 
-       /*@GetMapping("/{idTeam}/addPlayer")
-        public String addPlayerForm(Model model, @PathVariable("idTeam") String teamId){
-            System.out.println("entrou");
-            Team team = teamRepository.findById(Integer.valueOf(teamId));
-            model.addAttribute("team2",team);
-            List<User> users = new ArrayList<>();
-
-            return "/team/addPlayer";
-        }*/
-
-    @GetMapping("/addPlayer")
-    public String addPlayerForm(Model model){
-        System.out.println("entrou");
-        //Team team = teamRepository.findById(Integer.valueOf(teamId));
-        //model.addAttribute("team2",team);
-        List<User> users = new ArrayList<>();
-         Team t  = (Team) model.getAttribute("team");
-         System.out.println(t.getName());
-        model.addAttribute("users", users);
-        return "/team/addPlayer";
-    }
 
     @PostMapping("/addPlayer")
-        public String addPlayer(){
-            return "";
+        public String addPlayer(@ModelAttribute("form") AddPlayerlistModel form, Model model){
+
+        List<AddPlayerModel> players = form.getPlayers();
+        List<User> users = new ArrayList<>();
+
+        for(AddPlayerModel player : players){
+            Team team = teamRepository.findById(player.getTeamId());
+            User user = player.addPlayer();
+            user.setTeam(team);
+            users.add(user);
+        }
+        userRepository.saveAll(users);
+            return "redirect:/team/create";
         }
 }

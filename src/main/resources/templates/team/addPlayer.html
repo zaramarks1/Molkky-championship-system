@@ -36,14 +36,15 @@
                     <td><input   id = "email" th:field="*{players[__${itemStat.index}__].mail}" /></td>
                     <td><label for="club" class="inputLabel">Club: </label>
                     <td><input   id = "club" th:field="*{players[__${itemStat.index}__].club}" /></td>
+                    <td><input hidden th:name="|players[${itemStat.index}].teamId|" th:value="${team.id}"/></td>
                     <tr></tr>
                 </tr>
                 </table>
             </div>
 
             <div class="submitContainer">
-                <button id="sendTeam" class="primaryButton" type="submit">Next Step</button>
-                <button id="cancelTeam" class="secondaryButton" type="submit">Cancel</button>
+                <button id="sendPlayers" class="primaryButton" type="submit">Create</button>
+                <button id="cancelPlayers" class="secondaryButton" type="submit">Cancel</button>
             </div>
         </form>
     </div>
