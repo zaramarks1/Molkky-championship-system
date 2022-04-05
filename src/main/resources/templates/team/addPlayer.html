@@ -46,6 +46,7 @@
                             <input   id = "club" th:field="*{players[__${itemStat.index}__].club}"  class="inputTournament"/>
                         </div>
                     </div>
+                    <input hidden th:name="|players[${itemStat.index}].teamId|" th:value="${team.id}"/>
                 </div>
             </div>
 
