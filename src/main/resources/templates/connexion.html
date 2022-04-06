@@ -9,8 +9,8 @@
 <h1>Connexion du joueur</h1>
 
 <form method="post" th:action="@{/connexion}" th:object="${user}">
-    <p>Mail: <input type="email" pattern="[^@\s]+@[^@\s]+\.[^@\s]+" th:field="*{email}"></p>
-    <p>Mot de passe: <input type="password" th:field="*{code}"></p>
+    <p>Mail: <input type="email" required="required" pattern="[^@\s]+@[^@\s]+\.[^@\s]+" th:field="*{email}"></p>
+    <p>Mot de passe: <input type="password" required="required" th:field="*{code}"></p>
     <button type="submit" c>Connexion</button>
 
 </form>
