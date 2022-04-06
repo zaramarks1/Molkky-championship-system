@@ -67,35 +67,36 @@ public class TeamController {
 
 
         model.addAttribute("form", players);
+        model.addAttribute("isDiffMail", true);
         return new ModelAndView( "/team/addPlayer", model) ;
     }
 
 
     @PostMapping("/addPlayer")
-        public String addPlayer(@ModelAttribute("form") AddPlayerlistModel form, Model model){
+        public ModelAndView addPlayer(@ModelAttribute("form") AddPlayerlistModel form, ModelMap model){
 
         List<AddPlayerModel> players = form.getPlayers();
         List<User> users = new ArrayList<>();
 
+        Team team = teamRepository.findById(players.get(0).getTeamId());
         for(AddPlayerModel player : players){
-            Team team = teamRepository.findById(player.getTeamId());
+
             User user = player.addPlayer();
             user.setTeam(team);
             users.add(user);
         }
-        List<String> mails = new ArrayList<>();
-       /* boolean emailRepetead = false;
-            for (User u : users ){
-                for (int i =0; i < users.size();i++ ){
-                    if(users.get(i).getEmail().equals(u.getEmail())){
-
-                    }
-
-                }
-            }*/
-  
+        if(!areAllDistinct(users)){
+            model.addAttribute("team", team);
+            model.addAttribute("isDiffMail", false);
+            System.out.println("players must have diff email");
+            return new ModelAndView( "/team/addPlayer", model) ;
+        }
 
         userRepository.saveAll(users);
-            return "redirect:/team/create";
+        return new ModelAndView( "redirect:/team/create", model) ;
         }
+
+        boolean areAllDistinct(List<User> users) {
+        return users.stream().map(User::getEmail).distinct().count() == users.size();
+    }
 }

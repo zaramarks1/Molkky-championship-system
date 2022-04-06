@@ -25,13 +25,19 @@
 
             </div>
 
+            <div class="inputContainer">
+                <span th:if="${!isDiffMail}">S'il vous plait, entrez des mails différents pour chaque joueur !</span>
+
+            </div>
+
+
             <div class="formContainer">
                 <div th:each="player, itemStat : *{players}" class="inputContainer">
-                    <b th:text="'Joueur ' + ${itemStat.index}">Joueur: </b>
+                    <b th:text="'Joueur ' + ${itemStat.index+1}">Joueur: </b>
                     <div class="submitContainer playerFormContainer">
                         <div class="inputContainer">
                             <label  for="forename" class="inputLabel">Prénom</label>
-                            <input  id = "forename" th:field="*{players[__${itemStat.index}__].forename}"  class="inputTournament"/>
+                            <input  required="true" id = "forename" th:field="*{players[__${itemStat.index}__].forename}"  class="inputTournament"/>
                         </div>
                         <div class="inputContainer">
                             <label  for="surname" class="inputLabel">Nom de famille</label>
@@ -39,7 +45,7 @@
                         </div>
                         <div class="inputContainer">
                             <label for="email" class="inputLabel">Mail</label>
-                            <input   id = "email" th:field="*{players[__${itemStat.index}__].mail}"  class="inputTournament"/>
+                            <input  required="true" id = "email" th:field="*{players[__${itemStat.index}__].mail}"  class="inputTournament"/>
                         </div>
                         <div class="inputContainer">
                             <label for="club" class="inputLabel">Club</label>
