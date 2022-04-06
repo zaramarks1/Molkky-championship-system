@@ -37,6 +37,9 @@ public class Team {
     @OneToMany(mappedBy = "team")
     private Set<Shot> shots;
 
+    @Column(name = "nbWins")
+    private Integer nbWins;
+
     public Team( String name, Integer nbPlayers) {
         this.name = name;
         this.nbPlayers = nbPlayers;

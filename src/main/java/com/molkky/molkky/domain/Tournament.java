@@ -48,11 +48,17 @@ public class Tournament {
     @OneToMany(mappedBy="tournament")
     private Set<User> users;
 
-    @OneToMany(mappedBy="tournament")
+    @OneToMany(mappedBy="tournament", fetch = FetchType.EAGER)
     private Set<Round> rounds;
 
     @OneToMany(mappedBy="tournament")
     private Set<Team> teams;
+
+    @Column(name = "indexPhase")
+    private Integer indexPhase;
+
+    @Column(name = "finished")
+    private boolean finished;
 
     public Tournament(String name, String location, Date date, Date cutOffDate, Integer minTeam, Integer maxTeam, boolean isVisible, Integer nbRounds, Integer nbCourts) {
         this.name = name;

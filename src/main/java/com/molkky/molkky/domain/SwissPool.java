@@ -31,6 +31,9 @@ public class SwissPool {
     @JoinColumn(name = "idRound")
     private Round round;
 
+    @Column(name = "finished")
+    private Boolean finished = false;
+
     public SwissPool(){
     }
 

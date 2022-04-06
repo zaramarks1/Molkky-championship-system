@@ -50,6 +50,15 @@ public class Match {
     @OneToMany(mappedBy = "match")
     private Set<Shot> shots;
 
+    @Column(name = "scoreTeam1")
+    private Integer scoreTeam1;
+
+    @Column(name = "scoreTeam2")
+    private Integer scoreTeam2;
+
+    @Column(name = "finished")
+    private Boolean finished;
+
     public Match(Court court, Set<Team> teams) {
         this.court = court;
         this.teams = teams;
