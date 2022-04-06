@@ -2,6 +2,7 @@ package com.molkky.molkky.ihm;
 
 import com.molkky.molkky.MolkkyApplication;
 import com.molkky.molkky.SeleniumConfig;
+import com.molkky.molkky.domain.User;
 import com.molkky.molkky.repository.TournamentRepository;
 import com.molkky.molkky.service.RegisterService;
 import org.junit.jupiter.api.*;
@@ -38,7 +39,6 @@ public class LoginTest {
         Assertions.assertEquals("Page de connexion", config.getDriver().getTitle());
     }
 
-
     @Test
     void testConnexionDisplayed() {
         config.getDriver().get(url + "/connexion");
@@ -69,47 +69,39 @@ public class LoginTest {
         Assertions.assertEquals(url + "/connexion", config.getDriver().getCurrentUrl());
     }
 
-    @Test
+    //@Test
     void testCreateUser() {
+        config.getDriver().get(url + "/register");
+        User user = new User();
+        user.setEmail("gpiTestCalembel@gmail.com");
+        config.getDriver().findElement(new By.ById("mail")).sendKeys(user.getEmail());
+        config.getDriver().findElement(new By.ById("valider")).click();
+        Assertions.assertEquals(url + "/connexion", config.getDriver().getCurrentUrl());
+        config.getDriver().manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
-        String pwdRecept = "gpiTest1";
-        String mailRecept = "gpiTestCalembel@gmail.com";
 
         // Go on google to connect to gmail for password
+        String pwdRecept = "gpiTest1";
+        String mailRecept = "gpiTestCalembel@gmail.com";
         config.getDriver().get("https://www.gmail.com");
         config.getDriver().findElement(By.xpath("//input[@id='identifierId']")).sendKeys(mailRecept);
         config.getDriver().findElement(By.xpath("//div[@id='identifierNext']")).click();
         config.getDriver().manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
-        config.getDriver().findElement(By.name( "password")).sendKeys(pwdRecept);
+        config.getDriver().findElement(By.name("password")).sendKeys(pwdRecept);
         config.getDriver().findElement(By.xpath("//div[@id='passwordNext']")).click();
 
         //Enter the sender mail id
-        config.getDriver().manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-        config.getDriver().findElement(By.xpath("//*[@id=':1m']")).click();
-        String code = config.getDriver().findElement(By.xpath("//*[@id=':5o']")).getText();
-        code = code.replaceAll("Tiens ton mdp : ","");
+        config.getDriver().manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        config.getDriver().findElement(By.xpath("//*[@id=':1s']")).click();
+        String code = config.getDriver().findElement(By.xpath("//*[@id=':5t']")).getText();
+        System.out.println("Le code récuépéer par le driver est: " + code);
+        code = code.replace("Tiens ton mdp: ", "");
+        System.out.println("Le changement de code" + code);
         Assertions.assertEquals(";+)35/?1.6", code);
-
-
-/*
-        config.getDriver().get(url + "/register");
-        User user = new User();
-        user.setEmail("userTest@gmail.com");
-        config.getDriver().findElement(new By.ById("mail")).sendKeys(user.getEmail());
-        config.getDriver().findElement(new By.ById("valider")).click();
-        Assertions.assertEquals(url + "/connexion", config.getDriver().getCurrentUrl());
-        // Récupérer le code envoyé par email
-        /**user.setCode(ConnexionService.decodePwd(user));
-        config.getDriver().findElement(new By.ById("mail")).sendKeys(user.getEmail());
-        config.getDriver().findElement(new By.ById("code")).sendKeys(user.getCode());
-        config.getDriver().findElement(new By.ById("valider")).click();
-        Assertions.assertEquals(url + "/tournament/create", config.getDriver().getCurrentUrl());
     }
 
     @AfterAll
     void tearDown(){
         config.getDriver().quit();
-    }
-*/
     }
 }
