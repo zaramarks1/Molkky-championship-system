@@ -79,7 +79,6 @@ public class LoginTest {
         Assertions.assertEquals(url + "/connexion", config.getDriver().getCurrentUrl());
         config.getDriver().manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
-
         // Go on google to connect to gmail for password
         String pwdRecept = "gpiTest1";
         String mailRecept = "gpiTestCalembel@gmail.com";
