@@ -17,3 +17,10 @@ services:
       - PMA_HOST=mysql
     depends_on:
       - mysql
+
+  redis:
+    image: "redis"
+    ports:
+      - "6379:6379"
+    environment:
+      - REDIS_REPLICATION_MODE=master

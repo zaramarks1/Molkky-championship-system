@@ -36,7 +36,7 @@ public class RegisterController {
 
 
     // TO DO Retrieve the current tournament within the session
-    @PostMapping("/register")
+    @PostMapping("/saveUser")
     public ModelAndView saveUser(@ModelAttribute("user") User user) {
         user.setTournament(tournamentRepository.findById(1));
         registerService.encodeAndSendEmail(user);
