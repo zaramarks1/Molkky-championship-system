@@ -62,7 +62,10 @@ public class TeamController {
         AddPlayerlistModel players = new AddPlayerlistModel();
         for(int i =0 ; i< teamNew.getNbPlayers();i++){
             players.addPlayer(new AddPlayerModel());
+
         }
+
+
         model.addAttribute("form", players);
         return new ModelAndView( "/team/addPlayer", model) ;
     }
@@ -80,6 +83,18 @@ public class TeamController {
             user.setTeam(team);
             users.add(user);
         }
+        List<String> mails = new ArrayList<>();
+       /* boolean emailRepetead = false;
+            for (User u : users ){
+                for (int i =0; i < users.size();i++ ){
+                    if(users.get(i).getEmail().equals(u.getEmail())){
+
+                    }
+
+                }
+            }*/
+  
+
         userRepository.saveAll(users);
             return "redirect:/team/create";
         }
