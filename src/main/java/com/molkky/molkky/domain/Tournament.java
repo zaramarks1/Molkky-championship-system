@@ -3,6 +3,8 @@ package com.molkky.molkky.domain;
 import com.molkky.molkky.model.TournamentModel;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -49,11 +51,13 @@ public class Tournament {
     @OneToMany(mappedBy="tournament")
     private Set<User> users;
 
-    @OneToMany(mappedBy="tournament", fetch = FetchType.EAGER)
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(mappedBy="tournament")
     private List<Round> rounds;
 
+    @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(mappedBy="tournament")
-    private Set<Team> teams;
+    private List<Team> teams;
 
     @Column(name = "indexPhase")
     private Integer indexPhase = 0;

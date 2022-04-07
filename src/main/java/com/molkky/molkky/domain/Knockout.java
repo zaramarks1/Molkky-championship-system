@@ -28,6 +28,9 @@ public class Knockout {
     @JoinColumn(name = "idRound")
     private Round round;
 
+    @Column(name = "finished")
+    private Boolean finished = false;
+
     public Knockout(){
     }
 

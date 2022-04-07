@@ -1,6 +1,7 @@
 package com.molkky.molkky.scenario;
 
 import com.molkky.molkky.MolkkyApplication;
+import com.molkky.molkky.domain.Match;
 import com.molkky.molkky.domain.Team;
 import com.molkky.molkky.domain.Tournament;
 import com.molkky.molkky.repository.TeamRepository;
@@ -9,8 +10,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @SpringBootTest(classes = MolkkyApplication.class)
 class SwissPoolKnockoutTest {
@@ -24,7 +25,8 @@ class SwissPoolKnockoutTest {
     void testScenario(){
 //        creation tournoi et ajout des equipes
         Tournament scenarioTournament = new Tournament();
-        scenarioTournament.setTeams(generateRandomTeams(4));
+        List<Team> teams = generateRandomTeams(4);
+        scenarioTournament.setTeams(teams);
         scenarioTournament.setName("Tournoi de test knock out avec swissPool");
         scenario.init(scenarioTournament);
 //        test nom
@@ -34,19 +36,29 @@ class SwissPoolKnockoutTest {
 //        test nombre rounds
         Assertions.assertEquals(2, scenarioTournament.getRounds().size());
 
-//        c'est inversé j'ai pas compris pq mais swissPool est bien 1 dans le debugger
+//        swissPool puis kncokout
         Assertions.assertEquals("swissPool", scenarioTournament.getRounds().get(0).getType());
         Assertions.assertEquals("knockOut", scenarioTournament.getRounds().get(1).getType());
-        scenario.start(scenarioTournament);
 //        nombre de rounds
         Assertions.assertEquals(2, scenarioTournament.getRounds().size());
+        scenario.start(scenarioTournament);
 //        nombre de matchs
 //        12 matchs dans la pool à 4 équipes
-        Assertions.assertEquals(12, scenarioTournament.getRounds().get(0).getSwissPool().getMatches().size());
+        Assertions.assertEquals(12, scenario.getCurrentPhaseMatches(scenarioTournament).size());
+
+//        faire gagner les 2 premieres equipes
+        for (Match match: scenarioTournament.getRounds().get(0).getSwissPool().getMatches()) {
+            scenario.setMatchScore(match, 50, 0, scenarioTournament);
+        }
+
+//        la pool est finie
+        Assertions.assertTrue(scenarioTournament.getRounds().get(0).getSwissPool().getFinished());
+//        vérifier que la nouvelle pool (knockOut) contient deux matchs car on a prit que les deux premières equipes
+        Assertions.assertEquals(2, scenarioTournament.getRounds().get(1).getKnockout().getMatches().size());
     }
 
-    Set<Team> generateRandomTeams(int nbTeams){
-        Set<Team> teams = new HashSet<>();
+    List<Team> generateRandomTeams(int nbTeams){
+        List<Team> teams = new ArrayList<>();
         for (int i = 0; i < nbTeams; i++) {
             Team team = new Team();
             teams.add(teamRepository.save(team));
