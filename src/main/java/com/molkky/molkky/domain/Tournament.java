@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -49,13 +50,13 @@ public class Tournament {
     private Set<User> users;
 
     @OneToMany(mappedBy="tournament", fetch = FetchType.EAGER)
-    private Set<Round> rounds;
+    private List<Round> rounds;
 
     @OneToMany(mappedBy="tournament")
     private Set<Team> teams;
 
     @Column(name = "indexPhase")
-    private Integer indexPhase;
+    private Integer indexPhase = 0;
 
     @Column(name = "finished")
     private boolean finished;

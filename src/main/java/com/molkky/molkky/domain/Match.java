@@ -51,13 +51,13 @@ public class Match {
     private Set<Shot> shots;
 
     @Column(name = "scoreTeam1")
-    private Integer scoreTeam1;
+    private Integer scoreTeam1 = 0;
 
     @Column(name = "scoreTeam2")
-    private Integer scoreTeam2;
+    private Integer scoreTeam2 = 0;
 
     @Column(name = "finished")
-    private Boolean finished;
+    private Boolean finished= false;
 
     public Match(Court court, Set<Team> teams) {
         this.court = court;
