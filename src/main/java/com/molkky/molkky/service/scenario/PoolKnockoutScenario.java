@@ -116,6 +116,10 @@ public class PoolKnockoutScenario {
         if(tournament.getIndexPhase() == 0){
             tournament.setIndexPhase(tournament.getIndexPhase() + 1);
             tournament = tournamentRepository.save(tournament);
+
+//        only two teams go into the knockout
+            tournament.getRounds().get(1).getKnockout().setTeamsRemaining(2);
+
             generateMatchesForPool(tournament);
         } else {
             System.out.println("Fin du tournoi");

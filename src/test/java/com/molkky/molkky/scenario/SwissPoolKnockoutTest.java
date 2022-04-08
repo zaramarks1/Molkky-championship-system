@@ -54,8 +54,10 @@ class SwissPoolKnockoutTest {
 
 //        la pool est finie
         Assertions.assertTrue(scenarioTournament.getRounds().get(0).getSwissPool().getFinished());
+        Assertions.assertEquals(1 ,scenarioTournament.getIndexPhase());
 //        vérifier que la nouvelle pool (knockOut) contient deux matchs car on a prit que les deux premières equipes
-        Assertions.assertEquals(2, scenarioTournament.getRounds().get(1).getKnockout().getMatches().size());
+        Assertions.assertEquals(2, scenarioTournament.getRounds().get(1).getKnockout().getTeamsRemaining());
+        Assertions.assertEquals(2, scenario.getCurrentPhaseMatches(scenarioTournament).size());
     }
 
     List<Team> generateRandomTeams(int nbTeams){

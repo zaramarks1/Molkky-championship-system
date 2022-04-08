@@ -1,9 +1,13 @@
 package com.molkky.molkky.service.pool;
 
-import com.molkky.molkky.domain.*;
+import com.molkky.molkky.domain.Knockout;
+import com.molkky.molkky.domain.Match;
+import com.molkky.molkky.domain.Team;
+import com.molkky.molkky.domain.Tournament;
 import com.molkky.molkky.repository.MatchRepository;
 import com.molkky.molkky.repository.RoundRepository;
 import com.molkky.molkky.repository.SwissPoolRepository;
+import com.molkky.molkky.repository.TournamentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +22,8 @@ public class KnockoutService implements IRoundType<Knockout>{
     private SwissPoolRepository swissPoolRepository;
     @Autowired
     private MatchRepository matchRepository;
+    @Autowired
+    private TournamentRepository tournamentRepository;
 
     public boolean areAllMatchesFinished(Knockout pool) {
         for (Match match : pool.getMatches()) {
@@ -49,5 +55,6 @@ public class KnockoutService implements IRoundType<Knockout>{
         }
         pool.setMatches(matches);
         roundRepository.save(tournament.getRounds().get(1));
+        tournamentRepository.save(tournament);
     }
 }
