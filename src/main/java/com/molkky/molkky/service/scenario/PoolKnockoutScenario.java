@@ -5,9 +5,11 @@ import com.molkky.molkky.repository.*;
 import com.molkky.molkky.service.pool.KnockoutService;
 import com.molkky.molkky.service.pool.SwissPoolService;
 import lombok.Data;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -15,28 +17,30 @@ import java.util.List;
 @Data
 @Service
 public class PoolKnockoutScenario {
-    @Autowired
+    private static final Logger logger = LoggerFactory.getLogger(PoolKnockoutScenario.class);
+
     private TournamentRepository tournamentRepository;
-    @Autowired
     private RoundRepository roundRepository;
-    @Autowired
     private SwissPoolRepository swissPoolRepository;
-    @Autowired
     private KnockoutRepository knockoutRepository;
-    @Autowired
     private MatchRepository matchRepository;
-    @Autowired
     private TeamRepository teamRepository;
-    @Autowired
     private SwissPoolService swissPoolService;
-    @Autowired
     private KnockoutService knockoutService;
 
-    public PoolKnockoutScenario() {
-
+    public PoolKnockoutScenario(TournamentRepository tournamentRepository, RoundRepository roundRepository, SwissPoolRepository swissPoolRepository, KnockoutRepository knockoutRepository, MatchRepository matchRepository, TeamRepository teamRepository, SwissPoolService swissPoolService, KnockoutService knockoutService) {
+        this.tournamentRepository = tournamentRepository;
+        this.roundRepository = roundRepository;
+        this.swissPoolRepository = swissPoolRepository;
+        this.knockoutRepository = knockoutRepository;
+        this.matchRepository = matchRepository;
+        this.teamRepository = teamRepository;
+        this.swissPoolService = swissPoolService;
+        this.knockoutService = knockoutService;
     }
 
-    public void create(Tournament tournament){
+    @Transactional
+    public Tournament create(Tournament tournament){
         tournamentRepository.save(tournament);
 //        creer les rounds
         SwissPool swissPool = new SwissPool();
@@ -69,12 +73,12 @@ public class PoolKnockoutScenario {
         roundsTournament.add(knockOutRound);
         tournament.setRounds(roundsTournament);
 
-        tournamentRepository.save(tournament);
-        System.out.println("Scénario initié");
+        logger.trace("Scénario initié");
+        return tournamentRepository.save(tournament);
     }
 
     public void start(Tournament tournament){
-        System.out.println("Scénario démarré");
+        logger.trace("Scénario démarré");
         generateMatchesForPool(tournament);
     }
 
@@ -91,6 +95,7 @@ public class PoolKnockoutScenario {
         }
     }
 
+    @Transactional
     public void setMatchScore(Match match, Integer scoreTeam1, Integer scoreTeam2, Tournament tournament){
         match.setScoreTeam1(scoreTeam1);
         match.setScoreTeam2(scoreTeam2);
@@ -112,17 +117,17 @@ public class PoolKnockoutScenario {
         }
     }
 
+    @Transactional
     public void goToNextPhase(Tournament tournament){
         if(tournament.getIndexPhase() == 0){
             tournament.setIndexPhase(tournament.getIndexPhase() + 1);
-            tournament = tournamentRepository.save(tournament);
-
 //        only two teams go into the knockout
             tournament.getRounds().get(1).getKnockout().setTeamsRemaining(2);
+            tournamentRepository.save(tournament);
 
             generateMatchesForPool(tournament);
         } else {
-            System.out.println("Fin du tournoi");
+            logger.trace("Fin du tournoi");
             tournament.setFinished(true);
             tournamentRepository.save(tournament);
         }

@@ -21,7 +21,6 @@ class SwissPoolKnockoutTest {
     @Autowired
     private PoolKnockoutScenario scenario;
 
-
     @Test
     void testScenario(){
 //        creation tournoi et ajout des equipes
@@ -58,6 +57,36 @@ class SwissPoolKnockoutTest {
 //        vérifier que la nouvelle pool (knockOut) contient deux matchs car on a prit que les deux premières equipes
         Assertions.assertEquals(2, scenarioTournament.getRounds().get(1).getKnockout().getTeamsRemaining());
         Assertions.assertEquals(2, scenario.getCurrentPhaseMatches(scenarioTournament).size());
+    }
+
+    @Test
+    void createTest(){
+        // given
+        Tournament tournament = new Tournament();
+        List<Team> teams = generateRandomTeams(4);
+        tournament.setTeams(teams);
+        tournament.setName("Tournoi de test knock out avec swissPool");
+
+        // when
+        Tournament tournamentResult = scenario.create(tournament);
+
+        // then
+        Assertions.assertNotNull(tournament.getId());
+
+    }
+
+    @Test
+    void goToNextPhaseTest(){
+        Tournament tournament = new Tournament();
+        List<Team> teams = generateRandomTeams(4);
+        tournament.setTeams(teams);
+        tournament.setName("Tournoi de test knock out avec swissPool");
+        scenario.create(tournament);
+        Assertions.assertEquals(0, tournament.getIndexPhase());
+        scenario.goToNextPhase(tournament);
+        Assertions.assertEquals(1, tournament.getIndexPhase());
+        scenario.goToNextPhase(tournament);
+        Assertions.assertTrue(tournament.isFinished());
     }
 
     List<Team> generateRandomTeams(int nbTeams){
