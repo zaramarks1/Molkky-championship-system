@@ -1,7 +1,9 @@
-package com.molkky.molkky.scenario;
+package com.molkky.molkky.service.scenario;
 
 import com.molkky.molkky.domain.*;
 import com.molkky.molkky.repository.*;
+import com.molkky.molkky.service.pool.KnockoutService;
+import com.molkky.molkky.service.pool.SwissPoolService;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,12 +27,16 @@ public class PoolKnockoutScenario {
     private MatchRepository matchRepository;
     @Autowired
     private TeamRepository teamRepository;
+    @Autowired
+    private SwissPoolService swissPoolService;
+    @Autowired
+    private KnockoutService knockoutService;
 
     public PoolKnockoutScenario() {
 
     }
 
-    public void init(Tournament tournament){
+    public void create(Tournament tournament){
         tournamentRepository.save(tournament);
 //        creer les rounds
         SwissPool swissPool = new SwissPool();
@@ -99,7 +105,7 @@ public class PoolKnockoutScenario {
             }
             matchRepository.save(match);
         }
-        if(Boolean.TRUE.equals(areAllMatchFinishedInPool(match.getSwissPool()))){
+        if(Boolean.TRUE.equals(swissPoolService.areAllMatchesFinished(match.getSwissPool()))){
             match.getSwissPool().setFinished(true);
             swissPoolRepository.save(match.getSwissPool());
             goToNextPhase(tournament);
@@ -118,60 +124,17 @@ public class PoolKnockoutScenario {
         }
     }
 
-    public Boolean areAllMatchFinishedInPool(SwissPool swissPool){
-        for (Match match : swissPool.getMatches()) {
-            if(Boolean.FALSE.equals(match.getFinished())){
-                System.out.println("Match non fini");
-                return false;
-            }
-        }
-        System.out.println("Tous les matchs sont finis");
-        return true;
-    }
-
 //    generer les matchs pour la pool en cours
     public void generateMatchesForPool(Tournament tournament){
-        List<Match> matches = new ArrayList<>();
         List<Team> teams = new ArrayList<>(tournament.getTeams());
 //        pour la pool il faut un match contre tout le monde
         if(tournament.getIndexPhase() == 0){
-            for(int i = 0; i < tournament.getRounds().get(0).getNbTeams(); i++){
-                for(int y = 0; y < tournament.getRounds().get(0).getNbTeams(); y++){
-                    if(i != y){
-                        Match nvMatch = new Match();
-                        List<Team> teamsMatch = new ArrayList<>();
-                        teamsMatch.add(teams.get(i));
-                        teamsMatch.add(teams.get(y));
-                        nvMatch.setTeams(teamsMatch);
-                        nvMatch.setSwissPool(tournament.getRounds().get(0).getSwissPool());
-                        nvMatch = matchRepository.save(nvMatch);
-                        matches.add(nvMatch);
-                    }
-                }
-            }
-            tournament.getRounds().get(0).getSwissPool().setMatches(matches);
-            roundRepository.save(tournament.getRounds().get(0));
+            swissPoolService.generateMatches(tournament.getRounds().get(0).getSwissPool(), tournament, teams);
         }
         else if(tournament.getIndexPhase() == 1){
             ArrayList<Team> winningTeams = new ArrayList<>(getWinningTeamsFromPool(tournament));
-            for(int i = 0; i < tournament.getRounds().get(1).getNbTeams(); i++){
-                for(int y = 0; y < tournament.getRounds().get(1).getNbTeams(); y++){
-                    if(i != y){
-                        Match nvMatch = new Match();
-                        List<Team> teamsMatch = new ArrayList<>();
-                        teamsMatch.add(winningTeams.get(i));
-                        teamsMatch.add(winningTeams.get(y));
-                        nvMatch.setTeams(teamsMatch);
-                        nvMatch.setKnockout(tournament.getRounds().get(1).getKnockout());
-                        nvMatch = matchRepository.save(nvMatch);
-                        matches.add(nvMatch);
-                    }
-                }
-            }
-            tournament.getRounds().get(1).getKnockout().setMatches(matches);
-            roundRepository.save(tournament.getRounds().get(1));
+            knockoutService.generateMatches(tournament.getRounds().get(1).getKnockout(), tournament, winningTeams);
         }
-        tournamentRepository.save(tournament);
     }
 
     public List<Team> getWinningTeamsFromPool(Tournament tournament){

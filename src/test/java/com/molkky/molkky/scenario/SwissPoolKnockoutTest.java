@@ -5,6 +5,7 @@ import com.molkky.molkky.domain.Match;
 import com.molkky.molkky.domain.Team;
 import com.molkky.molkky.domain.Tournament;
 import com.molkky.molkky.repository.TeamRepository;
+import com.molkky.molkky.service.scenario.PoolKnockoutScenario;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,7 @@ class SwissPoolKnockoutTest {
         List<Team> teams = generateRandomTeams(4);
         scenarioTournament.setTeams(teams);
         scenarioTournament.setName("Tournoi de test knock out avec swissPool");
-        scenario.init(scenarioTournament);
+        scenario.create(scenarioTournament);
 //        test nom
         Assertions.assertEquals("Tournoi de test knock out avec swissPool", scenarioTournament.getName());
 //        test nombre équipe
