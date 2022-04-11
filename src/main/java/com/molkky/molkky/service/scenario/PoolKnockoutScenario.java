@@ -43,43 +43,66 @@ public class PoolKnockoutScenario {
     public Tournament create(Tournament tournament){
         tournamentRepository.save(tournament);
 //        creer les rounds
-        SwissPool swissPool = new SwissPool();
+        generateRounds(tournament);
 
-        Round swissRound = new Round();
-        swissRound.setType("swissPool");
-        swissRound.setNbTeams(4);
-        swissRound.setTournament(tournament);
-        roundRepository.save(swissRound);
-        swissPool.setRound(swissRound);
+        logger.trace("Scénario initié");
+        return tournamentRepository.save(tournament);
+    }
 
-
-        swissRound.setSwissPool(swissPool);
-        swissPoolRepository.save(swissPool);
-
+    public void generateRounds(Tournament tournament){
+        List<Round> roundsTournament = new ArrayList<>();
+        Integer numberOfSwissPools = tournament.getTeams().size() / 4;
+//        creer les rounds swiss
+        for(int i = 0; i < numberOfSwissPools; i++){
+            List<Team> teams = new ArrayList<>();
+//            récuperer les 4 premieres teams
+//            ex: 1 + 1 * 4 = 5
+            teams.add(tournament.getTeams().get(i * 4));
+            teams.add(tournament.getTeams().get(1 + i * 4));
+            teams.add(tournament.getTeams().get(2 + i * 4));
+            teams.add(tournament.getTeams().get(3 + i * 4));
+            SwissPool swissPool = new SwissPool();
+            Round swissRound = new Round();
+            swissRound.setType("swissPool");
+            swissRound.setNbTeams(4);
+            swissRound.setTeams(teams);
+            swissRound.setTournament(tournament);
+            roundRepository.save(swissRound);
+            swissPool.setRound(swissRound);
+            swissRound.setSwissPool(swissPool);
+            swissPoolRepository.save(swissPool);
+            roundsTournament.add(swissRound);
+        }
+//        creer le round knockout
         Knockout knockout = new Knockout();
 
         Round knockOutRound = new Round();
         knockOutRound.setType("knockOut");
-        knockOutRound.setNbTeams(2);
+        knockOutRound.setNbTeams(tournament.getTeams().size() / 2);
         knockOutRound.setTournament(tournament);
         roundRepository.save(knockOutRound);
         knockout.setRound(knockOutRound);
 
         knockOutRound.setKnockout(knockout);
         knockoutRepository.save(knockout);
-
-        List<Round> roundsTournament = new ArrayList<>();
-        roundsTournament.add(swissRound);
         roundsTournament.add(knockOutRound);
         tournament.setRounds(roundsTournament);
-
-        logger.trace("Scénario initié");
-        return tournamentRepository.save(tournament);
+        tournamentRepository.save(tournament);
     }
 
     public void start(Tournament tournament){
         logger.trace("Scénario démarré");
         generateMatchesForPool(tournament);
+    }
+
+    public List<SwissPool> getSwissPools(Tournament tournament){
+        List<SwissPool> swissPools = new ArrayList<>();
+        for(Round round : tournament.getRounds()){
+            if(round.getType().equals("swissPool")){
+                swissPools.add(round.getSwissPool());
+            }
+        }
+        return swissPools;
     }
 
 //    Permet de recuperer les matchs de la phase actuel,
@@ -88,7 +111,11 @@ public class PoolKnockoutScenario {
     public List<Match> getCurrentPhaseMatches(Tournament tournament){
         if(tournament.getIndexPhase() == 0){
 //            cas encore dans la pool
-            return tournament.getRounds().get(0).getSwissPool().getMatches();
+            List<Match> matches = new ArrayList<>();
+            for(SwissPool swissPool: getSwissPools(tournament)){
+                matches.addAll(swissPool.getMatches());
+            }
+            return matches;
         } else{
 //            cas dans le knock out
             return tournament.getRounds().get(1).getKnockout().getMatches();
@@ -138,7 +165,9 @@ public class PoolKnockoutScenario {
         List<Team> teams = new ArrayList<>(tournament.getTeams());
 //        pour la pool il faut un match contre tout le monde
         if(tournament.getIndexPhase() == 0){
-            swissPoolService.generateMatches(tournament.getRounds().get(0).getSwissPool(), tournament, teams);
+            for(SwissPool swissPool: getSwissPools(tournament)){
+                swissPoolService.generateMatches(swissPool, tournament, teams);
+            }
         }
         else if(tournament.getIndexPhase() == 1){
             ArrayList<Team> winningTeams = new ArrayList<>(getWinningTeamsFromPool(tournament));

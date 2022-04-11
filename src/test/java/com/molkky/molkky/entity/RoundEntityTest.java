@@ -14,9 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 
 import javax.transaction.Transactional;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @SpringBootTest(classes = MolkkyApplication.class)
 class RoundEntityTest {
@@ -49,7 +47,7 @@ class RoundEntityTest {
         Team team1 = teamRepository.save(new Team("team1_test", 1));
         Team team2 = teamRepository.save(new Team("team2_test", 2));
 
-        Set<Team> teams = new HashSet<>();
+        List<Team> teams = new ArrayList<>();
         teams.add(team1);
         teams.add(team2);
 

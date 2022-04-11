@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.util.List;
 
 @Getter
 @Entity
@@ -42,7 +42,7 @@ public class Round {
             name = "team_round",
             joinColumns = @JoinColumn(name = "round_id"),
             inverseJoinColumns = @JoinColumn(name = "team_id"))
-    private Set<Team> teams;
+    private List<Team> teams;
 
     @ManyToOne
     @JoinColumn(name="tournament_id", nullable=false)

@@ -60,6 +60,31 @@ class SwissPoolKnockoutTest {
     }
 
     @Test
+    void createTournamentWithNTeams(){
+        // given
+        Tournament tournament = new Tournament();
+        List<Team> teams = generateRandomTeams(8);
+        tournament.setTeams(teams);
+        tournament.setName("Tournoi de test knock out avec swissPool 8 teams");
+
+        // when
+        scenario.create(tournament);
+        scenario.start(tournament);
+
+        // then
+        Assertions.assertNotNull(tournament.getId());
+        Assertions.assertEquals(8, tournament.getTeams().size());
+        Assertions.assertEquals(3, tournament.getRounds().size());
+        Assertions.assertEquals("swissPool", tournament.getRounds().get(0).getType());
+        Assertions.assertEquals("swissPool", tournament.getRounds().get(1).getType());
+        Assertions.assertEquals("knockOut", tournament.getRounds().get(2).getType());
+        Assertions.assertEquals(12, tournament.getRounds().get(0).getSwissPool().getMatches().size());
+        Assertions.assertEquals(12, tournament.getRounds().get(1).getSwissPool().getMatches().size());
+        Assertions.assertEquals(24, scenario.getCurrentPhaseMatches(tournament).size());
+
+    }
+
+    @Test
     void createTest(){
         // given
         Tournament tournament = new Tournament();
