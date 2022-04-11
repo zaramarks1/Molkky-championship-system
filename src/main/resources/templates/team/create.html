@@ -1,0 +1,43 @@
+<html xmlns:th="http://thymeleaf.org" xmlns="http://www.w3.org/1999/html" lang="fr">
+<head>
+    <div th:include="fragments/header"></div>
+    <link rel="stylesheet" th:href="@{/styles/tournament/create.css}" href="../" />
+    <title>Create Team</title>
+</head>
+<body class="bg">
+<div class="pageContainer">
+    <div th:replace="fragments/sidebar"> </div>
+
+    <div class="contentContainer">
+        <div th:replace="fragments/searchbar"> </div>
+        <div class="contentTitle">Create a team</div>
+        <form action="#" th:action="@{/team/create}" method="post" th:object="${team}" class="formContainer">
+            <div class="inputContainer">
+                <label for="nom" class="inputLabel">Team name</label>
+                <input id ="nom" name="nom" type="text" th:field="*{name}"  class="inputTournament" placeholder="Nom"/>
+            </div>
+
+            <div class="inputContainer">
+
+                <select class="inputLabel" id="tournament" th:field="*{tournament}" >
+                    <option value="0">select option</option>
+                    <option th:each="tournament : ${tournaments}" th:value="${tournament.id}" th:text="${tournament.name}" class="inputTournament" >
+                    </option>
+                </select>
+            </div>
+
+            <div class="inputContainer">
+                <label for="nbPlayers" class="inputLabel">Number of players</label>
+                <input id="nbPlayers" name="nbPlayers" min="1" max="20" value="1" type="number" th:field="*{nbPlayers}" class="inputTournament"/>
+            </div>
+            <div class="submitContainer">
+                <button id="sendTeam" class="primaryButton" type="submit">Next Step</button>
+                <button id="cancelTeam" class="secondaryButton" type="submit">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+</body>
+<div th:replace="fragments/footer"></div>
+

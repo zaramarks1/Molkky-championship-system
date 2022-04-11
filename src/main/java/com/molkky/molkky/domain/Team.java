@@ -1,5 +1,6 @@
 package com.molkky.molkky.domain;
 
+import com.molkky.molkky.model.CreateTeamModel;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -44,4 +45,6 @@ public class Team {
 
     public Team() {
     }
+
+
 }

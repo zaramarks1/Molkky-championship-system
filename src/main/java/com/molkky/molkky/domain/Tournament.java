@@ -1,5 +1,6 @@
 package com.molkky.molkky.domain;
 
+import Type.TournamentStatus;
 import com.molkky.molkky.model.TournamentModel;
 import lombok.Getter;
 import lombok.Setter;
@@ -45,6 +46,13 @@ public class Tournament {
     @Column(name = "nbCourts")
     private Integer nbCourts;
 
+    @Column(name = "type")
+    private String type;
+
+    @Column( name = "status" )
+    private String status;
+
+
     @OneToMany(mappedBy="tournament")
     private Set<User> users;
 
@@ -64,6 +72,7 @@ public class Tournament {
         this.isVisible = isVisible;
         this.nbRounds = nbRounds;
         this.nbCourts = nbCourts;
+        this.status = TournamentStatus.Available;
     }
 
     public Tournament(TournamentModel tournamentModel) {
@@ -76,9 +85,11 @@ public class Tournament {
         this.isVisible = tournamentModel.isVisible();
         this.nbRounds = tournamentModel.getNbRounds();
         this.nbCourts = tournamentModel.getNbCourts();
+        this.status = TournamentStatus.Available;
     }
 
  
     public Tournament() {
+        this.status = TournamentStatus.Available;
     }
 }

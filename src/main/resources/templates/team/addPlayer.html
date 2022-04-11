@@ -1,0 +1,70 @@
+<html xmlns:th="http://thymeleaf.org" xmlns="http://www.w3.org/1999/html" lang="fr">
+<head>
+    <div th:include="fragments/header"></div>
+    <link rel="stylesheet" th:href="@{/styles/tournament/create.css}" href="../" />
+    <link rel="stylesheet" th:href="@{/styles/team/team.css}" href="../" />
+    <title>Create Team</title>
+</head>
+<body class="bg">
+<div class="pageContainer">
+    <div th:replace="fragments/sidebar"> </div>
+
+    <div class="contentContainer">
+        <div th:replace="fragments/searchbar"> </div>
+        <div class="contentTitle">Ajouter un joueur à l'équipe</div>
+        <b value = "${team.name}"></b>
+        <form action="#" th:action="@{/team/addPlayer}" method="post" th:object="${form}" class="formContainer">
+           <!-- <div class="inputContainer">
+                <label for="nom" class="inputLabel">Player Name</label>
+                <input id ="nom" name="nom" type="text"  class="inputTournament" placeholder="Name"/>
+            </div>-->
+
+            <div class="inputContainer">
+                <label  class="inputLabel" value = "${team.name}" ></label>
+                <a th:text="'Equipe ' + ${team.name}"></a>
+
+            </div>
+
+            <div class="inputContainer">
+                <span th:if="${!isDiffMail}">S'il vous plait, entrez des mails différents pour chaque joueur !</span>
+
+            </div>
+
+
+            <div class="formContainer">
+                <div th:each="player, itemStat : *{players}" class="inputContainer">
+                    <b th:text="'Joueur ' + ${itemStat.index+1}">Joueur: </b>
+                    <div class="submitContainer playerFormContainer">
+                        <div class="inputContainer">
+                            <label  for="forename" class="inputLabel">Prénom</label>
+                            <input  required="true" id = "forename" th:field="*{players[__${itemStat.index}__].forename}"  class="inputTournament"/>
+                        </div>
+                        <div class="inputContainer">
+                            <label  for="surname" class="inputLabel">Nom de famille</label>
+                            <input id = "surname" th:field="*{players[__${itemStat.index}__].surname}" class="inputTournament"/>
+                        </div>
+                        <div class="inputContainer">
+                            <label for="email" class="inputLabel">Mail</label>
+                            <input  required="true" id = "email" th:field="*{players[__${itemStat.index}__].mail}"  class="inputTournament"/>
+                        </div>
+                        <div class="inputContainer">
+                            <label for="club" class="inputLabel">Club</label>
+                            <input   id = "club" th:field="*{players[__${itemStat.index}__].club}"  class="inputTournament"/>
+                        </div>
+                    </div>
+                    <input hidden th:name="|players[${itemStat.index}].teamId|" th:value="${team.id}"/>
+                </div>
+            </div>
+
+            <div class="submitContainer">
+                <button id="sendTeam" class="primaryButton" type="submit">Finaliser</button>
+                <button id="cancelTeam" class="secondaryButton" type="submit">Annuler</button>
+
+            </div>
+        </form>
+    </div>
+</div>
+
+</body>
+<div th:replace="fragments/footer"></div>
+
