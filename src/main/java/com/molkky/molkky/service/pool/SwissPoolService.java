@@ -40,7 +40,7 @@ public class SwissPoolService implements IRoundType<SwissPool>{
 
     @Override
     @Transactional
-    public void generateMatches(SwissPool pool, Tournament tournament, List<Team> teams){
+    public void generateMatches(SwissPool pool, Tournament tournament, List<Team> teams, Integer index){
         List<Match> matches = new ArrayList<>();
         for(int i = 0; i < tournament.getRounds().get(0).getNbTeams(); i++){
             for(int y = 0; y < tournament.getRounds().get(0).getNbTeams(); y++){
@@ -50,7 +50,7 @@ public class SwissPoolService implements IRoundType<SwissPool>{
                     teamsMatch.add(teams.get(i));
                     teamsMatch.add(teams.get(y));
                     nvMatch.setTeams(teamsMatch);
-                    nvMatch.setSwissPool(tournament.getRounds().get(0).getSwissPool());
+                    nvMatch.setSwissPool(tournament.getRounds().get(index).getSwissPool());
                     nvMatch = matchRepository.save(nvMatch);
                     matches.add(nvMatch);
                 }

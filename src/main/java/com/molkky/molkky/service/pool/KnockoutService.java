@@ -43,24 +43,20 @@ public class KnockoutService implements IRoundType<Knockout>{
 
     @Override
     @Transactional
-    public void generateMatches(Knockout pool, Tournament tournament, List<Team> teams){
+    public void generateMatches(Knockout pool, Tournament tournament, List<Team> teams, Integer index){
         List<Match> matches = new ArrayList<>();
-        for(int i = 0; i < tournament.getRounds().get(1).getNbTeams(); i++){
-            for(int y = 0; y < tournament.getRounds().get(1).getNbTeams(); y++){
-                if(i != y){
-                    Match nvMatch = new Match();
-                    List<Team> teamsMatch = new ArrayList<>();
-                    teamsMatch.add(teams.get(i));
-                    teamsMatch.add(teams.get(y));
-                    nvMatch.setTeams(teamsMatch);
-                    nvMatch.setKnockout(tournament.getRounds().get(1).getKnockout());
-                    nvMatch = matchRepository.save(nvMatch);
-                    matches.add(nvMatch);
-                }
-            }
+        for(int i = 0; i < pool.getTeamsRemaining(); i += 2){
+            Match match = new Match();
+            List<Team> teamsMatch = new ArrayList<>();
+            teamsMatch.add(teams.get(i));
+            teamsMatch.add(teams.get(i+1));
+            match.setTeams(teamsMatch);
+            match.setKnockout(tournament.getRounds().get(index).getKnockout());
+            match = matchRepository.save(match);
+            matches.add(match);
         }
         pool.setMatches(matches);
-        roundRepository.save(tournament.getRounds().get(1));
+        roundRepository.save(tournament.getRounds().get(index));
         tournamentRepository.save(tournament);
     }
 }

@@ -105,6 +105,15 @@ public class PoolKnockoutScenario {
         return swissPools;
     }
 
+    public Knockout getKnockout(Tournament tournament){
+        for(Round round : tournament.getRounds()){
+            if(round.getType().equals("knockOut")){
+                return round.getKnockout();
+            }
+        }
+        return null;
+    }
+
 //    Permet de recuperer les matchs de la phase actuel,
 //    un poolknockout est fait de pools pouis d'un knock out
 //    donc il recupere celui des pools d'abord
@@ -118,29 +127,52 @@ public class PoolKnockoutScenario {
             return matches;
         } else{
 //            cas dans le knock out
-            return tournament.getRounds().get(1).getKnockout().getMatches();
+            return getKnockout(tournament).getMatches();
         }
+    }
+
+    public Boolean areAllSwissPoolsFinished(Tournament tournament){
+        for(SwissPool swissPool: getSwissPools(tournament)){
+            if(Boolean.FALSE.equals(swissPool.getFinished())){
+                logger.info("Pool non fini");
+                return false;
+            }
+        }
+        return true;
     }
 
     @Transactional
     public void setMatchScore(Match match, Integer scoreTeam1, Integer scoreTeam2, Tournament tournament){
+//        set le score
         match.setScoreTeam1(scoreTeam1);
         match.setScoreTeam2(scoreTeam2);
+
+//        check if match is finished
         if(match.getScoreTeam1() == 50 || match.getScoreTeam2() == 50){
             match.setFinished(true);
+
+//            see who won
             if(match.getScoreTeam1() == 50){
                 match.getTeams().get(0).setNbWins(match.getTeams().get(0).getNbWins() + 1);
                 teamRepository.save(match.getTeams().get(0));
+                logger.info("Team 1 a gagné");
             } else{
                 match.getTeams().get(1).setNbWins(match.getTeams().get(1).getNbWins() + 1);
                 teamRepository.save(match.getTeams().get(1));
+                logger.info("Team 2 a gagné");
             }
             matchRepository.save(match);
         }
+//        check if round is finished
         if(Boolean.TRUE.equals(swissPoolService.areAllMatchesFinished(match.getSwissPool()))){
+            logger.info("Tous les matchs de la pool sont finis");
             match.getSwissPool().setFinished(true);
             swissPoolRepository.save(match.getSwissPool());
-            goToNextPhase(tournament);
+            //            check if phase finished
+            if(Boolean.TRUE.equals(areAllSwissPoolsFinished(tournament))){
+                logger.info("All swisspools finished");
+                goToNextPhase(tournament);
+            }
         }
     }
 
@@ -148,8 +180,8 @@ public class PoolKnockoutScenario {
     public void goToNextPhase(Tournament tournament){
         if(tournament.getIndexPhase() == 0){
             tournament.setIndexPhase(tournament.getIndexPhase() + 1);
-//        only two teams go into the knockout
-            tournament.getRounds().get(1).getKnockout().setTeamsRemaining(2);
+//        total divided by 4 bc of swissPools
+            getKnockout(tournament).setTeamsRemaining(tournament.getTeams().size() / 2);
             tournamentRepository.save(tournament);
 
             generateMatchesForPool(tournament);
@@ -165,22 +197,25 @@ public class PoolKnockoutScenario {
         List<Team> teams = new ArrayList<>(tournament.getTeams());
 //        pour la pool il faut un match contre tout le monde
         if(tournament.getIndexPhase() == 0){
-            for(SwissPool swissPool: getSwissPools(tournament)){
-                swissPoolService.generateMatches(swissPool, tournament, teams);
+            for(int i = 0; i < getSwissPools(tournament).size(); i++){
+                swissPoolService.generateMatches(getSwissPools(tournament).get(i), tournament, teams, i);
             }
+            tournamentRepository.save(tournament);
         }
         else if(tournament.getIndexPhase() == 1){
             ArrayList<Team> winningTeams = new ArrayList<>(getWinningTeamsFromPool(tournament));
-            knockoutService.generateMatches(tournament.getRounds().get(1).getKnockout(), tournament, winningTeams);
+            knockoutService.generateMatches(getKnockout(tournament), tournament, winningTeams, getSwissPools(tournament).size());
         }
     }
 
     public List<Team> getWinningTeamsFromPool(Tournament tournament){
-        List<Team> teams = new ArrayList<>(tournament.getTeams());
-        teams.sort(Comparator.comparing(Team::getNbWins));
         ArrayList<Team> returnedTeams = new ArrayList<>();
-        returnedTeams.add(teams.get(teams.size() - 1));
-        returnedTeams.add(teams.get(teams.size() - 2));
+        for(SwissPool swissPool: getSwissPools(tournament)){
+            List<Team> teams = swissPool.getRound().getTeams();
+            teams.sort(Comparator.comparing(Team::getNbWins));
+            returnedTeams.add(teams.get(teams.size() - 1));
+            returnedTeams.add(teams.get(teams.size() - 2));
+        }
         return returnedTeams;
     }
 

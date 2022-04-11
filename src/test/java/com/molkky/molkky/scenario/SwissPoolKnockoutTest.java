@@ -5,6 +5,7 @@ import com.molkky.molkky.domain.Match;
 import com.molkky.molkky.domain.Team;
 import com.molkky.molkky.domain.Tournament;
 import com.molkky.molkky.repository.TeamRepository;
+import com.molkky.molkky.service.pool.SwissPoolService;
 import com.molkky.molkky.service.scenario.PoolKnockoutScenario;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -18,6 +19,8 @@ import java.util.List;
 class SwissPoolKnockoutTest {
     @Autowired
     private TeamRepository teamRepository;
+    @Autowired
+    private SwissPoolService swissPoolService;
     @Autowired
     private PoolKnockoutScenario scenario;
 
@@ -56,7 +59,7 @@ class SwissPoolKnockoutTest {
         Assertions.assertEquals(1 ,scenarioTournament.getIndexPhase());
 //        vérifier que la nouvelle pool (knockOut) contient deux matchs car on a prit que les deux premières equipes
         Assertions.assertEquals(2, scenarioTournament.getRounds().get(1).getKnockout().getTeamsRemaining());
-        Assertions.assertEquals(2, scenario.getCurrentPhaseMatches(scenarioTournament).size());
+        Assertions.assertEquals(1, scenario.getCurrentPhaseMatches(scenarioTournament).size());
     }
 
     @Test
@@ -78,10 +81,30 @@ class SwissPoolKnockoutTest {
         Assertions.assertEquals("swissPool", tournament.getRounds().get(0).getType());
         Assertions.assertEquals("swissPool", tournament.getRounds().get(1).getType());
         Assertions.assertEquals("knockOut", tournament.getRounds().get(2).getType());
-        Assertions.assertEquals(12, tournament.getRounds().get(0).getSwissPool().getMatches().size());
-        Assertions.assertEquals(12, tournament.getRounds().get(1).getSwissPool().getMatches().size());
+        Assertions.assertEquals(2, scenario.getSwissPools(tournament).size());
+        Assertions.assertEquals(12, scenario.getSwissPools(tournament).get(0).getMatches().size());
+        Assertions.assertEquals(12, scenario.getSwissPools(tournament).get(1).getMatches().size());
         Assertions.assertEquals(24, scenario.getCurrentPhaseMatches(tournament).size());
 
+        //        faire gagner les 2 premieres equipes
+        for (Match match: scenario.getSwissPools(tournament).get(0).getMatches()) {
+            scenario.setMatchScore(match, 50, 0, tournament);
+            Assertions.assertTrue(match.getFinished());
+        }
+        for (Match match: scenario.getSwissPools(tournament).get(1).getMatches()) {
+            scenario.setMatchScore(match, 0, 50, tournament);
+            Assertions.assertTrue(match.getFinished());
+        }
+        Assertions.assertTrue(swissPoolService.areAllMatchesFinished(scenario.getSwissPools(tournament).get(0)));
+        Assertions.assertTrue(swissPoolService.areAllMatchesFinished(scenario.getSwissPools(tournament).get(1)));
+        Assertions.assertTrue(scenario.areAllSwissPoolsFinished(tournament));
+//        la pool est finie
+        Assertions.assertTrue(scenario.getSwissPools(tournament).get(0).getFinished());
+        Assertions.assertTrue(scenario.getSwissPools(tournament).get(1).getFinished());
+        Assertions.assertEquals(1 ,tournament.getIndexPhase());
+//        vérifier que la nouvelle pool (knockOut) contient deux matchs car on a prit que les deux premières equipes
+        Assertions.assertEquals(4, scenario.getKnockout(tournament).getTeamsRemaining());
+        Assertions.assertEquals(2, scenario.getCurrentPhaseMatches(tournament).size());
     }
 
     @Test
