@@ -6,30 +6,10 @@
     <title>Register</title>
 </head>
 <body>
-    <!--<h2>Liste des utilisateurs</h2>
-    <table>
-        <thead>
-        <tr>
-            <th>Prénom</th>
-            <th>Nom</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:if="${listUsers.isEmpty()}">
-            <td colspan="3">Aucun utilisateur en base de données</td>
-        </tr>
-        <tr th:each="user: ${listUsers}">
-            <td><span th:text="${user.pseudo}"> Pseudo </span></td>
-            <td><span th:text="${user.surname}"> Surname </span></td>
-        </tr>
-        </tbody>
-    </table>
- -->
-
     <form method="post" th:action="@{/saveUser}" th:object="${user}">
         <input type="email" pattern="[^@\s]+@[^@\s]+\.[^@\s]+" required="required" th:field="*{email}">
+        <input type="email" pattern="[^@\s]+@[^@\s]+\.[^@\s]+" required="required">
         <button type="submit" c>Créer</button>
     </form>
-
 </body>
 </html>
