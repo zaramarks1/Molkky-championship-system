@@ -45,6 +45,7 @@ form .txt_field{
     border: none;
     background: none;
     outline: none;
+
 }
 .txt_field label{
     position: absolute;
@@ -67,27 +68,28 @@ form .txt_field{
     transition: .5s;
 }
 .txt_field input:focus ~ label,
-.txt_field input:valid ~ label{
+.txt_field input:valid ~ label
+{
     top: -5px;
     color: #8C69F4;
+}
+.txt_field input:invalid ~ label{
+    top: -5px;
+    color: white;
 }
 .txt_field input:focus ~ span::before,
 .txt_field input:valid ~ span::before{
     width: 100%;
 }
-.pass{
-    margin: -5px 0 20px 5px;
-    color: #a6a6a6;
-    cursor: pointer;
-}
-.pass:hover{
-    text-decoration: underline;
-}
+
 input[type="submit"]{
     width: 100%;
     height: 50px;
 }
 
+.primaryButton {
+    margin-bottom: 20px;
+}
 
 
 
