@@ -2,9 +2,31 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>ESSAI</title>
+    <div th:replace="fragments/header"></div>
+    <title>Accueil</title>
 </head>
-<body>
-
+<body class="bg">
+    <div class="pageContainer">
+        <div th:replace="fragments/sidebar"> </div>
+        <div class="contentContainer">
+            <div th:replace="fragments/searchbar"> </div>
+            <div class="homeContainer">
+                <div>
+                    <div class="contentTitle">Présentation du club</div>
+                    <div class="contentText">
+                        L’association « Club d’Anjou » est créée en 2009 et avait pour objectif de faire découvrir certains sports méconnus du grand public. Le Kin-Ball en est d’ailleurs le sport originel.
+                        Le Mölkky prend rapidement les devants de l’association, le Kin-Ball angevin est désormais rattaché au SCO et aux Ponts-de-Cé. L’association se consacre à la pratique et la promotion du Mölkky qui possède une dimension ludique, pédagogique et stratégique extrêmement vaste ! En 2011, le « Club d’Anjou » disparait, et le « Mölkky Club d’Anjou » est né !
+                        <br>
+                        L’association se compose de 29 adhérents en 2019 et suite au rapprochement avec la ville d’Avrillé, les entrainements se font toute l’année !
+                        <br>
+                        Les membres du Mölkky Club d’Anjou se donne donc rendez-vous tous les Mardis soirs au Mölkkydrome Auguste Delaune d’Avrillé ( quelques minutes du centre ville d’Angers, de Terra Botanica, du centre aquatique « Aqua Vita », ou encore du magnifique Golf d’Avrillé.), de 19H à 22H pour partager un bon moment et faire la promotion du Mölkky !
+                        <img class="homeImage" th:src="@{/assets/club.jpg}" alt="Le club">
+                    </div>
+                </div>
+                <div th:replace="fragments/socials"></div>
+            </div>
+        </div>
+    </div>
 </body>
+<div th:replace="fragments/footer"></div>
 </html>

@@ -57,6 +57,7 @@
 
 .sidebarButton {
     border-radius: 7px;
+    color: black;
     display: flex;
     flex-direction: row;
     justify-content: start;
@@ -91,7 +92,8 @@
 }
 
 .searchbar {
-    width: 697px;
+    max-width: 697px;
+    flex-grow: 1;
     height: 58px;
     background-color: #E7E7ED;
     border-radius: 7px;
@@ -116,6 +118,7 @@
     display: flex;
     flex-direction: row;
     justify-content: space-around;
+    margin-left: 44px;
     height: 100%;
 }
 
@@ -140,4 +143,17 @@
 .connectButton {
     min-width: 173px;
     height: 56px;
+}
+
+.socialsContainer {
+    display: flex;
+    margin: 20px;
+    flex-direction: column;
+    justify-content: start;
+}
+
+.socialsIcon {
+    margin: 27px;
+    width: 40px;
+    height: 40px;
 }

@@ -7,7 +7,7 @@
 }
 
 .textPrimary {
-    color: #8C69F4;
+    color: #8C69F4!important;
 }
 
 .pageContainer {
@@ -29,6 +29,34 @@
     letter-spacing: 0.2px;
 }
 
+.contentText {
+    font-family: 'Inter', sans-serif;
+    margin-top: 25px;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 22px;
+    text-align: justify;
+}
+
+.homeContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.homeImage {
+    border-radius: 15px;
+    margin-top: 25px    ;
+    width: 100%;
+    height: 355px;
+    object-fit: cover;
+}
+
 body {
     margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 100vh;
 }
