@@ -38,6 +38,13 @@
     line-height: 22px;
 }
 
+.homeContainer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
 body {
     margin: 0;
     display: flex;
