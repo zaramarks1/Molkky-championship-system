@@ -7,7 +7,7 @@
 }
 
 .textPrimary {
-    color: #8C69F4;
+    color: #8C69F4!important;
 }
 
 .pageContainer {
@@ -47,6 +47,7 @@
 
 .homeImage {
     border-radius: 15px;
+    margin-top: 25px    ;
     width: 100%;
     height: 355px;
     object-fit: cover;

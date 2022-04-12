@@ -57,6 +57,7 @@
 
 .sidebarButton {
     border-radius: 7px;
+    color: black;
     display: flex;
     flex-direction: row;
     justify-content: start;
