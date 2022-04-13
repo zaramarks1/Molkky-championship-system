@@ -17,19 +17,17 @@
     <h1>Connexion</h1>
     <form method="post" th:action="@{/connexion}" th:object="${user}">
         <div class="txt_field">
-            <input type="text" required="required" pattern="[^@\s]+@[^@\s]+\.[^@\s]+" th:field="*{email}"></p>
+            <input id="mail" type="text" required="required" pattern="[^@\s]+@[^@\s]+\.[^@\s]+" th:field="*{email}"></p>
             <span></span>
             <label>Email</label>
         </div>
         <div class="txt_field">
-            <input type="password" autocomplete="off" required="required" th:field="*{code}">
+            <input id ="code" type="password" autocomplete="off" required="required" th:field="*{code}">
             <span></span>
             <label>Code</label>
         </div>
-        <input type="submit" class="primaryButton" value="Se connecter">
+        <input id="valider" type="submit" class="primaryButton" value="Se connecter">
 
-    </form>
-</div>
-
+</form>
 </body>
 </html>

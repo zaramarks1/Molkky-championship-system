@@ -41,6 +41,6 @@ public class RegisterController {
         user.setTournament(tournamentRepository.findById(1));
         registerService.encodeAndSendEmail(user);
         registerService.saveUser(user);
-        return new ModelAndView("redirect:/register");
+        return new ModelAndView("redirect:/connexion");
     }
 }
