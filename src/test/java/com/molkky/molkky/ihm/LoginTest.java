@@ -71,6 +71,27 @@ public class LoginTest {
 
 
     //@Test
+    void testConnectGmail(){
+        //Connect to gmail
+        String pwdRecept = "gpiTest1";
+        String mailRecept = "gpiTestCalembel@gmail.com";
+        config.getDriver().get("https://www.gmail.com");
+        config.getDriver().findElement(By.xpath("//input[@id='identifierId']")).sendKeys(mailRecept);
+        config.getDriver().findElement(By.xpath("//div[@id='identifierNext']")).click();
+        config.getDriver().manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
+        config.getDriver().findElement(By.name("password")).sendKeys(pwdRecept);
+        config.getDriver().findElement(By.xpath("//div[@id='passwordNext']")).click();
+
+        //Open the mail and get the code
+        config.getDriver().manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        config.getDriver().findElement(By.xpath("//*[@id=':1o']")).click();
+        String code = config.getDriver().findElement(By.xpath("//*[@id=':5t']")).getText();
+        System.out.println("Le code récuépéer par le driver est: " + code);
+        code = code.replace("Tiens ton mdp: ", "");
+        System.out.println("Le changement de code" + code);
+        Assertions.assertEquals(";+)35/?1.6", code);
+    }
+    //@Test
     void testCreateUser() {
         config.getDriver().get(url + "/register");
         User user = new User();
@@ -98,9 +119,16 @@ public class LoginTest {
         code = code.replace("Tiens ton mdp: ", "");
         System.out.println("Le changement de code" + code);
         Assertions.assertEquals(";+)35/?1.6", code);
+
+        //Connect to the molkky connection page
+        config.getDriver().get(url + "/connexion");
+        config.getDriver().findElement(new By.ById("mail")).sendKeys(user.getEmail());
+        config.getDriver().findElement(new By.ById("code")).sendKeys(code);
+        config.getDriver().findElement(new By.ById("valider")).click();
+        Assertions.assertEquals(url + "/tournament/create", config.getDriver().getCurrentUrl());
     }
 
-    @AfterAll
+    //@AfterAll
     void tearDown(){
         config.getDriver().quit();
     }
