@@ -28,6 +28,13 @@ public class Knockout {
     @JoinColumn(name = "idRound")
     private Round round;
 
+    @Column(name = "finished")
+    private Boolean finished = false;
+
+    /*quarter-finals height of finals etc*/
+    @Column(name = "teamsRemaining")
+    private Integer teamsRemaining;
+
     public Knockout(){
     }
 

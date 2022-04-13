@@ -1,5 +1,6 @@
 package com.molkky.molkky.controllers;
 
+import Type.TournamentStatus;
 import com.molkky.molkky.domain.Team;
 import com.molkky.molkky.domain.Tournament;
 import com.molkky.molkky.domain.User;
@@ -41,7 +42,7 @@ public class TeamController {
 
     @GetMapping("/create")
     public String create(Model model){
-        model.addAttribute("tournaments", tournamentRepository.findAll());
+        model.addAttribute("tournaments", tournamentRepository.findByIsVisibleAndStatus(true, TournamentStatus.Available));
         model.addAttribute("team", new CreateTeamModel());
         return "/team/create";
     }

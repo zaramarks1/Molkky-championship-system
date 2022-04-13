@@ -25,6 +25,9 @@ public class Pool {
     @JoinColumn(name = "idRound")
     private Round round;
 
+    @Column(name = "finished")
+    private boolean finished;
+
     public Pool(){
     }
 }
