@@ -18,7 +18,7 @@
             </div>
 
             <div class="inputContainer">
-
+                <label for="tournament" class="inputLabel">Select a tournament</label>
                 <select class="inputLabel" id="tournament" th:field="*{tournament}" >
                     <option value="0">select option</option>
                     <option th:each="tournament : ${tournaments}" th:value="${tournament.id}" th:text="${tournament.name}" class="inputTournament" >
