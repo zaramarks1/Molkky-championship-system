@@ -69,6 +69,7 @@ public class LoginTest {
         Assertions.assertEquals(url + "/connexion", config.getDriver().getCurrentUrl());
     }
 
+
     //@Test
     void testCreateUser() {
         config.getDriver().get(url + "/register");
