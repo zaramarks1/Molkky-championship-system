@@ -44,7 +44,7 @@ public class KnockoutService implements IRoundType<Knockout>{
     @Override
     @Transactional
     public void generateMatches(Knockout pool, Tournament tournament, List<Team> teams, Integer index){
-        List<Match> matches = new ArrayList<>();
+        List<Match> matches = new ArrayList<>(pool.getMatches());
         for(int i = 0; i < pool.getTeamsRemaining(); i += 2){
             Match match = new Match();
             List<Team> teamsMatch = new ArrayList<>();

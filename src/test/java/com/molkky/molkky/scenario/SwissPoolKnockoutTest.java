@@ -105,6 +105,27 @@ class SwissPoolKnockoutTest {
 //        vérifier que la nouvelle pool (knockOut) contient deux matchs car on a prit que les deux premières equipes
         Assertions.assertEquals(4, scenario.getKnockout(tournament).getTeamsRemaining());
         Assertions.assertEquals(2, scenario.getCurrentPhaseMatches(tournament).size());
+
+//        play knockout matches
+        for (Match match: scenario.getKnockout(tournament).getMatches()) {
+            scenario.setMatchScore(match, 50, 0, tournament);
+        }
+        Assertions.assertEquals(2, scenario.getKnockout(tournament).getTeamsRemaining());
+        Assertions.assertEquals(3, scenario.getCurrentPhaseMatches(tournament).size());
+        Assertions.assertEquals(false, scenario.getKnockout(tournament).getFinished());
+
+//        play matches that aren't finished
+        for (Match match: scenario.getCurrentPhaseMatches(tournament)) {
+            if(!match.getFinished()) {
+                scenario.setMatchScore(match, 50, 0, tournament);
+            }
+        }
+
+//        check additionnal matches aren't generated bc 1 team is remaining
+        Assertions.assertEquals(3, scenario.getCurrentPhaseMatches(tournament).size());
+        Assertions.assertEquals(1, scenario.getKnockout(tournament).getTeamsRemaining());
+        Assertions.assertTrue(scenario.getKnockout(tournament).getFinished());
+        Assertions.assertTrue(tournament.isFinished());
     }
 
     @Test
