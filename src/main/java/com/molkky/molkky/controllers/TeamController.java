@@ -11,7 +11,10 @@ import com.molkky.molkky.model.TournamentModel;
 import com.molkky.molkky.repository.TeamRepository;
 import com.molkky.molkky.repository.TournamentRepository;
 import com.molkky.molkky.repository.UserRepository;
+import com.molkky.molkky.service.EmailSenderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -32,6 +35,8 @@ public class TeamController {
     TournamentRepository tournamentRepository;
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    EmailSenderService emailSenderService;
 
 
 
@@ -84,6 +89,11 @@ public class TeamController {
 
             User user = player.addPlayer();
             user.setTeam(team);
+            String pwd = user.getCode();
+            emailSenderService.SendEmail(user.getEmail(),"Votre code d'identification au site Molkky","Voici votre code : "+ pwd);
+            PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+            String hashedPassword = passwordEncoder.encode(pwd);
+            user.setCode(hashedPassword);
             users.add(user);
         }
         if(!areAllDistinct(users)){
