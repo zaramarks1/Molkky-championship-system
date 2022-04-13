@@ -5,6 +5,15 @@
         <div class="notificationButton">
             <img class="notificationButtonIcon" th:src="@{/assets/notification.svg}"/>
         </div>
-        <button class="primaryButton" onclick="window.location.href='/connexion'" >Se connecter</button>
+        <div th:if="${#session.getAttribute('role') !=null }">
+            <button class="primaryButton" onclick="window.location.href='/connexion'" >Se déconnecter</button>
+        </div>
+        <div th:unless="${#session.getAttribute('role') !=null}">
+            <button class="primaryButton" onclick="window.location.href='/connexion'" >Se connecter</button>
+        </div>
+        <!--</div>
+        <button th:if="${#session.getAttribute('role') == null}" class="primaryButton" onclick="window.location.href='/connexion'" >Se connecter</button>
+         <button th:if="${#session.getAttribute('role') != null}" class="primaryButton" onclick="window.location.href='/connexion'" >Se déconnecter</button>
+        -->
     </div>
 </div>
