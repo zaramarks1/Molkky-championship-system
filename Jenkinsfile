@@ -25,7 +25,7 @@ pipeline {
         stage('War') {
             steps {
                 sh 'mvn compile war:war'
-                sh 'cp target/molkky-1.0-SNAPSHOT.war /srv/tomcat9/webapps/molkky.war'
+                sh 'cp /srv/tomcat9/jenkins/workspace/Multibranch_Devops_Lucien/target/molkky.war /srv/tomcat9/webapps/ROOT.war'
             }
         }
     }
