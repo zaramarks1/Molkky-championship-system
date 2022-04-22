@@ -22,9 +22,11 @@ pipeline {
                 sh 'mvn sonar:sonar'
             }
         }
-        stage('War') {
+        stage('Deploy') {
             steps {
-                sh 'mvn compile war:war'
+                sh 'mvn package -DskipTests=true'
+                sh 'rm /srv/tomcat9/webapps/ROOT.war'
+                sh 'rm -rf /srv/tomcat9/webapps/ROOT'
                 sh 'cp /srv/tomcat9/jenkins/workspace/Multibranch_Devops_Lucien/target/molkky.war /srv/tomcat9/webapps/ROOT.war'
             }
         }
