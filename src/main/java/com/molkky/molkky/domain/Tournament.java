@@ -1,6 +1,6 @@
 package com.molkky.molkky.domain;
 
-import Type.TournamentStatus;
+import type.TournamentStatus;
 import com.molkky.molkky.model.TournamentModel;
 import lombok.Getter;
 import lombok.Setter;
@@ -45,15 +45,15 @@ public class Tournament {
     @Column(name = "nbRounds")
     private Integer nbRounds;
 
-    //XXX
     @Column(name = "nbCourts")
     private Integer nbCourts;
 
     @Column(name = "type")
     private String type;
 
-    @Column( name = "status" )
-    private String status;
+    @Column(name = "status")
+    @Enumerated(EnumType.STRING)
+    private TournamentStatus status;
 
 
     @OneToMany(mappedBy="tournament")
@@ -83,7 +83,7 @@ public class Tournament {
         this.isVisible = isVisible;
         this.nbRounds = nbRounds;
         this.nbCourts = nbCourts;
-        this.status = TournamentStatus.Available;
+        this.status = TournamentStatus.AVAILABLE;
     }
 
     public Tournament(TournamentModel tournamentModel) {
@@ -96,11 +96,11 @@ public class Tournament {
         this.isVisible = tournamentModel.isVisible();
         this.nbRounds = tournamentModel.getNbRounds();
         this.nbCourts = tournamentModel.getNbCourts();
-        this.status = TournamentStatus.Available;
+        this.status = TournamentStatus.AVAILABLE;
     }
 
  
     public Tournament() {
-        this.status = TournamentStatus.Available;
+        this.status = TournamentStatus.AVAILABLE;
     }
 }

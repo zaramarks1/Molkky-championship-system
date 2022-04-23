@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
+import type.UserRole;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -36,7 +37,7 @@ public class ConnexionController {
             userByEmail.setPseudo("test2");
             userRepository.save(userByEmail);
             if (connexionService.decode(user.getCode(), userByEmail)) {
-                String role = userByEmail.getRole();
+                UserRole role = userByEmail.getRole();
                 request.getSession().setAttribute("role",role);
                 return new ModelAndView("redirect:/tournament/create");
             } else {

@@ -1,6 +1,6 @@
 package com.molkky.molkky.entity;
 
-import Type.UserRole;
+import type.UserRole;
 import com.molkky.molkky.MolkkyApplication;
 import com.molkky.molkky.domain.Notification;
 
