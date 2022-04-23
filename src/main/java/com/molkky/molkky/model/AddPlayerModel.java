@@ -1,7 +1,6 @@
 package com.molkky.molkky.model;
 
 import Type.UserRole;
-import com.molkky.molkky.domain.Team;
 import com.molkky.molkky.domain.User;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,11 +9,11 @@ import lombok.Setter;
 @Setter
 public class AddPlayerModel {
 
-    public String surname;
-    public String forename;
-    public String club;
-    public String mail;
-    public Integer teamId;
+    private String surname;
+    private String forename;
+    private String club;
+    private String mail;
+    private Integer teamId;
 
     public AddPlayerModel() {
     }
@@ -49,7 +48,7 @@ public class AddPlayerModel {
     }
 
     public String createCode(int n){
-        String AlphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        String alphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
                 + "0123456789"
                 + "abcdefghijklmnopqrstuvxyz";
 
@@ -61,11 +60,11 @@ public class AddPlayerModel {
             // generate a random number between
             // 0 to AlphaNumericString variable length
             int index
-                    = (int)(AlphaNumericString.length()
+                    = (int)(alphaNumericString.length()
                     * Math.random());
 
             // add Character one by one in end of sb
-            sb.append(AlphaNumericString
+            sb.append(alphaNumericString
                     .charAt(index));
         }
 

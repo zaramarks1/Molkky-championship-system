@@ -7,20 +7,23 @@ import com.molkky.molkky.domain.User;
 import com.molkky.molkky.model.AddPlayerModel;
 import com.molkky.molkky.model.AddPlayerlistModel;
 import com.molkky.molkky.model.CreateTeamModel;
-import com.molkky.molkky.model.TournamentModel;
 import com.molkky.molkky.repository.TeamRepository;
 import com.molkky.molkky.repository.TournamentRepository;
 import com.molkky.molkky.repository.UserRepository;
 import com.molkky.molkky.service.EmailSenderService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +31,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/team")
 public class TeamController {
+    private static final Logger logger = LoggerFactory.getLogger(TeamController.class);
 
     @Autowired
     TeamRepository teamRepository;
@@ -52,10 +56,9 @@ public class TeamController {
     public ModelAndView submit(@ModelAttribute("team") CreateTeamModel team, ModelMap model ){
 
 
-        Integer idTournament = Integer.valueOf(team.getTournament());
+        Integer idTournament = team.getTournament();
         Tournament tournament = tournamentRepository.findById(idTournament);
 
-        //System.out.println(team.getTournament().getName());
         Team teamCreate = new Team();
 
         teamCreate.setName(team.getName());
@@ -99,7 +102,7 @@ public class TeamController {
         if(!areAllDistinct(users)){
             model.addAttribute("team", team);
             model.addAttribute("isDiffMail", false);
-            System.out.println("players must have diff email");
+            logger.trace("players must have diff email");
             return new ModelAndView( "/team/addPlayer", model) ;
         }
 
