@@ -29,7 +29,7 @@ pipeline {
             steps {
                 sh 'mvn package -DskipTests=true'
                 sh 'rm -rf /srv/tomcat9/webapps/ROOT*'
-                sh 'cp /srv/tomcat9/jenkins/workspace/Multibranch_Devops_Lucien/target/molkky.war /srv/tomcat9/webapps/ROOT.war'
+                sh 'cp /srv/tomcat9/jenkins/workspace/Multibranch_PreProd/target/molkky.war /srv/tomcat9/webapps/ROOT.war'
             }
         }
     }
