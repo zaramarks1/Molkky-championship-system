@@ -23,6 +23,9 @@ pipeline {
             }
         }
         stage('Deploy') {
+            when {
+                branch 'PreProd'
+            }
             steps {
                 sh 'mvn package -DskipTests=true'
                 sh 'rm -rf /srv/tomcat9/webapps/ROOT*'

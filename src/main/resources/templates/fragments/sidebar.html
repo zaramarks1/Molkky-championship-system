@@ -1,9 +1,10 @@
 <div class="sidebarContainer">
-
+    <a href="/" style="text-decoration: none;">
+        <img th:src="@{/assets/Molkky_logo.png}" alt="logo" class="sidebarLogo"/>
+    </a>
 <!--    navigation-->
     <div class="sidebarButtons">
         <a href="/" style="text-decoration: none;">
-            <img th:src="@{/assets/Molkky_logo.png}" alt="logo" class="sidebarLogo"/>
             <div th:class="'sidebarButton '+${#httpServletRequest.requestURI.equals('/') ? 'bgButton textPrimary' : ''}">
                 <img th:class="'sidebarIcon '+${#httpServletRequest.requestURI.equals('/') ? 'sidebarIcon' : 'sidebarIconInactive'}" th:src="@{/assets/home.svg}"/>
                 <p class="sidebarButtonContent">Accueil</p>
