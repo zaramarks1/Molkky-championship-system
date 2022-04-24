@@ -94,10 +94,10 @@ public class TeamController {
             user.setTeam(team);
             String pwd = user.getCode();
             //emailSenderService.SendEmail(user.getEmail(),"Votre code d'identification au site Molkky","Voici votre code : "+ pwd);
-            System.out.println(pwd);
             PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
             String hashedPassword = passwordEncoder.encode(pwd);
             user.setCode(hashedPassword);
+            userRepository.save(user);
             users.add(user);
         }
         if(!areAllDistinct(users)){
