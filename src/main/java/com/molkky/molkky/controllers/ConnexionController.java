@@ -39,7 +39,8 @@ public class ConnexionController {
             if (connexionService.decode(user.getCode(), userByEmail)) {
                 UserRole role = userByEmail.getRole();
                 request.getSession().setAttribute("role",role);
-                return new ModelAndView("redirect:/tournament/create");
+                request.getSession().setAttribute("user",userByEmail);
+                return new ModelAndView("redirect:/");
             } else {
                 return new ModelAndView("redirect:/connexion");
             }
