@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,9 +46,11 @@ public class TeamController {
 
 
     @GetMapping("/create")
-    public String create(Model model){
+    public String create(Model model, HttpSession session){
         model.addAttribute("tournaments", tournamentRepository.findByVisibleAndStatus(true, TournamentStatus.AVAILABLE));
         model.addAttribute("team", new CreateTeamModel());
+        User user = (User)session.getAttribute("user");
+        model.addAttribute("user", user);
         return "/team/create";
     }
 
