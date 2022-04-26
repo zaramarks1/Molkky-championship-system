@@ -65,4 +65,25 @@ class SwissPoolEntityTest {
         swissPool = swissPoolRepository.findById(swissPool.getId());
         Assertions.assertEquals(2, swissPool.getMatches().size());
     }
+
+    @Test
+    void testCast() {
+        SwissPool swissPool = new SwissPool(2, 2);
+        swissPool.setNbTeamsQualified(4);
+        Tournament tournament = tournamentRepository.save(new Tournament(
+                "tournament_name",
+                "location",
+                new Date(),
+                new Date(),
+                1,
+                2,
+                true,
+                2,
+                3
+        ));
+        swissPool.setTournament(tournament);
+        swissPoolRepository.save(swissPool);
+        SwissPool nvPool = (SwissPool) roundRepository.findById(swissPool.getId());
+        Assertions.assertEquals(4, nvPool.getNbTeamsQualified());
+    }
 }

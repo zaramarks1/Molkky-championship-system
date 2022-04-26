@@ -3,6 +3,7 @@ package com.molkky.molkky.model;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.validation.constraints.AssertTrue;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -33,5 +34,11 @@ public class TournamentModel {
 
     public Date formatDate(String date) throws ParseException {
         return new SimpleDateFormat("yyyy-MM-dd", Locale.FRANCE).parse(date);
+    }
+
+    @AssertTrue(message = "Date du tournoi avant la date de fin d'inscriptions")
+    // Other rules can also be validated in other methods
+    public boolean isCutoffDateBeforeDate() {
+        return cutOffDate.before(date) || cutOffDate.equals(date);
     }
 }
