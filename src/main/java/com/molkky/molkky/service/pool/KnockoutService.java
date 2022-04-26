@@ -51,7 +51,7 @@ public class KnockoutService implements IRoundType<Knockout>{
             teamsMatch.add(teams.get(i));
             teamsMatch.add(teams.get(i+1));
             match.setTeams(teamsMatch);
-            match.setKnockout(tournament.getRounds().get(index).getKnockout());
+            match.setRound((Knockout) tournament.getRounds().get(index));
             match = matchRepository.save(match);
             matches.add(match);
         }

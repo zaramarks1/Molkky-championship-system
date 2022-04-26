@@ -39,8 +39,8 @@ class FinnishEntityTest {
         List<Match> matches = Arrays.asList(match, match2);
 
         Finnish finnish = new Finnish(2, 2);
-        match.setFinnish(finnish);
-        match2.setFinnish(finnish);
+        match.setRound(finnish);
+        match2.setRound(finnish);
         finnish.setMatches(matches);
 
         Tournament tournament = tournamentRepository.save(new Tournament(
@@ -60,7 +60,7 @@ class FinnishEntityTest {
         System.out.println(finnish.getMatches());
         Assertions.assertNotNull(finnish.getId());
         Match recupMatch = matchRepository.findById(match.getId());
-        Assertions.assertEquals(recupMatch.getFinnish().getId(), finnish.getId());
+        Assertions.assertEquals(recupMatch.getRound().getId(), finnish.getId());
 
         finnish = finnishRepository.findById(finnish.getId());
         Assertions.assertEquals(2, finnish.getMatches().size());

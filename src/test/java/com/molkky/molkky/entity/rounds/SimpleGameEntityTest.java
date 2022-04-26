@@ -39,8 +39,8 @@ class SimpleGameEntityTest {
         List<Match> matches = Arrays.asList(match, match2);
 
         SimpleGame simpleGame = new SimpleGame();
-        match.setSimpleGame(simpleGame);
-        match2.setSimpleGame(simpleGame);
+        match.setRound(simpleGame);
+        match2.setRound(simpleGame);
         simpleGame.setMatches(matches);
 
         Tournament tournament = tournamentRepository.save(new Tournament(
@@ -60,7 +60,7 @@ class SimpleGameEntityTest {
         System.out.println(simpleGame.getMatches());
         Assertions.assertNotNull(simpleGame.getId());
         Match recupMatch = matchRepository.findById(match.getId());
-        Assertions.assertEquals(recupMatch.getSimpleGame().getId(), simpleGame.getId());
+        Assertions.assertEquals(recupMatch.getRound().getId(), simpleGame.getId());
 
         simpleGame = simpleGameRepository.findById(simpleGame.getId());
         Assertions.assertEquals(2, simpleGame.getMatches().size());

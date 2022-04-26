@@ -39,8 +39,8 @@ class SwissPoolEntityTest {
         List<Match> matches = Arrays.asList(match, match2);
 
         SwissPool swissPool = new SwissPool(2, 2);
-        match.setSwissPool(swissPool);
-        match2.setSwissPool(swissPool);
+        match.setRound(swissPool);
+        match2.setRound(swissPool);
         swissPool.setMatches(matches);
 
         Tournament tournament = tournamentRepository.save(new Tournament(
@@ -60,7 +60,7 @@ class SwissPoolEntityTest {
         System.out.println(swissPool.getMatches());
         Assertions.assertNotNull(swissPool.getId());
         Match recupMatch = matchRepository.findById(match.getId());
-        Assertions.assertEquals(recupMatch.getSwissPool().getId(), swissPool.getId());
+        Assertions.assertEquals(recupMatch.getRound().getId(), swissPool.getId());
 
         swissPool = swissPoolRepository.findById(swissPool.getId());
         Assertions.assertEquals(2, swissPool.getMatches().size());

@@ -40,8 +40,8 @@ class PoolEntityTest {
 
 
         Pool pool = new Pool();
-        match.setPool(pool);
-        match2.setPool(pool);
+        match.setRound(pool);
+        match2.setRound(pool);
         pool.setMatches(matches);
 
         Tournament tournament = tournamentRepository.save(new Tournament(
@@ -57,13 +57,13 @@ class PoolEntityTest {
         ));
 
         pool.setTournament(tournament);
-        pool = poolRepository.save(pool);
+        pool = roundRepository.save(pool);
         System.out.println(pool.getMatches());
         Assertions.assertNotNull(pool.getId());
         Match recupMatch = matchRepository.findById(match.getId());
-        Assertions.assertEquals(recupMatch.getPool().getId(), pool.getId());
+        Assertions.assertEquals(recupMatch.getRound().getId(), pool.getId());
 
-        pool = poolRepository.findById(pool.getId());
+        pool = (Pool) roundRepository.findById(pool.getId());
         Assertions.assertEquals(2, pool.getMatches().size());
     }
 }

@@ -50,7 +50,7 @@ public class SwissPoolService implements IRoundType<SwissPool>{
                     teamsMatch.add(teams.get(i));
                     teamsMatch.add(teams.get(y));
                     nvMatch.setTeams(teamsMatch);
-                    nvMatch.setSwissPool(tournament.getRounds().get(index).getSwissPool());
+                    nvMatch.setRound(tournament.getRounds().get(index));
                     nvMatch = matchRepository.save(nvMatch);
                     matches.add(nvMatch);
                 }

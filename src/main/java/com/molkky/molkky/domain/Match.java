@@ -1,6 +1,5 @@
 package com.molkky.molkky.domain;
 
-import com.molkky.molkky.domain.rounds.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -30,24 +29,8 @@ public class Match {
     private List<Team> teams;
 
     @ManyToOne(optional = true)
-    @JoinColumn(name="idPool", nullable = true)
-    private Pool pool;
-
-    @ManyToOne(optional = true)
-    @JoinColumn(name="idSimplegame", nullable = true)
-    private SimpleGame simpleGame;
-
-    @ManyToOne(optional = true)
-    @JoinColumn(name="idKnockout", nullable = true)
-    private Knockout knockout;
-
-    @ManyToOne(optional = true)
-    @JoinColumn(name="idSwisspool", nullable = true)
-    private SwissPool swissPool;
-
-    @ManyToOne(optional = true)
-    @JoinColumn(name="idFinnish", nullable = true)
-    private Finnish finnish;
+    @JoinColumn(name="idRound", nullable = true)
+    private Round round;
 
     @OneToMany(mappedBy = "match")
     private Set<Shot> shots;

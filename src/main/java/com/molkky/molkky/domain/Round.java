@@ -41,6 +41,9 @@ public class Round {
     @JoinColumn(name = "idFinnish")
     private List<Match> matches = new ArrayList<>();
 
+    @Column(name = "finished")
+    private Boolean finished = false;
+
     @ManyToOne
     @JoinColumn(name="tournament_id", nullable=false)
     private Tournament tournament;

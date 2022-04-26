@@ -39,8 +39,8 @@ class KnockoutEntityTest {
         List<Match> matches = Arrays.asList(match, match2);
 
         Knockout knockout = new Knockout(2);
-        match.setKnockout(knockout);
-        match2.setKnockout(knockout);
+        match.setRound(knockout);
+        match2.setRound(knockout);
         knockout.setMatches(matches);
 
         Tournament tournament = tournamentRepository.save(new Tournament(
@@ -60,7 +60,7 @@ class KnockoutEntityTest {
         System.out.println(knockout.getMatches());
         Assertions.assertNotNull(knockout.getId());
         Match recupMatch = matchRepository.findById(match.getId());
-        Assertions.assertEquals(recupMatch.getKnockout().getId(), knockout.getId());
+        Assertions.assertEquals(recupMatch.getRound().getId(), knockout.getId());
 
         knockout = knockoutRepository.findById(knockout.getId());
         Assertions.assertEquals(2, knockout.getMatches().size());
