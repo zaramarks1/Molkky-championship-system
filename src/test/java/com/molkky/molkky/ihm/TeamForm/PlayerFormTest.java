@@ -36,7 +36,7 @@ class PlayerFormTest {
     @BeforeAll
     void createTournament(){
         config.getDriver().get(url + "/tournament/create");
-        String randomName = "Tournoi " + Math.floor(Math.random() * 100000);
+        String randomName = "Tournoi " + Math.floor(Math.random() * 1000);
         String randomLocation = "location de test";
         String randomDateTournoi = "01/01/2020";
         String randomCutOffDate = "01/01/2020";
@@ -137,7 +137,7 @@ class PlayerFormTest {
         String teamName = "Test" + Math.floor(Math.random() * 1000);
         config.getDriver().findElement(new By.ById("nom")).sendKeys(teamName);
         Select select = new Select(config.getDriver().findElement(new By.ById("tournament")));
-        select.selectByIndex(1);
+        select.selectByIndex(select.getOptions().size() - 1);
         String idTournament = config.getDriver().findElement(new By.ById("tournament")).getAttribute("value");
         config.getDriver().findElement(new By.ByName("nbPlayers")).sendKeys(nbPlayer);
         config.getDriver().findElement(new By.ById("sendTeam")).click();

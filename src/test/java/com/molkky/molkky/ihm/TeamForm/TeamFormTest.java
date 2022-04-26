@@ -31,7 +31,7 @@ class TeamFormTest {
     @Test
     void testTournamentFormGetPage() {
         config.getDriver().get(url + "/team/create");
-        Assertions.assertEquals("Create Team", config.getDriver().getTitle());
+        Assertions.assertEquals("Création d'une nouvelle équipe", config.getDriver().getTitle());
     }
 
     @Test
