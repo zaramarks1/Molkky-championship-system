@@ -1,6 +1,6 @@
 package com.molkky.molkky.entity;
 
-import Type.UserRole;
+import type.UserRole;
 import com.molkky.molkky.MolkkyApplication;
 import com.molkky.molkky.domain.Round;
 import com.molkky.molkky.domain.Tournament;
@@ -17,9 +17,7 @@ import org.springframework.test.annotation.Rollback;
 
 import javax.transaction.Transactional;
 import java.text.ParseException;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @SpringBootTest(classes = MolkkyApplication.class)
 class TournamentEntityTest {
@@ -93,7 +91,7 @@ class TournamentEntityTest {
         Round round = new Round("finnish", 2);
         round.setTournament(tournament);
         roundRepository.save(round);
-        Set<Round> rounds = new HashSet<>();
+        List<Round> rounds = new ArrayList<>();
         rounds.add(round);
         tournament.setRounds(rounds);
         tournamentRepository.save(tournament);

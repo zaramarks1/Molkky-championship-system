@@ -11,13 +11,17 @@
 </head>
 <body>
 <div class="sidebarContainer">
-    <img th:src="@{/assets/Molkky_logo.png}" alt="logo" class="sidebarLogo"/>
+    <div class="sidebarButtons">
+        <a href="/" style="text-decoration: none;">
+            <img th:src="@{/assets/Molkky_logo.png}" alt="logo" class="sidebarLogo"/>
+        </a>
+    </div>
 </div>
 <div class="center">
     <h1>Connexion</h1>
-    <form method="post" th:action="@{/connexion}" th:object="${user}">
+    <form method="post" th:action="@{/connexion}" autocomplete="off" th:object="${user}">
         <div class="txt_field">
-            <input type="text" required="required" pattern="[^@\s]+@[^@\s]+\.[^@\s]+" th:field="*{email}"></p>
+            <input autocomplete="off" type="text" required="required" pattern="[^@\s]+@[^@\s]+\.[^@\s]+" th:field="*{email}"></p>
             <span></span>
             <label>Email</label>
         </div>
