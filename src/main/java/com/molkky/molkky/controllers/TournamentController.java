@@ -1,6 +1,6 @@
 package com.molkky.molkky.controllers;
 
-import Type.TournamentStatus;
+
 import com.molkky.molkky.domain.Tournament;
 import com.molkky.molkky.domain.User;
 import com.molkky.molkky.model.TournamentModel;
@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import type.TournamentStatus;
 
 @Controller
 @RequestMapping("/tournament")
@@ -39,7 +40,7 @@ public class TournamentController {
     public String tournamentView(Model model, @PathVariable("id") String id){
 
         //USER FROM SESSION
-        User user = userRepository.findById(13);
+        User user = userRepository.findById(4);
 
         Tournament tournament = tournamentRepository.findById(Integer.valueOf(id));
         model.addAttribute("tournament", tournament);
@@ -50,24 +51,14 @@ public class TournamentController {
         return "tournament/view";
     }
 
-    @PostMapping(value = "/view" , params = "visible")
-        public String tournamentViewPostVisible(@RequestParam(value = "tournamentId", required = false) String tournamentId){
 
-        Tournament tournament = tournamentRepository.findById(Integer.valueOf(tournamentId));
-
-        tournament.setVisible(true);
-
-        tournamentRepository.save(tournament);
-
-            return "redirect:/tournament/create";
-        }
 
     @PostMapping(value = "/view" , params = "launch")
     public String tournamentViewPostLaunch(@RequestParam(value = "tournamentId", required = false) String tournamentId){
 
         Tournament tournament = tournamentRepository.findById(Integer.valueOf(tournamentId));
 
-        tournament.setStatus(TournamentStatus.InProgress);
+        tournament.setStatus(TournamentStatus.INPROGRESS);
 
         tournamentRepository.save(tournament);
 
