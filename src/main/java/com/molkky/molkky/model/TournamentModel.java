@@ -20,6 +20,7 @@ public class TournamentModel {
     private Integer maxTeam;
     private Integer nbRounds;
     private Integer nbCourts;
+    private Integer nbPlayersPerTeam;
     private boolean visible;
 
     public void setDate(String date) throws ParseException {

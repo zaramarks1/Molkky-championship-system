@@ -43,6 +43,7 @@ class TournamentFormTest {
         Assertions.assertTrue(config.getDriver().findElement(new By.ById("maxTeam")).isDisplayed());
         Assertions.assertTrue(config.getDriver().findElement(new By.ById("visible")).isDisplayed());
         Assertions.assertTrue(config.getDriver().findElement(new By.ById("nbRounds")).isDisplayed());
+        Assertions.assertTrue(config.getDriver().findElement(new By.ById("nbPlayersPerTeam")).isDisplayed());
         Assertions.assertTrue(config.getDriver().findElement(new By.ById("nbCourts")).isDisplayed());
         Assertions.assertTrue(config.getDriver().findElement(new By.ById("sendTournament")).isDisplayed());
     }
@@ -56,6 +57,7 @@ class TournamentFormTest {
         String randomCutOffDate = "01/01/2020";
         String randomMinTeam = "5";
         String randomMaxTeam = "20";
+        String randomNbPlayersPerTeam = "4";
         String randomNbRounds = "1";
         String randomNbCounts = "1";
 
@@ -63,6 +65,7 @@ class TournamentFormTest {
         config.getDriver().findElement(new By.ById("location")).sendKeys(randomLocation);
         config.getDriver().findElement(new By.ById("dateTournoi")).sendKeys(randomDateTournoi);
         config.getDriver().findElement(new By.ById("cutOffDate")).sendKeys(randomCutOffDate);
+        config.getDriver().findElement(new By.ById("nbPlayersPerTeam")).sendKeys(randomNbPlayersPerTeam);
 //        config.getDriver().findElement(new By.ById("minTeam")).sendKeys(randomMinTeam);
 //        config.getDriver().findElement(new By.ById("maxTeam")).sendKeys(randomMaxTeam);
         config.getDriver().findElement(new By.ById("visible")).click();
@@ -82,6 +85,7 @@ class TournamentFormTest {
         Assertions.assertEquals(randomCutOffDate,cutOffSQL);
         Assertions.assertEquals(randomMinTeam,String.valueOf(tournament.getMinTeam()));
         Assertions.assertEquals(randomMaxTeam,String.valueOf(tournament.getMaxTeam()));
+        Assertions.assertEquals(randomNbPlayersPerTeam,String.valueOf(tournament.getNbPlayersPerTeam()));
         Assertions.assertTrue(tournament.isVisible());
         Assertions.assertEquals(randomNbRounds,String.valueOf(tournament.getNbRounds()));
         Assertions.assertEquals(randomNbCounts,String.valueOf(tournament.getNbCourts()));
