@@ -1,6 +1,6 @@
 package com.molkky.molkky.service.pool;
 
-import com.molkky.molkky.domain.Knockout;
+import com.molkky.molkky.domain.rounds.Knockout;
 import com.molkky.molkky.domain.Match;
 import com.molkky.molkky.domain.Team;
 import com.molkky.molkky.domain.Tournament;

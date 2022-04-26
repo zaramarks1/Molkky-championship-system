@@ -1,4 +1,4 @@
-package Type;
+package type;
 
 public enum RoundType {
     FINNISH,

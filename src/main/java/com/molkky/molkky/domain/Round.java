@@ -1,13 +1,12 @@
 package com.molkky.molkky.domain;
 
-import Type.RoundType;
 import lombok.Getter;
 import lombok.Setter;
+import type.RoundType;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Getter
 @Entity
@@ -36,7 +35,7 @@ public class Round {
             name = "team_round",
             joinColumns = @JoinColumn(name = "round_id"),
             inverseJoinColumns = @JoinColumn(name = "team_id"))
-    private Set<Team> teams;
+    private List<Team> teams;
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "idFinnish")

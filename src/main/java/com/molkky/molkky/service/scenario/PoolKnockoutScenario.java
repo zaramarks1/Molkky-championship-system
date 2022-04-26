@@ -1,6 +1,10 @@
 package com.molkky.molkky.service.scenario;
 
-import com.molkky.molkky.domain.*;
+import com.molkky.molkky.domain.Match;
+import com.molkky.molkky.domain.Round;
+import com.molkky.molkky.domain.Team;
+import com.molkky.molkky.domain.Tournament;
+import com.molkky.molkky.domain.rounds.SwissPool;
 import com.molkky.molkky.repository.*;
 import com.molkky.molkky.service.pool.KnockoutService;
 import com.molkky.molkky.service.pool.SwissPoolService;

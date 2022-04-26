@@ -1,7 +1,5 @@
 package com.molkky.molkky.entity;
 
-import Type.RoundType;
-import Type.UserRole;
 import com.molkky.molkky.MolkkyApplication;
 import com.molkky.molkky.domain.Round;
 import com.molkky.molkky.domain.Tournament;
@@ -15,12 +13,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
+import type.RoundType;
+import type.UserRole;
 
 import javax.transaction.Transactional;
 import java.text.ParseException;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @SpringBootTest(classes = MolkkyApplication.class)
 class TournamentEntityTest {
@@ -94,7 +92,7 @@ class TournamentEntityTest {
         Round round = new Round(RoundType.FINNISH, 2);
         round.setTournament(tournament);
         roundRepository.save(round);
-        Set<Round> rounds = new HashSet<>();
+        List<Round> rounds = new ArrayList<>();
         rounds.add(round);
         tournament.setRounds(rounds);
         tournamentRepository.save(tournament);

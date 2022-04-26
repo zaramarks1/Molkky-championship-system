@@ -13,8 +13,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @SpringBootTest(classes = MolkkyApplication.class)
 class MatchEntityTest {
@@ -34,7 +34,7 @@ class MatchEntityTest {
 //        Team team2 = new Team("team2_testMatch", 2);
         Team team1 = teamRepository.save(new Team("team1_testMatch", 2));
         Team team2 = teamRepository.save(new Team("team2_testMatch", 2));
-        Set<Team> teams = new HashSet();
+        List<Team> teams = new ArrayList<>();
         teams.add(team1);
         teams.add(team2);
         Court court = courtRepository.save(new Court(true, "court_testMatch"));

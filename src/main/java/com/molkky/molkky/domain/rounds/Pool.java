@@ -1,6 +1,6 @@
 package com.molkky.molkky.domain.rounds;
 
-import Type.RoundType;
+import type.RoundType;
 import com.molkky.molkky.domain.Round;
 import lombok.Getter;
 import lombok.Setter;

@@ -1,6 +1,6 @@
 package com.molkky.molkky.entity;
 
-import Type.RoundType;
+import type.RoundType;
 import com.molkky.molkky.MolkkyApplication;
 import com.molkky.molkky.domain.Round;
 import com.molkky.molkky.domain.Team;
