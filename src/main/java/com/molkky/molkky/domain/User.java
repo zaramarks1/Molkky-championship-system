@@ -2,15 +2,17 @@ package com.molkky.molkky.domain;
 
 import lombok.Getter;
 import lombok.Setter;
+import type.UserRole;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Set;
 
 @Getter
 @Entity
 @Setter
 @Table(name = "user")
-public class User {
+public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -35,7 +37,9 @@ public class User {
     private Boolean isRegistered;
 
     @Column(name = "role")
-    private String role;
+    @Enumerated(EnumType.STRING)
+    private UserRole role;
+
     @Column(name = "code")
     String code;
 
@@ -52,7 +56,7 @@ public class User {
     @JoinColumn(name="idTeam", nullable = true)
     private Team team;
 
-    public User(String pseudo, String surname, String forename, String club, String email, Boolean isRegistered, String role) {
+    public User(String pseudo, String surname, String forename, String club, String email, Boolean isRegistered, UserRole role) {
 
         this.pseudo = pseudo;
         this.surname = surname;
@@ -64,7 +68,7 @@ public class User {
 
     }
 
-    public User(Integer id, String pseudo, String surname, String forename, String club, String email, Boolean isRegistered, String role, String code, Tournament tournament) {
+    public User(Integer id, String pseudo, String surname, String forename, String club, String email, Boolean isRegistered, UserRole role, String code, Tournament tournament) {
         this.id = id;
         this.pseudo = pseudo;
         this.surname = surname;
@@ -77,6 +81,10 @@ public class User {
         this.tournament = tournament;
     }
 
+    public User(String email, String code){
+        this.email=email;
+        this.code=code;
+    }
     public User() {
 
     }

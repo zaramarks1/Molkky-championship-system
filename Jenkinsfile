@@ -17,10 +17,19 @@ pipeline {
             }
         }
         stage('Sonar'){
-//         5da1e6ee849091ca8fec6cf16062bc190df5382e
             steps {
                 sh 'printenv'
                 sh 'mvn sonar:sonar'
+            }
+        }
+        stage('Deploy') {
+            when {
+                branch 'PreProd'
+            }
+            steps {
+                sh 'mvn package -DskipTests=true'
+                sh 'rm -rf /srv/tomcat9/webapps/ROOT*'
+                sh 'cp /srv/tomcat9/jenkins/workspace/Multibranch_PreProd/target/molkky.war /srv/tomcat9/webapps/ROOT.war'
             }
         }
     }

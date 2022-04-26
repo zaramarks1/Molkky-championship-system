@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Page de connexion</title>
+    <link rel="stylesheet" th:href="@{/styles/connexion/connexion.css}" href="./" />
+    <link rel="stylesheet" th:href="@{/styles/fragments.css}" href="./" />
+    <link rel="stylesheet" th:href="@{/styles/components.css}" href="./" />
+
+</head>
+<body>
+<div class="sidebarContainer">
+    <div class="sidebarButtons">
+        <a href="/" style="text-decoration: none;">
+            <img th:src="@{/assets/Molkky_logo.png}" alt="logo" class="sidebarLogo"/>
+        </a>
+    </div>
+</div>
+<div class="center">
+    <h1>Connexion</h1>
+    <form method="post" th:action="@{/connexion}" autocomplete="off" th:object="${user}">
+        <div class="txt_field">
+            <input autocomplete="off" type="text" required="required" pattern="[^@\s]+@[^@\s]+\.[^@\s]+" th:field="*{email}"></p>
+            <span></span>
+            <label>Email</label>
+        </div>
+        <div class="txt_field">
+            <input type="password" autocomplete="off" required="required" th:field="*{code}">
+            <span></span>
+            <label>Code</label>
+        </div>
+        <input type="submit" class="primaryButton" value="Se connecter">
+
+    </form>
+</div>
+
+</body>
+</html>

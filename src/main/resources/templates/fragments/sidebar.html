@@ -1,22 +1,32 @@
 <div class="sidebarContainer">
-    <img th:src="@{/assets/Molkky_logo.png}" alt="logo" class="sidebarLogo"/>
+    <a href="/" style="text-decoration: none;">
+        <img th:src="@{/assets/Molkky_logo.png}" alt="logo" class="sidebarLogo"/>
+    </a>
 <!--    navigation-->
     <div class="sidebarButtons">
-        <div class="sidebarButton bgButton textPrimary">
-            <img class="sidebarIcon sidebarIcon" th:src="@{/assets/home.svg}"/>
-            <p class="sidebarButtonContent">Accueil</p>
-        </div>
-        <div class="sidebarButton">
-            <img class="sidebarIcon sidebarIconInactive" th:src="@{/assets/tournament.svg}"/>
-            <p class="sidebarButtonContent">Tournois</p>
-        </div>
-        <div class="sidebarButton">
-            <img class="sidebarIcon sidebarIconInactive" th:src="@{/assets/matches.svg}"/>
-            <p class="sidebarButtonContent">Mes matchs</p>
-        </div>
-        <div class="sidebarButton">
-            <img class="sidebarIcon sidebarIconInactive" th:src="@{/assets/infos.svg}"/>
-            <p class="sidebarButtonContent">Mes informations personnelles</p>
-        </div>
+        <a href="/" style="text-decoration: none;">
+            <div th:class="'sidebarButton '+${#httpServletRequest.requestURI.equals('/') ? 'bgButton textPrimary' : ''}">
+                <img th:class="'sidebarIcon '+${#httpServletRequest.requestURI.equals('/') ? 'sidebarIcon' : 'sidebarIconInactive'}" th:src="@{/assets/home.svg}"/>
+                <p class="sidebarButtonContent">Accueil</p>
+            </div>
+        </a>
+        <a href="/tournament" style="text-decoration: none;">
+            <div th:class="'sidebarButton '+${#httpServletRequest.requestURI.startsWith('/tournament') ? 'bgButton textPrimary' : ''}">
+                <img th:class="'sidebarIcon '+${#httpServletRequest.requestURI.startsWith('/tournament') ? 'sidebarIcon' : 'sidebarIconInactive'}" th:src="@{/assets/tournament.svg}"/>
+                <p class="sidebarButtonContent">Tournois</p>
+            </div>
+        </a>
+        <a href="/matches" style="text-decoration: none;">
+            <div th:class="'sidebarButton '+${#httpServletRequest.requestURI.startsWith('/matches') ? 'bgButton textPrimary' : ''}">
+                <img th:class="'sidebarIcon '+${#httpServletRequest.requestURI.startsWith('/matches') ? 'sidebarIcon' : 'sidebarIconInactive'}" th:src="@{/assets/matches.svg}"/>
+                <p class="sidebarButtonContent">Mes matchs</p>
+            </div>
+        </a>
+        <a href="/infos" style="text-decoration: none;">
+            <div th:class="'sidebarButton '+${#httpServletRequest.requestURI.startsWith('/infos') ? 'bgButton textPrimary' : ''}">
+                <img th:class="'sidebarIcon '+${#httpServletRequest.requestURI.startsWith('/infos') ? 'sidebarIcon' : 'sidebarIconInactive'}" th:src="@{/assets/infos.svg}"/>
+                <p class="sidebarButtonContent">Mes informations personnelles</p>
+            </div>
+        </a>
     </div>
 </div>
