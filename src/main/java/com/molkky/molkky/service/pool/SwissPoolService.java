@@ -1,7 +1,7 @@
 package com.molkky.molkky.service.pool;
 
 import com.molkky.molkky.domain.Match;
-import com.molkky.molkky.domain.SwissPool;
+import com.molkky.molkky.domain.rounds.SwissPool;
 import com.molkky.molkky.domain.Team;
 import com.molkky.molkky.domain.Tournament;
 import com.molkky.molkky.repository.MatchRepository;
@@ -50,7 +50,7 @@ public class SwissPoolService implements IRoundType<SwissPool>{
                     teamsMatch.add(teams.get(i));
                     teamsMatch.add(teams.get(y));
                     nvMatch.setTeams(teamsMatch);
-                    nvMatch.setSwissPool(tournament.getRounds().get(index).getSwissPool());
+                    nvMatch.setRound(tournament.getRounds().get(index));
                     nvMatch = matchRepository.save(nvMatch);
                     matches.add(nvMatch);
                 }
