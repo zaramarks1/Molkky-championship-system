@@ -14,7 +14,8 @@ import java.util.Set;
 @Setter
 @Table(name = "round")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name="type")
+@DiscriminatorColumn(name="typeDiscriminator", discriminatorType = DiscriminatorType.STRING)
+@DiscriminatorValue("Round")
 public class Round {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

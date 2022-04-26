@@ -1,10 +1,9 @@
-package com.molkky.molkky.entity;
+package com.molkky.molkky.entity.rounds;
 
 import com.molkky.molkky.MolkkyApplication;
 import com.molkky.molkky.domain.Match;
-import com.molkky.molkky.domain.Round;
-import com.molkky.molkky.domain.rounds.SimpleGame;
 import com.molkky.molkky.domain.Tournament;
+import com.molkky.molkky.domain.rounds.SimpleGame;
 import com.molkky.molkky.repository.MatchRepository;
 import com.molkky.molkky.repository.RoundRepository;
 import com.molkky.molkky.repository.SimpleGameRepository;
@@ -39,7 +38,7 @@ class SimpleGameEntityTest {
         Match match2 = new Match();
         List<Match> matches = Arrays.asList(match, match2);
 
-        SimpleGame simpleGame = new SimpleGame(2);
+        SimpleGame simpleGame = new SimpleGame();
         match.setSimpleGame(simpleGame);
         match2.setSimpleGame(simpleGame);
         simpleGame.setMatches(matches);
@@ -55,11 +54,8 @@ class SimpleGameEntityTest {
                 2,
                 3
         ));
-        Round round = new Round("simplegame", 2);
-        round.setTournament(tournament);
-        roundRepository.save(round);
-        simpleGame.setRound(round);
 
+        simpleGame.setTournament(tournament);
         simpleGame = simpleGameRepository.save(simpleGame);
         System.out.println(simpleGame.getMatches());
         Assertions.assertNotNull(simpleGame.getId());

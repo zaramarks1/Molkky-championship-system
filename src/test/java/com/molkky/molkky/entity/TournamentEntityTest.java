@@ -1,5 +1,6 @@
 package com.molkky.molkky.entity;
 
+import Type.RoundType;
 import Type.UserRole;
 import com.molkky.molkky.MolkkyApplication;
 import com.molkky.molkky.domain.Round;
@@ -90,7 +91,7 @@ class TournamentEntityTest {
                 3
         ));
 
-        Round round = new Round("finnish", 2);
+        Round round = new Round(RoundType.FINNISH, 2);
         round.setTournament(tournament);
         roundRepository.save(round);
         Set<Round> rounds = new HashSet<>();

@@ -1,13 +1,12 @@
-package com.molkky.molkky.entity;
+package com.molkky.molkky.entity.rounds;
 
 import com.molkky.molkky.MolkkyApplication;
 import com.molkky.molkky.domain.Match;
-import com.molkky.molkky.domain.Round;
-import com.molkky.molkky.domain.rounds.SwissPool;
 import com.molkky.molkky.domain.Tournament;
+import com.molkky.molkky.domain.rounds.Knockout;
+import com.molkky.molkky.repository.KnockoutRepository;
 import com.molkky.molkky.repository.MatchRepository;
 import com.molkky.molkky.repository.RoundRepository;
-import com.molkky.molkky.repository.SwissPoolRepository;
 import com.molkky.molkky.repository.TournamentRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -21,9 +20,9 @@ import java.util.Date;
 import java.util.List;
 
 @SpringBootTest(classes = MolkkyApplication.class)
-class SwissPoolEntityTest {
+class KnockoutEntityTest {
     @Autowired
-    private SwissPoolRepository swissPoolRepository;
+    private KnockoutRepository knockoutRepository;
     @Autowired
     private MatchRepository matchRepository;
     @Autowired
@@ -39,10 +38,10 @@ class SwissPoolEntityTest {
         Match match2 = new Match();
         List<Match> matches = Arrays.asList(match, match2);
 
-        SwissPool swissPool = new SwissPool(2, 2);
-        match.setSwissPool(swissPool);
-        match2.setSwissPool(swissPool);
-        swissPool.setMatches(matches);
+        Knockout knockout = new Knockout(2);
+        match.setKnockout(knockout);
+        match2.setKnockout(knockout);
+        knockout.setMatches(matches);
 
         Tournament tournament = tournamentRepository.save(new Tournament(
                 "tournament_name",
@@ -56,18 +55,14 @@ class SwissPoolEntityTest {
                 3
         ));
 
-        Round round = new Round("swisspool", 2);
-        round.setTournament(tournament);
-        roundRepository.save(round);
-        swissPool.setRound(round);
-
-        swissPool = swissPoolRepository.save(swissPool);
-        System.out.println(swissPool.getMatches());
-        Assertions.assertNotNull(swissPool.getId());
+        knockout.setTournament(tournament);
+        knockout = knockoutRepository.save(knockout);
+        System.out.println(knockout.getMatches());
+        Assertions.assertNotNull(knockout.getId());
         Match recupMatch = matchRepository.findById(match.getId());
-        Assertions.assertEquals(recupMatch.getSwissPool().getId(), swissPool.getId());
+        Assertions.assertEquals(recupMatch.getKnockout().getId(), knockout.getId());
 
-        swissPool = swissPoolRepository.findById(swissPool.getId());
-        Assertions.assertEquals(2, swissPool.getMatches().size());
+        knockout = knockoutRepository.findById(knockout.getId());
+        Assertions.assertEquals(2, knockout.getMatches().size());
     }
 }

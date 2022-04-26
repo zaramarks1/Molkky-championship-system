@@ -1,10 +1,9 @@
-package com.molkky.molkky.entity;
+package com.molkky.molkky.entity.rounds;
 
 import com.molkky.molkky.MolkkyApplication;
-import com.molkky.molkky.domain.rounds.Finnish;
 import com.molkky.molkky.domain.Match;
-import com.molkky.molkky.domain.Round;
 import com.molkky.molkky.domain.Tournament;
+import com.molkky.molkky.domain.rounds.Finnish;
 import com.molkky.molkky.repository.FinnishRepository;
 import com.molkky.molkky.repository.MatchRepository;
 import com.molkky.molkky.repository.RoundRepository;
@@ -34,7 +33,7 @@ class FinnishEntityTest {
     @Test
     @Transactional
     @Rollback(false)
-    void testInsertSimpleGame() {
+    void testInsertFinnishGame() {
         Match match = new Match();
         Match match2 = new Match();
         List<Match> matches = Arrays.asList(match, match2);
@@ -56,11 +55,7 @@ class FinnishEntityTest {
                 3
         ));
 
-        Round round = new Round("finnish", 2);
-        round.setTournament(tournament);
-        roundRepository.save(round);
-        finnish.setRound(round);
-
+        finnish.setTournament(tournament);
         finnish = finnishRepository.save(finnish);
         System.out.println(finnish.getMatches());
         Assertions.assertNotNull(finnish.getId());

@@ -1,10 +1,9 @@
-package com.molkky.molkky.entity;
+package com.molkky.molkky.entity.rounds;
 
 import com.molkky.molkky.MolkkyApplication;
 import com.molkky.molkky.domain.Match;
-import com.molkky.molkky.domain.rounds.Pool;
-import com.molkky.molkky.domain.Round;
 import com.molkky.molkky.domain.Tournament;
+import com.molkky.molkky.domain.rounds.Pool;
 import com.molkky.molkky.repository.MatchRepository;
 import com.molkky.molkky.repository.PoolRepository;
 import com.molkky.molkky.repository.RoundRepository;
@@ -57,11 +56,7 @@ class PoolEntityTest {
                 3
         ));
 
-        Round round = new Round("pool", 2);
-        round.setTournament(tournament);
-        roundRepository.save(round);
-        pool.setRound(round);
-
+        pool.setTournament(tournament);
         pool = poolRepository.save(pool);
         System.out.println(pool.getMatches());
         Assertions.assertNotNull(pool.getId());
