@@ -63,8 +63,8 @@ class TournamentFormTest {
         config.getDriver().findElement(new By.ById("location")).sendKeys(randomLocation);
         config.getDriver().findElement(new By.ById("dateTournoi")).sendKeys(randomDateTournoi);
         config.getDriver().findElement(new By.ById("cutOffDate")).sendKeys(randomCutOffDate);
-//        config.getDriver().findElement(new By.ById("minTeam")).sendKeys(randomMinTeam);
-//        config.getDriver().findElement(new By.ById("maxTeam")).sendKeys(randomMaxTeam);
+        config.getDriver().findElement(new By.ById("minTeam")).sendKeys(randomMinTeam);
+        config.getDriver().findElement(new By.ById("maxTeam")).sendKeys(randomMaxTeam);
         config.getDriver().findElement(new By.ById("visible")).click();
         config.getDriver().findElement(new By.ById("nbRounds")).sendKeys(randomNbRounds);
         config.getDriver().findElement(new By.ById("nbCourts")).sendKeys(randomNbCounts);

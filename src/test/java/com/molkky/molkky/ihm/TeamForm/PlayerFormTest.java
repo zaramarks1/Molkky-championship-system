@@ -13,9 +13,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.Random;
+
 @SpringBootTest(classes = MolkkyApplication.class, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class PlayerFormTest {
+class PlayerFormTest {
     @Autowired
     private UserRepository userRepository;
     @Autowired
@@ -31,6 +33,30 @@ public class PlayerFormTest {
         url = String.format("http://localhost:%s", port.toString());
     }
 
+    @BeforeAll
+    void createTournament(){
+        config.getDriver().get(url + "/tournament/create");
+        String randomName = "Tournoi " + Math.floor(Math.random() * 100000);
+        String randomLocation = "location de test";
+        String randomDateTournoi = "01/01/2020";
+        String randomCutOffDate = "01/01/2020";
+        String randomMinTeam = "5";
+        String randomMaxTeam = "20";
+        String randomNbRounds = "1";
+        String randomNbCounts = "1";
+
+        config.getDriver().findElement(new By.ById("nom")).sendKeys(randomName);
+        config.getDriver().findElement(new By.ById("location")).sendKeys(randomLocation);
+        config.getDriver().findElement(new By.ById("dateTournoi")).sendKeys(randomDateTournoi);
+        config.getDriver().findElement(new By.ById("cutOffDate")).sendKeys(randomCutOffDate);
+        config.getDriver().findElement(new By.ById("minTeam")).sendKeys(randomMinTeam);
+        config.getDriver().findElement(new By.ById("maxTeam")).sendKeys(randomMaxTeam);
+        config.getDriver().findElement(new By.ById("visible")).click();
+        config.getDriver().findElement(new By.ById("nbRounds")).sendKeys(randomNbRounds);
+        config.getDriver().findElement(new By.ById("nbCourts")).sendKeys(randomNbCounts);
+        config.getDriver().findElement(new By.ById("sendTournament")).click();
+    }
+
     @Test
     void testPlayerFormGetPage() {
         enterTeam("1");
@@ -42,10 +68,10 @@ public class PlayerFormTest {
         enterTeam("1");
 
         Assertions.assertTrue(config.getDriver().findElement(new By.ByClassName("contentTitle")).isDisplayed());
-        Assertions.assertTrue(config.getDriver().findElement(new By.ByXPath("/html/body/div[2]/div[2]/form/div[1]/a")).isDisplayed());
+        Assertions.assertTrue(config.getDriver().findElement(new By.ByXPath("/html/body/div/div[2]/form/div[1]/a")).isDisplayed());
 
         //Joueur 1
-        Assertions.assertTrue(config.getDriver().findElement(new By.ByXPath("/html/body/div[2]/div[2]/form/div[3]/div[1]/b")).isDisplayed());
+        Assertions.assertTrue(config.getDriver().findElement(new By.ByXPath("/html/body/div/div[2]/form/div[3]/div/b")).isDisplayed());
         Assertions.assertTrue(config.getDriver().findElement(new By.ByName("players[0].forename")).isDisplayed());
         Assertions.assertTrue(config.getDriver().findElement(new By.ByName("players[0].surname")).isDisplayed());
         Assertions.assertTrue(config.getDriver().findElement(new By.ByName("players[0].mail")).isDisplayed());
@@ -54,45 +80,51 @@ public class PlayerFormTest {
         Assertions.assertTrue(config.getDriver().findElement(new By.ById("sendTeam")).isDisplayed());
     }
 
-    //@Test
+    @Test
     void testFormAddInfo(){
         String nameTeam = enterTeam("1");
+        String nom = this.generateName();
+        String prenom = this.generateName();
+        String mail = prenom+"."+nom+"@gmail.com";
 
-        config.getDriver().findElement(new By.ByName("players[0].forename")).sendKeys("Aurelien");
-        config.getDriver().findElement(new By.ByName("players[0].surname")).sendKeys("Masson");
-        config.getDriver().findElement(new By.ByName("players[0].mail")).sendKeys("aurel1749@gmail.com");
+        config.getDriver().findElement(new By.ByName("players[0].forename")).sendKeys(prenom);
+        config.getDriver().findElement(new By.ByName("players[0].surname")).sendKeys(nom);
+        config.getDriver().findElement(new By.ByName("players[0].mail")).sendKeys(mail);
         config.getDriver().findElement(new By.ByName("players[0].club")).sendKeys("Molkky Angers");
 
         config.getDriver().findElement(new By.ById("sendTeam")).click();
 
         Team team = teamRepository.findByName(nameTeam);
-        User user = userRepository.findUsersByEmail("aurelien.masson@reseau.eseo.fr");
+        User user = userRepository.findUsersByEmail(mail);
 
         Assertions.assertNotNull(user);
-        Assertions.assertEquals("Masson",user.getSurname());
-        Assertions.assertEquals("Aurelien",user.getForename());
-        Assertions.assertEquals("aurelien.masson@reseau.eseo.fr",user.getEmail());
+        Assertions.assertEquals(nom,user.getSurname());
+        Assertions.assertEquals(prenom,user.getForename());
+        Assertions.assertEquals(mail,user.getEmail());
         Assertions.assertEquals("Molkky Angers",user.getClub());
-        Assertions.assertEquals(team.getId(),user.getTeam());
+        Assertions.assertEquals(team.getId(),user.getTeam().getId());
     }
 
-    //@Test
+    @Test
     void testFormErrorSameMail(){
-        String nameTeam = enterTeam("2");
+        enterTeam("2");
+        String nom = this.generateName();
+        String prenom = this.generateName();
+        String mail = prenom+"."+nom+"@gmail.com";
 
-        config.getDriver().findElement(new By.ByName("players[0].forename")).sendKeys("Aurelien");
-        config.getDriver().findElement(new By.ByName("players[0].surname")).sendKeys("Masson");
-        config.getDriver().findElement(new By.ByName("players[0].mail")).sendKeys("aurelien.masson@reseau.eseo.fr");
+        config.getDriver().findElement(new By.ByName("players[0].forename")).sendKeys(nom);
+        config.getDriver().findElement(new By.ByName("players[0].surname")).sendKeys(prenom);
+        config.getDriver().findElement(new By.ByName("players[0].mail")).sendKeys(mail);
         config.getDriver().findElement(new By.ByName("players[0].club")).sendKeys("Molkky Angers");
 
-        config.getDriver().findElement(new By.ByName("players[0].forename")).sendKeys("Zara");
-        config.getDriver().findElement(new By.ByName("players[0].surname")).sendKeys("Marks");
-        config.getDriver().findElement(new By.ByName("players[0].mail")).sendKeys("aurelien.masson@reseau.eseo.fr");
-        config.getDriver().findElement(new By.ByName("players[0].club")).sendKeys("Molkky Angers");
+        config.getDriver().findElement(new By.ByName("players[1].forename")).sendKeys(nom);
+        config.getDriver().findElement(new By.ByName("players[1].surname")).sendKeys(prenom);
+        config.getDriver().findElement(new By.ByName("players[1].mail")).sendKeys(mail);
+        config.getDriver().findElement(new By.ByName("players[1].club")).sendKeys("Molkky Angers");
 
         config.getDriver().findElement(new By.ById("sendTeam")).click();
 
-        Assertions.assertTrue(config.getDriver().findElement(new By.ByLinkText("S'il vous plait, entrez des mails différents pour chaque joueur !")).isDisplayed());
+        Assertions.assertTrue(config.getDriver().findElement(new By.ByXPath("/html/body/div/div[2]/form/div[2]/span")).isDisplayed());
     }
 
     @AfterAll
@@ -100,17 +132,25 @@ public class PlayerFormTest {
         config.getDriver().quit();
     }
 
-    String enterTeam(String nbPlayer){
+    private String enterTeam(String nbPlayer){
         config.getDriver().get(url + "/team/create");
-        String teamName = "Test" + Math.floor(Math.random() * 100);
+        String teamName = "Test" + Math.floor(Math.random() * 1000);
         config.getDriver().findElement(new By.ById("nom")).sendKeys(teamName);
         Select select = new Select(config.getDriver().findElement(new By.ById("tournament")));
         select.selectByIndex(1);
         String idTournament = config.getDriver().findElement(new By.ById("tournament")).getAttribute("value");
         config.getDriver().findElement(new By.ByName("nbPlayers")).sendKeys(nbPlayer);
         config.getDriver().findElement(new By.ById("sendTeam")).click();
-
         return teamName;
+    }
+
+    private String generateName(){
+        String str = "";
+        for(int i = 0; i < 5 ; i++){
+            char c = (char)(new Random().nextInt(25)+'a');
+            str +=c;
+        }
+        return str;
     }
 }
 

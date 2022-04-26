@@ -1,6 +1,6 @@
 package com.molkky.molkky.models;
 
-import Type.UserRole;
+import type.UserRole;
 import com.molkky.molkky.domain.User;
 import com.molkky.molkky.model.AddPlayerModel;
 import com.molkky.molkky.model.AddPlayerlistModel;
@@ -57,7 +57,7 @@ public class AddPlayerModelTest {
         listPlayer.addPlayer(player1);
         listPlayer.addPlayer(player2);
 
-        Assert.assertNotNull("List Empty",listPlayer.getPlayers().isEmpty());
+        Assert.assertFalse("List Empty",listPlayer.getPlayers().isEmpty());
         Assert.assertEquals("Size of List",2,listPlayer.getPlayers().size());
         Assert.assertEquals("Wrong player in place 1","Marks",listPlayer.getPlayers().get(0).getSurname());
         Assert.assertEquals("Wrong player in place 2","Masson",listPlayer.getPlayers().get(1).getSurname());
