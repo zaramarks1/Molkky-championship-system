@@ -1,5 +1,7 @@
-package com.molkky.molkky.domain;
+package com.molkky.molkky.domain.rounds;
 
+import com.molkky.molkky.domain.Match;
+import com.molkky.molkky.domain.Round;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,26 +12,12 @@ import java.util.List;
 @Getter
 @Entity
 @Setter
-@Table(name = "swisspool")
-public class SwissPool {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Integer id;
-
+public class SwissPool extends Round{
     @Column(name = "nbSubRounds")
     private Integer nbSubRounds;
 
     @Column(name = "nbTeamsQualified")
     private Integer nbTeamsQualified;
-
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "idSwisspool")
-    private List<Match> matches = new ArrayList<>();
-
-    @OneToOne(optional = false)
-    @JoinColumn(name = "idRound")
-    private Round round;
 
     public SwissPool(){
     }

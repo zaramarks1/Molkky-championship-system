@@ -3,7 +3,7 @@ package com.molkky.molkky.entity;
 import com.molkky.molkky.MolkkyApplication;
 import com.molkky.molkky.domain.Match;
 import com.molkky.molkky.domain.Round;
-import com.molkky.molkky.domain.SimpleGame;
+import com.molkky.molkky.domain.rounds.SimpleGame;
 import com.molkky.molkky.domain.Tournament;
 import com.molkky.molkky.repository.MatchRepository;
 import com.molkky.molkky.repository.RoundRepository;

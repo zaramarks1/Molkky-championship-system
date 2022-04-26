@@ -3,7 +3,6 @@ package com.molkky.molkky.entity;
 import com.molkky.molkky.MolkkyApplication;
 import com.molkky.molkky.domain.Court;
 import com.molkky.molkky.domain.Match;
-import com.molkky.molkky.domain.Pool;
 import com.molkky.molkky.domain.Team;
 import com.molkky.molkky.repository.CourtRepository;
 import com.molkky.molkky.repository.MatchRepository;
@@ -14,7 +13,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import javax.transaction.Transactional;
 import java.util.HashSet;
 import java.util.Set;
 
