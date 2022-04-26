@@ -49,6 +49,23 @@ class TournamentEntityTest {
     }
 
     @Test
+    void testAmountOfPlayersPerTeam(){
+        Tournament tournament = tournamentRepository.save(new Tournament(
+                "tournament_name",
+                "location",
+                new Date(),
+                new Date(),
+                1,
+                2,
+                true,
+                2,
+                3
+        ));
+        tournament.setNbPlayersPerTeam(2);
+        Assertions.assertEquals(2, tournament.getNbPlayersPerTeam(), "Amount of players per team should be 2");
+    }
+
+    @Test
     @Rollback(false)
     @Transactional
     void testInsertTournamentWithAdmins() {
