@@ -1,10 +1,10 @@
 package com.molkky.molkky.entity;
 
-import type.UserRole;
 import com.molkky.molkky.MolkkyApplication;
 import com.molkky.molkky.domain.Round;
 import com.molkky.molkky.domain.Tournament;
 import com.molkky.molkky.domain.User;
+import com.molkky.molkky.domain.UserTounamentRole;
 import com.molkky.molkky.model.TournamentModel;
 import com.molkky.molkky.repository.RoundRepository;
 import com.molkky.molkky.repository.TournamentRepository;
@@ -14,6 +14,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
+import type.RoundType;
+import type.UserRole;
 
 import javax.transaction.Transactional;
 import java.text.ParseException;
@@ -49,6 +51,23 @@ class TournamentEntityTest {
     }
 
     @Test
+    void testAmountOfPlayersPerTeam(){
+        Tournament tournament = tournamentRepository.save(new Tournament(
+                "tournament_name",
+                "location",
+                new Date(),
+                new Date(),
+                1,
+                2,
+                true,
+                2,
+                3
+        ));
+        tournament.setNbPlayersPerTeam(2);
+        Assertions.assertEquals(2, tournament.getNbPlayersPerTeam(), "Amount of players per team should be 2");
+    }
+
+    @Test
     @Rollback(false)
     @Transactional
     void testInsertTournamentWithAdmins() {
@@ -63,13 +82,16 @@ class TournamentEntityTest {
                 2,
                 3
         ));
-        User user = userRepository.save(new User("pseudoUser1", "surname1", "forename1", "club1", "email1", false, UserRole.ADM));
-        Set<User> admins = new HashSet<>();
-        admins.add(user);
-        tournament.setUsers(admins);
+        User user = userRepository.save(new User("pseudoUser1", "surname1", "forename1", "club1", "email1"));
+        Set<UserTounamentRole> admins = new HashSet<>();
+        UserTounamentRole userTounamentRole = new UserTounamentRole();
+        userTounamentRole.setUser(user);
+        userTounamentRole.setRole(UserRole.ADM);
+        admins.add(userTounamentRole);
+        tournament.setUserTounamentRoles(admins);
         tournamentRepository.save(tournament);
 
-        Assertions.assertEquals(1, tournament.getUsers().size(), "Tournament should have 1 admin");
+        Assertions.assertEquals(1, tournament.getUserTounamentRoles().size(), "Tournament should have 1 admin");
     }
 
     @Test
@@ -88,7 +110,7 @@ class TournamentEntityTest {
                 3
         ));
 
-        Round round = new Round("finnish", 2);
+        Round round = new Round(RoundType.FINNISH, 2);
         round.setTournament(tournament);
         roundRepository.save(round);
         List<Round> rounds = new ArrayList<>();

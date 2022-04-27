@@ -36,9 +36,9 @@ public class ConnexionController {
             User userByEmail = userRepository.findUsersByEmail(user.getEmail());
             userByEmail.setPseudo("test2");
             userRepository.save(userByEmail);
-            if (connexionService.decode(user.getCode(), userByEmail)) {
-                UserRole role = userByEmail.getRole();
-                request.getSession().setAttribute("role",role);
+            if (connexionService.decode(user.getPassword(), userByEmail)) {
+                //UserRole role = userByEmail.getRole();
+                //request.getSession().setAttribute("role",role);
                 request.getSession().setAttribute("user",userByEmail);
                 return new ModelAndView("redirect:/");
             } else {

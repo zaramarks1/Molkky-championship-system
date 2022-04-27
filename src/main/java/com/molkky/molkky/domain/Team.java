@@ -29,7 +29,7 @@ public class Team implements Serializable {
     private Set<Round> rounds;
 
     @OneToMany(mappedBy="team")
-    private Set<User> users;
+    private Set<UserTounamentRole> userTounamentRoles;
 
     @ManyToOne
     @JoinColumn(name="idTournament", nullable = true)
@@ -40,6 +40,10 @@ public class Team implements Serializable {
 
     @Column(name = "nbWins")
     private Integer nbWins = 0;
+
+    @Column(name = "code")
+    String code;
+
 
     public Team( String name, Integer nbPlayers) {
         this.name = name;

@@ -58,7 +58,7 @@ public class Tournament implements Serializable {
 
 
     @OneToMany(mappedBy="tournament")
-    private Set<User> users;
+    private Set<UserTounamentRole> userTounamentRoles;
 
     @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(mappedBy="tournament")
@@ -73,6 +73,9 @@ public class Tournament implements Serializable {
 
     @Column(name = "finished")
     private boolean finished;
+
+    @Column(name = "nbPlayersPerTeam")
+    private Integer nbPlayersPerTeam;
 
     public Tournament(String name, String location, Date date, Date cutOffDate, Integer minTeam, Integer maxTeam, boolean visible, Integer nbRounds, Integer nbCourts) {
         this.name = name;
@@ -98,6 +101,7 @@ public class Tournament implements Serializable {
         this.nbRounds = tournamentModel.getNbRounds();
         this.nbCourts = tournamentModel.getNbCourts();
         this.status = TournamentStatus.AVAILABLE;
+        this.nbPlayersPerTeam = tournamentModel.getNbPlayersPerTeam();
     }
 
  

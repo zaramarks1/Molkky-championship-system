@@ -28,10 +28,10 @@ public class RegisterController {
         return "register";
     }
 
-    // TO DO Retrieve the current tournament within the session
+    // TODO Retrieve the current tournament within the session
     @PostMapping("/saveUser")
     public ModelAndView saveUser(@ModelAttribute("user") User user) {
-        user.setTournament(tournamentRepository.findById(1));
+        //user.setTournament(tournamentRepository.findById(1));
         registerService.encodeAndSendEmail(user);
         registerService.saveUser(user);
         return new ModelAndView("redirect:/register");

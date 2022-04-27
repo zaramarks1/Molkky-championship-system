@@ -23,7 +23,7 @@
 
                 <div class="inputContainer">
                     <label for="dateTournoi" class="inputLabel">Date du tournoi</label>
-                    <input id="dateTournoi" name="dateTournoi" type="date" th:field="*{date}" class="inputTournament" placeholder="Date"/>
+                    <input id="dateTournoi" name="dateTournoi" type="date" th:field="*{date}" class="inputTournament" placeholder="Date" onchange="setMinDate()"/>
                 </div>
 
                 <div class="inputContainer">
@@ -45,6 +45,11 @@
                 <div class="inputContainer">
                     <label for="visible" class="inputLabel">Tournoi ouvert</label>
                     <input id="visible" name="visible" type="checkbox" th:field="*{visible}" class="inputTournament"/>
+                </div>
+
+                <div class="inputContainer">
+                    <label for="nbPlayersPerTeam" class="inputLabel">Nombre de joueurs par équipe</label>
+                    <input id="nbPlayersPerTeam" name="nbPlayersPerTeam" type="number" th:field="*{nbPlayersPerTeam}" class="inputTournament"/>
                 </div>
 
                 <div class="inputContainer">
@@ -109,6 +114,10 @@
         }
 
         refreshTeams();
+
+        function setMinDate(){
+            document.getElementById('cutOffDate').max = document.getElementById('dateTournoi').value;
+        }
     </script>
 </body>
 <div th:replace="fragments/footer"></div>

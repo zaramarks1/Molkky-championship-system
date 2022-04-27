@@ -17,7 +17,7 @@ public class ConnexionService {
     public boolean decode(String passwordNotEncrypted, User user) {
         boolean rightPassword =false;
         BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
-        String userDBPassword = user.getCode();
+        String userDBPassword = user.getPassword();
         boolean isPasswordMatches = bcrypt.matches(passwordNotEncrypted, userDBPassword);
         if (isPasswordMatches) {
             System.out.println("Password Match");
