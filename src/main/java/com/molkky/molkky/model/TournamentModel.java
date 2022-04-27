@@ -23,6 +23,7 @@ public class TournamentModel {
     private Integer nbCourts;
     private Integer nbPlayersPerTeam;
     private boolean visible;
+    private String email;
 
     public void setDate(String date) throws ParseException {
         if(!Objects.equals(date, "")) this.date = formatDate(date);

@@ -6,6 +6,7 @@ import com.molkky.molkky.domain.User;
 import com.molkky.molkky.model.TournamentModel;
 import com.molkky.molkky.repository.TournamentRepository;
 import com.molkky.molkky.repository.UserRepository;
+import com.molkky.molkky.service.TounamentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +23,9 @@ public class TournamentController {
     private TournamentRepository tournamentRepository;
 
     @Autowired
+    private TounamentService tournamentService;
+
+    @Autowired
     private UserRepository userRepository;
 
     @GetMapping("/create")
@@ -35,21 +39,20 @@ public class TournamentController {
     @PostMapping("/create")
     public String tournamentSubmit(@Valid @ModelAttribute("tournament") TournamentModel tournament, Model model) {
 
-        Tournament tournamentEntity = tournamentRepository.save(new Tournament(tournament));
+        Tournament tournamentEntity = tournamentService.create(tournament);
 
-        model.addAttribute("tournament", tournamentEntity);
-        return "tournament/create";
+        int id = tournamentEntity.getId();
+        return "redirect:/tournament/"+id+"/view";
     }
 
     @GetMapping("/{id}/view")
     public String tournamentView(Model model, @PathVariable("id") String id){
 
         //USER FROM SESSION
-        User user = userRepository.findById(4);
+        User user = null;
 
         Tournament tournament = tournamentRepository.findById(Integer.valueOf(id));
         model.addAttribute("tournament", tournament);
-        //model.addAttribute("tournamentId", "0");
         model.addAttribute("user", user);
         model.addAttribute("nbTeam", tournament.getTeams().size());
 

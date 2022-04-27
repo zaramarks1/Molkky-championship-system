@@ -33,7 +33,7 @@ public class ConnexionController {
     @PostMapping("/connexion")
     public ModelAndView connexionUser(@ModelAttribute("user")User user, HttpServletRequest request){
         try {
-            User userByEmail = userRepository.findUsersByEmail(user.getEmail());
+            User userByEmail = userRepository.findUserByEmail(user.getEmail());
             userByEmail.setPseudo("test2");
             userRepository.save(userByEmail);
             if (connexionService.decode(user.getPassword(), userByEmail)) {
