@@ -74,7 +74,7 @@ public class TeamController {
 
         model.addAttribute("team", teamNew);
         AddPlayerlistModel players = new AddPlayerlistModel();
-        for(int i =0 ; i< teamNew.getNbPlayers();i++){
+        for(int i =0 ; i< tournament.getNbPlayersPerTeam();i++){
             players.addPlayer(new AddPlayerModel());
 
         }
