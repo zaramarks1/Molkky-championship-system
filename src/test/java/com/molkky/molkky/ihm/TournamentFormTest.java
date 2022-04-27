@@ -58,6 +58,7 @@ class TournamentFormTest {
         String randomMaxTeam = "20";
         String randomNbRounds = "1";
         String randomNbCounts = "1";
+        String randomNbPlayersPerTeam = "3";
 
         config.getDriver().findElement(new By.ById("nom")).sendKeys(randomName);
         config.getDriver().findElement(new By.ById("location")).sendKeys(randomLocation);
