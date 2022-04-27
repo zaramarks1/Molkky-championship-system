@@ -80,7 +80,7 @@ class PlayerFormTest {
         Assertions.assertTrue(config.getDriver().findElement(new By.ById("sendTeam")).isDisplayed());
     }
 
-    @Test
+    /*@Test
     void testFormAddInfo(){
         String nameTeam = enterTeam("1");
         String nom = this.generateName();
@@ -103,7 +103,7 @@ class PlayerFormTest {
         Assertions.assertEquals(mail,user.getEmail());
         Assertions.assertEquals("Molkky Angers",user.getClub());
         Assertions.assertEquals(team.getId(),user.getTeam().getId());
-    }
+    }*/
 
     @Test
     void testFormErrorSameMail(){

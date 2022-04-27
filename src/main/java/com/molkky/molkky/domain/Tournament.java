@@ -58,7 +58,7 @@ public class Tournament implements Serializable {
 
 
     @OneToMany(mappedBy="tournament")
-    private Set<User> users;
+    private Set<UserTounamentRole> userTounamentRoles;
 
     @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(mappedBy="tournament")

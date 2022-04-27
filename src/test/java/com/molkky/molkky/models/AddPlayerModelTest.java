@@ -26,7 +26,7 @@ public class AddPlayerModelTest {
         Assert.assertEquals("Id club different",Integer.valueOf(1),player.getTeamId());
     }
 
-    @Test
+    /*Test
     public void testAddPlayerFunction(){
         AddPlayerModel player = new AddPlayerModel("Marks","Zara","Molkky Angers","zara.marks@reseau.eseo.fr");
         User user = player.addPlayer();
@@ -38,7 +38,7 @@ public class AddPlayerModelTest {
         Assert.assertEquals("Role different", UserRole.PLAYER,user.getRole());
         Assert.assertFalse("User is registered",user.getIsRegistered());
         Assert.assertNotNull("Code not null",user.getCode());
-    }
+    }*/
 
     @Test
     public void testCreateCodeLength(){

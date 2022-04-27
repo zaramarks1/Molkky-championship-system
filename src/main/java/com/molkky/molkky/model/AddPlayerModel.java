@@ -40,9 +40,7 @@ public class AddPlayerModel {
         user.setForename(this.getForename());
         user.setEmail(this.getMail());
         user.setClub(this.getClub());
-        user.setRole(UserRole.PLAYER);
-        user.setIsRegistered(false);
-        user.setCode(createCode(10));
+
 
         return user;
     }

@@ -32,7 +32,7 @@ class TeamEntityTest {
         Assertions.assertEquals("Team 1", recupTeam.getName(), "Team name is not correct");
     }
 
-    @Test
+    /*@Test
     @Rollback(false)
     @Transactional
     void testTeamWithUsers(){
@@ -50,5 +50,5 @@ class TeamEntityTest {
         Iterator<User> iter = recupUsers.iterator();
 
         Assertions.assertEquals("pseudoUser1", iter.next().getPseudo(), "User pseudo is not correct");
-    }
+    }*/
 }

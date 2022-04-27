@@ -94,12 +94,12 @@ public class TeamController {
         for(AddPlayerModel player : players){
 
             User user = player.addPlayer();
-            user.setTeam(team);
+           /* user.setTeam(team);
             String pwd = user.getCode();
             //emailSenderService.SendEmail(user.getEmail(),"Votre code d'identification au site Molkky","Voici votre code : "+ pwd);
             PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
             String hashedPassword = passwordEncoder.encode(pwd);
-            user.setCode(hashedPassword);
+            user.setCode(hashedPassword);*/
             userRepository.save(user);
             users.add(user);
         }
