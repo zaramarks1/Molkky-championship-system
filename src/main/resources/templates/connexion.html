@@ -19,16 +19,22 @@
 </div>
 <div class="center">
     <h1>Connexion</h1>
-    <form method="post" th:action="@{/connexion}" autocomplete="off" th:object="${user}">
+    <form method="post" th:action="@{/connexion}" autocomplete="off" th:object="${userConnection}">
         <div class="txt_field">
             <input autocomplete="off" type="text" required="required" pattern="[^@\s]+@[^@\s]+\.[^@\s]+" th:field="*{email}"></p>
             <span></span>
             <label>Email</label>
         </div>
         <div class="txt_field">
-            <input type="password" autocomplete="off" required="required" th:field="*{code}">
+            <input type="password" autocomplete="off" required="required" th:field="*{password}">
             <span></span>
-            <label>Code</label>
+            <label>Mot de passe</label>
+        </div>
+
+        <div class="txt_field">
+            <input type="text" autocomplete="off"  th:field="*{code}">
+            <span></span>
+            <label>Code d'equipe</label>
         </div>
         <input type="submit" class="primaryButton" value="Se connecter">
 

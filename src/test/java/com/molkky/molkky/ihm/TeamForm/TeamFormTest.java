@@ -62,7 +62,6 @@ class TeamFormTest {
 
         Assertions.assertNotNull(team,"Team not save");
         Assertions.assertEquals(teamName,team.getName(),"Name different");
-        Assertions.assertEquals(numberOfPlayer,String.valueOf(team.getNbPlayers()),"NbPlayers different");
         Assertions.assertEquals(idTournament,String.valueOf(team.getTournament().getId()),"IdTournament different");
     }
 

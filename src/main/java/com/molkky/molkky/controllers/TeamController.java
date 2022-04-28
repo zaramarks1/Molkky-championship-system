@@ -61,20 +61,12 @@ public class TeamController {
     public ModelAndView submit(@ModelAttribute("team") CreateTeamModel team, ModelMap model ){
 
 
-        Integer idTournament = team.getTournament();
-        Tournament tournament = tournamentRepository.findById(idTournament);
-
-        Team teamCreate = new Team();
-
-        teamCreate.setName(team.getName());
-        teamCreate.setNbPlayers(team.getNbPlayers());
-        teamCreate.setTournament(tournament);
-
-        Team teamNew = teamRepository.save(teamCreate);
+        Team teamNew = teamService.create(team);
 
         model.addAttribute("team", teamNew);
         AddPlayerlistModel players = new AddPlayerlistModel();
-        for(int i =0 ; i< tournament.getNbPlayersPerTeam();i++){
+
+        for(int i =0 ; i< teamNew.getTournament().getNbPlayersPerTeam();i++){
             players.addPlayer(new AddPlayerModel());
 
         }

@@ -1,11 +1,14 @@
 package com.molkky.molkky.service;
 
 import com.molkky.molkky.domain.Team;
+import com.molkky.molkky.domain.Tournament;
 import com.molkky.molkky.domain.User;
 import com.molkky.molkky.domain.UserTounamentRole;
 import com.molkky.molkky.model.AddPlayerModel;
 import com.molkky.molkky.model.AddPlayerlistModel;
+import com.molkky.molkky.model.CreateTeamModel;
 import com.molkky.molkky.repository.TeamRepository;
+import com.molkky.molkky.repository.TournamentRepository;
 import com.molkky.molkky.repository.UserRepository;
 import com.molkky.molkky.repository.UserTounamentRoleRepository;
 import lombok.Data;
@@ -30,6 +33,28 @@ public class TeamService {
 
     @Autowired
     UserTounamentRoleRepository userTounamentRoleRepository;
+
+    @Autowired
+    TournamentRepository tournamentRepository;
+
+
+    public Team create(CreateTeamModel team){
+
+        Integer idTournament = team.getTournament();
+        Tournament tournament = tournamentRepository.findById(idTournament);
+
+        Team teamCreate = new Team();
+
+        teamCreate.setName(team.getName());
+        teamCreate.setTournament(tournament);
+
+        teamCreate.setCode(createCode(5));
+
+        return teamRepository.save(teamCreate);
+
+
+
+    }
 
     public Team addPlayers(AddPlayerlistModel addPlayerlistModel){
 
