@@ -2,10 +2,7 @@ package com.molkky.molkky.controllers;
 
 import com.molkky.molkky.domain.Match;
 import com.molkky.molkky.domain.User;
-import com.molkky.molkky.model.CourtModel;
-import com.molkky.molkky.model.MatchModel;
-import com.molkky.molkky.model.TeamModel;
-import com.molkky.molkky.model.TournamentModel;
+import com.molkky.molkky.model.*;
 import com.molkky.molkky.repository.MatchRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,6 +27,7 @@ public class MatchController {
         model.addAttribute("teams", Arrays.asList(new TeamModel(match.getTeams().get(0)), new TeamModel(match.getTeams().get(1))));
         model.addAttribute("court", new CourtModel(match.getCourt()));
         model.addAttribute("tournament", new TournamentModel(match.getRound().getTournament()));
+        model.addAttribute("sets", SetModel.createSetModels(match.getSets()));
         return "match/match";
     }
 }

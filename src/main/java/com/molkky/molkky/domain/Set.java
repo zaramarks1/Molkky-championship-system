@@ -24,7 +24,7 @@ public class Set {
     private List<Team> teams;
 
     @OneToMany(mappedBy = "set")
-    private java.util.Set<Shot> shots;
+    private List<Shot> shots;
 
     @Column(name = "scoreTeam1")
     private Integer scoreTeam1 = 0;
@@ -33,7 +33,7 @@ public class Set {
     private Integer scoreTeam2 = 0;
 
     @Column(name = "finished")
-    private Boolean finished= false;
+    private Boolean finished = false;
 
     @ManyToOne
     @JoinColumn(name = "match_id")

@@ -22,24 +22,12 @@
                             Nom de la team
                         </div>
                     </div>
-                    <div class="setListContainer">
+                    <div class="setListContainer" th:each="set, iStat: ${sets}">
                         <div class="setContainer">
-                            <div class="setText">
-                                SET 1
+                            <div class="setText" th:text="'SET:' + ${iStat.index}">
+                                SET X
                             </div>
-                            <input class="setInput" type="number" name="set1" value="0" />
-                        </div>
-                        <div class="setContainer">
-                            <div class="setText">
-                                SET 1
-                            </div>
-                            <input class="setInput" type="number" name="set1" value="0" />
-                        </div>
-                        <div class="setContainer">
-                            <div class="setText">
-                                SET 1
-                            </div>
-                            <input class="setInput" type="number" name="set1" value="0" />
+                            <input class="setInput" type="number" name="set1" value="0" th:value="${set.scoreTeam1}"/>
                         </div>
                     </div>
                 </div>
@@ -47,7 +35,7 @@
                     <div class="courtText" th:text="${court.name}">
                         Court placeholder
                     </div>
-                    <div class="bestOfText">
+                    <div class="bestOfText" th:text="'Jeu en ' + ${sets.size} + ' sets'">
                         Best of placeholder
                     </div>
                     <div class="stateContainer">
@@ -71,12 +59,12 @@
                             Nom de la team
                         </div>
                     </div>
-                    <div class="setListContainer">
+                    <div class="setListContainer" th:each="set, iStat: ${sets}">
                         <div class="setContainer">
-                            <div class="setText">
-                                SET 1
+                            <div class="setText" th:text="'SET ' + ${iStat.index}">
+                                SET X
                             </div>
-                            <input class="setInput" type="number" name="set1" value="0" />
+                            <input class="setInput" type="number" name="set1" value="0" th:value="${set.scoreTeam2}" />
                         </div>
                     </div>
                 </div>
