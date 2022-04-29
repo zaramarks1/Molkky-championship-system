@@ -43,7 +43,7 @@ public class ConnexionController {
 
         try {
             if(userRepository.existsUserByEmailAndPassword(userModel.getEmail(), userModel.getPassword())){
-                User user = userRepository.findUserByEmailAAndPassword(userModel.getEmail(), userModel.getPassword());
+                User user = userRepository.findUserByEmailAndPassword(userModel.getEmail(), userModel.getPassword());
                 if(userModel.getCode() != null){
                     //TODO add player condition
                 }
