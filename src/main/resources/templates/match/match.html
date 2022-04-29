@@ -10,15 +10,15 @@
     <div class="contentContainer">
         <div th:replace="fragments/searchbar"> </div>
         <div class="matchAllContainer">
-            <div class="tournamentTitle">placeholder nom tournoi</div>
-            <div class="tournamentDate">placeholder date tournoi</div>
+            <div class="tournamentTitle" th:text="${tournament.name}">placeholder nom tournoi</div>
+            <div class="tournamentDate" th:text="${tournament.date}">placeholder date tournoi</div>
             <div class="matchContainer">
                 <div class="columnContainer">
                     <div class="teamContainer">
                         <div class="teamImage">
 
                         </div>
-                        <div class="teamName">
+                        <div class="teamName" th:text="${teams[0].name}">
                             Nom de la team
                         </div>
                     </div>
@@ -44,7 +44,7 @@
                     </div>
                 </div>
                 <div class="columnContainer">
-                    <div class="courtText">
+                    <div class="courtText" th:text="${court.name}">
                         Court placeholder
                     </div>
                     <div class="bestOfText">
@@ -67,7 +67,7 @@
                         <div class="teamImage">
 
                         </div>
-                        <div class="teamName">
+                        <div class="teamName"  th:text="${teams[1].name}">
                             Nom de la team
                         </div>
                     </div>

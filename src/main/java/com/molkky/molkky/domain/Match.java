@@ -31,6 +31,10 @@ public class Match {
     @JoinColumn(name="idRound", nullable = true)
     private Round round;
 
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE, targetEntity = Court.class)
+    @JoinColumn(name = "idCourt")
+    private Court court;
+
     @ManyToMany
     @JoinTable(name = "molkky_match_team",
             joinColumns = @JoinColumn(name = "match_id"),

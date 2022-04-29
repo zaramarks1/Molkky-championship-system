@@ -46,16 +46,18 @@ public class TournamentModel {
     }
 
     public TournamentModel(Tournament tournament) {
-        this.name = tournament.getName();
-        this.location = tournament.getLocation();
-        this.date = tournament.getDate();
-        this.cutOffDate = tournament.getCutOffDate();
-        this.minTeam = tournament.getMinTeam();
-        this.maxTeam = tournament.getMaxTeam();
-        this.nbRounds = tournament.getNbRounds();
-        this.nbCourts = tournament.getNbCourts();
-        this.nbPlayersPerTeam = tournament.getNbPlayersPerTeam();
-        this.visible = tournament.isVisible();
+        if(tournament.getId() != null) {
+            this.name = tournament.getName();
+            this.location = tournament.getLocation();
+            this.date = tournament.getDate();
+            this.cutOffDate = tournament.getCutOffDate();
+            this.minTeam = tournament.getMinTeam();
+            this.maxTeam = tournament.getMaxTeam();
+            this.nbRounds = tournament.getNbRounds();
+            this.nbCourts = tournament.getNbCourts();
+            this.nbPlayersPerTeam = tournament.getNbPlayersPerTeam();
+            this.visible = tournament.isVisible();
+        }
     }
 
 }

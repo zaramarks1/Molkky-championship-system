@@ -35,7 +35,9 @@ public class TeamModel {
     public static List<TeamModel> createTeamModels(List<Team> teams) {
         List<TeamModel> teamModels = new ArrayList<>();
         for (Team team : teams) {
-            teamModels.add(new TeamModel(team));
+            if(team.getId() != null) {
+                teamModels.add(new TeamModel(team));
+            }
         }
         return teamModels;
     }

@@ -24,7 +24,7 @@ public class Court {
     private String name;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "court")
-    private List<Set> sets = new ArrayList<>();
+    private List<Match> matches = new ArrayList<>();
 
     public Court(boolean isAvailable, String name) {
         this.isAvailable = isAvailable;

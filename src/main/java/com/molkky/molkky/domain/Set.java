@@ -16,10 +16,6 @@ public class Set {
     @Column(name = "id")
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE, targetEntity = Court.class)
-    @JoinColumn(name = "idCourt")
-    private Court court;
-
     @ManyToMany
     @JoinTable(
             name = "molkky_set_team",
@@ -43,8 +39,7 @@ public class Set {
     @JoinColumn(name = "match_id")
     private Match match;
 
-    public Set(Court court, List<Team> teams) {
-        this.court = court;
+    public Set(List<Team> teams) {
         this.teams = teams;
     }
 
