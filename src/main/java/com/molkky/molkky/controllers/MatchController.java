@@ -23,6 +23,15 @@ public class MatchController {
         User user = (User)session.getAttribute("user");
         model.addAttribute("user", user);
         Match match = matchRepository.findById(id);
+//        if(user == null){
+//            return new ResponseEntity<>("Pas login", HttpStatus.UNAUTHORIZED);
+//        }
+//
+//        if(!Objects.equals(user.getTeam().getId(), match.getTeams().get(0).getId())
+//                && !Objects.equals(user.getTeam().getId(), match.getTeams().get(1).getId())
+//        ) {
+//            return new ResponseEntity<>("Pas dans une des équipes", HttpStatus.UNAUTHORIZED);
+//        }
         model.addAttribute("match", new MatchModel(match));
         model.addAttribute("teams", Arrays.asList(new TeamModel(match.getTeams().get(0)), new TeamModel(match.getTeams().get(1))));
         model.addAttribute("court", new CourtModel(match.getCourt()));
