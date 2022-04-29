@@ -1,7 +1,7 @@
 package com.molkky.molkky.entity.rounds;
 
 import com.molkky.molkky.MolkkyApplication;
-import com.molkky.molkky.domain.Match;
+import com.molkky.molkky.domain.Set;
 import com.molkky.molkky.domain.Tournament;
 import com.molkky.molkky.domain.rounds.SimpleGame;
 import com.molkky.molkky.repository.MatchRepository;
@@ -34,14 +34,14 @@ class SimpleGameEntityTest {
     @Transactional
     @Rollback(false)
     void testInsertSimpleGame() {
-        Match match = new Match();
-        Match match2 = new Match();
-        List<Match> matches = Arrays.asList(match, match2);
+        Set set = new Set();
+        Set set2 = new Set();
+        List<Set> sets = Arrays.asList(set, set2);
 
         SimpleGame simpleGame = new SimpleGame();
-        match.setRound(simpleGame);
-        match2.setRound(simpleGame);
-        simpleGame.setMatches(matches);
+        set.setRound(simpleGame);
+        set2.setRound(simpleGame);
+        simpleGame.setSets(sets);
 
         Tournament tournament = tournamentRepository.save(new Tournament(
                 "tournament_name",
@@ -57,12 +57,12 @@ class SimpleGameEntityTest {
 
         simpleGame.setTournament(tournament);
         simpleGame = simpleGameRepository.save(simpleGame);
-        System.out.println(simpleGame.getMatches());
+        System.out.println(simpleGame.getSets());
         Assertions.assertNotNull(simpleGame.getId());
-        Match recupMatch = matchRepository.findById(match.getId());
-        Assertions.assertEquals(recupMatch.getRound().getId(), simpleGame.getId());
+        Set recupSet = matchRepository.findById(set.getId());
+        Assertions.assertEquals(recupSet.getRound().getId(), simpleGame.getId());
 
         simpleGame = simpleGameRepository.findById(simpleGame.getId());
-        Assertions.assertEquals(2, simpleGame.getMatches().size());
+        Assertions.assertEquals(2, simpleGame.getSets().size());
     }
 }

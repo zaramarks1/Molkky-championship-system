@@ -39,7 +39,7 @@ public class Round {
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "idFinnish")
-    private List<Match> matches = new ArrayList<>();
+    private List<Set> sets = new ArrayList<>();
 
     @Column(name = "finished")
     private Boolean finished = false;

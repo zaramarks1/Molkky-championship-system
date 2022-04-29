@@ -1,7 +1,7 @@
 package com.molkky.molkky.entity;
 
 import com.molkky.molkky.MolkkyApplication;
-import com.molkky.molkky.domain.Match;
+import com.molkky.molkky.domain.Set;
 import com.molkky.molkky.domain.Shot;
 import com.molkky.molkky.domain.Team;
 import com.molkky.molkky.repository.MatchRepository;
@@ -23,11 +23,11 @@ class ShotEntityTest {
 
     @Test
     void testInsertShot() {
-        Match match = matchRepository.save(new Match());
+        Set set = matchRepository.save(new Set());
         Team team = teamRepository.save(new Team("Team 1", 2));
         Shot shot = new Shot();
         shot.setTeam(team);
-        shot.setMatch(match);
+        shot.setSet(set);
         shot.setScore(1);
         shot = shotRepository.save(shot);
         Assertions.assertEquals(1, shot.getScore());

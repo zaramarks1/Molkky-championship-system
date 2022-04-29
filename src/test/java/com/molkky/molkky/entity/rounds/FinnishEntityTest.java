@@ -1,7 +1,7 @@
 package com.molkky.molkky.entity.rounds;
 
 import com.molkky.molkky.MolkkyApplication;
-import com.molkky.molkky.domain.Match;
+import com.molkky.molkky.domain.Set;
 import com.molkky.molkky.domain.Tournament;
 import com.molkky.molkky.domain.rounds.Finnish;
 import com.molkky.molkky.repository.FinnishRepository;
@@ -34,14 +34,14 @@ class FinnishEntityTest {
     @Transactional
     @Rollback(false)
     void testInsertFinnishGame() {
-        Match match = new Match();
-        Match match2 = new Match();
-        List<Match> matches = Arrays.asList(match, match2);
+        Set set = new Set();
+        Set set2 = new Set();
+        List<Set> sets = Arrays.asList(set, set2);
 
         Finnish finnish = new Finnish(2, 2);
-        match.setRound(finnish);
-        match2.setRound(finnish);
-        finnish.setMatches(matches);
+        set.setRound(finnish);
+        set2.setRound(finnish);
+        finnish.setSets(sets);
 
         Tournament tournament = tournamentRepository.save(new Tournament(
                 "tournament_name",
@@ -57,12 +57,12 @@ class FinnishEntityTest {
 
         finnish.setTournament(tournament);
         finnish = finnishRepository.save(finnish);
-        System.out.println(finnish.getMatches());
+        System.out.println(finnish.getSets());
         Assertions.assertNotNull(finnish.getId());
-        Match recupMatch = matchRepository.findById(match.getId());
-        Assertions.assertEquals(recupMatch.getRound().getId(), finnish.getId());
+        Set recupSet = matchRepository.findById(set.getId());
+        Assertions.assertEquals(recupSet.getRound().getId(), finnish.getId());
 
         finnish = finnishRepository.findById(finnish.getId());
-        Assertions.assertEquals(2, finnish.getMatches().size());
+        Assertions.assertEquals(2, finnish.getSets().size());
     }
 }

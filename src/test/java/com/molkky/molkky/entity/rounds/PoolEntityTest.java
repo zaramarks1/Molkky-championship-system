@@ -1,7 +1,7 @@
 package com.molkky.molkky.entity.rounds;
 
 import com.molkky.molkky.MolkkyApplication;
-import com.molkky.molkky.domain.Match;
+import com.molkky.molkky.domain.Set;
 import com.molkky.molkky.domain.Tournament;
 import com.molkky.molkky.domain.rounds.Pool;
 import com.molkky.molkky.repository.MatchRepository;
@@ -34,15 +34,15 @@ class PoolEntityTest {
     @Transactional
     @Rollback(false)
     void testInsertPool() {
-        Match match = new Match();
-        Match match2 = new Match();
-        List<Match> matches = Arrays.asList(match, match2);
+        Set set = new Set();
+        Set set2 = new Set();
+        List<Set> sets = Arrays.asList(set, set2);
 
 
         Pool pool = new Pool();
-        match.setRound(pool);
-        match2.setRound(pool);
-        pool.setMatches(matches);
+        set.setRound(pool);
+        set2.setRound(pool);
+        pool.setSets(sets);
 
         Tournament tournament = tournamentRepository.save(new Tournament(
                 "tournament_name",
@@ -58,12 +58,12 @@ class PoolEntityTest {
 
         pool.setTournament(tournament);
         pool = roundRepository.save(pool);
-        System.out.println(pool.getMatches());
+        System.out.println(pool.getSets());
         Assertions.assertNotNull(pool.getId());
-        Match recupMatch = matchRepository.findById(match.getId());
-        Assertions.assertEquals(recupMatch.getRound().getId(), pool.getId());
+        Set recupSet = matchRepository.findById(set.getId());
+        Assertions.assertEquals(recupSet.getRound().getId(), pool.getId());
 
         pool = (Pool) roundRepository.findById(pool.getId());
-        Assertions.assertEquals(2, pool.getMatches().size());
+        Assertions.assertEquals(2, pool.getSets().size());
     }
 }
