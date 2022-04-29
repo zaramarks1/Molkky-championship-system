@@ -51,24 +51,34 @@ public class UserChoiceController {
     }
 
     @PostMapping("/user_choice/choiceTournament")
-    public ModelAndView submit(@RequestParam(value = "tournamentId") String tournamentId, ModelMap model, HttpSession session){
-        Tournament tournament = tournamentRepository.findById(Integer.valueOf(tournamentId));
-        User user = (User)session.getAttribute("user_temp");
-        List<UserTounamentRole> roles = userTounamentRoleRepository.findUserTounamentRoleByTournamentAndUser(tournament,user);
-        session.setAttribute("tournament",tournament);
-        model.addAttribute("roles",roles);
+    public ModelAndView submit(@RequestParam(value = "tournamentId",required = false) String tournamentId, ModelMap model, HttpSession session, Model model2){
+        try{
+            Tournament tournament = tournamentRepository.findById(Integer.valueOf(tournamentId));
+            User user = (User)session.getAttribute("user_temp");
+            List<UserTounamentRole> roles = userTounamentRoleRepository.findUserTounamentRoleByTournamentAndUser(tournament,user);
+            session.setAttribute("tournament",tournament);
+            model.addAttribute("roles",roles);
         return new ModelAndView( "/user_choice/choiceRole", model) ;
+        }
+        catch(Exception e) {
+            Index(session, model2);
+            return new ModelAndView("/user_choice/choiceTournament", model);
+        }
     }
 
     @PostMapping("/user_choice/choiceRole")
-    public ModelAndView choose(@RequestParam(value = "roleId") String roleId, HttpSession session, Model model){
-        UserTounamentRole userTounamentRole = userTounamentRoleRepository.findById(Integer.valueOf(roleId));
-        User userChoice= userTounamentRole.getUser();
-
-        Tournament tournament = (Tournament) session.getAttribute("tournament");
-        UserLogged userLogged = new UserLogged(userChoice.getEmail(), userChoice.getPassword(), userTounamentRole.getRole(),tournament);
-        session.setAttribute("user",userLogged);
-        return new ModelAndView( "/home") ;
+    public ModelAndView choose(@RequestParam(value = "roleId", required = false) String roleId, HttpSession session, Model model){
+        try {
+            UserTounamentRole userTounamentRole = userTounamentRoleRepository.findById(Integer.valueOf(roleId));
+            User userChoice = userTounamentRole.getUser();
+            Tournament tournament = (Tournament) session.getAttribute("tournament");
+            UserLogged userLogged = new UserLogged(userChoice.getEmail(), userChoice.getPassword(), userTounamentRole.getRole(), tournament);
+            session.setAttribute("user", userLogged);
+            return new ModelAndView("/home");
+        }
+        catch (Exception e){
+            return new ModelAndView("/user_choice/choiceRole");
+        }
     }
 
 
