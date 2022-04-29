@@ -1,0 +1,39 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html" lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <div th:replace="fragments/header"></div>
+    <title>Affichage des tournois</title>
+</head>
+<body class="bg">
+<div class="pageContainer">
+    <div th:replace="fragments/sidebar"></div>
+    <div class="contentContainer">
+        <div th:replace="fragments/searchbar"></div>
+        <div class="contentTitle">Création d'un tournoi</div>
+        <h2>Liste des tournois</h2>
+
+
+        <div>
+        <ul th:each="tournament:${allTournament}">
+                <div>
+                <a href="/tournament/${tournament.id}/view" th:text="${tournament.name}">Nom:</a>
+                <a href="/" th:text="${tournament.date}">Date:</a>
+                </div>
+        </ul>
+
+
+®
+
+        <form action="#" th:action="@{/tournament/allTournament}" method="post" class="formContainer">
+            <input id="valider" type="submit" class="primaryButton" value="Créer tournoi">
+        </form>
+        </div>
+
+
+
+
+    </div>
+</div>
+</body>
+<div th:replace="fragments/footer"></div>
+</html>
