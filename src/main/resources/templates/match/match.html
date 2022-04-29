@@ -1,7 +1,7 @@
 <html xmlns:th="http://thymeleaf.org" xmlns="http://www.w3.org/1999/html" lang="fr">
 <head>
     <div th:replace="fragments/header"></div>
-<!--    <link rel="stylesheet" th:href="@{/styles/tournament/create.css}" href="../" />-->
+    <link rel="stylesheet" th:href="@{/styles/match/match.css}" href="../" />
     <title>Match en cours</title>
 </head>
 <body class="bg">
@@ -9,8 +9,15 @@
     <div th:replace="fragments/sidebar"> </div>
     <div class="contentContainer">
         <div th:replace="fragments/searchbar"> </div>
-        <div class="contentTitle">placeholder nom tournoi</div>
-
+        <div class="matchAllContainer">
+            <div class="tournamentTitle">placeholder nom tournoi</div>
+            <div class="tournamentDate">placeholder date tournoi</div>
+            <div class="matchContainer">
+                <div>gauche</div>
+                <div>milieu</div>
+                <div>droite</div>
+            </div>
+        </div>
     </div>
 </div>
 </body>

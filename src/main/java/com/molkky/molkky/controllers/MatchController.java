@@ -1,5 +1,6 @@
 package com.molkky.molkky.controllers;
 
+import com.molkky.molkky.domain.Match;
 import com.molkky.molkky.domain.User;
 import com.molkky.molkky.model.MatchModel;
 import com.molkky.molkky.repository.MatchRepository;
@@ -20,8 +21,8 @@ public class MatchController {
     public String match(Model model, HttpSession session, @RequestParam(name = "match_id", required = true) Integer id) {
         User user = (User)session.getAttribute("user");
         model.addAttribute("user", user);
-
-        MatchModel matchModel = new MatchModel(matchRepository.findById(id));
+        Match match = matchRepository.findById(id);
+        MatchModel matchModel = new MatchModel(match);
         model.addAttribute("match", matchModel);
         return "match/match";
     }
