@@ -29,17 +29,17 @@ public class Team implements Serializable {
     private List<Match> matchs;
 
     @ManyToMany(mappedBy = "teams")
-    private java.util.Set<Round> rounds;
+    private List<Round> rounds;
 
     @OneToMany(mappedBy="team")
-    private java.util.Set<User> users;
+    private List<User> users;
 
     @ManyToOne
     @JoinColumn(name="idTournament", nullable = true)
     private Tournament tournament;
 
     @OneToMany(mappedBy = "team")
-    private java.util.Set<Shot> shots;
+    private List<Shot> shots;
 
     @Column(name = "nbWins")
     private Integer nbWins = 0;

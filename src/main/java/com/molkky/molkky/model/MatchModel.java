@@ -13,7 +13,7 @@ public class MatchModel {
     private Boolean finished;
     private Integer nbSets;
     private Team winner;
-    private List<Team> teams;
+    private List<TeamModel> teams;
     private List<Set> sets;
 
     public MatchModel(Match match) {
@@ -21,7 +21,7 @@ public class MatchModel {
         this.finished = match.getFinished();
         this.nbSets = match.getNbSets();
         this.winner = match.getWinner();
-        this.teams = match.getTeams();
+        this.teams = TeamModel.CreateTeamModels(match.getTeams());
         this.sets = match.getSets();
     }
 }
