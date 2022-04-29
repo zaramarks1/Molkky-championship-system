@@ -19,6 +19,7 @@ public class RoundModel {
         this.type = round.getType();
         this.nbTeams = round.getNbTeams();
         this.nbSets = round.getNbSets();
+        this.finished = round.getFinished();
     }
 
 }
