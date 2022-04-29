@@ -43,6 +43,10 @@ public class Set {
     @Column(name = "finished")
     private Boolean finished= false;
 
+    @ManyToOne
+    @JoinColumn(name = "match_id")
+    private Match match;
+
     public Set(Court court, List<Team> teams) {
         this.court = court;
         this.teams = teams;

@@ -19,7 +19,7 @@ public class Match {
     private Integer id;
 
     @Column(name = "finished")
-    private Boolean finished;
+    private Boolean finished = false;
 
     @Column(name = "nbSets")
     private Integer nbSets;
@@ -32,4 +32,7 @@ public class Match {
             joinColumns = @JoinColumn(name = "match_id"),
             inverseJoinColumns = @JoinColumn(name = "team_id"))
     private List<Team> teams;
+
+    @OneToMany(mappedBy = "match", cascade = CascadeType.ALL)
+    private List<Set> sets;
 }

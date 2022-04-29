@@ -4,7 +4,7 @@ import com.molkky.molkky.MolkkyApplication;
 import com.molkky.molkky.domain.Set;
 import com.molkky.molkky.domain.Tournament;
 import com.molkky.molkky.domain.rounds.Pool;
-import com.molkky.molkky.repository.MatchRepository;
+import com.molkky.molkky.repository.SetRepository;
 import com.molkky.molkky.repository.PoolRepository;
 import com.molkky.molkky.repository.RoundRepository;
 import com.molkky.molkky.repository.TournamentRepository;
@@ -24,7 +24,7 @@ class PoolEntityTest {
     @Autowired
     private PoolRepository poolRepository;
     @Autowired
-    private MatchRepository matchRepository;
+    private SetRepository setRepository;
     @Autowired
     private RoundRepository roundRepository;
     @Autowired
@@ -60,7 +60,7 @@ class PoolEntityTest {
         pool = roundRepository.save(pool);
         System.out.println(pool.getSets());
         Assertions.assertNotNull(pool.getId());
-        Set recupSet = matchRepository.findById(set.getId());
+        Set recupSet = setRepository.findById(set.getId());
         Assertions.assertEquals(recupSet.getRound().getId(), pool.getId());
 
         pool = (Pool) roundRepository.findById(pool.getId());

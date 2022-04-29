@@ -5,7 +5,7 @@ import com.molkky.molkky.domain.Set;
 import com.molkky.molkky.domain.Tournament;
 import com.molkky.molkky.domain.rounds.Finnish;
 import com.molkky.molkky.repository.FinnishRepository;
-import com.molkky.molkky.repository.MatchRepository;
+import com.molkky.molkky.repository.SetRepository;
 import com.molkky.molkky.repository.RoundRepository;
 import com.molkky.molkky.repository.TournamentRepository;
 import org.junit.jupiter.api.Assertions;
@@ -24,7 +24,7 @@ class FinnishEntityTest {
     @Autowired
     private FinnishRepository finnishRepository;
     @Autowired
-    private MatchRepository matchRepository;
+    private SetRepository setRepository;
     @Autowired
     private RoundRepository roundRepository;
     @Autowired
@@ -59,7 +59,7 @@ class FinnishEntityTest {
         finnish = finnishRepository.save(finnish);
         System.out.println(finnish.getSets());
         Assertions.assertNotNull(finnish.getId());
-        Set recupSet = matchRepository.findById(set.getId());
+        Set recupSet = setRepository.findById(set.getId());
         Assertions.assertEquals(recupSet.getRound().getId(), finnish.getId());
 
         finnish = finnishRepository.findById(finnish.getId());

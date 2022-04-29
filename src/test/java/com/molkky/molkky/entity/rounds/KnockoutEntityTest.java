@@ -5,7 +5,7 @@ import com.molkky.molkky.domain.Set;
 import com.molkky.molkky.domain.Tournament;
 import com.molkky.molkky.domain.rounds.Knockout;
 import com.molkky.molkky.repository.KnockoutRepository;
-import com.molkky.molkky.repository.MatchRepository;
+import com.molkky.molkky.repository.SetRepository;
 import com.molkky.molkky.repository.RoundRepository;
 import com.molkky.molkky.repository.TournamentRepository;
 import org.junit.jupiter.api.Assertions;
@@ -24,7 +24,7 @@ class KnockoutEntityTest {
     @Autowired
     private KnockoutRepository knockoutRepository;
     @Autowired
-    private MatchRepository matchRepository;
+    private SetRepository setRepository;
     @Autowired
     private RoundRepository roundRepository;
     @Autowired
@@ -59,7 +59,7 @@ class KnockoutEntityTest {
         knockout = knockoutRepository.save(knockout);
         System.out.println(knockout.getSets());
         Assertions.assertNotNull(knockout.getId());
-        Set recupSet = matchRepository.findById(set.getId());
+        Set recupSet = setRepository.findById(set.getId());
         Assertions.assertEquals(recupSet.getRound().getId(), knockout.getId());
 
         knockout = knockoutRepository.findById(knockout.getId());

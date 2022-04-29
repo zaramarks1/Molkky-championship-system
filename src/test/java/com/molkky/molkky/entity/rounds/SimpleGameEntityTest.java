@@ -4,7 +4,7 @@ import com.molkky.molkky.MolkkyApplication;
 import com.molkky.molkky.domain.Set;
 import com.molkky.molkky.domain.Tournament;
 import com.molkky.molkky.domain.rounds.SimpleGame;
-import com.molkky.molkky.repository.MatchRepository;
+import com.molkky.molkky.repository.SetRepository;
 import com.molkky.molkky.repository.RoundRepository;
 import com.molkky.molkky.repository.SimpleGameRepository;
 import com.molkky.molkky.repository.TournamentRepository;
@@ -24,7 +24,7 @@ class SimpleGameEntityTest {
     @Autowired
     private SimpleGameRepository simpleGameRepository;
     @Autowired
-    private MatchRepository matchRepository;
+    private SetRepository setRepository;
     @Autowired
     private RoundRepository roundRepository;
     @Autowired
@@ -59,7 +59,7 @@ class SimpleGameEntityTest {
         simpleGame = simpleGameRepository.save(simpleGame);
         System.out.println(simpleGame.getSets());
         Assertions.assertNotNull(simpleGame.getId());
-        Set recupSet = matchRepository.findById(set.getId());
+        Set recupSet = setRepository.findById(set.getId());
         Assertions.assertEquals(recupSet.getRound().getId(), simpleGame.getId());
 
         simpleGame = simpleGameRepository.findById(simpleGame.getId());
