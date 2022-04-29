@@ -9,7 +9,7 @@ import java.util.List;
 @Getter
 @Entity
 @Setter
-@Table(name = "molkky_match")
+@Table(name = "molkky_set")
 public class Set {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,8 +22,8 @@ public class Set {
 
     @ManyToMany
     @JoinTable(
-            name = "match_team",
-            joinColumns = @JoinColumn(name = "match_id"),
+            name = "molkky_set_team",
+            joinColumns = @JoinColumn(name = "set_id"),
             inverseJoinColumns = @JoinColumn(name = "team_id"))
     private List<Team> teams;
 

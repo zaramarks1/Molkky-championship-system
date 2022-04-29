@@ -5,6 +5,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Getter
 @Entity
@@ -22,7 +23,10 @@ public class Team implements Serializable {
     private Integer nbPlayers;
 
     @ManyToMany(mappedBy = "teams")
-    private java.util.Set<Set> sets;
+    private List<Set> sets;
+
+    @ManyToMany(mappedBy = "teams")
+    private List<Match> matchs;
 
     @ManyToMany(mappedBy = "teams")
     private java.util.Set<Round> rounds;
