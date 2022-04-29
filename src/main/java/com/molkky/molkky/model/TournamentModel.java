@@ -1,6 +1,8 @@
 package com.molkky.molkky.model;
 
+import com.molkky.molkky.domain.Tournament;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.AssertTrue;
@@ -12,6 +14,7 @@ import java.util.Objects;
 
 @Getter
 @Setter
+@NoArgsConstructor
 public class TournamentModel {
     private String name;
     private String location;
@@ -41,4 +44,18 @@ public class TournamentModel {
     public boolean isCutoffDateBeforeDate() {
         return cutOffDate.before(date) || cutOffDate.equals(date);
     }
+
+    public TournamentModel(Tournament tournament) {
+        this.name = tournament.getName();
+        this.location = tournament.getLocation();
+        this.date = tournament.getDate();
+        this.cutOffDate = tournament.getCutOffDate();
+        this.minTeam = tournament.getMinTeam();
+        this.maxTeam = tournament.getMaxTeam();
+        this.nbRounds = tournament.getNbRounds();
+        this.nbCourts = tournament.getNbCourts();
+        this.nbPlayersPerTeam = tournament.getNbPlayersPerTeam();
+        this.visible = tournament.isVisible();
+    }
+
 }
