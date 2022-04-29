@@ -8,9 +8,9 @@
                 <p class="sidebarButtonContent">Accueil</p>
             </div>
         </a>
-        <a href="/tournament" style="text-decoration: none;">
-            <div th:class="'sidebarButton '+${#httpServletRequest.requestURI.startsWith('/tournament') ? 'bgButton textPrimary' : ''}">
-                <img th:class="'sidebarIcon '+${#httpServletRequest.requestURI.startsWith('/tournament') ? 'sidebarIcon' : 'sidebarIconInactive'}" th:src="@{/assets/tournament.svg}"/>
+        <a href="/tournament/allTournament" style="text-decoration: none;">
+            <div th:class="'sidebarButton '+${#httpServletRequest.requestURI.startsWith('/tournament/allTournament') ? 'bgButton textPrimary' : ''}">
+                <img th:class="'sidebarIcon '+${#httpServletRequest.requestURI.startsWith('/tournament/allTournament') ? 'sidebarIcon' : 'sidebarIconInactive'}" th:src="@{/assets/tournament.svg}"/>
                 <p class="sidebarButtonContent">Tournois</p>
             </div>
         </a>

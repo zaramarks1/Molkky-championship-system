@@ -10,5 +10,4 @@ public class MolkkyApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(MolkkyApplication.class, args);
 	}
-
 }
