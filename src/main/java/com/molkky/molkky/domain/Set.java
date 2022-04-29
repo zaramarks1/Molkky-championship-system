@@ -27,10 +27,6 @@ public class Set {
             inverseJoinColumns = @JoinColumn(name = "team_id"))
     private List<Team> teams;
 
-    @ManyToOne(optional = true)
-    @JoinColumn(name="idRound", nullable = true)
-    private Round round;
-
     @OneToMany(mappedBy = "set")
     private java.util.Set<Shot> shots;
 

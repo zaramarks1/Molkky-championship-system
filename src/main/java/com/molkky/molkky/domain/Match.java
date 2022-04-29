@@ -27,6 +27,10 @@ public class Match {
     @OneToOne(optional = true)
     private Team winner;
 
+    @ManyToOne(optional = true)
+    @JoinColumn(name="idRound", nullable = true)
+    private Round round;
+
     @ManyToMany
     @JoinTable(name = "molkky_match_team",
             joinColumns = @JoinColumn(name = "match_id"),

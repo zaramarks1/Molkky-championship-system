@@ -1,11 +1,11 @@
 package com.molkky.molkky.entity.rounds;
 
 import com.molkky.molkky.MolkkyApplication;
-import com.molkky.molkky.domain.Set;
+import com.molkky.molkky.domain.Match;
 import com.molkky.molkky.domain.Tournament;
 import com.molkky.molkky.domain.rounds.Finnish;
 import com.molkky.molkky.repository.FinnishRepository;
-import com.molkky.molkky.repository.SetRepository;
+import com.molkky.molkky.repository.MatchRepository;
 import com.molkky.molkky.repository.RoundRepository;
 import com.molkky.molkky.repository.TournamentRepository;
 import org.junit.jupiter.api.Assertions;
@@ -24,7 +24,7 @@ class FinnishEntityTest {
     @Autowired
     private FinnishRepository finnishRepository;
     @Autowired
-    private SetRepository setRepository;
+    private MatchRepository matchRepository;
     @Autowired
     private RoundRepository roundRepository;
     @Autowired
@@ -34,14 +34,14 @@ class FinnishEntityTest {
     @Transactional
     @Rollback(false)
     void testInsertFinnishGame() {
-        Set set = new Set();
-        Set set2 = new Set();
-        List<Set> sets = Arrays.asList(set, set2);
+        Match match = new Match();
+        Match match2 = new Match();
+        List<Match> matchs = Arrays.asList(match, match2);
 
         Finnish finnish = new Finnish(2, 2);
-        set.setRound(finnish);
-        set2.setRound(finnish);
-        finnish.setSets(sets);
+        match.setRound(finnish);
+        match2.setRound(finnish);
+        finnish.setMatches(matchs);
 
         Tournament tournament = tournamentRepository.save(new Tournament(
                 "tournament_name",
@@ -57,12 +57,12 @@ class FinnishEntityTest {
 
         finnish.setTournament(tournament);
         finnish = finnishRepository.save(finnish);
-        System.out.println(finnish.getSets());
+        System.out.println(finnish.getMatches());
         Assertions.assertNotNull(finnish.getId());
-        Set recupSet = setRepository.findById(set.getId());
-        Assertions.assertEquals(recupSet.getRound().getId(), finnish.getId());
+        Match recupMatch = matchRepository.findById(match.getId());
+        Assertions.assertEquals(recupMatch.getRound().getId(), finnish.getId());
 
         finnish = finnishRepository.findById(finnish.getId());
-        Assertions.assertEquals(2, finnish.getSets().size());
+        Assertions.assertEquals(2, finnish.getMatches().size());
     }
 }
