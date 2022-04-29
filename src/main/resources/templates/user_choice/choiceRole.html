@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Role</title>
+</head>
+<body>
+    <form action="/user_choice/choiceRole" method="post"  class="formContainer">
+        <div th:each="role: ${roles}">
+            <input type="checkbox" id="role" th:value="${role.id}" th:name="roleId">
+            <label for="role" th:text="${role.role}">Tournoi</label>
+        </div>
+        <div>
+            <button type="submit">Selectionner tournoi</button>
+        </div>
+    </form>
+</body>
+</html>
