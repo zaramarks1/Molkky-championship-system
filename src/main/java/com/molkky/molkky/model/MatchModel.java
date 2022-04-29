@@ -4,11 +4,13 @@ import com.molkky.molkky.domain.Match;
 import com.molkky.molkky.domain.Round;
 import com.molkky.molkky.domain.Team;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Data
+@NoArgsConstructor
 public class MatchModel {
     private Integer id;
     private Boolean finished;

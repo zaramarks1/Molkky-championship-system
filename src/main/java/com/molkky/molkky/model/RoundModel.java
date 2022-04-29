@@ -2,9 +2,11 @@ package com.molkky.molkky.model;
 
 import com.molkky.molkky.domain.Round;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import type.RoundType;
 
 @Data
+@NoArgsConstructor
 public class RoundModel {
     private Integer id;
     private RoundType type;
