@@ -1,6 +1,5 @@
 package com.molkky.molkky.entity;
 
-import type.UserRole;
 import com.molkky.molkky.MolkkyApplication;
 import com.molkky.molkky.domain.Team;
 import com.molkky.molkky.domain.User;
@@ -11,10 +10,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
+import type.UserRole;
 
 import javax.transaction.Transactional;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @SpringBootTest(classes = MolkkyApplication.class)
 class UserEntityTest {
@@ -47,7 +47,7 @@ class UserEntityTest {
         Team team = teamRepository.save(new Team("team_test", 2));
 
         User user1 = new User("pseudoUser1", "surname1", "forename1", "club1", "email1", false, UserRole.PLAYER);
-        Set<User> users = new HashSet<>();
+        List<User> users = new ArrayList<>();
         users.add(user1);
         team.setUsers(users);
 //        user1.setTeam(team);

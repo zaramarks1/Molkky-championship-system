@@ -28,7 +28,7 @@ class SetEntityTest {
     private PoolRepository poolRepository;
 
     @Test
-    void testInsertMatch() {
+    void testInsertSet() {
 //        création des équipes du match
 //        Team team1 = new Team("team1_testMatch", 2);
 //        Team team2 = new Team("team2_testMatch", 2);
@@ -41,13 +41,12 @@ class SetEntityTest {
 //        Court court = new Court(true, "court_testMatch");
 
 
-        Set set = setRepository.save(new Set(court, teams));
+        Set set = setRepository.save(new Set(teams));
 //        match.setTeams(teams);
 //        match.setCourt(court);
 //        matchRepository.save(match);
 
 
-        Assertions.assertEquals("court_testMatch", set.getCourt().getName(), "Court name is not correct");
         Assertions.assertEquals(2, set.getTeams().size(), "Number of teams is not correct");
 
         Set recupSet = setRepository.findById(set.getId());
