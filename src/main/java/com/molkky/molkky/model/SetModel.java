@@ -2,11 +2,13 @@ package com.molkky.molkky.model;
 
 import com.molkky.molkky.domain.Set;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Data
+@NoArgsConstructor
 public class SetModel {
     private Integer id;
     private Integer scoreTeam1 = 0;
