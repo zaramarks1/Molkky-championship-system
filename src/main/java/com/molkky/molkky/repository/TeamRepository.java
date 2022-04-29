@@ -6,4 +6,5 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 public interface TeamRepository extends JpaRepository<Team, String>, JpaSpecificationExecutor<Team> {
     Team findById(Integer id);
+    Team findByName(String teamName);
 }

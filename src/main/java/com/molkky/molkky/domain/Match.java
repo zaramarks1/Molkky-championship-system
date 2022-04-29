@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -25,32 +26,25 @@ public class Match {
             name = "match_team",
             joinColumns = @JoinColumn(name = "match_id"),
             inverseJoinColumns = @JoinColumn(name = "team_id"))
-    private Set<Team> teams;
+    private List<Team> teams;
 
     @ManyToOne(optional = true)
-    @JoinColumn(name="idPool", nullable = true)
-    private Pool pool;
-
-    @ManyToOne(optional = true)
-    @JoinColumn(name="idSimplegame", nullable = true)
-    private SimpleGame simpleGame;
-
-    @ManyToOne(optional = true)
-    @JoinColumn(name="idKnockout", nullable = true)
-    private Knockout knockout;
-
-    @ManyToOne(optional = true)
-    @JoinColumn(name="idSwisspool", nullable = true)
-    private SwissPool swissPool;
-
-    @ManyToOne(optional = true)
-    @JoinColumn(name="idFinnish", nullable = true)
-    private Finnish finnish;
+    @JoinColumn(name="idRound", nullable = true)
+    private Round round;
 
     @OneToMany(mappedBy = "match")
     private Set<Shot> shots;
 
-    public Match(Court court, Set<Team> teams) {
+    @Column(name = "scoreTeam1")
+    private Integer scoreTeam1 = 0;
+
+    @Column(name = "scoreTeam2")
+    private Integer scoreTeam2 = 0;
+
+    @Column(name = "finished")
+    private Boolean finished= false;
+
+    public Match(Court court, List<Team> teams) {
         this.court = court;
         this.teams = teams;
     }

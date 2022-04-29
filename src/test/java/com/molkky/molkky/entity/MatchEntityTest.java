@@ -3,7 +3,6 @@ package com.molkky.molkky.entity;
 import com.molkky.molkky.MolkkyApplication;
 import com.molkky.molkky.domain.Court;
 import com.molkky.molkky.domain.Match;
-import com.molkky.molkky.domain.Pool;
 import com.molkky.molkky.domain.Team;
 import com.molkky.molkky.repository.CourtRepository;
 import com.molkky.molkky.repository.MatchRepository;
@@ -14,9 +13,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import javax.transaction.Transactional;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @SpringBootTest(classes = MolkkyApplication.class)
 class MatchEntityTest {
@@ -34,9 +32,11 @@ class MatchEntityTest {
 //        création des équipes du match
 //        Team team1 = new Team("team1_testMatch", 2);
 //        Team team2 = new Team("team2_testMatch", 2);
-        Team team1 = teamRepository.save(new Team("team1_testMatch", 2));
-        Team team2 = teamRepository.save(new Team("team2_testMatch", 2));
-        Set<Team> teams = new HashSet();
+        Team team1 = teamRepository.save(new Team());
+        team1.setName("team1_testMatch");
+        Team team2 = teamRepository.save(new Team());
+        team2.setName("team2_testMatch");
+        List<Team> teams = new ArrayList<>();
         teams.add(team1);
         teams.add(team2);
         Court court = courtRepository.save(new Court(true, "court_testMatch"));

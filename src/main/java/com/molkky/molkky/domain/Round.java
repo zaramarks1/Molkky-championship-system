@@ -2,14 +2,19 @@ package com.molkky.molkky.domain;
 
 import lombok.Getter;
 import lombok.Setter;
+import type.RoundType;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Entity
 @Setter
 @Table(name = "round")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name="typeDiscriminator", discriminatorType = DiscriminatorType.STRING)
+@DiscriminatorValue("Round")
 public class Round {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,38 +22,33 @@ public class Round {
     private Integer id;
 
     @Column(name = "type")
-    private String type;
+    @Enumerated(EnumType.STRING)
+    private RoundType type;
 
     @Column(name = "nbTeams")
     private Integer nbTeams;
 
-    @OneToOne(mappedBy = "round", optional = true)
-    private SimpleGame simpleGame;
-
-    @OneToOne(mappedBy = "round", optional = true)
-    private Knockout knockout;
-
-    @OneToOne(mappedBy = "round", optional = true)
-    private Pool pool;
-
-    @OneToOne(mappedBy = "round", optional = true)
-    private SwissPool swissPool;
-
-    @OneToOne(mappedBy = "round", optional = true)
-    private Finnish finnish;
-
+    @Column(name = "nbSets")
+    private Integer nbSets;
     @ManyToMany
     @JoinTable(
             name = "team_round",
             joinColumns = @JoinColumn(name = "round_id"),
             inverseJoinColumns = @JoinColumn(name = "team_id"))
-    private Set<Team> teams;
+    private List<Team> teams;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "idFinnish")
+    private List<Match> matches = new ArrayList<>();
+
+    @Column(name = "finished")
+    private Boolean finished = false;
 
     @ManyToOne
     @JoinColumn(name="tournament_id", nullable=false)
     private Tournament tournament;
 
-    public Round(String type, Integer nbTeams) {
+    public Round(RoundType type, Integer nbTeams) {
         this.type = type;
         this.nbTeams = nbTeams;
     }

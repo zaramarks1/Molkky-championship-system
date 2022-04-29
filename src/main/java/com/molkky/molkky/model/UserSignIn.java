@@ -13,7 +13,5 @@ public class UserSignIn {
 
     }
 
-    public UserSignIn(String email) {
-        this.email = email;
-    }
+
 }

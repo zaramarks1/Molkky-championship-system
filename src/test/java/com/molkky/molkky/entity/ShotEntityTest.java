@@ -24,7 +24,8 @@ class ShotEntityTest {
     @Test
     void testInsertShot() {
         Match match = matchRepository.save(new Match());
-        Team team = teamRepository.save(new Team("Team 1", 2));
+        Team team = teamRepository.save(new Team());
+        team.setName("Team 1");
         Shot shot = new Shot();
         shot.setTeam(team);
         shot.setMatch(match);

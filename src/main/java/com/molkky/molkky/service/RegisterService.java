@@ -36,6 +36,6 @@ public class RegisterService {
         senderService.SendEmail(user.getEmail(),"ton mdp","Tiens ton mdp: " + pwd);
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String hashedPassword = passwordEncoder.encode(pwd);
-        user.setCode(hashedPassword);
+        user.setPassword(hashedPassword);
     }
 }

@@ -1,6 +1,6 @@
 package com.molkky.molkky.repository;
 
-import com.molkky.molkky.domain.SwissPool;
+import com.molkky.molkky.domain.rounds.SwissPool;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 

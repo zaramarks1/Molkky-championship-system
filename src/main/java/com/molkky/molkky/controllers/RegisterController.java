@@ -27,18 +27,11 @@ public class RegisterController {
         model.addAttribute("user", u);
         return "register";
     }
-    /*public String Home(Model model){
-        System.out.print("SHEEESH2");
-        List<User> listUsers = registerService.getAllUsers();
-        model.addAttribute("listUsers", listUsers);
-        return "/register";
-    }*/
 
-
-    // TO DO Retrieve the current tournament within the session
+    // TODO Retrieve the current tournament within the session
     @PostMapping("/saveUser")
     public ModelAndView saveUser(@ModelAttribute("user") User user) {
-        user.setTournament(tournamentRepository.findById(1));
+        //user.setTournament(tournamentRepository.findById(1));
         registerService.encodeAndSendEmail(user);
         registerService.saveUser(user);
         return new ModelAndView("redirect:/connexion");

@@ -1,0 +1,56 @@
+<html xmlns:th="http://thymeleaf.org" xmlns="http://www.w3.org/1999/html" lang="fr">
+<head>
+    <div th:replace="fragments/header"></div>
+    <link rel="stylesheet" th:href="@{/styles/tournament/create.css}" href="../" />
+    <title>View Tournoi</title>
+</head>
+<body>
+    <h1>Nom</h1>
+    <h2 th:text="${tournament.name}"></h2>
+
+    <h1>Location</h1>
+    <h2 th:text="${tournament.location}"></h2>
+
+    <h1>Date</h1>
+    <h2 th:text="${tournament.date}"></h2>
+
+    <h1>Nombre minimum d'équipe </h1>
+    <h2 th:text="${tournament.minTeam}"></h2>
+
+    <h1>Nombre maximum d'équipe </h1>
+    <h2 th:text="${tournament.maxTeam}"></h2>
+
+    <h1>Status </h1>
+    <h2 th:text="${tournament.status}"></h2>
+
+    <h1>Phase courante </h1>
+    <h2 th:text="${tournament.indexPhase}"></h2>
+
+
+    <h1>Nombre  d'équipe inscrits </h1>
+    <h2 th:text="${nbTeam}"></h2>
+
+    <form action="#" th:action="@{/tournament/view}" method="post"  class="formContainer">
+
+        <div th:if=" ${user} != null">
+            <div th:if=" ${user.role} == 'Administrator'">
+                <div th:if=" ${tournament.status} == 'Available'">
+
+                <div th:if=" ${tournament.isVisible} == false">
+                    <button id="isValid" name = "visible" class="primaryButton" type="submit">Rendre publique le tournois</button>
+                </div>
+
+                <div th:if=" ${tournament.isVisible} == true">
+                    <button id="startTounament" name = "launch" class="primaryButton" type="submit">Lancer le tournois</button>
+                </div>
+            </div>
+            </div>
+        </div>
+        <input hidden   th:value="${tournament.id}" th:name="tournamentId"/>
+    </form>
+
+
+
+
+</body>
+</html>
