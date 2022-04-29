@@ -15,19 +15,19 @@
                 <div class="contentTitle">Vos informations personnelles</div>
                 <div class="contentText">
                     <div th:if="${#session.getAttribute('user') != null }">
-                        Votre prénom : <span th:text="${user.forename}" />
+                        Votre Email : <span th:text="${user.email}" />
                         <br>
                         <br>
-                        Votre nom : <span th:text="${user.surname}" />
+                        Votre Tournoi : <span th:text="${user.tournament.name}" />
                         <br>
                         <br>
-                        Votre pseudo : <span th:text="${user.pseudo}" />
+                        Votre Role : <span th:text="${user.role}" />
                         <br>
                         <br>
-                        Votre club : <span th:text="${user.club}" />
+                        <div th:if="${#strings.equals(user.role, 'PLAYER')}">
+                            Votre Equipe : <span th:text="${user.team.name}" />
+                        </div>
                         <br>
-                        <br>
-                        Votre rôle dans l'application : <span th:text="${user.role}" />
                     </div>
                     <div th:unless="${#session.getAttribute('user') != null}">
                         <h2 style="color:red" >Connectez-vous pour accéder à vos informations</h2>
