@@ -13,6 +13,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
+                sh 'chmod +x bin/geckodriver'
                 sh 'mvn clean install'
             }
         }
