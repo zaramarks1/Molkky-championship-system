@@ -4,8 +4,7 @@ import lombok.Getter;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.phantomjs.PhantomJSDriver;
 
 @Getter
 public class SeleniumConfig {
@@ -15,10 +14,7 @@ public class SeleniumConfig {
     public SeleniumConfig() {
         boolean isJenkins = System.getenv("JENKINS_HOME") != null;
         if(isJenkins) {
-            FirefoxOptions options = new FirefoxOptions();
-            options.setHeadless(true);
-            options.addArguments("--no-sandbox");
-            driver = new FirefoxDriver(options);
+            driver = new PhantomJSDriver();
         }else {
             ChromeOptions options = new ChromeOptions();
             options.addArguments("--window-size=1920x1080");
