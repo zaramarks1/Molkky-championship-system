@@ -16,8 +16,8 @@ public class SeleniumConfig {
         boolean isJenkins = System.getenv("JENKINS_HOME") != null;
         if(isJenkins) {
             FirefoxOptions options = new FirefoxOptions();
-            options.addArguments("--headless");
-            options.addArguments("--disable-dev-shm-usage");
+            options.setHeadless(true);
+            options.addArguments("--no-sandbox");
             driver = new FirefoxDriver(options);
         }else {
             ChromeOptions options = new ChromeOptions();
