@@ -9,6 +9,7 @@ pipeline {
         SERVER_PORT = 8175
         DB_URL = "jdbc:h2:mem:testdb"
         DRIVER_CLASS_NAME = "org.h2.Driver"
+        OPENSSL_CONF = "/dev/null"
     }
     stages {
         stage('Build') {
