@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 @Controller
 public class TournamentCreation {
@@ -27,7 +28,7 @@ public class TournamentCreation {
     }
 
     @PostMapping("/tournament/create")
-    public String tournamentSubmit(@ModelAttribute("tournament") TournamentModel tournament, Model model) {
+    public String tournamentSubmit(@Valid @ModelAttribute("tournament") TournamentModel tournament, Model model) {
 
         Tournament tournamentEntity = tournamentRepository.save(new Tournament(tournament));
         

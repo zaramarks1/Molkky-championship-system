@@ -1,5 +1,6 @@
 package com.molkky.molkky.entity;
 
+import type.RoundType;
 import com.molkky.molkky.MolkkyApplication;
 import com.molkky.molkky.domain.Round;
 import com.molkky.molkky.domain.Team;
@@ -41,7 +42,7 @@ class RoundEntityTest {
                 3
         ));
 
-        Round round = new Round("pool", 2);
+        Round round = new Round(RoundType.POOL, 2);
         round.setTournament(tournament);
 
         Team team1 = teamRepository.save(new Team("team1_test", 1));
@@ -55,7 +56,7 @@ class RoundEntityTest {
 
         Round newRound = roundRepository.save(round);
 
-        Assertions.assertEquals("pool", round.getType(), "Type is not correct");
+        Assertions.assertEquals(RoundType.POOL, round.getType(), "Type is not correct");
         Assertions.assertEquals(2, round.getTeams().size(), "Team size is not correct");
         Round recupRound = roundRepository.findById(round.getId());
         Assertions.assertEquals(recupRound.getType(), round.getType(), "Type is not correct");

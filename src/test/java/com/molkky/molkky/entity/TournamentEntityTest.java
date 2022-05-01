@@ -1,6 +1,5 @@
 package com.molkky.molkky.entity;
 
-import Type.UserRole;
 import com.molkky.molkky.MolkkyApplication;
 import com.molkky.molkky.domain.Round;
 import com.molkky.molkky.domain.Tournament;
@@ -14,6 +13,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
+import type.RoundType;
+import type.UserRole;
 
 import javax.transaction.Transactional;
 import java.text.ParseException;
@@ -46,6 +47,23 @@ class TournamentEntityTest {
 
         Tournament tournament2 = tournamentRepository.findById(tournament.getId());
         Assertions.assertEquals("tournament_name", tournament2.getName(), "Tournament name should be tournament_name");
+    }
+
+    @Test
+    void testAmountOfPlayersPerTeam(){
+        Tournament tournament = tournamentRepository.save(new Tournament(
+                "tournament_name",
+                "location",
+                new Date(),
+                new Date(),
+                1,
+                2,
+                true,
+                2,
+                3
+        ));
+        tournament.setNbPlayersPerTeam(2);
+        Assertions.assertEquals(2, tournament.getNbPlayersPerTeam(), "Amount of players per team should be 2");
     }
 
     @Test
@@ -88,7 +106,7 @@ class TournamentEntityTest {
                 3
         ));
 
-        Round round = new Round("finnish", 2);
+        Round round = new Round(RoundType.FINNISH, 2);
         round.setTournament(tournament);
         roundRepository.save(round);
         List<Round> rounds = new ArrayList<>();

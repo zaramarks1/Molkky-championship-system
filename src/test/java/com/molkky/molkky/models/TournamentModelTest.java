@@ -22,4 +22,12 @@ class TournamentModelTest {
                 tournamentModel.getCutOffDate().toInstant().atZone(ZoneId.of("Europe/Paris")).toString()
         );
     }
+
+    @Test
+    void testWrongDates() throws ParseException {
+        TournamentModel tournamentModel = new TournamentModel();
+        tournamentModel.setDate("2019-01-01");
+        tournamentModel.setCutOffDate("2020-01-01");
+        Assertions.assertFalse(tournamentModel.isCutoffDateBeforeDate());
+    }
 }
