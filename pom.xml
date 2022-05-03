@@ -19,6 +19,7 @@
 		<sonar.host.url>https://172.24.1.33/sonar</sonar.host.url>
 		<sonar.login>5da1e6ee849091ca8fec6cf16062bc190df5382e</sonar.login>
 		<sonar.exclusions>src/main/java/com.molkky.molkky/domain/**</sonar.exclusions>
+		<sonar.exclusions>src/main/java/com.molkky.molkky/model/**</sonar.exclusions>
 		<sonar.projectKey>Molkky:${GIT_BRANCH}</sonar.projectKey>
 		<sonar.projectName>${GIT_BRANCH}</sonar.projectName>
 		<sonar.coverage.jacoco.xmlReportPaths>target/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
