@@ -1,6 +1,5 @@
 package com.molkky.molkky.model;
 
-import com.molkky.molkky.domain.Tournament;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,7 +10,6 @@ public class CreateTeamModel {
     private String name;
     private Integer nbPlayers;
     private Integer tournament;
-   // private List<User> users;
 
     public CreateTeamModel(){
     }

@@ -4,8 +4,6 @@ import type.TournamentStatus;
 import com.molkky.molkky.model.TournamentModel;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.io.Serializable;
