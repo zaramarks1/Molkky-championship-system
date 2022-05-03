@@ -1,7 +1,6 @@
 package com.molkky.molkky.model;
 
-import lombok.Getter;
-import lombok.Setter;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +8,7 @@ import java.util.List;
 
 public class AddPlayerlistModel {
 
-    public List<AddPlayerModel> players ;
+    private List<AddPlayerModel> players ;
 
     public AddPlayerlistModel(){
         this.players = new ArrayList<>();

@@ -14,7 +14,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @SpringBootTest(classes = MolkkyApplication.class)
@@ -37,7 +39,7 @@ class NotificationTest {
 
         ));
         Notification notification = notificationRepository.save(new Notification("test", "test", false, user));
-        Set<Notification> notifs =  new HashSet<>();
+        List<Notification> notifs =  new ArrayList<>();
         notifs.add(notification);
         user.setNotifications(notifs);
 
