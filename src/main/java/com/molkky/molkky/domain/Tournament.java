@@ -60,11 +60,11 @@ public class Tournament implements Serializable {
     @OneToMany(mappedBy="tournament")
     private Set<UserTounamentRole> userTounamentRoles;
 
-    @LazyCollection(LazyCollectionOption.FALSE)
+
     @OneToMany(mappedBy="tournament")
     private List<Round> rounds;
 
-    @LazyCollection(LazyCollectionOption.FALSE)
+
     @OneToMany(mappedBy="tournament")
     private List<Team> teams;
 
