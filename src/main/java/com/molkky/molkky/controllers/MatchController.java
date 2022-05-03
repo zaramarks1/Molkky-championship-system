@@ -4,6 +4,8 @@ import com.molkky.molkky.domain.Match;
 import com.molkky.molkky.domain.User;
 import com.molkky.molkky.model.*;
 import com.molkky.molkky.repository.MatchRepository;
+import com.molkky.molkky.service.MatchService;
+import com.molkky.molkky.service.SetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,11 +34,11 @@ public class MatchController {
 //        ) {
 //            return new ResponseEntity<>("Pas dans une des équipes", HttpStatus.UNAUTHORIZED);
 //        }
-        model.addAttribute("match", new MatchModel(match));
+        model.addAttribute("match", MatchService.getMatchModelFromEntity(match));
         model.addAttribute("teams", Arrays.asList(new TeamModel(match.getTeams().get(0)), new TeamModel(match.getTeams().get(1))));
         model.addAttribute("court", new CourtModel(match.getCourt()));
         model.addAttribute("tournament", new TournamentModel(match.getRound().getTournament()));
-        model.addAttribute("sets", SetModel.createSetModels(match.getSets()));
+        model.addAttribute("sets", SetService.createSetModels(match.getSets()));
         return "match/match";
     }
 }

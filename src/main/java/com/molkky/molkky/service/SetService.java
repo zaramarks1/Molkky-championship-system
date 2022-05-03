@@ -2,6 +2,7 @@ package com.molkky.molkky.service;
 
 import com.molkky.molkky.domain.Set;
 import com.molkky.molkky.model.SetModel;
+import com.molkky.molkky.model.UserModel;
 import com.molkky.molkky.repository.SetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,8 +16,12 @@ public class SetService {
     @Autowired
     private SetRepository setRepository;
 
-    public void enterSetResults(SetModel set, SetTeamIndex teamIndex){
+    @Autowired
+    private MatchService matchService;
+
+    public void enterSetResults(SetModel set, UserModel user){
         Set setEntity = getSetFromModel(set);
+        SetTeamIndex teamIndex = matchService.getUserTeamIndex(MatchService.getMatchModelFromEntity(setEntity.getMatch()), user);
         switch (teamIndex){
             case TEAM1:
                 setEntity.setScore1Team1(set.getScore1Team1());
@@ -32,6 +37,7 @@ public class SetService {
         }
         setRepository.save(setEntity);
     }
+
     public static SetModel createSetModel(Set set){
         SetModel setModel = new SetModel();
         setModel.setId(set.getId());
@@ -52,7 +58,7 @@ public class SetService {
         return setModelList;
     }
 
-    private Set getSetFromModel(SetModel setModel){
+    public Set getSetFromModel(SetModel setModel){
         return setRepository.findById(setModel.getId());
     }
 }
