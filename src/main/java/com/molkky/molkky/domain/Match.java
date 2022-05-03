@@ -35,7 +35,7 @@ public class Match {
     @JoinColumn(name = "idCourt")
     private Court court;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "molkky_match_team",
             joinColumns = @JoinColumn(name = "match_id"),
             inverseJoinColumns = @JoinColumn(name = "team_id"))
