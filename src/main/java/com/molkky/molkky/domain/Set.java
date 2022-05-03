@@ -38,11 +38,11 @@ public class Set {
     @Column(name = "score2Team2")
     private Integer score2Team2 = 0;
 
-    @Column(name = "score1TeamOrga")
-    private Integer score1TeamOrga = 0;
+    @Column(name = "score1Orga")
+    private Integer score1Orga = 0;
 
-    @Column(name = "score2Team2Orga")
-    private Integer score2Team2Orga = 0;
+    @Column(name = "score2Orga")
+    private Integer score2Orga = 0;
 
     @Column(name = "finished")
     private Boolean finished = false;
