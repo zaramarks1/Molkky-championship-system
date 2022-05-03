@@ -11,7 +11,7 @@ import com.molkky.molkky.repository.TeamRepository;
 import com.molkky.molkky.repository.TournamentRepository;
 import com.molkky.molkky.repository.UserRepository;
 import com.molkky.molkky.repository.UserTounamentRoleRepository;
-import lombok.Data;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,7 +21,7 @@ import type.UserRole;
 import java.util.ArrayList;
 import java.util.List;
 
-@Data
+
 @Service
 public class TeamService {
 
@@ -65,7 +65,7 @@ public class TeamService {
         for(AddPlayerModel player : players){
 
             User user = player.addPlayer();
-           /* user.setTeam(team);
+           /* TODO user.setTeam(team);
             String pwd = user.getCode();
             //emailSenderService.SendEmail(user.getEmail(),"Votre code d'identification au site Molkky","Voici votre code : "+ pwd);
             PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();

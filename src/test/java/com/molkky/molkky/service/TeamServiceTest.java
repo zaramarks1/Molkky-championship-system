@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SpringBootTest(classes = MolkkyApplication.class)
-public class TeamServiceTest {
+ class TeamServiceTest {
 
         @Autowired
         private TeamService teamService;
@@ -51,7 +51,7 @@ public class TeamServiceTest {
 
 
         @Test
-        public void testCreateTeam(){
+         void testCreateTeam(){
             Tournament tournament = new Tournament();
             tournamentRepository.save(tournament);
 
@@ -68,7 +68,7 @@ public class TeamServiceTest {
         }
 
         @Test
-        public void testAddPlayerNonExist(){
+         void testAddPlayerNonExist(){
             Tournament tournament = new Tournament();
             tournamentRepository.save(tournament);
 
@@ -99,7 +99,7 @@ public class TeamServiceTest {
         }
 
     @Test
-    public void testAddPlayerExist(){
+     void testAddPlayerExist(){
         Tournament tournament = new Tournament();
         tournamentRepository.save(tournament);
 
@@ -129,7 +129,7 @@ public class TeamServiceTest {
     }
 
         @Test
-        public void testAreAllDistinctUsers(){
+         void testAreAllDistinctUsers(){
             List<User> users = new ArrayList<>();
 
             User user1 = new User();
@@ -149,7 +149,7 @@ public class TeamServiceTest {
         }
 
         @Test
-        public void testCreateCodeLength(){
+         void testCreateCodeLength(){
             String code = teamService.createCode(10);
             Assertions.assertEquals(10,code.length());
         }
