@@ -52,9 +52,9 @@ public class ConnexionController {
                 User user = userRepository.findUserByEmailAndPassword(userModel.getEmail(), userModel.getPassword());
                 if(userModel.getCode() != null){
                     List<UserTounamentRole> players = userTounamentRoleRepository.findUserWithCode(user,userModel.getCode());
-                    if(players.isEmpty()){
+                    if(!players.isEmpty()){
                         UserLogged userLogged = new UserLogged(userModel.getEmail(),
-                                userModel.getPassword(), players.get(0).getRole(), players.get(0).getTeam(),players.get(0).getTournament());
+                                    userModel.getPassword(), players.get(0).getRole(), players.get(0).getTeam(),players.get(0).getTournament());
                         request.getSession().setAttribute("user",userLogged);
                         return new ModelAndView("redirect:/");
                     }
