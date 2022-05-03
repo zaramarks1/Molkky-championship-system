@@ -104,6 +104,8 @@ public class Tournament implements Serializable {
         this.nbPlayersPerTeam = tournamentModel.getNbPlayersPerTeam();
     }
 
+
+
  
     public Tournament() {
         this.status = TournamentStatus.AVAILABLE;

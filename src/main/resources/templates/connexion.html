@@ -21,22 +21,22 @@
     <h1>Connexion</h1>
     <form method="post" th:action="@{/connexion}" autocomplete="off" th:object="${userConnection}">
         <div class="txt_field">
-            <input autocomplete="off" type="text" required="required" pattern="[^@\s]+@[^@\s]+\.[^@\s]+" th:field="*{email}"></p>
+            <input id="email" autocomplete="off" type="text" required="required" pattern="[^@\s]+@[^@\s]+\.[^@\s]+" th:field="*{email}"></p>
             <span></span>
             <label>Email</label>
         </div>
         <div class="txt_field">
-            <input type="password" autocomplete="off" required="required" th:field="*{password}">
+            <input id="password" type="password" autocomplete="off" required="required" th:field="*{password}">
             <span></span>
             <label>Mot de passe</label>
         </div>
 
         <div class="txt_field">
-            <input type="text" autocomplete="off"  th:field="*{code}">
+            <input id="teamCode" type="text" autocomplete="off"  th:field="*{code}">
             <span></span>
             <label>Code d'equipe</label>
         </div>
-        <input type="submit" class="primaryButton" value="Se connecter">
+        <input id="connexion" type="submit" class="primaryButton" value="Se connecter">
 
     </form>
 </div>

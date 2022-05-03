@@ -10,12 +10,12 @@
 </head>
 <body>
 <div id="pageContainerItem">
-    <h2>Quel est votre rôle au sein de ce tournoi ?</h2>
+    <h2 id="rolesChoice">Quel est votre rôle au sein de ce tournoi ?</h2>
 
     <form action="/user_choice/choiceRole" method="post"  class="formContainer">
         <div th:each="role: ${roles}">
             <br>
-            <button class="primaryButton" type="submit"  th:value="${role.id}" th:name="roleId"><p th:text="${role.role}"></p></button>
+            <button id="buttonRole" class="primaryButton" type="submit"  th:value="${role.id}" th:name="roleId"><p th:text="${role.role}"></p></button>
         </div>
     </form>
 </div>

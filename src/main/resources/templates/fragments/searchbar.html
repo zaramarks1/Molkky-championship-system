@@ -6,10 +6,10 @@
             <img class="notificationButtonIcon" th:src="@{/assets/notification.svg}"/>
         </div>
         <div th:if="${session.user != null }">
-            <button class="primaryButton" onclick="window.location.href='/connexion'" >Se déconnecter</button>
+            <button id="notLogged" class="primaryButton" onclick="window.location.href='/connexion'" >Se déconnecter</button>
         </div>
         <div th:unless="${session.user != null}">
-            <button class="primaryButton" onclick="window.location.href='/connexion'" >Se connecter</button>
+            <button id="logged" class="primaryButton" onclick="window.location.href='/connexion'" >Se connecter</button>
         </div>
     </div>
 </div>
