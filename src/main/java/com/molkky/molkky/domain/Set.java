@@ -26,11 +26,23 @@ public class Set {
     @OneToMany(mappedBy = "set")
     private List<Shot> shots;
 
-    @Column(name = "scoreTeam1")
-    private Integer scoreTeam1 = 0;
+    @Column(name = "score1Team1")
+    private Integer score1Team1 = 0;
 
-    @Column(name = "scoreTeam2")
-    private Integer scoreTeam2 = 0;
+    @Column(name = "score2Team1")
+    private Integer score2Team1 = 0;
+
+    @Column(name = "score1Team2")
+    private Integer score1Team2 = 0;
+
+    @Column(name = "score2Team2")
+    private Integer score2Team2 = 0;
+
+    @Column(name = "score1TeamOrga")
+    private Integer score1TeamOrga = 0;
+
+    @Column(name = "score2Team2Orga")
+    private Integer score2Team2Orga = 0;
 
     @Column(name = "finished")
     private Boolean finished = false;
