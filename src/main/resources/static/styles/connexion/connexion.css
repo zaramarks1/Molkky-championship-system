@@ -48,10 +48,10 @@ form .txt_field{
 
 }
 input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus,
-input:-webkit-autofill:active {
-    transition: background-color 5000s ease-in-out 0s;
+textarea:-webkit-autofill,
+select:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 1000px #8C69F4 inset !important;
+    -webkit-text-fill-color: white !important;
 }
 .txt_field label{
     position: absolute;
@@ -95,6 +95,13 @@ input[type="submit"]{
 
 .primaryButton {
     margin-bottom: 20px;
+}
+
+.listTournaments {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: center;
 }
 
 
