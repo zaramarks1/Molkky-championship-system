@@ -9,11 +9,11 @@
 </head>
 <body>
 <div id="pageContainerItem">
-    <h2>Choisissez le tournoi auquel vous voulez accéder</h2>
+    <h2 id="tournamentChoice">Choisissez le tournoi auquel vous voulez accéder</h2>
     <form action="" method="post" >
         <br>
         <div th:each="tournament: ${tournaments}">
-                <button class="primaryButton" type="submit"  th:value="${tournament.id}" th:name="tournamentId"><p th:text="${tournament.name}"></p></button>
+                <button id="buttonTournament" class="primaryButton" type="submit"  th:value="${tournament.id}" th:name="tournamentId"><p th:text="${tournament.name}"></p></button>
         </div>
     </form>
 </div>
