@@ -3,7 +3,6 @@ package com.molkky.molkky.repository;
 import com.molkky.molkky.domain.Tournament;
 import com.molkky.molkky.domain.User;
 import com.molkky.molkky.domain.UserTounamentRole;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -12,11 +11,7 @@ import java.util.List;
 
 @Repository
 public interface UserTournamentRoleCustom {
-/*
-    @Query("SELECT UserTounamentRole FROM UserTounamentRole LEFT JOIN Team ON " +
-            "Team=UserTounamentRole.team WHERE UserTounamentRole.user=:user AND Team.code=:code")
-    List<UserTounamentRole> findUserWithCode(@Param("user") User user, @Param("code") String code);
-*/
+
     @Query(value="SELECT u FROM UserTounamentRole u LEFT JOIN u.team t WHERE u.user=:user AND t.code=:code")
     List<UserTounamentRole> findUserWithCode(@Param("user") User user, @Param("code") String code);
 
