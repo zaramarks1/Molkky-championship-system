@@ -1,6 +1,5 @@
 package com.molkky.molkky.service;
 
-import com.molkky.molkky.MolkkyApplication;
 import com.molkky.molkky.domain.Team;
 import com.molkky.molkky.domain.Tournament;
 import com.molkky.molkky.domain.User;
@@ -12,24 +11,33 @@ import com.molkky.molkky.repository.TeamRepository;
 import com.molkky.molkky.repository.TournamentRepository;
 import com.molkky.molkky.repository.UserRepository;
 import com.molkky.molkky.repository.UserTounamentRoleRepository;
+import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@SpringBootTest(classes = MolkkyApplication.class)
+@RunWith(MockitoJUnitRunner.class)
 public class TeamServiceTest {
 
-        @Autowired
+        @InjectMocks
         private TeamService teamService;
 
         @Mock
         private CreateTeamModel teamModel;
+
+        @Mock
+        private  TournamentRepository tournamentRepository;
+
+        @Mock
+        private TeamRepository teamRepository;
 
         @Mock
         private AddPlayerlistModel addPlayerlistModel;
@@ -37,96 +45,123 @@ public class TeamServiceTest {
         @Mock
         private AddPlayerModel addPlayerModel1;
 
-        @Autowired
-        private TeamRepository teamRepository;
-
-        @Autowired
-        private  TournamentRepository tournamentRepository;
-
-        @Autowired
-        private UserTounamentRoleRepository userTounamentRoleRepository;
-
-        @Autowired
+        @Mock
         private UserRepository userRepository;
 
+        @Mock
+        private UserTounamentRoleRepository userTounamentRoleRepository;
+
+        @Mock
+        private User user;
+
+        @BeforeEach
+        public void setUp(){
+            MockitoAnnotations.openMocks(this);
+        }
 
         @Test
         public void testCreateTeam(){
+            Integer idTournament = 1;
+            String teamName = "TeamMock"+Math.floor(Math.random() * 100);
             Tournament tournament = new Tournament();
-            tournamentRepository.save(tournament);
+            tournament.setId(idTournament);
 
-            String teamName = "TeamMock"+Math.floor((Math.random() * 1000));
-            Mockito.when(teamModel.getTournament()).thenReturn(tournament.getId());
+            Mockito.when(teamModel.getTournament()).thenReturn(1);
+            Mockito.when(tournamentRepository.findById(idTournament)).thenReturn(tournament);
             Mockito.when(teamModel.getName()).thenReturn(teamName);
+            Mockito.when(teamRepository.save(Mockito.any(Team.class))).thenAnswer(i -> i.getArguments()[0]);
 
             Team team = teamService.create(teamModel);
 
-            Assertions.assertNotNull(team);
-            Assertions.assertEquals(teamName,team.getName());
-            Assertions.assertEquals(tournament.getId(),team.getTournament().getId());
+            Mockito.verify(teamModel,Mockito.times(1)).getTournament();
+            Mockito.verify(teamModel,Mockito.times(1)).getName();
+            Mockito.verify(tournamentRepository,Mockito.times(1)).findById(idTournament);
+            Mockito.verify(teamRepository,Mockito.times(1)).save(team);
+            Mockito.verifyNoMoreInteractions(teamModel);
+            Mockito.verifyNoMoreInteractions(teamModel);
+            Mockito.verifyNoMoreInteractions(tournamentRepository);
+            Mockito.verifyNoMoreInteractions(teamRepository);
 
+            Assertions.assertNotNull(team,"Team null");
+            Assertions.assertEquals(teamName,team.getName(),"Nom different");
+            Assertions.assertEquals(idTournament,team.getTournament().getId(),"id different");
         }
 
         @Test
         public void testAddPlayerNonExist(){
-            Tournament tournament = new Tournament();
-            tournamentRepository.save(tournament);
+            List<AddPlayerModel> listPlayer = new ArrayList<>();
+            listPlayer.add(addPlayerModel1);
 
-            Team team = new Team();
-            team.setTournament(tournament);
-            teamRepository.save(team);
+            String surname = "Surname"+Math.floor(Math.random() * 100);
+            String forename = "Forename"+Math.floor(Math.random() * 100);
+            String email = surname+"."+forename+"@test.fr";
+            String code = "12345";
 
-            String email = "prenom"+Math.floor((Math.random() * 1000))+"@gmail.com";
-            User user = new User();
-            user.setEmail(email);
+            Integer id_team = 1;
+            Team teamMock = new Team();
+            teamMock.setId(id_team);
 
-            List<AddPlayerModel> player = new ArrayList<>();
-            player.add(addPlayerModel1);
+            Mockito.when(addPlayerlistModel.getPlayers()).thenReturn(listPlayer);
+            Mockito.when(addPlayerModel1.getTeamId()).thenReturn(id_team);
+            Mockito.when(teamRepository.findById(listPlayer.get(0).getTeamId())).thenReturn(teamMock);
 
-            Mockito.when(addPlayerlistModel.getPlayers()).thenReturn(player);
-            Mockito.when(addPlayerModel1.getTeamId()).thenReturn(team.getId());
             Mockito.when(addPlayerModel1.addPlayer()).thenReturn(user);
+            Mockito.when(user.getEmail()).thenReturn(email);
+
+            Mockito.when(userRepository.existsUserByEmail(email)).thenReturn(false);
+            Mockito.when(userRepository.save(Mockito.any(User.class))).thenAnswer(i -> i.getArguments()[0]);
 
             teamService.addPlayers(addPlayerlistModel);
 
-            UserTounamentRole userTounamentRole = userTounamentRoleRepository.findByTeamAndTournament(team,tournament);
-            User userBDD = userRepository.findUserByEmail(email);
+            Mockito.verify(addPlayerlistModel,Mockito.times(1)).getPlayers();
+            Mockito.verify(teamRepository,Mockito.times(1)).findById(listPlayer.get(0).getTeamId());
+            Mockito.verify(addPlayerModel1,Mockito.times(3)).getTeamId();
+            Mockito.verify(addPlayerModel1,Mockito.times(1)).addPlayer();
+            Mockito.verify(user,Mockito.atMost(1)).getEmail();
+            Mockito.verify(user,Mockito.atMost(1)).setPassword(Mockito.anyString());
+            Mockito.verify(userRepository,Mockito.atMost(1)).existsUserByEmail(email);
+            Mockito.verify(userRepository,Mockito.atMost(1)).save(Mockito.any(User.class));
+            Mockito.verify(userTounamentRoleRepository,Mockito.times(1)).saveAll(Mockito.<UserTounamentRole>anyList());
 
-            Assertions.assertNotNull(userBDD);
-            Assertions.assertNotNull(userTounamentRole);
-            Assertions.assertEquals(userTounamentRole.getUser().getId(),userBDD.getId());
-            Assertions.assertEquals(userTounamentRole.getUser().getEmail(),email);
+            Mockito.verifyNoMoreInteractions(addPlayerlistModel);
+            Mockito.verifyNoMoreInteractions(addPlayerModel1);
+            Mockito.verifyNoMoreInteractions(teamRepository);
+            Mockito.verifyNoMoreInteractions(user);
+            Mockito.verifyNoMoreInteractions(userRepository);
+            Mockito.verifyNoMoreInteractions(userTounamentRoleRepository);
         }
 
-    @Test
-    public void testAddPlayerExist(){
-        Tournament tournament = new Tournament();
-        tournamentRepository.save(tournament);
+        @Test
+        public void testAddPlayerExist(){
+            List<AddPlayerModel> listPlayer = new ArrayList<>();
+            listPlayer.add(addPlayerModel1);
 
-        Team team = new Team();
-        team.setTournament(tournament);
-        teamRepository.save(team);
+            String surname = "Surname"+Math.floor(Math.random() * 100);
+            String forename = "Forename"+Math.floor(Math.random() * 100);
+            String email = surname+"."+forename+"@test.fr";
 
-        String email = "prenom"+Math.floor((Math.random() * 1000))+"@gmail.com";
-        User user = new User();
-        user.setEmail(email);
-        userRepository.save(user);
+            Integer id_team = 1;
+            Team teamMock = new Team();
+            teamMock.setId(id_team);
 
-        List<AddPlayerModel> player = new ArrayList<>();
-        player.add(addPlayerModel1);
+            Mockito.when(addPlayerlistModel.getPlayers()).thenReturn(listPlayer);
+            Mockito.when(addPlayerModel1.getTeamId()).thenReturn(id_team);
+            Mockito.when(teamRepository.findById(listPlayer.get(0).getTeamId())).thenReturn(teamMock);
 
-        Mockito.when(addPlayerlistModel.getPlayers()).thenReturn(player);
-        Mockito.when(addPlayerModel1.getTeamId()).thenReturn(team.getId());
-        Mockito.when(addPlayerModel1.addPlayer()).thenReturn(user);
+            Mockito.when(addPlayerModel1.addPlayer()).thenReturn(user);
+            Mockito.when(user.getEmail()).thenReturn(email);
 
-        teamService.addPlayers(addPlayerlistModel);
+            Mockito.when(userRepository.existsUserByEmail(email)).thenReturn(true);
 
-        UserTounamentRole userTounamentRole = userTounamentRoleRepository.findByTeamAndTournament(team,tournament);
+            teamService.addPlayers(addPlayerlistModel);
 
-        Assertions.assertNotNull(userTounamentRole);
-        Assertions.assertEquals(userTounamentRole.getUser().getId(),user.getId());
-        Assertions.assertEquals(userTounamentRole.getUser().getEmail(),email);
-    }
+            Mockito.verify(user,Mockito.times(2)).getEmail();
+            Mockito.verify(userRepository,Mockito.times(1)).existsUserByEmail(email);
+            Mockito.verify(userRepository, Mockito.times(1)).findUserByEmail(email);
+
+            Mockito.verifyNoMoreInteractions(user);
+            Mockito.verifyNoMoreInteractions(userRepository);
+        }
 
         @Test
         public void testAreAllDistinctUsers(){

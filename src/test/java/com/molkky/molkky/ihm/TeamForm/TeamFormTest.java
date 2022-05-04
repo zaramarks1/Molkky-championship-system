@@ -46,7 +46,7 @@ class TeamFormTest {
     @Test
     void testTeamFormAddInfo(){
         config.getDriver().get(url + "/team/create");
-        String teamName = "Test" + Math.floor(Math.random() * 100);;
+        String teamName = "Test" + Math.floor(Math.random() * 100);
         String numberOfPlayer = "2";
 
 
