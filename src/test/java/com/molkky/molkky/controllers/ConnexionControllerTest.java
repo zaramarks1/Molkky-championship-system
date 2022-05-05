@@ -1,11 +1,15 @@
 package com.molkky.molkky.controllers;
 
+import com.molkky.molkky.domain.Tournament;
+import com.molkky.molkky.domain.User;
+import com.molkky.molkky.model.UserConnectionModel;
 import com.molkky.molkky.repository.UserRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -27,6 +31,9 @@ public class ConnexionControllerTest {
     @Mock
     private UserRepository userRepository;
 
+    @Mock
+    private UserConnectionModel userModel;
+
     @Before
     public void setUp() throws Exception {
         mockMvc = MockMvcBuilders.standaloneSetup(connexionController).build();
@@ -34,9 +41,9 @@ public class ConnexionControllerTest {
 
     @Test
     public void testConnexionControllerWithInexistantUser() throws Exception {
-        mockMvc.perform(get("/connexion"))
+        mockMvc.perform(get("/connexion/"))
                 .andExpect(status().isOk());
-        mockMvc.perform(post("/connexion")
+        mockMvc.perform(post("/connexion/")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"email\": \"paco@sfr.fr\", \"password\": \"test\", \"code\": \"test\"}")
         )
@@ -45,11 +52,16 @@ public class ConnexionControllerTest {
 
     @Test
     public void testConnexionControllerWithExistantUser() throws Exception {
-        mockMvc.perform(get("/connexion"))
+        User user = new User();
+        user.setEmail("test" + Math.random() * 10000 + "@gmail.com");
+        user.setPassword("Test2");
+        this.userRepository.save(user);
+
+        mockMvc.perform(get("/connexion/"))
                 .andExpect(status().isOk());
-        mockMvc.perform(post("/connexion")
+        mockMvc.perform(post("/connexion/")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"email\": \"zara.marks@reseau.eseo.fr\", \"password\": \"test\", \"code\": \"test\"}")
+                        .content("{\"email\":\"" + user.getEmail() + "\", \"password\":\"" + user.getPassword() + "\", \"code\": \"test\"}")
                 )
                 .andExpect(status().is3xxRedirection());
     }
