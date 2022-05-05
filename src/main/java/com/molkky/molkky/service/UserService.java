@@ -19,8 +19,6 @@ public class UserService {
         userModel.setForename(user.getForename());
         userModel.setClub(user.getClub());
         userModel.setEmail(user.getEmail());
-        userModel.setRegistered(user.getIsRegistered());
-        userModel.setRole(user.getRole());
         return userModel;
     }
 }

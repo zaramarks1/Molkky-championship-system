@@ -1,7 +1,7 @@
 package com.molkky.molkky.service;
 
 import com.molkky.molkky.domain.Match;
-import com.molkky.molkky.domain.User;
+import com.molkky.molkky.domain.UserTounamentRole;
 import com.molkky.molkky.model.MatchModel;
 import com.molkky.molkky.model.UserModel;
 import com.molkky.molkky.repository.MatchRepository;
@@ -19,13 +19,13 @@ public class MatchService {
     private MatchRepository matchRepository;
     public SetTeamIndex getUserTeamIndex(MatchModel match, UserModel user) {
         Match matchEntity = getMatchFromModel(match);
-        for(User u : matchEntity.getTeams().get(0).getUsers()) {
-            if(Objects.equals(u.getId(), user.getId())) {
+        for(UserTounamentRole u : matchEntity.getTeams().get(0).getUserTounamentRoles()) {
+            if(Objects.equals(u.getUser().getId(), user.getId())) {
                 return SetTeamIndex.TEAM1;
             }
         }
-        for(User u : matchEntity.getTeams().get(1).getUsers()) {
-            if(Objects.equals(u.getId(), user.getId())) {
+        for(UserTounamentRole u : matchEntity.getTeams().get(1).getUserTounamentRoles()) {
+            if(Objects.equals(u.getUser().getId(), user.getId())) {
                 return SetTeamIndex.TEAM2;
             }
         }
@@ -42,13 +42,13 @@ public class MatchService {
 
     public Boolean isUserInMatch(MatchModel match, UserModel user) {
         Match matchEntity = getMatchFromModel(match);
-        for(User u : matchEntity.getTeams().get(0).getUsers()) {
-            if(Objects.equals(u.getId(), user.getId())) {
+        for(UserTounamentRole u : matchEntity.getTeams().get(0).getUserTounamentRoles()) {
+            if(Objects.equals(u.getUser().getId(), user.getId())) {
                 return true;
             }
         }
-        for(User u : matchEntity.getTeams().get(1).getUsers()) {
-            if(Objects.equals(u.getId(), user.getId())) {
+        for(UserTounamentRole u : matchEntity.getTeams().get(1).getUserTounamentRoles()) {
+            if(Objects.equals(u.getUser().getId(), user.getId())) {
                 return true;
             }
         }
