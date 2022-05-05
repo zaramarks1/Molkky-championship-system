@@ -25,7 +25,7 @@
         <a href="/infos" style="text-decoration: none;">
             <div th:class="'sidebarButton '+${#httpServletRequest.requestURI.startsWith('/infos') ? 'bgButton textPrimary' : ''}">
                 <img th:class="'sidebarIcon '+${#httpServletRequest.requestURI.startsWith('/infos') ? 'sidebarIcon' : 'sidebarIconInactive'}" th:src="@{/assets/infos.svg}"/>
-                <p class="sidebarButtonContent">Mes informations personnelles</p>
+                <p id="info" class="sidebarButtonContent">Mes informations personnelles</p>
             </div>
         </a>
     </div>

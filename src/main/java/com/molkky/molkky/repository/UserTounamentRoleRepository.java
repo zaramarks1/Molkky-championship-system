@@ -11,9 +11,15 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface UserTounamentRoleRepository extends JpaRepository<UserTounamentRole, String>, JpaSpecificationExecutor<UserTounamentRole> {
+public interface UserTounamentRoleRepository extends UserTournamentRoleCustom, JpaRepository<UserTounamentRole, String>, JpaSpecificationExecutor<UserTounamentRole> {
 
     UserTounamentRole findByTeamAndTournament(Team team, Tournament tournament);
     UserTounamentRole findByUserAndTeam(User user, Team team);
     List<UserTounamentRole> findByUser(User user);
+
+
+    UserTounamentRole findById(Integer id);
+
+    List<UserTounamentRole> findUserTounamentRoleByTournamentAndUser(Tournament tournament, User user);
+
 }
