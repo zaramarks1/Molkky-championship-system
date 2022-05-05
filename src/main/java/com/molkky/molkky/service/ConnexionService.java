@@ -18,7 +18,8 @@ public class ConnexionService {
         boolean rightPassword =false;
         BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
         String userDBPassword = user.getCode();
-        boolean isPasswordMatches = bcrypt.matches(passwordNotEncrypted, userDBPassword);
+        boolean isPasswordMatches = userDBPassword.equals(passwordNotEncrypted);
+//        boolean isPasswordMatches = bcrypt.matches(passwordNotEncrypted, userDBPassword);
         if (isPasswordMatches) {
             System.out.println("Password Match");
             rightPassword = true;

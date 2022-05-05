@@ -38,6 +38,11 @@ public class SetService {
         setRepository.save(setEntity);
     }
 
+    public Boolean isUserInSet(SetModel setModel, UserModel user){
+        Set set = getSetFromModel(setModel);
+        return matchService.isUserInMatch(MatchService.getMatchModelFromEntity(set.getMatch()), user);
+    }
+
     public static SetModel createSetModel(Set set){
         SetModel setModel = new SetModel();
         setModel.setId(set.getId());

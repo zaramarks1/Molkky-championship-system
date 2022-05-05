@@ -51,7 +51,7 @@
                 </div>
             </div>
             <div class="setsContainer">
-                <div class="setListContainer" th:each="set, iStat: ${sets}">
+                <form method="POST" class="setListContainer" th:each="set, iStat: ${sets}">
                     <div class="setContainer">
                         <div class="setText" th:text="'SET ' + ${iStat.index}">
                             SET X
@@ -67,7 +67,7 @@
                         </div>
                         <input class="setInput" type="number" name="set1" value="0" th:value="${set.score2Team1}"/>
                     </div>
-                </div>
+                </form>
             </div>
         </div>
     </div>

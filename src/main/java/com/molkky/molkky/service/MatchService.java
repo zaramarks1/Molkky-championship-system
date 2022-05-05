@@ -40,6 +40,21 @@ public class MatchService {
         return matchModel;
     }
 
+    public Boolean isUserInMatch(MatchModel match, UserModel user) {
+        Match matchEntity = getMatchFromModel(match);
+        for(User u : matchEntity.getTeams().get(0).getUsers()) {
+            if(Objects.equals(u.getId(), user.getId())) {
+                return true;
+            }
+        }
+        for(User u : matchEntity.getTeams().get(1).getUsers()) {
+            if(Objects.equals(u.getId(), user.getId())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public static List<MatchModel> createMatchModels(List<Match> matches) {
         List<MatchModel> matchModels = new ArrayList<>();
         if (matches != null) {
