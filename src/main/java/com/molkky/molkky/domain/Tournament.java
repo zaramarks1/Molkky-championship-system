@@ -56,7 +56,7 @@ public class Tournament implements Serializable {
 
 
     @OneToMany(mappedBy="tournament")
-    private Set<UserTounamentRole> userTounamentRoles;
+    private List<UserTounamentRole> userTounamentRoles;
 
 
     @OneToMany(mappedBy="tournament")

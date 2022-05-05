@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -29,7 +30,7 @@ public class Team implements Serializable {
     private Set<Round> rounds;
 
     @OneToMany(mappedBy="team")
-    private Set<UserTounamentRole> userTounamentRoles;
+    private List<UserTounamentRole> userTounamentRoles;
 
     @ManyToOne
     @JoinColumn(name="idTournament", nullable = true)
