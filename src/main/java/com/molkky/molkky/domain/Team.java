@@ -1,6 +1,7 @@
 package com.molkky.molkky.domain;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -11,6 +12,7 @@ import java.util.List;
 @Entity
 @Setter
 @Table(name = "team")
+@NoArgsConstructor
 public class Team implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,7 +34,7 @@ public class Team implements Serializable {
     private List<Round> rounds;
 
     @OneToMany(mappedBy="team")
-    private List<User> users;
+    private List<UserTounamentRole> userTounamentRoles;
 
     @ManyToOne
     @JoinColumn(name="idTournament", nullable = true)
@@ -44,13 +46,9 @@ public class Team implements Serializable {
     @Column(name = "nbWins")
     private Integer nbWins = 0;
 
-    public Team( String name, Integer nbPlayers) {
-        this.name = name;
-        this.nbPlayers = nbPlayers;
-    }
+    @Column(name = "code")
+    String code;
 
-    public Team() {
-    }
 
 
 }

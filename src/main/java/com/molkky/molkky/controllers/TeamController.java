@@ -1,8 +1,8 @@
 package com.molkky.molkky.controllers;
 
+import com.molkky.molkky.service.TeamService;
 import type.TournamentStatus;
 import com.molkky.molkky.domain.Team;
-import com.molkky.molkky.domain.Tournament;
 import com.molkky.molkky.domain.User;
 import com.molkky.molkky.model.AddPlayerModel;
 import com.molkky.molkky.model.AddPlayerlistModel;
@@ -14,8 +14,6 @@ import com.molkky.molkky.service.EmailSenderService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -43,6 +41,9 @@ public class TeamController {
     @Autowired
     EmailSenderService emailSenderService;
 
+    @Autowired
+    TeamService teamService;
+
 
 
     @GetMapping("/create")
@@ -59,20 +60,12 @@ public class TeamController {
     public ModelAndView submit(@ModelAttribute("team") CreateTeamModel team, ModelMap model ){
 
 
-        Integer idTournament = team.getTournament();
-        Tournament tournament = tournamentRepository.findById(idTournament);
-
-        Team teamCreate = new Team();
-
-        teamCreate.setName(team.getName());
-        teamCreate.setNbPlayers(team.getNbPlayers());
-        teamCreate.setTournament(tournament);
-
-        Team teamNew = teamRepository.save(teamCreate);
+        Team teamNew = teamService.create(team);
 
         model.addAttribute("team", teamNew);
         AddPlayerlistModel players = new AddPlayerlistModel();
-        for(int i =0 ; i< teamNew.getNbPlayers();i++){
+
+        for(int i =0 ; i< teamNew.getTournament().getNbPlayersPerTeam();i++){
             players.addPlayer(new AddPlayerModel());
 
         }
@@ -91,18 +84,12 @@ public class TeamController {
         List<User> users = new ArrayList<>();
 
         Team team = teamRepository.findById(players.get(0).getTeamId());
-        for(AddPlayerModel player : players){
 
+        for(AddPlayerModel player : players){
             User user = player.addPlayer();
-            user.setTeam(team);
-            String pwd = user.getCode();
-            //emailSenderService.SendEmail(user.getEmail(),"Votre code d'identification au site Molkky","Voici votre code : "+ pwd);
-            PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-            String hashedPassword = passwordEncoder.encode(pwd);
-            user.setCode(hashedPassword);
-            userRepository.save(user);
             users.add(user);
         }
+
         if(!areAllDistinct(users)){
             model.addAttribute("team", team);
             model.addAttribute("isDiffMail", false);
@@ -110,7 +97,7 @@ public class TeamController {
             return new ModelAndView( "/team/addPlayer", model) ;
         }
 
-        userRepository.saveAll(users);
+        teamService.addPlayers(form);
         return new ModelAndView( "redirect:/team/create", model) ;
         }
 

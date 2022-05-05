@@ -1,11 +1,12 @@
 package com.molkky.molkky.entity;
 
 import com.molkky.molkky.MolkkyApplication;
+import com.molkky.molkky.domain.Court;
 import com.molkky.molkky.domain.Match;
-import com.molkky.molkky.domain.Set;
 import com.molkky.molkky.domain.Team;
+import com.molkky.molkky.repository.CourtRepository;
 import com.molkky.molkky.repository.MatchRepository;
-import com.molkky.molkky.repository.SetRepository;
+import com.molkky.molkky.repository.PoolRepository;
 import com.molkky.molkky.repository.TeamRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -20,87 +21,38 @@ class MatchEntityTest {
     @Autowired
     private MatchRepository matchRepository;
     @Autowired
-    private SetRepository setRepository;
-    @Autowired
     private TeamRepository teamRepository;
+    @Autowired
+    private CourtRepository courtRepository;
+    @Autowired
+    private PoolRepository poolRepository;
 
     @Test
-    void testCreateMatch(){
-//        given
-        Match match = new Match();
-        match.setNbSets(3);
-//        when
-
-//        then
-        Assertions.assertFalse(match.getFinished());
-        Assertions.assertEquals(3, match.getNbSets());
-    }
-
-    @Test
-    void testInsertMatch(){
-//        given
-        Match match = new Match();
-        match.setNbSets(3);
-        Match nvMatch = matchRepository.save(match);
-//        when
-
-//        then
-        Assertions.assertEquals(match.getFinished(), nvMatch.getFinished());
-        Assertions.assertEquals(match.getNbSets(), nvMatch.getNbSets());
-    }
-
-    @Test
-    void testInsertMatchWithSets(){
-//        given
-        Match match = new Match();
-        match.setNbSets(3);
-        match.setSets(createSets(match.getNbSets()));
-        Match nvMatch = matchRepository.save(match);
-//        when
-
-//        then
-        Assertions.assertEquals(match.getFinished(), nvMatch.getFinished());
-        Assertions.assertEquals(match.getNbSets(), nvMatch.getNbSets());
-        Assertions.assertEquals(match.getNbSets(), nvMatch.getSets().size());
-//        verify that the sets are in DB
-        for (int i = 0; i < match.getNbSets(); i++){
-            Assertions.assertEquals(match.getSets().get(i).getId(), setRepository.findById(match.getSets().get(i).getId()).getId());
-        }
-    }
-
-    @Test
-    void testInsertMatchWithTeams(){
-//        given
-        Match match = new Match();
-        match.setNbSets(3);
-        List<Team> teams = createTeams(4);
-        match.setTeams(teams);
-        match.setWinner(teams.get(0));
-        Match nvMatch = matchRepository.save(match);
-//        when
-
-//        then
-        Assertions.assertEquals(teams.get(0).getId(), match.getWinner().getId());
-        Assertions.assertEquals(4, match.getTeams().size());
-
-//        verify that the sets are in DB
-    }
-
-    List<Set> createSets(Integer n){
-        List<Set> sets = new ArrayList<>();
-        for(int i = 0; i < n; i++){
-            Set set = new Set();
-            sets.add(set);
-        }
-        return sets;
-    }
-
-    List<Team> createTeams(Integer n){
+    void testInsertMatch() {
+//        création des équipes du match
+//        Team team1 = new Team("team1_testMatch", 2);
+//        Team team2 = new Team("team2_testMatch", 2);
+        Team team1 = teamRepository.save(new Team());
+        team1.setName("team1_testMatch");
+        Team team2 = teamRepository.save(new Team());
+        team2.setName("team2_testMatch");
         List<Team> teams = new ArrayList<>();
-        for(int i = 0; i < n; i++){
-            Team team = new Team();
-            teams.add(teamRepository.save(team));
-        }
-        return teams;
+        teams.add(team1);
+        teams.add(team2);
+        Court court = courtRepository.save(new Court(true, "court_testMatch"));
+//        Court court = new Court(true, "court_testMatch");
+
+
+        Match match = matchRepository.save(new Match(court, teams));
+//        match.setTeams(teams);
+//        match.setCourt(court);
+//        matchRepository.save(match);
+
+
+        Assertions.assertEquals("court_testMatch", match.getCourt().getName(), "Court name is not correct");
+        Assertions.assertEquals(2, match.getTeams().size(), "Number of teams is not correct");
+
+        Match recupMatch = matchRepository.findById(match.getId());
+        Assertions.assertNotNull(recupMatch, "Match not found");
     }
 }

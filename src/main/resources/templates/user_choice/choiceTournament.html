@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Choix du Role/Tournoi</title>
+    <link rel="stylesheet" th:href="@{/styles/components.css}" href="./" />
+    <link rel="stylesheet" th:href="@{/styles/choiceUser/choice.css}" href="./" />
+
+</head>
+<body>
+<div id="pageContainerItem">
+    <h2 id="tournamentChoice">Choisissez le tournoi auquel vous voulez accéder</h2>
+    <form action="" method="post" >
+        <br>
+        <div th:each="tournament: ${tournaments}">
+                <button id="buttonTournament" class="primaryButton" type="submit"  th:value="${tournament.id}" th:name="tournamentId"><p th:text="${tournament.name}"></p></button>
+        </div>
+    </form>
+</div>
+</body>
+</html>
