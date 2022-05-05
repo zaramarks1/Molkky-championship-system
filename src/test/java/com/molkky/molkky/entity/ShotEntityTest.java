@@ -2,9 +2,11 @@ package com.molkky.molkky.entity;
 
 import com.molkky.molkky.MolkkyApplication;
 import com.molkky.molkky.domain.Match;
+import com.molkky.molkky.domain.Set;
 import com.molkky.molkky.domain.Shot;
 import com.molkky.molkky.domain.Team;
 import com.molkky.molkky.repository.MatchRepository;
+import com.molkky.molkky.repository.SetRepository;
 import com.molkky.molkky.repository.ShotRepository;
 import com.molkky.molkky.repository.TeamRepository;
 import org.junit.jupiter.api.Assertions;
@@ -20,15 +22,19 @@ class ShotEntityTest {
     private TeamRepository teamRepository;
     @Autowired
     private MatchRepository matchRepository;
+    @Autowired
+    private SetRepository setRepository;
 
     @Test
     void testInsertShot() {
         Match match = matchRepository.save(new Match());
+        Set set = setRepository.save(new Set());
+
         Team team = teamRepository.save(new Team());
         team.setName("Team 1");
         Shot shot = new Shot();
         shot.setTeam(team);
-        shot.setMatch(match);
+        shot.setSet(set);
         shot.setScore(1);
         shot = shotRepository.save(shot);
         Assertions.assertEquals(1, shot.getScore());
