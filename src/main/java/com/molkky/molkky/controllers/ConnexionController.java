@@ -10,8 +10,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
-import type.UserRole;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -35,7 +35,7 @@ public class ConnexionController {
         UserConnectionModel userConnectionModel = new UserConnectionModel();
 
         model.addAttribute("userConnection", userConnectionModel);
-        return "connexion";
+        return "connexionTest";
     }
 
     @PostMapping("/connexion")
