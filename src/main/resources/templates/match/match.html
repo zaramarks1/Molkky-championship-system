@@ -10,9 +10,10 @@
     <div class="contentContainer">
         <div th:replace="fragments/searchbar"> </div>
         <div class="matchAllContainer">
-            <div th:text="${setTeamIndex}"></div>
-            <div class="tournamentTitle" th:text="${tournament.name}">placeholder nom tournoi</div>
-            <div class="tournamentDate" th:text="${tournament.date}">placeholder date tournoi</div>
+            <div class="tournamentInfoContainer">
+                <div class="tournamentTitle" th:text="${tournament.name}">placeholder nom tournoi</div>
+                <div class="tournamentDate" th:text="${tournament.date}">placeholder date tournoi</div>
+            </div>
             <div class="matchContainer">
                 <div class="columnContainer">
                     <div class="teamContainer">
@@ -50,6 +51,7 @@
                         </div>
                     </div>
                 </div>
+                <div class="columnContainer"></div>
             </div>
             <div class="setsContainer">
                 <form method="POST" class="setListContainer" th:each="set, iStat: ${sets}">
@@ -61,8 +63,10 @@
                         <input th:case="team2" class="setInput" type="number" th:name="score1Team2" value="0" th:value="${set.score1Team2}"/>
                         <input th:case="orga" class="setInput" type="number" th:name="score1Orga" value="0" th:value="${set.score1Orga}"/>
                     </div>
-                    <div class="separator">
+                    <div class="separatorContainer">
+                        <div class="separator">
 
+                        </div>
                     </div>
                     <div class="setContainer" th:switch="${setTeamIndex.displayValue}">
                         <div class="setText" th:text="'SET ' + ${iStat.index}">
@@ -71,6 +75,9 @@
                         <input th:case="team1" class="setInput" type="number" th:name="score2Team1" value="0" th:value="${set.score2Team1}"/>
                         <input th:case="team2" class="setInput" type="number" th:name="score2Team2" value="0" th:value="${set.score2Team2}"/>
                         <input th:case="orga" class="setInput" type="number" th:name="score2Orga" value="0" th:value="${set.score2Orga}"/>
+                    </div>
+                    <div class="setContainer">
+                        <button class="buttonSendSet">Envoyer</button>
                     </div>
                 </form>
             </div>

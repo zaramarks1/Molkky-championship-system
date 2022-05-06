@@ -1,8 +1,14 @@
 .matchAllContainer {
     display: flex;
     flex-direction: column;
-    align-items: center;
     width: 100%;
+}
+
+.tournamentInfoContainer {
+    width: 75%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .tournamentTitle {
@@ -73,6 +79,13 @@
     width: 100%;
 }
 
+.separatorContainer{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+}
+
 .setListContainer {
     display: flex;
     flex-direction: row;
@@ -116,7 +129,7 @@
 }
 
 .stateContainer {
-    width: 99px;
+    width: 130px;
     height: 45px;
     background: #8C69F4;
     border-radius: 7px;
@@ -129,11 +142,24 @@
 }
 
 .liveIndicator {
-    width: 25px;
-    height: 25px;
+    width: 17px;
+    height: 17px;
     background: #E70B0B;
     border: 3px solid #FFFFFF;
     border-radius: 50%;
+    animation: live 4s ease-in-out infinite;
+}
+
+@keyframes live {
+    0% {
+        opacity: .5;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: .5;
+    }
 }
 
 .stateText {
@@ -148,4 +174,14 @@
     border: 1px solid #8c69f485;
     height: 100%;
     width: 0px;
+}
+
+.buttonSendSet {
+    width: 131px;
+    height: 56px;
+    background: #8C69F4;
+    box-shadow: 0px 2px 7px #8C69F4;
+    border-radius: 8px;
+    color: white;
+    border: none;
 }
