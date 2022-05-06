@@ -28,7 +28,7 @@ public class UserTounamentRole implements Serializable {
     private Boolean isRegistered;
 
     @ManyToOne
-    @JoinColumn(name="idTournement", nullable = true)
+    @JoinColumn(name="idTournament", nullable = true)
     private Tournament tournament;
 
     @ManyToOne

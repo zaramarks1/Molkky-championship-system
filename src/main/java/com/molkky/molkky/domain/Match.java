@@ -5,7 +5,6 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.Set;
 
 @Getter
 @Entity
@@ -34,7 +33,7 @@ public class Match {
     @JoinColumn(name = "idCourt")
     private Court court;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "match_team",
             joinColumns = @JoinColumn(name = "match_id"),

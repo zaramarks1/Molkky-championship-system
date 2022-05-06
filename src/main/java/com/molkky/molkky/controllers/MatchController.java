@@ -35,12 +35,12 @@ public class MatchController {
 
     @GetMapping("/matches/match")
     public String match(Model model, HttpSession session, @RequestParam(name = "match_id", required = true) Integer id) {
-        User user = (User)session.getAttribute("user");
+        UserLogged user = (UserLogged)session.getAttribute("user");
         model.addAttribute("user", user);
         Match match = matchRepository.findById(id);
-//        if(user == null){
-//            return "redirect:/connexion";
-//        }
+        if(user == null){
+            return "redirect:/connexion";
+        }
 
 //
 //        if(!Objects.equals(user.getTeam().getId(), match.getTeams().get(0).getId())
@@ -48,7 +48,7 @@ public class MatchController {
 //        ) {
 //            return new ResponseEntity<>("Pas dans une des équipes", HttpStatus.UNAUTHORIZED);
 //        }
-        SetTeamIndex setTeamIndex = matchService.getUserTeamIndex(MatchService.getMatchModelFromEntity(match), UserService.createUserModel(user));
+        SetTeamIndex setTeamIndex = matchService.getUserTeamIndex(MatchService.getMatchModelFromEntity(match), UserService.createUserModelFromUserLogged(user));
         model.addAttribute("match", MatchService.getMatchModelFromEntity(match));
         model.addAttribute("teams", Arrays.asList(new TeamModel(match.getTeams().get(0)), new TeamModel(match.getTeams().get(1))));
         model.addAttribute("court", new CourtModel(match.getCourt()));

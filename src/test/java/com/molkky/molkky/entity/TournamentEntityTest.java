@@ -32,6 +32,8 @@ class TournamentEntityTest {
     private SetRepository setRepository;
     @Autowired
     private MatchRepository matchRepository;
+    @Autowired
+    private CourtRepository courtRepository;
 
     @Test
     void testInsertTournament() {
@@ -195,15 +197,18 @@ class TournamentEntityTest {
         sets.add(set2);
         sets.add(set3);
 
+        Round round = new Round();
+        round.setTournament(tournament);
+        round = roundRepository.save(round);
+
         match.setTeams(teams);
         match.setFinished(false);
         match.setNbSets(3);
         match.setSets(sets);
+        match.setCourt(courtRepository.save(new Court(true, "Bruh")));
+        match.setRound(round);
         matchRepository.save(match);
 
-        Round round = new Round();
-        round.setTournament(tournament);
-        round = roundRepository.save(round);
         List<Match> matches = new ArrayList<>();
         matches.add(match);
         round.setMatches(matches);

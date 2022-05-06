@@ -1,15 +1,17 @@
 package com.molkky.molkky.domain;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
 @Entity
-@Setter
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "court")
 public class Court {
     @Id
@@ -29,9 +31,5 @@ public class Court {
     public Court(boolean isAvailable, String name) {
         this.isAvailable = isAvailable;
         this.name = name;
-    }
-
-    public Court() {
-
     }
 }
