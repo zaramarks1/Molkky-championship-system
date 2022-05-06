@@ -33,7 +33,7 @@ public class Match {
     private Round round;
 
     @OneToMany(mappedBy = "match")
-    private Set<Shot> shots;
+    private List<Shot> shots;
 
     @Column(name = "scoreTeam1")
     private Integer scoreTeam1 = 0;
