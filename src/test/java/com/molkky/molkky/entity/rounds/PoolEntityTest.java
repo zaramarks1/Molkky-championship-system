@@ -21,7 +21,7 @@ import java.util.List;
 
 @SpringBootTest(classes = MolkkyApplication.class)
 class PoolEntityTest {
-    @Autowired
+    /*@Autowired
     private PoolRepository poolRepository;
     @Autowired
     private MatchRepository matchRepository;
@@ -65,5 +65,5 @@ class PoolEntityTest {
 
         pool = (Pool) roundRepository.findById(pool.getId());
         Assertions.assertEquals(2, pool.getMatches().size());
-    }
+    }*/
 }

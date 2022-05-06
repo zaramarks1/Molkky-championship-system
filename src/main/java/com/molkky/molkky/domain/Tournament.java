@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -54,16 +55,16 @@ public class Tournament implements Serializable {
     @Enumerated(EnumType.STRING)
     private TournamentStatus status;
 
-
     @OneToMany(mappedBy="tournament")
     private List<UserTounamentRole> userTounamentRoles;
-
 
     @OneToMany(mappedBy="tournament")
     private List<Round> rounds;
 
-
     @OneToMany(mappedBy="tournament")
+    private List<Phase> phases;
+
+    @OneToMany(mappedBy="tournament", cascade = CascadeType.ALL)
     private List<Team> teams;
 
     @Column(name = "indexPhase")
@@ -86,6 +87,7 @@ public class Tournament implements Serializable {
         this.nbRounds = nbRounds;
         this.nbCourts = nbCourts;
         this.status = TournamentStatus.AVAILABLE;
+        this.teams = new ArrayList<>();
     }
 
     public Tournament(TournamentModel tournamentModel) {
@@ -100,12 +102,18 @@ public class Tournament implements Serializable {
         this.nbCourts = tournamentModel.getNbCourts();
         this.status = TournamentStatus.AVAILABLE;
         this.nbPlayersPerTeam = tournamentModel.getNbPlayersPerTeam();
+        this.teams = new ArrayList<>();
     }
 
 
 
  
     public Tournament() {
+
         this.status = TournamentStatus.AVAILABLE;
+        this.teams = new ArrayList<>();
+        this.phases = new ArrayList<>();
+        this.rounds = new ArrayList<>();
+        this.userTounamentRoles = new ArrayList<>();
     }
 }

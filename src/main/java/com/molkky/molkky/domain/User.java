@@ -44,13 +44,10 @@ public class User implements Serializable {
     private String password;
 
 
-    @OneToMany
-    @LazyCollection(LazyCollectionOption.FALSE)
-    @JoinColumn(name="idUser", nullable = true)
+    @OneToMany(mappedBy = "user")
     private List<UserTounamentRole> userTounamentRoles;
 
-    @OneToMany
-    @JoinColumn(name="idUser", nullable = true)
+    @OneToMany(mappedBy = "user")
     private List<Notification> notifications;
 
 

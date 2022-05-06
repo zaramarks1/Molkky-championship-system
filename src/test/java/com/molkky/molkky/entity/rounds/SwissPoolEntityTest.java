@@ -21,7 +21,7 @@ import java.util.List;
 
 @SpringBootTest(classes = MolkkyApplication.class)
 class SwissPoolEntityTest {
-    @Autowired
+    /*@Autowired
     private SwissPoolRepository swissPoolRepository;
     @Autowired
     private MatchRepository matchRepository;
@@ -85,5 +85,5 @@ class SwissPoolEntityTest {
         swissPoolRepository.save(swissPool);
         SwissPool nvPool = (SwissPool) roundRepository.findById(swissPool.getId());
         Assertions.assertEquals(4, nvPool.getNbTeamsQualified());
-    }
+    }*/
 }

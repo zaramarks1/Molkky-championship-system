@@ -1,20 +1,20 @@
 package com.molkky.molkky.domain;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Getter
-@Entity
 @Setter
+@Entity
 @Table(name = "team")
-@NoArgsConstructor
 public class Team implements Serializable {
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -22,12 +22,11 @@ public class Team implements Serializable {
     @Column(name = "name")
     private String name;
 
+    @ManyToMany(mappedBy = "teams")
+    private List<Match> matchs;
 
     @ManyToMany(mappedBy = "teams")
-    private Set<Match> matchs;
-
-    @ManyToMany(mappedBy = "teams")
-    private Set<Round> rounds;
+    private List<Round> rounds;
 
     @OneToMany(mappedBy="team")
     private List<UserTounamentRole> userTounamentRoles;
@@ -37,14 +36,26 @@ public class Team implements Serializable {
     private Tournament tournament;
 
     @OneToMany(mappedBy = "team")
-    private Set<Shot> shots;
+    private List<Shot> shots;
 
     @Column(name = "nbWins")
     private Integer nbWins = 0;
 
     @Column(name = "code")
-    String code;
+    private String code;
 
+    @Column(name = "eliminated")
+    private boolean eliminated;
+
+
+    public Team(){
+        this.shots = new ArrayList<>();
+        this.userTounamentRoles = new ArrayList<>();
+        this.matchs = new ArrayList<>();
+        this.rounds = new ArrayList<>();
+        this.eliminated = false;
+
+    }
 
 
 }

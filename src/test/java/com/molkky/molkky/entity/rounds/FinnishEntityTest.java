@@ -21,7 +21,7 @@ import java.util.List;
 
 @SpringBootTest(classes = MolkkyApplication.class)
 class FinnishEntityTest {
-    @Autowired
+    /*@Autowired
     private FinnishRepository finnishRepository;
     @Autowired
     private MatchRepository matchRepository;
@@ -64,5 +64,5 @@ class FinnishEntityTest {
 
         finnish = finnishRepository.findById(finnish.getId());
         Assertions.assertEquals(2, finnish.getMatches().size());
-    }
+    }*/
 }
