@@ -31,9 +31,9 @@
                     <div class="bestOfText" th:text="'Jeu en ' + ${sets.size} + ' sets'">
                         Best of placeholder
                     </div>
-                    <div class="stateContainer">
+                    <div class="stateContainer" th:if="${match.finished == false}">
                         <div class="stateText">
-                            Etat
+                            En cours
                         </div>
                         <div class="liveIndicator">
 
