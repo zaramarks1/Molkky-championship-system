@@ -26,8 +26,9 @@ class TeamEntityTest {
 
     @Test
     void testInsertTeam() {
-        Team team = teamRepository.save(new Team());
+        Team team = new Team();
         team.setName("Team 1");
+        teamRepository.save(team);
         Assertions.assertEquals("Team 1", team.getName(), "Team name is not correct");
         Team recupTeam = teamRepository.findById(team.getId());
         Assertions.assertEquals("Team 1", recupTeam.getName(), "Team name is not correct");

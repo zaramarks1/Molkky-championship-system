@@ -3,7 +3,6 @@ package com.molkky.molkky.controllers;
 import com.molkky.molkky.service.TeamService;
 import type.TournamentStatus;
 import com.molkky.molkky.domain.Team;
-import com.molkky.molkky.domain.Tournament;
 import com.molkky.molkky.domain.User;
 import com.molkky.molkky.model.AddPlayerModel;
 import com.molkky.molkky.model.AddPlayerlistModel;

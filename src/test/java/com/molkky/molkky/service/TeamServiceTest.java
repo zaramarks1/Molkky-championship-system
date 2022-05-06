@@ -92,10 +92,13 @@ public class TeamServiceTest {
             List<AddPlayerModel> listPlayer = new ArrayList<>();
             listPlayer.add(addPlayerModel1);
 
+            Tournament tournament = new Tournament();
+            tournamentRepository.save(tournament);
+
+
             String surname = "Surname"+Math.floor(Math.random() * 100);
             String forename = "Forename"+Math.floor(Math.random() * 100);
             String email = surname+"."+forename+"@test.fr";
-            String code = "12345";
 
             Integer id_team = 1;
             Team teamMock = new Team();
@@ -135,6 +138,9 @@ public class TeamServiceTest {
         public void testAddPlayerExist(){
             List<AddPlayerModel> listPlayer = new ArrayList<>();
             listPlayer.add(addPlayerModel1);
+
+            Tournament tournament = new Tournament();
+            tournamentRepository.save(tournament);
 
             String surname = "Surname"+Math.floor(Math.random() * 100);
             String forename = "Forename"+Math.floor(Math.random() * 100);

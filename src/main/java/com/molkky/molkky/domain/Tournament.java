@@ -4,8 +4,6 @@ import type.TournamentStatus;
 import com.molkky.molkky.model.TournamentModel;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -60,11 +58,11 @@ public class Tournament implements Serializable {
     @OneToMany(mappedBy="tournament")
     private Set<UserTounamentRole> userTounamentRoles;
 
-    @LazyCollection(LazyCollectionOption.FALSE)
+
     @OneToMany(mappedBy="tournament")
     private List<Round> rounds;
 
-    @LazyCollection(LazyCollectionOption.FALSE)
+
     @OneToMany(mappedBy="tournament")
     private List<Team> teams;
 
@@ -103,6 +101,8 @@ public class Tournament implements Serializable {
         this.status = TournamentStatus.AVAILABLE;
         this.nbPlayersPerTeam = tournamentModel.getNbPlayersPerTeam();
     }
+
+
 
  
     public Tournament() {

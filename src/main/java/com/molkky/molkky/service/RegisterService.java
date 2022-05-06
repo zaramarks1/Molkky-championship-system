@@ -33,7 +33,7 @@ public class RegisterService {
         RandomStringGenerator pwdGenerator = new RandomStringGenerator.Builder().withinRange(33, 63)
                 .build();
         String pwd = pwdGenerator.generate(10);
-        senderService.SendEmail(user.getEmail(),"ton mdp","Tiens ton mdp: " + pwd);
+        senderService.sendEmail(user.getEmail(),"ton mdp","Tiens ton mdp: " + pwd);
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String hashedPassword = passwordEncoder.encode(pwd);
         user.setPassword(hashedPassword);

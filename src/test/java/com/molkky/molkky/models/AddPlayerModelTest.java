@@ -1,15 +1,11 @@
 package com.molkky.molkky.models;
 
-import com.molkky.molkky.MolkkyApplication;
-import org.springframework.boot.test.context.SpringBootTest;
-import type.UserRole;
 import com.molkky.molkky.domain.User;
 import com.molkky.molkky.model.AddPlayerModel;
 import com.molkky.molkky.model.AddPlayerlistModel;
 import org.junit.Assert;
 import org.junit.Test;
 
-@SpringBootTest(classes = MolkkyApplication.class)
 public class AddPlayerModelTest {
 
     @Test
