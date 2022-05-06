@@ -5,6 +5,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -26,14 +27,14 @@ public class Match implements Serializable {
             name = "match_team",
             joinColumns = @JoinColumn(name = "match_id"),
             inverseJoinColumns = @JoinColumn(name = "team_id"))
-    private List<Team> teams;
+    private List<Team> teams = new ArrayList<>();
 
     @ManyToOne(optional = true)
     @JoinColumn(name="idRound", nullable = true)
     private Round round;
 
     @OneToMany(mappedBy = "match")
-    private List<Shot> shots;
+    private List<Shot> shots = new ArrayList<>();
 
     @Column(name = "scoreTeam1")
     private Integer scoreTeam1 = 0;

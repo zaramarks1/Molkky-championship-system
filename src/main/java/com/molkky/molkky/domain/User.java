@@ -10,6 +10,7 @@ import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -45,10 +46,10 @@ public class User implements Serializable {
 
 
     @OneToMany(mappedBy = "user")
-    private List<UserTounamentRole> userTounamentRoles;
+    private List<UserTounamentRole> userTounamentRoles = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")
-    private List<Notification> notifications;
+    private List<Notification> notifications = new ArrayList<>();
 
 
 

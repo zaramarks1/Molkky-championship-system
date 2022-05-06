@@ -28,7 +28,7 @@ public class Round {
             name = "team_round",
             joinColumns = @JoinColumn(name = "round_id"),
             inverseJoinColumns = @JoinColumn(name = "team_id"))
-    private List<Team> teams;
+    private List<Team> teams =  new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "round")
     private List<Match> matches = new ArrayList<>();
@@ -43,6 +43,7 @@ public class Round {
     @ManyToOne
     @JoinColumn(name="phase_id", nullable=false)
     private Phase phase;
+
 
 
 }

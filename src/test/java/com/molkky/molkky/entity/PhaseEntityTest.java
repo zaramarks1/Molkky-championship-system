@@ -5,19 +5,19 @@ import com.molkky.molkky.domain.*;
 import com.molkky.molkky.domain.rounds.Finnish;
 import com.molkky.molkky.domain.rounds.Pool;
 import com.molkky.molkky.repository.*;
+import com.molkky.molkky.service.PhaseService;
 import org.checkerframework.checker.units.qual.A;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
+import type.PhaseType;
 import type.TournamentStatus;
 import type.UserRole;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @SpringBootTest(classes = MolkkyApplication.class)
  class PhaseEntityTest {
@@ -36,6 +36,9 @@ import java.util.List;
 
     @Autowired
     private UserTounamentRoleRepository userTounamentRoleRepository;
+
+    @Autowired
+    private PhaseService phaseService;
 
     @Test
     @Rollback(false)
@@ -66,7 +69,7 @@ import java.util.List;
         pool.setNbTeamsQualified(4);
 
         pool.setTournament(tournament);
-        phaseRepository.save(pool);
+       pool =  phaseRepository.save(pool);
 
         List<Phase> phases = new ArrayList<>();
         phases.add(pool);
@@ -81,30 +84,51 @@ import java.util.List;
 
             team.setName("Team" + i);
             team.setTournament(tournament);
-            team = teamRepository.save(team);
+
 
             tournament.getTeams().add(team);
-
-            tournamentRepository.save(tournament);
 
             User player = new User();
 
             player.setForename("User" + i);
 
-           player =  userRepository.save(player);
+            player =  userRepository.save(player);
 
             UserTounamentRole userTounamentRole = new UserTounamentRole();
 
             userTounamentRole.setRole(UserRole.PLAYER);
             userTounamentRole.setUser(player);
             userTounamentRole.setTournament(tournament);
+            userTounamentRole.setTeam(team);
 
-            userTounamentRole = userTounamentRoleRepository.save(userTounamentRole);
+            player.getUserTounamentRoles().add(userTounamentRole);
+            tournament.getUserTounamentRoles().add(userTounamentRole);
+            team.getUserTounamentRoles().add(userTounamentRole);
+
+            team = teamRepository.save(team);
+            userTounamentRoleRepository.save(userTounamentRole);
+            tournamentRepository.save(tournament);
+            userRepository.save(player);
+
         }
 
+        HashMap<Round, List<Match>> results =  phaseService.generate(pool.getId().toString());
         Assertions.assertEquals(1, tournament.getPhases().size(), "Tournament should have 1 phase");
         Assertions.assertEquals(true, tournament.getPhases().get(0) instanceof Pool,
                 " It should be a instance of pool");
         Assertions.assertEquals(8, tournament.getTeams().size(), " There should be 8 teams ");
+        Assertions.assertEquals(1, tournament.getTeams().get(0).getUserTounamentRoles().size(),
+                " There should be 1 player per team ");
+        Assertions.assertEquals(2, results.size(), " There should be 2 rounds of pool ");
+
+        for(Map.Entry<Round, List<Match>> entry : results.entrySet()){
+
+            Assertions.assertEquals(PhaseType.POOL, entry.getKey().getType(),
+                    " The round should be of type pool ");
+            Assertions.assertEquals(4, entry.getKey().getTeams().size(), " The  should be 4 teams");
+            Assertions.assertEquals(6, entry.getValue().size(), " The  should be 6 matches");
+
+        }
+
     }
 }
