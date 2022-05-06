@@ -1,17 +1,16 @@
 package com.molkky.molkky.domain;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Entity
 @Setter
 @Table(name = "molkky_match")
-@NoArgsConstructor
 public class Match {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,8 +34,9 @@ public class Match {
     @JoinColumn(name = "idCourt")
     private Court court;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "molkky_match_team",
+    @ManyToMany
+    @JoinTable(
+            name = "match_team",
             joinColumns = @JoinColumn(name = "match_id"),
             inverseJoinColumns = @JoinColumn(name = "team_id"))
     private List<Team> teams;
