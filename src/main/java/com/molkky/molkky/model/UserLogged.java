@@ -16,13 +16,15 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class UserLogged implements Serializable {
 
+    private Integer id;
     private String email;
     private String password;
     private UserRole role;
     private Team team;
     private Tournament tournament;
 
-    public UserLogged(String email, String password, UserRole role, Tournament tournament){
+    public UserLogged(Integer id, String email, String password, UserRole role, Tournament tournament){
+        this.id=id;
         this.email=email;
         this.password=password;
         this.role=role;

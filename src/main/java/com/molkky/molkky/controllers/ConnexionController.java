@@ -6,7 +6,6 @@ import com.molkky.molkky.model.UserConnectionModel;
 import com.molkky.molkky.model.UserLogged;
 import com.molkky.molkky.repository.UserRepository;
 import com.molkky.molkky.repository.UserTounamentRoleRepository;
-import com.molkky.molkky.service.ConnexionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,8 +20,6 @@ import java.util.List;
 
 @Controller
 public class ConnexionController {
-    @Autowired
-    private ConnexionService connexionService;
 
     @Autowired
     private UserRepository userRepository;
@@ -53,7 +50,7 @@ public class ConnexionController {
                 if(userModel.getCode() != null){
                     List<UserTounamentRole> players = userTounamentRoleRepository.findUserWithCode(user,userModel.getCode());
                     if(!players.isEmpty()){
-                        UserLogged userLogged = new UserLogged(userModel.getEmail(),
+                        UserLogged userLogged = new UserLogged(user.getId(),userModel.getEmail(),
                                     userModel.getPassword(), players.get(0).getRole(), players.get(0).getTeam(),players.get(0).getTournament());
                         request.getSession().setAttribute("user",userLogged);
                         return new ModelAndView("redirect:/");
@@ -66,7 +63,7 @@ public class ConnexionController {
                 }
                 List<UserTounamentRole> adminorstaff = userTounamentRoleRepository.findUserAdminStaff(user);
                 if(adminorstaff.size()==1){
-                    UserLogged adminStaffLogged = new UserLogged(userModel.getEmail(),userModel.getPassword(),adminorstaff.get(0).getRole(),adminorstaff.get(0).getTournament());
+                    UserLogged adminStaffLogged = new UserLogged(user.getId(),userModel.getEmail(),userModel.getPassword(),adminorstaff.get(0).getRole(),adminorstaff.get(0).getTournament());
                     request.getSession().setAttribute("user",adminStaffLogged);
                     return new ModelAndView("redirect:/");
                 }
