@@ -1,4 +1,5 @@
 package com.molkky.molkky.controllers;
+import com.molkky.molkky.repository.TeamRepository;
 import com.molkky.molkky.repository.TournamentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,28 +25,51 @@ public class TournamentController {
     @Autowired
     private TournamentRepository tournamentRepository;
 
-    @GetMapping("/tournament/allTournament")
-    public String tournamentForm(Model model) {
-        model.addAttribute("allTournament", tournamentRepository.findAll());
-        return "tournament/allTournament";
-    }
-
-    @PostMapping("/tournament/allTournament")
-    public ModelAndView goToCreate(ModelMap model) {
-        return new ModelAndView("redirect:/tournament/create", model);
-    }
-
-
-    @PostMapping ("/tournament/currentTournament")
-    public String currentTournament() {
-        return "/";
-    }
-
     @Autowired
     private TounamentService tournamentService;
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private TeamRepository teamRepository;
+
+
+    @GetMapping("/allTournament")
+    public String tournamentForm(Model model) {
+        model.addAttribute("tournament", tournamentRepository.findAll());
+        return "tournament/allTournament";
+    }
+
+    @GetMapping("/TournamentOpen")
+    public String tournamentOpen(Model model) {
+        model.addAttribute("tournament", tournamentRepository.findByVisibleAndStatus(true,TournamentStatus.AVAILABLE));
+        return "tournament/allTournament";
+    }
+
+    @GetMapping("/TournamentClose")
+    public String tournamentClose(Model model) {
+        model.addAttribute("tournament", tournamentRepository.findByVisibleAndStatus(true,TournamentStatus.CLOSED));
+
+        return "tournament/allTournament";
+    }
+
+    @GetMapping("/TournamentInProgress")
+    public String tournamentinProgress(Model model) {
+        model.addAttribute("tournament", tournamentRepository.findByVisibleAndStatus(true,TournamentStatus.INPROGRESS));
+        return "tournament/allTournament";
+    }
+
+    @PostMapping("/allTournament")
+    public ModelAndView goToCreate(ModelMap model) {
+        return new ModelAndView("redirect:/tournament/create", model);
+    }
+
+
+    @PostMapping ("/currentTournament")
+    public String currentTournament() {
+        return "/";
+    }
 
     @GetMapping("/create")
     public String tournamentForm(Model model, HttpSession session) {
@@ -66,19 +90,13 @@ public class TournamentController {
 
     @GetMapping("/{id}/view")
     public String tournamentView(Model model, @PathVariable("id") String id){
-
-        //USER FROM SESSION
         User user = null;
-
         Tournament tournament = tournamentRepository.findById(Integer.valueOf(id));
         model.addAttribute("tournament", tournament);
         model.addAttribute("user", user);
         model.addAttribute("nbTeam", tournament.getTeams().size());
-
         return "tournament/view";
     }
-
-
 
     @PostMapping(value = "/view" , params = "launch")
     public String tournamentViewPostLaunch(@RequestParam(value = "tournamentId", required = false) String tournamentId){
@@ -91,5 +109,6 @@ public class TournamentController {
 
         return "redirect:/tournament/create";
     }
+
 }
 

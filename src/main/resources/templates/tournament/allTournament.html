@@ -1,38 +1,66 @@
+<!DOCTYPE>
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html" lang="fr">
 <head>
     <meta charset="UTF-8">
     <div th:replace="fragments/header"></div>
     <title>Affichage des tournois</title>
+    <link rel="stylesheet" th:href="@{/styles/tournament/allTournament.css}" href="./"/>
+
 </head>
 <body class="bg">
 <div class="pageContainer">
     <div th:replace="fragments/sidebar"></div>
     <div class="contentContainer">
         <div th:replace="fragments/searchbar"></div>
-        <div class="contentTitle">Création d'un tournoi</div>
-        <h2>Liste des tournois</h2>
 
-
-        <div>
-        <ul th:each="tournament:${allTournament}">
-                <div>
-                <a href="/tournament/${tournament.id}/view" th:text="${tournament.name}">Nom:</a>
-                <a href="/" th:text="${tournament.date}">Date:</a>
+        <div class="main">
+            <!-- Emplacement pour les filtres-->
+            <div class="boxTournamentList">
+                <div class="boxListe">
+                    <div class="rectangle"></div>
+                    <div class="ListTournament">Liste des tournois</div>
                 </div>
-        </ul>
 
 
-®
+                <div class="allButton">
+                    <ul class="ButtonTournament nav nav-pills nav-fill">
+                        <li class="boxState nav-item">
+                            <a class="textButton nav-link " aria-current="page" href="/tournament/TournamentOpen">Ouverts</a>
+                        </li>
+                        <li class="boxState nav-item">
+                            <a class="textButton nav-link" href="/tournament/TournamentClose">Fermés</a>
+                        </li>
+                        <li class="boxState nav-item">
+                            <a class="textButton nav-link" href="/tournament/TournamentInProgress">En cours</a>
+                        </li>
+                    </ul>
+                </div>
 
-        <form action="#" th:action="@{/tournament/allTournament}" method="post" class="formContainer">
-            <input id="valider" type="submit" class="primaryButton" value="Créer tournoi">
-        </form>
+                <div class="boxAllCard">
+                    <ul class="boxOneCard" th:each="tournament:${tournament}">
+                        <li class="boxInOneCard">
+                            <a class="boxInOneCard" th:href="@{'/tournament/'+${tournament.id}+'/view'}">
+                                <span class="nameCard" th:text="${tournament.name}"/>
+                                <span class="dateCard" th:text="${tournament.date}"/>
+                                <span class="nbCard" th:text="${tournament.nbPlayersPerTeam}+' joueurs par équipes'"/>
+                                <span class="textPlayer" th:text="${tournament.getTeams().size()}*${tournament.nbPlayersPerTeam}+' / '+${tournament.getMaxTeam()}*${tournament.getNbPlayersPerTeam()}+' Joueurs'"/>
+                                <p class="textInscriptionClosed" th:unless="${tournament.visible}">Incriptions fermés</p>
+                                <p class="textInscriptionOpen" th:if="${tournament.visible}">Incriptions ouvertes</p>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+
+            <form action="#" th:action="@{/tournament/allTournament}" method="post" class="formContainer">
+                <input id="valider" type="submit" class="primaryButton" value="Créer tournoi">
+            </form>
         </div>
-
-
-
-
     </div>
+</div>
+
+</div>
 </div>
 </body>
 <div th:replace="fragments/footer"></div>
