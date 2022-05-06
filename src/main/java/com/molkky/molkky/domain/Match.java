@@ -44,6 +44,10 @@ public class Match {
     @Column(name = "finished")
     private Boolean finished= false;
 
+    @ManyToOne(optional = true)
+    @JoinColumn(name="idStaff", nullable = true)
+    private User staff;
+
     public Match(Court court, List<Team> teams) {
         this.court = court;
         this.teams = teams;
