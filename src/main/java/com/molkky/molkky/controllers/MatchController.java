@@ -1,8 +1,10 @@
 package com.molkky.molkky.controllers;
 
 import com.molkky.molkky.domain.Match;
-import com.molkky.molkky.domain.User;
-import com.molkky.molkky.model.*;
+import com.molkky.molkky.model.CourtModel;
+import com.molkky.molkky.model.TeamModel;
+import com.molkky.molkky.model.TournamentModel;
+import com.molkky.molkky.model.UserLogged;
 import com.molkky.molkky.repository.MatchRepository;
 import com.molkky.molkky.service.MatchService;
 import com.molkky.molkky.service.SetService;
@@ -11,8 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import type.SetTeamIndex;
 
@@ -55,19 +55,6 @@ public class MatchController {
         model.addAttribute("tournament", new TournamentModel(match.getRound().getTournament()));
         model.addAttribute("sets", SetService.createSetModels(match.getSets()));
         model.addAttribute("setTeamIndex", setTeamIndex);
-        return "match/match";
-    }
-
-    @PostMapping("/matches/match")
-    public String updateSet(Model model, @RequestBody SetModel setModel, HttpSession session) {
-        User user = (User)session.getAttribute("user");
-        if(Boolean.FALSE.equals(setService.isUserInSet(setModel, UserService.createUserModel(user)))) {
-            return "not in match";
-        }
-
-
-
-//        matchRepository.save(match);
         return "match/match";
     }
 }
