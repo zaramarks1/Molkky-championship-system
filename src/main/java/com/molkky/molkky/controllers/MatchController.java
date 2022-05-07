@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import type.SetTeamIndex;
+import type.UserRole;
 
 import javax.servlet.http.HttpSession;
 import java.util.Arrays;
@@ -41,14 +42,13 @@ public class MatchController {
         if(user == null){
             return "redirect:/connexion";
         }
-
-//
-//        if(!Objects.equals(user.getTeam().getId(), match.getTeams().get(0).getId())
-//                && !Objects.equals(user.getTeam().getId(), match.getTeams().get(1).getId())
-//        ) {
-//            return new ResponseEntity<>("Pas dans une des équipes", HttpStatus.UNAUTHORIZED);
-//        }
         SetTeamIndex setTeamIndex = matchService.getUserTeamIndex(MatchService.getMatchModelFromEntity(match), UserService.createUserModelFromUserLogged(user));
+
+//        case the user is a player but not in the match
+        if(setTeamIndex == SetTeamIndex.ORGA && user.getRole() == UserRole.PLAYER){
+            return "redirect:/";
+        }
+
         model.addAttribute("match", MatchService.getMatchModelFromEntity(match));
         model.addAttribute("teams", Arrays.asList(new TeamModel(match.getTeams().get(0)), new TeamModel(match.getTeams().get(1))));
         model.addAttribute("court", new CourtModel(match.getCourt()));

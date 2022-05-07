@@ -30,4 +30,8 @@ public class UserService {
         userModel.setEmail(userLogged.getEmail());
         return userModel;
     }
+
+    public User getUserByModel(UserModel userModel){
+        return userRepository.findById(userModel.getId());
+    }
 }

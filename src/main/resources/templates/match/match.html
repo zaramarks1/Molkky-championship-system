@@ -54,8 +54,9 @@
                 <div class="columnContainer"></div>
             </div>
             <div class="setsContainer">
-                <form method="POST" class="setListContainer" th:each="set, iStat: ${sets}">
+                <form method="POST" class="setListContainer" th:each="set, iStat: ${sets}" action="/sets/updateSet">
                     <div class="setContainer" th:switch="${setTeamIndex.displayValue}">
+                        <input type="hidden" name="id" th:value="${set.id}"/>
                         <div class="setText" th:text="'SET ' + ${iStat.index}">
                             SET X
                         </div>
@@ -77,7 +78,7 @@
                         <input th:case="orga" class="setInput" type="number" th:name="score2Orga" value="0" th:value="${set.score2Orga}"/>
                     </div>
                     <div class="setContainer">
-                        <button class="buttonSendSet">Envoyer</button>
+                        <button type="submit" class="primaryButton" >Envoyer</button>
                     </div>
                 </form>
             </div>

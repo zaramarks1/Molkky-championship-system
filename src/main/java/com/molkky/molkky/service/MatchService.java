@@ -17,8 +17,11 @@ import java.util.Objects;
 public class MatchService {
     @Autowired
     private MatchRepository matchRepository;
+    @Autowired
+    private UserService userService;
     public SetTeamIndex getUserTeamIndex(MatchModel match, UserModel user) {
         Match matchEntity = getMatchFromModel(match);
+
         for(UserTounamentRole u : matchEntity.getTeams().get(0).getUserTounamentRoles()) {
             if(Objects.equals(u.getUser().getId(), user.getId())) {
                 return SetTeamIndex.TEAM1;

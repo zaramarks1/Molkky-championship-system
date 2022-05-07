@@ -1,15 +1,14 @@
 package com.molkky.molkky.domain;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
-@Getter
+@Data
 @Entity
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "user_tounament_role")
@@ -35,7 +34,7 @@ public class UserTounamentRole implements Serializable {
     @JoinColumn(name="idTeam", nullable = true)
     private Team team;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="idUser", nullable = true)
     private User user;
 }

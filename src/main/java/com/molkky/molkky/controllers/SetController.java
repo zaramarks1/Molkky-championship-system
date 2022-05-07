@@ -1,8 +1,9 @@
 package com.molkky.molkky.controllers;
 
 import com.molkky.molkky.domain.Match;
-import com.molkky.molkky.domain.User;
+import com.molkky.molkky.domain.Set;
 import com.molkky.molkky.model.SetModel;
+import com.molkky.molkky.model.UserLogged;
 import com.molkky.molkky.repository.SetRepository;
 import com.molkky.molkky.service.MatchService;
 import com.molkky.molkky.service.SetService;
@@ -10,8 +11,10 @@ import com.molkky.molkky.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import type.SetTeamIndex;
 
 import javax.servlet.http.HttpSession;
 
@@ -29,15 +32,41 @@ public class SetController {
     @Autowired
     private SetService setService;
 
-    @PostMapping("/set/updateSet")
-    public String updateSet(Model model, @RequestBody SetModel setModel, HttpSession session) {
-        User user = (User)session.getAttribute("user");
-        if(Boolean.FALSE.equals(setService.isUserInSet(setModel, UserService.createUserModel(user)))) {
-            return "not in match";
+    @PostMapping("/sets/updateSet")
+    public String updateSet(Model model, @ModelAttribute SetModel setModel, HttpSession session) {
+        UserLogged user = (UserLogged)session.getAttribute("user");
+        Set set = setService.getSetFromModel(setModel);
+        SetTeamIndex setTeamIndex = matchService.getUserTeamIndex(MatchService.getMatchModelFromEntity(set.getMatch()), UserService.createUserModelFromUserLogged(user));
+        if(setTeamIndex == null) return null;
+        switch (setTeamIndex) {
+            case TEAM1:
+                set.setScore1Team1(setModel.getScore1Team1());
+                set.setScore2Team1(setModel.getScore2Team1());
+                break;
+            case TEAM2:
+                set.setScore1Team2(setModel.getScore1Team2());
+                set.setScore2Team2(setModel.getScore2Team2());
+                break;
+            case ORGA:
+                set.setScore1Orga(setModel.getScore1Orga());
+                set.setScore2Orga(setModel.getScore2Orga());
+                break;
+            default:
+                break;
         }
+        setRepository.save(set);
+//        if(Boolean.FALSE.equals(setService.isUserInSet(setModel, UserService.createUserModel(user)))) {
+//            return "not in match";
+//        }
 //        matchRepository.save(match);
+//        Match match = (Match)model.getAttribute("match");
+        return "redirect:/matches/match?match_id=" + set.getMatch().getId();
+    }
+
+    @GetMapping("/sets/updateSet")
+    public String updateSetGet(Model model, HttpSession session) {
         Match match = (Match)model.getAttribute("match");
-        return "redirection: /matches/match?match_id=" + match.getId();
+        return "redirect:/matches/match?match_id=" + match.getId();
     }
 
 }
