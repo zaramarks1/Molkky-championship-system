@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import type.SetTeamIndex;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,6 +31,8 @@ class MatchServiceTest {
     private UserRepository userRepository;
     @Autowired
     private UserTournamentRoleRepository userTournamentRoleRepository;
+    @Autowired
+    private UserService userService;
 
     @Test
     void createMatchModelsTest() {
@@ -75,7 +78,7 @@ class MatchServiceTest {
     }
 
     @Test
-    void getUserIndexTest1(){
+    void getUserIndexTestAndIsInMatch1(){
 //        given
         Match match = matchRepository.save(new Match());
         Team team1 = teamRepository.save(new Team());
@@ -84,14 +87,67 @@ class MatchServiceTest {
         UserTournamentRole userTournamentRole1 = userTournamentRoleRepository.save(new UserTournamentRole());
         User user1 = userRepository.save(new User());
         userTournamentRole1.setUser(user1);
+        userTournamentRole1.setTeam(team1);
         userTournamentRoleRepository.save(userTournamentRole1);
-        team1.setUserTournamentRoles(Arrays.asList(userTournamentRole1));
-        teamRepository.save(team1);
+        team1.setUserTournamentRoles(List.of(userTournamentRole1));
+        team1 = teamRepository.save(team1);
 
         match.setTeams(Arrays.asList(team1, team2));
-        matchRepository.save(match);
+        match = matchRepository.save(match);
+//        when
+        SetTeamIndex index = matchService.getUserTeamIndex(MatchService.getMatchModelFromEntity(match), UserService.createUserModel(user1));
+//        then
+        Assertions.assertEquals(SetTeamIndex.TEAM1, index);
+        Assertions.assertTrue(matchService.isUserInMatch(MatchService.getMatchModelFromEntity(match), UserService.createUserModel(user1)));
+    }
 
+    @Test
+    void getUserIndexTestAndIsInMatch2(){
+//        given
+        Match match = matchRepository.save(new Match());
+        Team team1 = teamRepository.save(new Team());
+        Team team2 = teamRepository.save(new Team());
 
+        UserTournamentRole userTournamentRole1 = userTournamentRoleRepository.save(new UserTournamentRole());
+        User user1 = userRepository.save(new User());
+        userTournamentRole1.setUser(user1);
+        userTournamentRole1.setTeam(team1);
+        userTournamentRoleRepository.save(userTournamentRole1);
+        team1.setUserTournamentRoles(List.of(userTournamentRole1));
+        team1 = teamRepository.save(team1);
+
+        match.setTeams(Arrays.asList(team2, team1));
+        match = matchRepository.save(match);
+//        when
+        SetTeamIndex index = matchService.getUserTeamIndex(MatchService.getMatchModelFromEntity(match), UserService.createUserModel(user1));
+//        then
+        Assertions.assertEquals(SetTeamIndex.TEAM2, index);
+        Assertions.assertTrue(matchService.isUserInMatch(MatchService.getMatchModelFromEntity(match), UserService.createUserModel(user1)));
+    }
+
+    @Test
+    void getUserIndexTestAndIsInMatch3(){
+//        given
+        Match match = matchRepository.save(new Match());
+        Team team1 = teamRepository.save(new Team());
+        Team team2 = teamRepository.save(new Team());
+
+        UserTournamentRole userTournamentRole1 = userTournamentRoleRepository.save(new UserTournamentRole());
+        User user1 = userRepository.save(new User());
+        User user2 = userRepository.save(new User());
+        userTournamentRole1.setUser(user1);
+        userTournamentRole1.setTeam(team1);
+        userTournamentRoleRepository.save(userTournamentRole1);
+        team1.setUserTournamentRoles(List.of(userTournamentRole1));
+        team1 = teamRepository.save(team1);
+
+        match.setTeams(Arrays.asList(team2, team1));
+        match = matchRepository.save(match);
+//        when
+        SetTeamIndex index = matchService.getUserTeamIndex(MatchService.getMatchModelFromEntity(match), UserService.createUserModel(user2));
+//        then
+        Assertions.assertEquals(SetTeamIndex.ORGA, index);
+        Assertions.assertFalse(matchService.isUserInMatch(MatchService.getMatchModelFromEntity(match), UserService.createUserModel(user2)));
     }
 
 }
