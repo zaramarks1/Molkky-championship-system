@@ -31,8 +31,6 @@ class MatchServiceTest {
     private UserRepository userRepository;
     @Autowired
     private UserTournamentRoleRepository userTournamentRoleRepository;
-    @Autowired
-    private UserService userService;
 
     @Test
     void createMatchModelsTest() {
@@ -45,7 +43,7 @@ class MatchServiceTest {
         List<MatchModel> matchModels = MatchService.createMatchModels(matches);
 //        then
         Assertions.assertEquals(10, matchModels.size());
-        for(int i = 0; i < 10; i++){
+        for (int i = 0; i < 10; i++) {
             Assertions.assertEquals(matches.get(i).getId(), matchModels.get(i).getId());
             Assertions.assertEquals(matches.get(i).getFinished(), matchModels.get(i).getFinished());
             Assertions.assertEquals(matches.get(i).getNbSets(), matchModels.get(i).getNbSets());
@@ -78,7 +76,7 @@ class MatchServiceTest {
     }
 
     @Test
-    void getUserIndexTestAndIsInMatch1(){
+    void getUserIndexTestAndIsInMatch1() {
 //        given
         Match match = matchRepository.save(new Match());
         Team team1 = teamRepository.save(new Team());
@@ -102,7 +100,7 @@ class MatchServiceTest {
     }
 
     @Test
-    void getUserIndexTestAndIsInMatch2(){
+    void getUserIndexTestAndIsInMatch2() {
 //        given
         Match match = matchRepository.save(new Match());
         Team team1 = teamRepository.save(new Team());
@@ -126,7 +124,7 @@ class MatchServiceTest {
     }
 
     @Test
-    void getUserIndexTestAndIsInMatch3(){
+    void getUserIndexTestAndIsInMatch3() {
 //        given
         Match match = matchRepository.save(new Match());
         Team team1 = teamRepository.save(new Team());
