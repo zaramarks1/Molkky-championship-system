@@ -133,7 +133,7 @@ class SetServiceTest {
         Assertions.assertFalse(setService.isUserInSet(SetService.createSetModel(set), UserService.createUserModel(userNotIn)));
     }
 
-    private Match createCompleteMatch() {
+    Match createCompleteMatch() {
         Match match = matchRepository.save(new Match());
         Team team1 = teamRepository.save(new Team());
         Team team2 = teamRepository.save(new Team());

@@ -4,7 +4,6 @@ import com.molkky.molkky.MolkkyApplication;
 import com.molkky.molkky.SeleniumConfig;
 import com.molkky.molkky.domain.Team;
 import com.molkky.molkky.repository.TeamRepository;
-import org.junit.Assert;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.Select;
