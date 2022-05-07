@@ -31,7 +31,7 @@ public class UserService {
         return userModel;
     }
 
-    public User getUserByModel(UserModel userModel){
+    public User getUserFromModel(UserModel userModel){
         return userRepository.findById(userModel.getId());
     }
 }

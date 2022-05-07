@@ -1,7 +1,7 @@
 package com.molkky.molkky.service;
 
 import com.molkky.molkky.domain.Match;
-import com.molkky.molkky.domain.UserTounamentRole;
+import com.molkky.molkky.domain.UserTournamentRole;
 import com.molkky.molkky.model.MatchModel;
 import com.molkky.molkky.model.UserModel;
 import com.molkky.molkky.repository.MatchRepository;
@@ -22,12 +22,12 @@ public class MatchService {
     public SetTeamIndex getUserTeamIndex(MatchModel match, UserModel user) {
         Match matchEntity = getMatchFromModel(match);
 
-        for(UserTounamentRole u : matchEntity.getTeams().get(0).getUserTounamentRoles()) {
+        for(UserTournamentRole u : matchEntity.getTeams().get(0).getUserTournamentRoles()) {
             if(Objects.equals(u.getUser().getId(), user.getId())) {
                 return SetTeamIndex.TEAM1;
             }
         }
-        for(UserTounamentRole u : matchEntity.getTeams().get(1).getUserTounamentRoles()) {
+        for(UserTournamentRole u : matchEntity.getTeams().get(1).getUserTournamentRoles()) {
             if(Objects.equals(u.getUser().getId(), user.getId())) {
                 return SetTeamIndex.TEAM2;
             }
@@ -45,12 +45,12 @@ public class MatchService {
 
     public Boolean isUserInMatch(MatchModel match, UserModel user) {
         Match matchEntity = getMatchFromModel(match);
-        for(UserTounamentRole u : matchEntity.getTeams().get(0).getUserTounamentRoles()) {
+        for(UserTournamentRole u : matchEntity.getTeams().get(0).getUserTournamentRoles()) {
             if(Objects.equals(u.getUser().getId(), user.getId())) {
                 return true;
             }
         }
-        for(UserTounamentRole u : matchEntity.getTeams().get(1).getUserTounamentRoles()) {
+        for(UserTournamentRole u : matchEntity.getTeams().get(1).getUserTournamentRoles()) {
             if(Objects.equals(u.getUser().getId(), user.getId())) {
                 return true;
             }
@@ -70,7 +70,7 @@ public class MatchService {
         return matchModels;
     }
 
-    private Match getMatchFromModel(MatchModel matchModel) {
+    Match getMatchFromModel(MatchModel matchModel) {
         return matchRepository.findById(matchModel.getId());
 
     }

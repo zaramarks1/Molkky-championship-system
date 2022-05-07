@@ -11,8 +11,8 @@ import java.io.Serializable;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "user_tounament_role")
-public class UserTounamentRole implements Serializable {
+@Table(name = "user_tournament_role")
+public class UserTournamentRole implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

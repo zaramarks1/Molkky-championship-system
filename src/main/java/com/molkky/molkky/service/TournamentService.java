@@ -2,11 +2,11 @@ package com.molkky.molkky.service;
 
 import com.molkky.molkky.domain.Tournament;
 import com.molkky.molkky.domain.User;
-import com.molkky.molkky.domain.UserTounamentRole;
+import com.molkky.molkky.domain.UserTournamentRole;
 import com.molkky.molkky.model.TournamentModel;
 import com.molkky.molkky.repository.TournamentRepository;
 import com.molkky.molkky.repository.UserRepository;
-import com.molkky.molkky.repository.UserTounamentRoleRepository;
+import com.molkky.molkky.repository.UserTournamentRoleRepository;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,7 +14,7 @@ import type.UserRole;
 
 @Data
 @Service
-public class TounamentService {
+public class TournamentService {
 
     @Autowired
     TournamentRepository tournamentRepository;
@@ -23,7 +23,7 @@ public class TounamentService {
     UserRepository userRepository;
 
     @Autowired
-    UserTounamentRoleRepository userTounamentRoleRepository;
+    UserTournamentRoleRepository userTournamentRoleRepository;
 
 
     public Tournament create(TournamentModel tournamentModel){
@@ -44,13 +44,13 @@ public class TounamentService {
             user = userRepository.findUserByEmail(mail);
         }
 
-        UserTounamentRole userTounamentRole = new UserTounamentRole();
+        UserTournamentRole userTournamentRole = new UserTournamentRole();
 
-        userTounamentRole.setUser(user);
-        userTounamentRole.setRole(UserRole.ADM);
-        userTounamentRole.setTournament(tournament);
+        userTournamentRole.setUser(user);
+        userTournamentRole.setRole(UserRole.ADM);
+        userTournamentRole.setTournament(tournament);
 
-        userTounamentRoleRepository.save(userTounamentRole);
+        userTournamentRoleRepository.save(userTournamentRole);
 
         return tournament;
     }

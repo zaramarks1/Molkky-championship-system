@@ -88,15 +88,15 @@ class TournamentEntityTest {
                 3
         ));
         User user = userRepository.save(new User("pseudoUser1", "surname1", "forename1", "club1", "email1"));
-        List<UserTounamentRole> admins = new ArrayList<>();
-        UserTounamentRole userTounamentRole = new UserTounamentRole();
-        userTounamentRole.setUser(user);
-        userTounamentRole.setRole(UserRole.ADM);
-        admins.add(userTounamentRole);
-        tournament.setUserTounamentRoles(admins);
+        List<UserTournamentRole> admins = new ArrayList<>();
+        UserTournamentRole userTournamentRole = new UserTournamentRole();
+        userTournamentRole.setUser(user);
+        userTournamentRole.setRole(UserRole.ADM);
+        admins.add(userTournamentRole);
+        tournament.setUserTournamentRoles(admins);
         tournamentRepository.save(tournament);
 
-        Assertions.assertEquals(1, tournament.getUserTounamentRoles().size(), "Tournament should have 1 admin");
+        Assertions.assertEquals(1, tournament.getUserTournamentRoles().size(), "Tournament should have 1 admin");
     }
 
     @Test

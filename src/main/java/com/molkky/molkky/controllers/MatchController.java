@@ -45,7 +45,7 @@ public class MatchController {
         SetTeamIndex setTeamIndex = matchService.getUserTeamIndex(MatchService.getMatchModelFromEntity(match), UserService.createUserModelFromUserLogged(user));
 
 //        case the user is a player but not in the match
-        if(setTeamIndex == SetTeamIndex.ORGA && user.getRole() == UserRole.PLAYER){
+        if(!matchService.isUserInMatch(MatchService.getMatchModelFromEntity(match), UserService.createUserModelFromUserLogged(user)) && user.getRole() == UserRole.PLAYER){
             return "redirect:/";
         }
 

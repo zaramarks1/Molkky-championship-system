@@ -34,7 +34,7 @@ public class Team implements Serializable {
     private List<Round> rounds;
 
     @OneToMany(mappedBy="team")
-    private List<UserTounamentRole> userTounamentRoles;
+    private List<UserTournamentRole> userTournamentRoles;
 
     @ManyToOne
     @JoinColumn(name="idTournament", nullable = true)
