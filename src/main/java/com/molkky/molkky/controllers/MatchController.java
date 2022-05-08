@@ -37,15 +37,15 @@ public class MatchController {
     @GetMapping("/matches/match")
     public String match(Model model, HttpSession session, @RequestParam(name = "match_id", required = true) Integer id) {
         UserLogged user = (UserLogged)session.getAttribute("user");
-        model.addAttribute("user", user);
-        Match match = matchRepository.findById(id);
         if(user == null){
             return "redirect:/connexion";
         }
+        model.addAttribute("user", user);
+        Match match = matchRepository.findById(id);
         SetTeamIndex setTeamIndex = matchService.getUserTeamIndex(MatchService.getMatchModelFromEntity(match), UserService.createUserModelFromUserLogged(user));
 
 //        case the user is a player but not in the match
-        if(!matchService.isUserInMatch(MatchService.getMatchModelFromEntity(match), UserService.createUserModelFromUserLogged(user)) && user.getRole() == UserRole.PLAYER){
+        if(Boolean.TRUE.equals(!matchService.isUserInMatch(MatchService.getMatchModelFromEntity(match), UserService.createUserModelFromUserLogged(user))) && user.getRole() == UserRole.PLAYER){
             return "redirect:/";
         }
 

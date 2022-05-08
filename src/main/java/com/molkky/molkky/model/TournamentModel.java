@@ -1,9 +1,8 @@
 package com.molkky.molkky.model;
 
 import com.molkky.molkky.domain.Tournament;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.validation.constraints.AssertTrue;
 import java.text.ParseException;
@@ -12,8 +11,7 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.Objects;
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 public class TournamentModel {
     private String name;
