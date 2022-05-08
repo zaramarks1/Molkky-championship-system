@@ -104,6 +104,47 @@ class MatchFormTest {
         Assertions.assertEquals(Integer.toString(score2), config.getDriver().findElement(By.name("score2Team1")).getAttribute("value"));
     }
 
+    @Test
+    void testInsertScoreTeam2(){
+//        given
+        Match match = createCompleteMatch();
+        loginUser(match.getTeams().get(1).getUserTournamentRoles().get(0).getUser());
+        config.getDriver().get(url + "/matches/match?match_id=" + match.getId());
+        int score1 = new Random().nextInt(50);
+        int score2 = new Random().nextInt(50);
+//        when
+        config.getDriver().findElement(By.name("score1Team2")).clear();
+        config.getDriver().findElement(By.name("score1Team2")).sendKeys(Integer.toString(score1));
+        config.getDriver().findElement(By.name("score2Team2")).clear();
+        config.getDriver().findElement(By.name("score2Team2")).sendKeys(Integer.toString(score2));
+        config.getDriver().findElement(By.id("submitSet0")).click();
+        config.getDriver().get(url + "/matches/match?match_id=" + match.getId());
+//        then
+        Assertions.assertEquals(Integer.toString(score1), config.getDriver().findElement(By.name("score1Team2")).getAttribute("value"));
+        Assertions.assertEquals(Integer.toString(score2), config.getDriver().findElement(By.name("score2Team2")).getAttribute("value"));
+    }
+
+//    @Test
+    void testInsertScoreTeamOrga(){
+//        given
+        Match match = createCompleteMatch();
+        User user = createOrgaUser();
+        loginUser(user);
+        config.getDriver().get(url + "/matches/match?match_id=" + match.getId());
+        int score1 = new Random().nextInt(50);
+        int score2 = new Random().nextInt(50);
+//        when
+        config.getDriver().findElement(By.name("score1Orga")).clear();
+        config.getDriver().findElement(By.name("score1Orga")).sendKeys(Integer.toString(score1));
+        config.getDriver().findElement(By.name("score2Orga")).clear();
+        config.getDriver().findElement(By.name("score2Orga")).sendKeys(Integer.toString(score2));
+        config.getDriver().findElement(By.id("submitSet0")).click();
+        config.getDriver().get(url + "/matches/match?match_id=" + match.getId());
+//        then
+        Assertions.assertEquals(Integer.toString(score1), config.getDriver().findElement(By.name("score1Orga")).getAttribute("value"));
+        Assertions.assertEquals(Integer.toString(score2), config.getDriver().findElement(By.name("score2Orga")).getAttribute("value"));
+    }
+
     void loginUser(User user){
         config.getDriver().get(url + "/connexion");
         config.getDriver().findElement(new By.ById("email")).sendKeys(user.getEmail());
@@ -112,11 +153,24 @@ class MatchFormTest {
         config.getDriver().findElement(new By.ById("connexion")).click();
     }
 
+    User createOrgaUser(){
+        UserTournamentRole userTournamentRole1 = userTournamentRoleRepository.save(new UserTournamentRole());
+        User user1 = new User();
+        user1.setEmail(RandomStringUtils.randomAlphabetic(10) + "@gmail.com");
+        user1.setPassword(RandomStringUtils.randomAlphabetic(10));
+        userRepository.save(user1);
+        userTournamentRole1.setUser(user1);
+        userTournamentRole1.setRole(UserRole.STAFF);
+        userTournamentRoleRepository.save(userTournamentRole1);
+        return user1;
+    }
+
     Match createCompleteMatch() {
         Match match = matchRepository.save(new Match());
         Team team1 = teamRepository.save(new Team());
         team1.setCode(RandomStringUtils.randomAlphabetic(10));
         Team team2 = teamRepository.save(new Team());
+        team2.setCode(RandomStringUtils.randomAlphabetic(10));
 
         UserTournamentRole userTournamentRole1 = userTournamentRoleRepository.save(new UserTournamentRole());
         User user1 = new User();
@@ -132,8 +186,12 @@ class MatchFormTest {
 
         UserTournamentRole userTournamentRole2 = userTournamentRoleRepository.save(new UserTournamentRole());
         User user2 = userRepository.save(new User());
+        user2.setEmail(RandomStringUtils.randomAlphabetic(10) + "@gmail.com");
+        user2.setPassword(RandomStringUtils.randomAlphabetic(10));
+        userRepository.save(user2);
         userTournamentRole2.setUser(user2);
         userTournamentRole2.setTeam(team2);
+        userTournamentRole2.setRole(UserRole.PLAYER);
         userTournamentRoleRepository.save(userTournamentRole2);
         team2.setUserTournamentRoles(List.of(userTournamentRole2));
         team2 = teamRepository.save(team2);
