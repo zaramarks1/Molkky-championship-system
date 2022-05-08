@@ -33,6 +33,7 @@ public class SetController {
     @PostMapping("/sets/updateSet")
     public String updateSet(Model model, @ModelAttribute SetModel setModel, HttpSession session) {
         UserLogged user = (UserLogged)session.getAttribute("user");
+        if(user == null) return "redirect:/connexion";
         Set set = setService.getSetFromModel(setModel);
         SetTeamIndex setTeamIndex = matchService.getUserTeamIndex(MatchService.getMatchModelFromEntity(set.getMatch()), UserService.createUserModelFromUserLogged(user));
         if(setTeamIndex == null) return null;

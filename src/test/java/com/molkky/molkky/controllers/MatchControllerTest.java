@@ -15,10 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.ui.Model;
 import type.SetTeamIndex;
 
 import javax.servlet.http.HttpSession;
@@ -60,15 +58,13 @@ class MatchControllerTest {
     void testControllerWithUser() throws Exception {
 //        given
         UserLogged userLogged = Mockito.mock(UserLogged.class);
-        Model model = Mockito.mock(Model.class);
         HttpSession session = new MockHttpSession(null, "user");
         session.setAttribute("user", userLogged);
-        MockHttpServletRequest request = new MockHttpServletRequest();
-        request.setSession(session);
         Match match = createMatch();
         when(matchRepository.findById(1)).thenReturn(match);
         when(matchService.getUserTeamIndex(any(MatchModel.class), any(UserModel.class))).thenReturn(SetTeamIndex.TEAM1);
 //        when
+//        then
         this.mockMvc.perform(get("/matches/match?match_id=1").sessionAttr("user", userLogged))
                 .andExpect(status().isOk())
                 .andExpect(model().attribute("match", MatchService.getMatchModelFromEntity(match)))
@@ -78,7 +74,6 @@ class MatchControllerTest {
                 .andExpect(model().attribute("sets", SetService.createSetModels(match.getSets())))
                 .andExpect(model().attribute("setTeamIndex", SetTeamIndex.TEAM1))
                 .andExpect(model().attribute("user", userLogged));
-//then
 
     }
 
