@@ -124,7 +124,7 @@ class MatchFormTest {
         Assertions.assertEquals(Integer.toString(score2), config.getDriver().findElement(By.name("score2Team2")).getAttribute("value"));
     }
 
-//    @Test
+    @Test
     void testInsertScoreTeamOrga(){
 //        given
         Match match = createCompleteMatch();
@@ -149,7 +149,9 @@ class MatchFormTest {
         config.getDriver().get(url + "/connexion");
         config.getDriver().findElement(new By.ById("email")).sendKeys(user.getEmail());
         config.getDriver().findElement(new By.ById("password")).sendKeys(user.getPassword());
-        config.getDriver().findElement(new By.ById("teamCode")).sendKeys(user.getUserTournamentRoles().get(0).getTeam().getCode());
+        if(user.getUserTournamentRoles().get(0).getRole() != UserRole.STAFF){
+            config.getDriver().findElement(new By.ById("teamCode")).sendKeys(user.getUserTournamentRoles().get(0).getTeam().getCode());
+        }
         config.getDriver().findElement(new By.ById("connexion")).click();
     }
 
@@ -158,6 +160,7 @@ class MatchFormTest {
         User user1 = new User();
         user1.setEmail(RandomStringUtils.randomAlphabetic(10) + "@gmail.com");
         user1.setPassword(RandomStringUtils.randomAlphabetic(10));
+        user1.setUserTournamentRoles(List.of(userTournamentRole1));
         userRepository.save(user1);
         userTournamentRole1.setUser(user1);
         userTournamentRole1.setRole(UserRole.STAFF);
