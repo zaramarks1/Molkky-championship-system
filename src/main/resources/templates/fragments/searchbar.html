@@ -2,8 +2,11 @@
     <i class="searchbarIconContainer"><img class="searchbarIcon" th:src="@{/assets/search_icon.svg}"/></i>
     <input type="text" class="searchbar" placeholder="Search"/>
     <div class="searchbarButtonContainer">
-        <div class="notificationButton">
-            <img class="notificationButtonIcon" th:src="@{/assets/notification.svg}"/>
+        <div class="notificationContainer">
+            <div class="notificationButton">
+                <img class="notificationButtonIcon" th:src="@{/assets/notification.svg}"/>
+            </div>
+            <div class="notificationLabel" th:unless="${unreadCount == 0}" th:text="${unreadCount}"></div>
         </div>
         <div th:if="${session.user != null }">
             <button id="notLogged" class="primaryButton" onclick="window.location.href='/connexion'" >Se déconnecter</button>

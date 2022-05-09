@@ -66,7 +66,7 @@ public class UserChoiceController {
             Tournament tournament = (Tournament) session.getAttribute("tournament");
             UserLogged userLogged = new UserLogged(userChoice.getId(),userTournamentRole.getId() ,userChoice.getEmail(), userChoice.getPassword(), userTournamentRole.getRole(), tournament);
             session.setAttribute("user", userLogged);
-            return new ModelAndView("redirect:/home");
+            return new ModelAndView("redirect:/");
         }
         catch (Exception e){
             return new ModelAndView("/user_choice/choiceRole");
