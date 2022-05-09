@@ -36,6 +36,10 @@ public class NotificationService {
         notificationRepository.save(notification);
     }
 
+    public void markAllNotificationsAsRead(UserTournamentRole userTournamentRole) {
+        userTournamentRole.getNotifications().forEach(this::markNotificationAsRead);
+    }
+
     public List<NotificationModel> getNotificationModels(UserTournamentRole userTournamentRole) {
         List<Notification> notifications = userTournamentRole.getNotifications();
         return NotificationModel.createTeamModels(notifications);

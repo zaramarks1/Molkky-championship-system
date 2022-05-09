@@ -191,6 +191,7 @@
     box-shadow: 0 2px 10px 0px #ada9b7;
     color: black;
     transform: translateX(-50%);
+    top: 25px;
 }
 
 .notificationListItemContainer {

@@ -1,4 +1,30 @@
 function toggleNotifications(){
     var notifications = document.getElementById("notificationList");
-    notifications.style.display = notifications.style.display === "block" ? "none" : "block";
+
+    if(notifications.style.display === "block"){
+        notifications.style.display = "none";
+    } else{
+        markAllAsRead();
+    }
+
+}
+
+function markAllAsRead(){
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "/notifications/markAllAsRead", true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.send();
+    xhr.onreadystatechange = function () {
+        if (this.readyState !== 4) return;
+
+        if (this.status === 200) {
+            hideUnreadCount();
+        }
+    };
+}
+
+function hideUnreadCount(){
+    var unreadCount = document.getElementById("unreadCount");
+    unreadCount.style.display = "none";
+    document.getElementById("notificationList").style.display = "block";
 }
