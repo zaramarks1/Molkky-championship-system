@@ -33,6 +33,8 @@ class InfosPageDisplayTest {
     private CourtRepository courtRepository;
     @Autowired
     private UserTounamentRoleRepository userTournamentRoleRepository;
+    @Autowired
+    private MatchRepository matchRepository;
     private SeleniumConfig config;
     @Value("${server.port}")
     private Integer port;
@@ -61,7 +63,7 @@ class InfosPageDisplayTest {
             team.setName(teamName);
             teamRepository.save(team);
             Team team2 = new Team();
-            team.setName(teamName2);
+            team2.setName(teamName2);
             teamRepository.save(team2);
             Round round = new Round();
             round.setTournament(tournament);
@@ -69,16 +71,6 @@ class InfosPageDisplayTest {
             Court court = new Court();
             court.setName("courtTestStaff");
             courtRepository.save(court);
-            Match match = new Match();
-            match.setRound(round);
-            match.setScoreTeam1(25);
-            match.setScoreTeam2(50);
-            match.setCourt(court);
-            match.setFinished(true);
-            List<Team> teams = new ArrayList<Team>();
-            teams.add(team);
-            teams.add(team2);
-            match.setTeams(teams);
             if(userRepository.findUserByEmail(emailStaff)==null) {
                 User staff = new User();
                 staff.setEmail(emailStaff);
@@ -90,14 +82,36 @@ class InfosPageDisplayTest {
                 userTournamentRoleStaff.setTournament(tournament);
                 userTournamentRoleRepository.save(userTournamentRoleStaff);
             }
+            Match match = new Match();
+            match.setRound(round);
+            match.setScoreTeam1(25);
+            match.setScoreTeam2(50);
+            match.setCourt(court);
+            match.setFinished(true);
+            List<Team> teams = new ArrayList<Team>();
+            teams.add(team);
+            teams.add(team2);
+            match.setTeams(teams);
+            User staff = userRepository.findUserByEmail(emailStaff);
+            UserTounamentRole userTournamentRoleStaff2 = new UserTounamentRole();
+            userTournamentRoleStaff2.setRole(UserRole.STAFF);
+            userTournamentRoleStaff2.setUser(staff);
+            userTournamentRoleStaff2.setTournament(tournament);
+            userTournamentRoleRepository.save(userTournamentRoleStaff2);
+            UserTounamentRole userTournamentRoleStaff3 = new UserTounamentRole();
+            userTournamentRoleStaff3.setRole(UserRole.STAFF);
+            userTournamentRoleStaff3.setUser(staff);
+            userTournamentRoleStaff3.setTournament(tournament2);
+            userTournamentRoleRepository.save(userTournamentRoleStaff3);
+            match.setStaff(staff);
+            matchRepository.save(match);
         }
     }
 
     @Test
     void testInfos(){
         config.getDriver().get(url + "/infos");
-        Assertions.assertEquals("Information", config.getDriver().getTitle());
-
+        Assertions.assertEquals("Informations personnelles", config.getDriver().getTitle());
     }
 }
 

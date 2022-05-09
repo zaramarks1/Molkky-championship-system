@@ -28,29 +28,30 @@
                             Votre Equipe : <span id="team" th:text="${user.team.name}" />
                         </div>
                         <br>
-                    </div>
-                    <div th:if="${#strings.equals(user.role, 'STAFF')}">
-                        <div class="contentTitle">Les matchs qui vous sont attribués (en tant que staff)</div>
-                        <div th:each="match: ${matchList}">
-                            <br>
-                            ID du match : <span th:text="${match.getId()}"></span>
-                            <br>
-                            Nom du court : <span th:text="${match.getCourt().getName()}">msg</span>
-                            <br>
-                            <div th:if="${match.getFinished()}">
-                            Statut du match : <span>Match terminé</span>
+
+                        <div th:if="${#strings.equals(user.role, 'STAFF')}">
+                            <div class="contentTitle">Les matchs qui vous sont attribués (en tant que staff)</div>
+                            <div th:each="match: ${matchList}">
                                 <br>
-                                <span  th:text="${match.getTeams().get(0).getName()}"></span>
-                                <span  th:text="${match.getScoreTeam1()}"></span> |
-                                <span  th:text="${match.getTeams().get(1).getName()}"></span>
-                                <span th:text="${match.getScoreTeam2()}"></span>
+                                ID du match : <span th:text="${match.getId()}"></span>
+                                <br>
+                                Nom du court : <span th:text="${match.getCourt().getName()}">msg</span>
+                                <br>
+                                <div th:if="${match.getFinished()}">
+                                Statut du match : <span>Match terminé</span>
+                                    <br>
+                                    <span  th:text="${match.getTeams().get(0).getName()}"></span>
+                                    <span  th:text="${match.getScoreTeam1()}"></span> |
+                                    <span  th:text="${match.getTeams().get(1).getName()}"></span>
+                                    <span th:text="${match.getScoreTeam2()}"></span>
+                                    <br>
+                                </div>
+                                <div th:if="${!match.getFinished()}">
+                                    Statut du match : <span>Match à venir</span>
+                                </div>
                                 <br>
                             </div>
-                            <div th:if="${!match.getFinished()}">
-                                Statut du match : <span>Match à venir</span>
                             </div>
-                            <br>
-                        </div>
                     </div>
                     <div th:unless="${#session.getAttribute('user') != null}">
                         <h2 style="color:red" >Connectez-vous pour accéder à vos informations</h2>

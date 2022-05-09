@@ -9,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import type.UserRole;
-
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
@@ -22,11 +21,13 @@ public class InfosController {
     UserRepository userRepository;
     @GetMapping("/infos")
     public String index(Model model, HttpSession session){
-        UserLogged user = (UserLogged)session.getAttribute("user");
-        model.addAttribute("user", user);
-        if(user.getRole().equals(UserRole.STAFF)){
-            List<Match> matchList = matchRepository.findMatchAttributedToStaff(user.getTournament(),userRepository.findUserByEmail(user.getEmail()));
-            model.addAttribute(matchList);
+        if(session.getAttribute("user")!=null) {
+            UserLogged user = (UserLogged) session.getAttribute("user");
+            model.addAttribute("user", user);
+            if (user.getRole().equals(UserRole.STAFF)) {
+                List<Match> matchList = matchRepository.findMatchAttributedToStaff(user.getTournament(), userRepository.findUserByEmail(user.getEmail()));
+                model.addAttribute(matchList);
+            }
         }
         return "infos";
     }
