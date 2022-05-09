@@ -14,11 +14,22 @@ public class NotificationService {
     @Autowired
     private UserTournamentRoleRepository userTournamentRoleRepository;
 
-    public void sendNotification(String message, String link, UserTournamentRole userTournamentRole) {
+    public Notification sendNotification(String message, String link, UserTournamentRole userTournamentRole) {
         Notification notification = new Notification();
         notification.setLink(link);
         notification.setMessage(message);
+        notification.setUserTournamentRole(userTournamentRole);
         userTournamentRole.getNotifications().add(notification);
         userTournamentRoleRepository.save(userTournamentRole);
+        return notificationRepository.save(notification);
+    }
+
+    public Integer getUnreadNotificationCount(UserTournamentRole userTournamentRole) {
+        return Math.toIntExact(userTournamentRole.getNotifications().stream().filter(notification -> !notification.isRead()).count());
+    }
+
+    public void markNotificationAsRead(Notification notification) {
+        notification.setRead(true);
+        notificationRepository.save(notification);
     }
 }

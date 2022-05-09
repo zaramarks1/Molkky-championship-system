@@ -1,5 +1,6 @@
 package com.molkky.molkky.service;
 
+import com.molkky.molkky.domain.Notification;
 import com.molkky.molkky.domain.UserTournamentRole;
 import com.molkky.molkky.repository.NotificationRepository;
 import com.molkky.molkky.repository.UserTournamentRoleRepository;
@@ -27,5 +28,21 @@ class NotificationServiceTest {
         Assertions.assertEquals(1, userTournamentRole.getNotifications().size());
         Assertions.assertEquals("http://google.fr", userTournamentRole.getNotifications().get(0).getLink());
         Assertions.assertEquals("lien vers google", userTournamentRole.getNotifications().get(0).getMessage());
+    }
+
+    @Test
+    void unreadNotificationTest() {
+//        given
+        UserTournamentRole userTournamentRole = userTournamentRepository.save(new UserTournamentRole());
+//        when
+        for(int i = 0; i < 2; i++) {
+            Notification notif = notificationService.sendNotification(Integer.toString(i),"http://",  userTournamentRole);
+            notificationService.markNotificationAsRead(notif);
+        }
+        for(int i = 0; i < 7; i++) {
+            Notification notif = notificationService.sendNotification(Integer.toString(i),"http://",  userTournamentRole);
+        }
+//        then
+        Assertions.assertEquals(7, notificationService.getUnreadNotificationCount(userTournamentRole));
     }
 }
