@@ -1,12 +1,11 @@
 package com.molkky.molkky.controllers;
 
-
-import com.molkky.molkky.model.UserConnectionModel;
-import com.molkky.molkky.repository.UserRepository;
-import com.molkky.molkky.repository.UserTournamentRoleRepository;
+import com.molkky.molkky.domain.User;
+import com.molkky.molkky.repository.TournamentRepository;
+import com.molkky.molkky.service.EmailSenderService;
+import com.molkky.molkky.service.RegisterService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
@@ -15,40 +14,39 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(value = ConnexionController.class, excludeAutoConfiguration = {SecurityAutoConfiguration.class})
+@WebMvcTest(value = RegisterController.class, excludeAutoConfiguration = {SecurityAutoConfiguration.class})
 @ExtendWith(MockitoExtension.class)
-public class ConnexionControllerTest {
+public class RegisterControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
-    @Autowired
-    private ConnexionController connexionController;
+    @MockBean
+    private RegisterService registerService;
 
     @MockBean
-    private UserRepository userRepository;
+    private TournamentRepository tournamentRepository;
 
     @MockBean
-    private UserTournamentRoleRepository userTournamentRoleRepository;
-
-    @Mock
-    private UserConnectionModel userConnectionModel;
+    private EmailSenderService senderService;
 
     @Test
-    public void testConnexionController() throws Exception {
-        mockMvc.perform(get("/connexion/"))
+    void testRegisterController() throws Exception {
+        mockMvc.perform(get("/register/"))
                 .andExpect(status().isOk());
 
-        when(this.userRepository.existsUserByEmailAndPassword(any(), any())).thenReturn(true);
-
-        mockMvc.perform(post("/connexion/"))
+        mockMvc.perform(post("/saveUser/"))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/connexion"));
+                .andExpect(redirectedUrl("/register"));
+
+        verify(registerService, times(1)).encodeAndSendEmail(any(User.class));
+        verify(registerService, times(1)).saveUser(any(User.class));
+        verifyNoMoreInteractions(registerService);
     }
 }
