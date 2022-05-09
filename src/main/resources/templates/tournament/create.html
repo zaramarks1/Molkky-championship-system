@@ -61,10 +61,17 @@
                     <label for="nbCourts" class="inputLabel">Nombre de terrains disponibles</label>
                     <input id="nbCourts" name="nbCourts" type="number" th:field="*{nbCourts}" class="inputTournament"/>
                 </div>
+
+                <div class="inputContainer">
+                    <label for="nbCourts" class="inputLabel">Email du administrateur </label>
+                    <input id="email" name="email" type="text" th:field="*{email}" class="inputTournament"/>
+                </div>
                 <div class="submitContainer">
                     <button id="sendTournament" class="primaryButton" type="submit">Créer le tournoi</button>
                     <button id="cancelTournament" class="secondaryButton" type="submit">Annuler</button>
                 </div>
+
+
             </form>
         </div>
     </div>

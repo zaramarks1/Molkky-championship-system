@@ -15,10 +15,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class SessionControllerExample {
 
+    String messagesAttribute = "MY_SESSION_MESSAGES";
+
     @GetMapping("/session")
     public String home(Model model, HttpSession session) {
         @SuppressWarnings("unchecked")
-        List<String> messages = (List<String>) session.getAttribute("MY_SESSION_MESSAGES");
+        List<String> messages = (List<String>) session.getAttribute(messagesAttribute);
 
         if (messages == null) {
             messages = new ArrayList<>();
@@ -32,13 +34,13 @@ public class SessionControllerExample {
     @PostMapping("/persistMessage")
     public String persistMessage(@RequestParam("msg") String msg, HttpServletRequest request) {
         @SuppressWarnings("unchecked")
-        List<String> msgs = (List<String>) request.getSession().getAttribute("MY_SESSION_MESSAGES");
+        List<String> msgs = (List<String>) request.getSession().getAttribute(messagesAttribute);
         if (msgs == null) {
             msgs = new ArrayList<>();
-            request.getSession().setAttribute("MY_SESSION_MESSAGES", msgs);
+            request.getSession().setAttribute(messagesAttribute, msgs);
         }
         msgs.add(msg);
-        request.getSession().setAttribute("MY_SESSION_MESSAGES", msgs);
+        request.getSession().setAttribute(messagesAttribute, msgs);
         request.getSession().setAttribute("SESSION_TEST","yeah");
         return "redirect:/session";
     }

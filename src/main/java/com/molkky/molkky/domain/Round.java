@@ -38,7 +38,7 @@ public class Round {
     private List<Team> teams;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "idFinnish")
+    @JoinColumn(name = "idMatches")
     private List<Match> matches = new ArrayList<>();
 
     @Column(name = "finished")

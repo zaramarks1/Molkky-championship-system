@@ -32,8 +32,10 @@ class MatchEntityTest {
 //        création des équipes du match
 //        Team team1 = new Team("team1_testMatch", 2);
 //        Team team2 = new Team("team2_testMatch", 2);
-        Team team1 = teamRepository.save(new Team("team1_testMatch", 2));
-        Team team2 = teamRepository.save(new Team("team2_testMatch", 2));
+        Team team1 = teamRepository.save(new Team());
+        team1.setName("team1_testMatch");
+        Team team2 = teamRepository.save(new Team());
+        team2.setName("team2_testMatch");
         List<Team> teams = new ArrayList<>();
         teams.add(team1);
         teams.add(team2);
@@ -41,7 +43,10 @@ class MatchEntityTest {
 //        Court court = new Court(true, "court_testMatch");
 
 
-        Match match = matchRepository.save(new Match(court, teams));
+        Match match = new Match();
+        match.setTeams(teams);
+        match.setCourt(court);
+        match = matchRepository.save(match);
 //        match.setTeams(teams);
 //        match.setCourt(court);
 //        matchRepository.save(match);

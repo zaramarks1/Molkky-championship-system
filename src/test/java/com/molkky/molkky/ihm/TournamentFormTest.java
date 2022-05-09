@@ -65,8 +65,6 @@ class TournamentFormTest {
         config.getDriver().findElement(new By.ById("dateTournoi")).sendKeys(randomDateTournoi);
         config.getDriver().findElement(new By.ById("cutOffDate")).sendKeys(randomCutOffDate);
         config.getDriver().findElement(new By.ById("nbPlayersPerTeam")).sendKeys(randomNbPlayersPerTeam);
-//        config.getDriver().findElement(new By.ById("minTeam")).sendKeys(randomMinTeam);
-//        config.getDriver().findElement(new By.ById("maxTeam")).sendKeys(randomMaxTeam);
         config.getDriver().findElement(new By.ById("minTeam")).sendKeys(randomMinTeam);
         config.getDriver().findElement(new By.ById("maxTeam")).sendKeys(randomMaxTeam);
         config.getDriver().findElement(new By.ById("visible")).click();

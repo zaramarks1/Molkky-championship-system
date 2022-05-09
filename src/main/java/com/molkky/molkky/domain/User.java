@@ -1,17 +1,24 @@
 package com.molkky.molkky.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
-import type.UserRole;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Set;
+import java.util.List;
+
 
 @Getter
 @Entity
 @Setter
 @Table(name = "user")
+@AllArgsConstructor
+@NoArgsConstructor
 public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,59 +40,27 @@ public class User implements Serializable {
     @Column(name = "email")
     private String email;
 
-    @Column(name = "isRegistered")
-    private Boolean isRegistered;
+    @Column(name = "password")
+    private String password;
 
-    @Column(name = "role")
-    @Enumerated(EnumType.STRING)
-    private UserRole role;
 
-    @Column(name = "code")
-    String code;
-
+    @OneToMany(fetch = FetchType.EAGER)
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @JoinColumn(name="idUser", nullable = true)
+    private List<UserTournamentRole> userTournamentRoles;
 
     @OneToMany
     @JoinColumn(name="idUser", nullable = true)
-    private Set<Notification> notifications;
+    private List<Notification> notifications;
 
-    @ManyToOne
-    @JoinColumn(name="idTournement", nullable = true)
-    private Tournament tournament;
 
-    @ManyToOne
-    @JoinColumn(name="idTeam", nullable = true)
-    private Team team;
 
-    public User(String pseudo, String surname, String forename, String club, String email, Boolean isRegistered, UserRole role) {
-
+    public User(String pseudo, String surname, String forename, String club, String email) {
         this.pseudo = pseudo;
         this.surname = surname;
         this.forename = forename;
         this.club = club;
         this.email = email;
-        this.isRegistered = isRegistered;
-        this.role = role;
-
-    }
-
-    public User(Integer id, String pseudo, String surname, String forename, String club, String email, Boolean isRegistered, UserRole role, String code, Tournament tournament) {
-        this.id = id;
-        this.pseudo = pseudo;
-        this.surname = surname;
-        this.forename = forename;
-        this.club = club;
-        this.email = email;
-        this.isRegistered = isRegistered;
-        this.role = role;
-        this.code = code;
-        this.tournament = tournament;
-    }
-
-    public User(String email, String code){
-        this.email=email;
-        this.code=code;
-    }
-    public User() {
 
     }
 }

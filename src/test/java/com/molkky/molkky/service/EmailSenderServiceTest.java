@@ -27,7 +27,7 @@ public class EmailSenderServiceTest {
     @Test
     void testMail() throws IOException, InterruptedException {
         if(getCurrentGitBranch().equals("US53DEV_Sacha")){
-            emailSenderService.SendEmail("calembel.molkky@gmail.com", "GPI LESGO", "Fonctionnement de l'envoi de test");
+            emailSenderService.sendEmail("calembel.molkky@gmail.com", "GPI LESGO", "Fonctionnement de l'envoi de test");
         }
     }
 }

@@ -4,7 +4,6 @@ import com.molkky.molkky.MolkkyApplication;
 import com.molkky.molkky.SeleniumConfig;
 import com.molkky.molkky.domain.Team;
 import com.molkky.molkky.repository.TeamRepository;
-import org.junit.Assert;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.Select;
@@ -40,7 +39,6 @@ class TeamFormTest {
         Assertions.assertTrue(config.getDriver().findElement(new By.ByClassName("contentTitle")).isDisplayed());
         Assertions.assertTrue(config.getDriver().findElement(new By.ById("nom")).isDisplayed());
         Assertions.assertTrue(config.getDriver().findElement(new By.ById("tournament")).isDisplayed());
-        Assertions.assertTrue(config.getDriver().findElement(new By.ByName("nbPlayers")).isDisplayed());
         Assertions.assertTrue(config.getDriver().findElement(new By.ById("sendTeam")).isDisplayed());
     }
 
@@ -55,14 +53,12 @@ class TeamFormTest {
         Select select = new Select(config.getDriver().findElement(new By.ById("tournament")));
         select.selectByIndex(1);
         String idTournament = config.getDriver().findElement(new By.ById("tournament")).getAttribute("value");
-        config.getDriver().findElement(new By.ByName("nbPlayers")).sendKeys(numberOfPlayer);
         config.getDriver().findElement(new By.ById("sendTeam")).click();
 
         Team team = teamRepository.findByName(teamName);
 
         Assertions.assertNotNull(team,"Team not save");
         Assertions.assertEquals(teamName,team.getName(),"Name different");
-        Assertions.assertEquals(numberOfPlayer,String.valueOf(team.getNbPlayers()),"NbPlayers different");
         Assertions.assertEquals(idTournament,String.valueOf(team.getTournament().getId()),"IdTournament different");
     }
 

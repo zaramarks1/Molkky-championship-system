@@ -16,16 +16,16 @@
                 <p class="sidebarButtonContent">Tournois</p>
             </div>
         </a>
-        <a href="/matches" style="text-decoration: none;">
-            <div th:class="'sidebarButton '+${#httpServletRequest.requestURI.startsWith('/matches') ? 'bgButton textPrimary' : ''}">
-                <img th:class="'sidebarIcon '+${#httpServletRequest.requestURI.startsWith('/matches') ? 'sidebarIcon' : 'sidebarIconInactive'}" th:src="@{/assets/matches.svg}"/>
+        <a href="/sets" style="text-decoration: none;">
+            <div th:class="'sidebarButton '+${#httpServletRequest.requestURI.startsWith('/sets') ? 'bgButton textPrimary' : ''}">
+                <img th:class="'sidebarIcon '+${#httpServletRequest.requestURI.startsWith('/sets') ? 'sidebarIcon' : 'sidebarIconInactive'}" th:src="@{/assets/sets.svg}"/>
                 <p class="sidebarButtonContent">Mes matchs</p>
             </div>
         </a>
         <a href="/infos" style="text-decoration: none;">
             <div th:class="'sidebarButton '+${#httpServletRequest.requestURI.startsWith('/infos') ? 'bgButton textPrimary' : ''}">
                 <img th:class="'sidebarIcon '+${#httpServletRequest.requestURI.startsWith('/infos') ? 'sidebarIcon' : 'sidebarIconInactive'}" th:src="@{/assets/infos.svg}"/>
-                <p class="sidebarButtonContent">Mes informations personnelles</p>
+                <p id="info" class="sidebarButtonContent">Mes informations personnelles</p>
             </div>
         </a>
     </div>
