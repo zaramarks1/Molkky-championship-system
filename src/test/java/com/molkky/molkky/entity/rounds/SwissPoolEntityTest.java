@@ -36,12 +36,12 @@ class SwissPoolEntityTest {
     void testInsertSimpleGame() {
         Match match = new Match();
         Match match2 = new Match();
-        List<Match> matches = Arrays.asList(match, match2);
+        List<Match> matchs = Arrays.asList(match, match2);
 
         SwissPool swissPool = new SwissPool(2, 2);
         match.setRound(swissPool);
         match2.setRound(swissPool);
-        swissPool.setMatches(matches);
+        swissPool.setMatches(matchs);
 
         Tournament tournament = tournamentRepository.save(new Tournament(
                 "tournament_name",

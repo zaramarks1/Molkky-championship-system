@@ -4,14 +4,14 @@ import com.molkky.molkky.MolkkyApplication;
 import com.molkky.molkky.domain.Team;
 import com.molkky.molkky.domain.Tournament;
 import com.molkky.molkky.domain.User;
-import com.molkky.molkky.domain.UserTounamentRole;
+import com.molkky.molkky.domain.UserTournamentRole;
 import com.molkky.molkky.model.AddPlayerModel;
 import com.molkky.molkky.model.AddPlayerlistModel;
 import com.molkky.molkky.model.CreateTeamModel;
 import com.molkky.molkky.repository.TeamRepository;
 import com.molkky.molkky.repository.TournamentRepository;
 import com.molkky.molkky.repository.UserRepository;
-import com.molkky.molkky.repository.UserTounamentRoleRepository;
+import com.molkky.molkky.repository.UserTournamentRoleRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -44,7 +44,7 @@ import java.util.List;
         private  TournamentRepository tournamentRepository;
 
         @Autowired
-        private UserTounamentRoleRepository userTounamentRoleRepository;
+        private UserTournamentRoleRepository userTournamentRoleRepository;
 
         @Autowired
         private UserRepository userRepository;
@@ -89,13 +89,13 @@ import java.util.List;
 
             teamService.addPlayers(addPlayerlistModel);
 
-            UserTounamentRole userTounamentRole = userTounamentRoleRepository.findByTeamAndTournament(team,tournament);
+            UserTournamentRole userTournamentRole = userTournamentRoleRepository.findByTeamAndTournament(team,tournament);
             User userBDD = userRepository.findUserByEmail(email);
 
             Assertions.assertNotNull(userBDD);
-            Assertions.assertNotNull(userTounamentRole);
-            Assertions.assertEquals(userTounamentRole.getUser().getId(),userBDD.getId());
-            Assertions.assertEquals(userTounamentRole.getUser().getEmail(),email);
+            Assertions.assertNotNull(userTournamentRole);
+            Assertions.assertEquals(userTournamentRole.getUser().getId(),userBDD.getId());
+            Assertions.assertEquals(userTournamentRole.getUser().getEmail(),email);
         }
 
     @Test
@@ -121,11 +121,11 @@ import java.util.List;
 
         teamService.addPlayers(addPlayerlistModel);
 
-        UserTounamentRole userTounamentRole = userTounamentRoleRepository.findByTeamAndTournament(team,tournament);
+        UserTournamentRole userTournamentRole = userTournamentRoleRepository.findByTeamAndTournament(team,tournament);
 
-        Assertions.assertNotNull(userTounamentRole);
-        Assertions.assertEquals(userTounamentRole.getUser().getId(),user.getId());
-        Assertions.assertEquals(userTounamentRole.getUser().getEmail(),email);
+        Assertions.assertNotNull(userTournamentRole);
+        Assertions.assertEquals(userTournamentRole.getUser().getId(),user.getId());
+        Assertions.assertEquals(userTournamentRole.getUser().getEmail(),email);
     }
 
         @Test

@@ -19,6 +19,7 @@ public class SeleniumConfig {
             options.addArguments("--headless");
             options.addArguments("--disable-dev-shm-usage");
             options.addArguments("--window-size=1920x1080");
+            options.setExperimentalOption("useAutomationExtension", false);
         }
         driver = new ChromeDriver(options);
     }
