@@ -64,9 +64,9 @@ public class UserChoiceController {
             UserTournamentRole userTournamentRole = userTournamentRoleRepository.findById(Integer.valueOf(roleId));
             User userChoice = userTournamentRole.getUser();
             Tournament tournament = (Tournament) session.getAttribute("tournament");
-            UserLogged userLogged = new UserLogged(userChoice.getId(),userChoice.getEmail(), userChoice.getPassword(), userTournamentRole.getRole(), tournament);
+            UserLogged userLogged = new UserLogged(userChoice.getId(),userTournamentRole.getId() ,userChoice.getEmail(), userChoice.getPassword(), userTournamentRole.getRole(), tournament);
             session.setAttribute("user", userLogged);
-            return new ModelAndView("/home");
+            return new ModelAndView("redirect:/home");
         }
         catch (Exception e){
             return new ModelAndView("/user_choice/choiceRole");

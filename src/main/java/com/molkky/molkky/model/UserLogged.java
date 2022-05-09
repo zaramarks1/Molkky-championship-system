@@ -17,17 +17,19 @@ import java.io.Serializable;
 public class UserLogged implements Serializable {
 
     private Integer id;
+    private Integer tournamentRoleId;
     private String email;
     private String password;
     private UserRole role;
     private Team team;
     private Tournament tournament;
 
-    public UserLogged(Integer id, String email, String password, UserRole role, Tournament tournament){
-        this.id=id;
-        this.email=email;
-        this.password=password;
-        this.role=role;
-        this.tournament=tournament;
+    public UserLogged(Integer id, Integer tournamentRoleId, String email, String password, UserRole role, Tournament tournament) {
+        this.id = id;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+        this.tournament = tournament;
+        this.tournamentRoleId = tournamentRoleId;
     }
 }
