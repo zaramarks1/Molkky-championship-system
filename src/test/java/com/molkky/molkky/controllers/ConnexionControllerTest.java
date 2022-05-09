@@ -1,73 +1,55 @@
 package com.molkky.molkky.controllers;
 
-import com.molkky.molkky.domain.Tournament;
-import com.molkky.molkky.domain.User;
+
 import com.molkky.molkky.model.UserConnectionModel;
 import com.molkky.molkky.repository.UserRepository;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
+import com.molkky.molkky.repository.UserTournamentRoleRepository;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@RunWith(SpringJUnit4ClassRunner.class)
+@WebMvcTest(value = ConnexionController.class, excludeAutoConfiguration = {SecurityAutoConfiguration.class})
+@ExtendWith(MockitoExtension.class)
 public class ConnexionControllerTest {
 
+    @Autowired
     private MockMvc mockMvc;
 
-    @InjectMocks
+    @Autowired
     private ConnexionController connexionController;
 
-    @Mock
+    @MockBean
     private UserRepository userRepository;
 
-    @Mock
-    private UserConnectionModel userModel;
-
-    @Before
-    public void setUp() {
-        mockMvc = MockMvcBuilders.standaloneSetup(connexionController).build();
-    }
+    @MockBean
+    private UserTournamentRoleRepository userTournamentRoleRepository;
 
     @Test
-    public void testConnexionControllerWithoutUser() throws Exception {
+    public void testConnexionController() throws Exception {
         mockMvc.perform(get("/connexion/"))
                 .andExpect(status().isOk());
-        mockMvc.perform(post("/connexion/")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"email\": \"paco@sfr.fr\", \"password\": \"test\", \"code\": \"test\"}")
-        )
-                .andExpect(status().is3xxRedirection());
-    }
 
-    @Test
-    public void testConnexionControllerWithUser() throws Exception {
-        User user = new User();
-        String mail = "test" + Math.random() * 10000 + "@gmail.com";
-        String password = "Test2";
+        UserConnectionModel userConnectionModel = mock(UserConnectionModel.class);
+        userConnectionModel.setEmail("test@sfr.fr");
+        userConnectionModel.setPassword("test1");
+        userConnectionModel.setCode("code1");
+        when(this.userRepository.existsUserByEmailAndPassword(Mockito.any(), Mockito.any())).thenReturn(true);
 
-        Mockito.when(this.userModel.getEmail()).thenReturn(mail);
-        Mockito.when(this.userModel.getPassword()).thenReturn(password);
-        Mockito.when(this.userRepository.existsUserByEmailAndPassword(mail, password)).thenReturn(true);
-
-        mockMvc.perform(get("/connexion/"))
-                .andExpect(status().isOk());
-        mockMvc.perform(post("/connexion/")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"email\":\"" + mail + "\", \"password\":\"" + password + "\", \"code\": \"test\"}")
-                )
-                .andExpect(status().is3xxRedirection());
+        mockMvc.perform(post("/connexion/"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/connexion"));
     }
 }
