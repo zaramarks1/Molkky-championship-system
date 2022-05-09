@@ -45,4 +45,17 @@ class NotificationServiceTest {
 //        then
         Assertions.assertEquals(7, notificationService.getUnreadNotificationCount(userTournamentRole));
     }
+
+    @Test
+    void markAllReadTest() {
+//        given
+        UserTournamentRole userTournamentRole = userTournamentRepository.save(new UserTournamentRole());
+//        when
+        for(int i = 0; i < 20; i++) {
+            Notification notif = notificationService.sendNotification(Integer.toString(i),"http://",  userTournamentRole);
+        }
+        notificationService.markAllNotificationsAsRead(userTournamentRole);
+//        then
+        Assertions.assertEquals(0, notificationService.getUnreadNotificationCount(userTournamentRole));
+    }
 }
