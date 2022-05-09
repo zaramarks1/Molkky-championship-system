@@ -1,0 +1,31 @@
+package com.molkky.molkky.service;
+
+import com.molkky.molkky.domain.UserTournamentRole;
+import com.molkky.molkky.repository.NotificationRepository;
+import com.molkky.molkky.repository.UserTournamentRoleRepository;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+@SpringBootTest
+class NotificationServiceTest {
+    @Autowired
+    private NotificationRepository notificationRepository;
+    @Autowired
+    private NotificationService notificationService;
+    @Autowired
+    private UserTournamentRoleRepository userTournamentRepository;
+
+    @Test
+    void sendNotificationTest() {
+//        given
+        UserTournamentRole userTournamentRole = userTournamentRepository.save(new UserTournamentRole());
+//        when
+        notificationService.sendNotification("lien vers google","http://google.fr",  userTournamentRole);
+//        then
+        Assertions.assertEquals(1, userTournamentRole.getNotifications().size());
+        Assertions.assertEquals("http://google.fr", userTournamentRole.getNotifications().get(0).getLink());
+        Assertions.assertEquals("lien vers google", userTournamentRole.getNotifications().get(0).getMessage());
+    }
+}
