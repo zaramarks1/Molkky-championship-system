@@ -5,12 +5,12 @@ import com.molkky.molkky.SeleniumConfig;
 import com.molkky.molkky.domain.Team;
 import com.molkky.molkky.domain.Tournament;
 import com.molkky.molkky.domain.User;
-import com.molkky.molkky.domain.UserTounamentRole;
+import com.molkky.molkky.domain.UserTournamentRole;
 import com.molkky.molkky.model.TournamentModel;
 import com.molkky.molkky.repository.TeamRepository;
 import com.molkky.molkky.repository.TournamentRepository;
 import com.molkky.molkky.repository.UserRepository;
-import com.molkky.molkky.repository.UserTounamentRoleRepository;
+import com.molkky.molkky.repository.UserTournamentRoleRepository;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.Select;
@@ -31,7 +31,7 @@ class PlayerFormTest {
     @Autowired
     private TournamentRepository tournamentRepository;
     @Autowired
-    private UserTounamentRoleRepository userTounamentRoleRepository;
+    private UserTournamentRoleRepository userTournamentRoleRepository;
     private SeleniumConfig config;
     @Value("${server.port}")
     private Integer port;
@@ -125,22 +125,22 @@ class PlayerFormTest {
         User user2 = userRepository.findUserByEmail(mail2);
 
         Team team = teamRepository.findByName(teamName[1]);
-        UserTounamentRole userTounamentRole1 = userTounamentRoleRepository.findByUserAndTeam(user,team);
-        UserTounamentRole userTounamentRole2 = userTounamentRoleRepository.findByUserAndTeam(user2,team);
+        UserTournamentRole userTournamentRole1 = userTournamentRoleRepository.findByUserAndTeam(user,team);
+        UserTournamentRole userTournamentRole2 = userTournamentRoleRepository.findByUserAndTeam(user2,team);
 
         Assertions.assertNotNull(user);
         Assertions.assertEquals(nom,user.getSurname());
         Assertions.assertEquals(prenom,user.getForename());
         Assertions.assertEquals(mail,user.getEmail());
         Assertions.assertEquals("Molkky Angers",user.getClub());
-        Assertions.assertNotNull(userTounamentRole1);
+        Assertions.assertNotNull(userTournamentRole1);
 
         Assertions.assertNotNull(user);
         Assertions.assertEquals(nom2,user2.getSurname());
         Assertions.assertEquals(prenom2,user2.getForename());
         Assertions.assertEquals(mail2,user2.getEmail());
         Assertions.assertEquals("Molkky Angers",user.getClub());
-        Assertions.assertNotNull(userTounamentRole2);
+        Assertions.assertNotNull(userTournamentRole2);
     }
 
     @Test

@@ -6,7 +6,7 @@ import com.molkky.molkky.domain.User;
 import com.molkky.molkky.model.TournamentModel;
 import com.molkky.molkky.repository.TournamentRepository;
 import com.molkky.molkky.repository.UserRepository;
-import com.molkky.molkky.service.TounamentService;
+import com.molkky.molkky.service.TournamentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,7 +23,7 @@ public class TournamentController {
     private TournamentRepository tournamentRepository;
 
     @Autowired
-    private TounamentService tournamentService;
+    private TournamentService tournamentService;
 
     @Autowired
     private UserRepository userRepository;

@@ -3,14 +3,14 @@ package com.molkky.molkky.service;
 import com.molkky.molkky.domain.Team;
 import com.molkky.molkky.domain.Tournament;
 import com.molkky.molkky.domain.User;
-import com.molkky.molkky.domain.UserTounamentRole;
+import com.molkky.molkky.domain.UserTournamentRole;
 import com.molkky.molkky.model.AddPlayerModel;
 import com.molkky.molkky.model.AddPlayerlistModel;
 import com.molkky.molkky.model.CreateTeamModel;
 import com.molkky.molkky.repository.TeamRepository;
 import com.molkky.molkky.repository.TournamentRepository;
 import com.molkky.molkky.repository.UserRepository;
-import com.molkky.molkky.repository.UserTounamentRoleRepository;
+import com.molkky.molkky.repository.UserTournamentRoleRepository;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -49,7 +49,7 @@ public class TeamServiceTest {
         private UserRepository userRepository;
 
         @Mock
-        private UserTounamentRoleRepository userTounamentRoleRepository;
+        private UserTournamentRoleRepository userTounamentRoleRepository;
 
         @Mock
         private User user;
@@ -124,7 +124,7 @@ public class TeamServiceTest {
             Mockito.verify(user,Mockito.atMost(1)).setPassword(Mockito.anyString());
             Mockito.verify(userRepository,Mockito.atMost(1)).existsUserByEmail(email);
             Mockito.verify(userRepository,Mockito.atMost(1)).save(Mockito.any(User.class));
-            Mockito.verify(userTounamentRoleRepository,Mockito.times(1)).saveAll(Mockito.<UserTounamentRole>anyList());
+            Mockito.verify(userTounamentRoleRepository,Mockito.times(1)).saveAll(Mockito.<UserTournamentRole>anyList());
 
             Mockito.verifyNoMoreInteractions(addPlayerlistModel);
             Mockito.verifyNoMoreInteractions(addPlayerModel1);

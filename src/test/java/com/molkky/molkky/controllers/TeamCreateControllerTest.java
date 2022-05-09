@@ -1,10 +1,7 @@
 package com.molkky.molkky.controllers;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.molkky.molkky.domain.Team;
 import com.molkky.molkky.domain.Tournament;
-import com.molkky.molkky.domain.UserTounamentRole;
 import com.molkky.molkky.model.AddPlayerModel;
 import com.molkky.molkky.model.AddPlayerlistModel;
 import com.molkky.molkky.model.CreateTeamModel;
@@ -27,7 +24,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import java.util.ArrayList;
 import java.util.List;
 
-import static java.lang.reflect.Modifier.TRANSIENT;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
