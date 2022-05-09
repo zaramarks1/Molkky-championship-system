@@ -192,6 +192,7 @@
     color: black;
     transform: translateX(-50%);
     top: 25px;
+    background-color: white;
 }
 
 .notificationListItemContainer {

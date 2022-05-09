@@ -6,10 +6,9 @@ import com.molkky.molkky.model.UserLogged;
 import com.molkky.molkky.repository.UserTournamentRoleRepository;
 import com.molkky.molkky.service.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 
@@ -22,9 +21,15 @@ public class NotificationController extends DefaultAttributes {
 //    mark all of user's notifications as read (on list opening)
     @PostMapping("/notifications/markAllAsRead")
     @ResponseBody
-    public void markAllAsRead(HttpSession session, @ModelAttribute SetModel setModel) {
+    public void markAllAsRead(HttpSession session, @ModelAttribute SetModel setModel) throws Exception {
         UserLogged userLogged = session.getAttribute("user") != null ? (UserLogged) session.getAttribute("user") : null;
         if (userLogged != null) notificationService.markAllNotificationsAsRead(userTournamentRoleRepository.findById(userLogged.getTournamentRoleId()));
-        return;
+        else throw new Exception("User not logged");
     }
+
+    @ResponseStatus(value = HttpStatus.UNAUTHORIZED)
+    @ExceptionHandler(Exception.class)
+    public void unauthorized() {
+    }
+
 }
