@@ -1,0 +1,7 @@
+<div id="notificationList" class="notificationListContainer" style="display: none;">
+    <a th:each="notification, iStat : ${notifications}" th:href="${notification.link}" class="notificationListItemContainer">
+        <div th:text="${notification.message}" class="notificationContent">
+
+        </div>
+    </a>
+</div>

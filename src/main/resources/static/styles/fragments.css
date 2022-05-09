@@ -132,6 +132,7 @@
     margin-right: 40px;
     display: flex;
     justify-content: center;
+    cursor: pointer;
     align-items: center;
 }
 
@@ -148,11 +149,12 @@
     justify-content: center;
     position: relative;
     left: 34px;
+    cursor: pointer;
     top: -21px;
 }
 
 .notificationContainer {
-
+    width: 100px;
 }
 
 .notificationButtonIcon {
@@ -176,4 +178,34 @@
     margin: 27px;
     width: 40px;
     height: 40px;
+}
+
+.notificationListContainer {
+    position: relative;
+    width: max-content;
+    max-width: 300px;
+    min-width: 100px;
+    left: -50%;
+    border-radius: 8px;
+    border: 2px solid #8c69f4;
+    box-shadow: 0 2px 10px 0px #ada9b7;
+    color: black;
+    transform: translateX(-50%);
+}
+
+.notificationListItemContainer {
+    text-decoration: none;
+}
+
+.notificationContent {
+    font-family: 'Inter', serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 15px;
+    color: black;
+    cursor: pointer;
+    padding: 10px;
+    line-height: 18px;
+    border-bottom: 1px solid #00000042;
+    text-align: end;
 }

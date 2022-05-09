@@ -2,10 +2,13 @@ package com.molkky.molkky.service;
 
 import com.molkky.molkky.domain.Notification;
 import com.molkky.molkky.domain.UserTournamentRole;
+import com.molkky.molkky.model.NotificationModel;
 import com.molkky.molkky.repository.NotificationRepository;
 import com.molkky.molkky.repository.UserTournamentRoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class NotificationService {
@@ -31,5 +34,10 @@ public class NotificationService {
     public void markNotificationAsRead(Notification notification) {
         notification.setRead(true);
         notificationRepository.save(notification);
+    }
+
+    public List<NotificationModel> getNotificationModels(UserTournamentRole userTournamentRole) {
+        List<Notification> notifications = userTournamentRole.getNotifications();
+        return NotificationModel.createTeamModels(notifications);
     }
 }

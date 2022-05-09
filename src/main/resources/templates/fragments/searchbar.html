@@ -3,10 +3,11 @@
     <input type="text" class="searchbar" placeholder="Search"/>
     <div class="searchbarButtonContainer">
         <div class="notificationContainer">
-            <div class="notificationButton">
+            <div class="notificationButton" onclick="toggleNotifications()">
                 <img class="notificationButtonIcon" th:src="@{/assets/notification.svg}"/>
             </div>
-            <div class="notificationLabel" th:unless="${unreadCount == 0}" th:text="${unreadCount}"></div>
+            <div class="notificationLabel" onclick="toggleNotifications()" th:unless="${unreadCount == 0}" th:text="${unreadCount}"></div>
+            <div th:replace="fragments/notificationList"></div>
         </div>
         <div th:if="${session.user != null }">
             <button id="notLogged" class="primaryButton" onclick="window.location.href='/connexion'" >Se déconnecter</button>
