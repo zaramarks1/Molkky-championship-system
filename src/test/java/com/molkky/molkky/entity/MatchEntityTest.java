@@ -43,7 +43,10 @@ class MatchEntityTest {
 //        Court court = new Court(true, "court_testMatch");
 
 
-        Match match = matchRepository.save(new Match(court, teams));
+        Match match = new Match();
+        match.setTeams(teams);
+        match.setCourt(court);
+        match = matchRepository.save(match);
 //        match.setTeams(teams);
 //        match.setCourt(court);
 //        matchRepository.save(match);

@@ -1,15 +1,14 @@
 package com.molkky.molkky.domain;
 
-import type.TournamentStatus;
 import com.molkky.molkky.model.TournamentModel;
 import lombok.Getter;
 import lombok.Setter;
+import type.TournamentStatus;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 @Getter
 @Entity
@@ -56,7 +55,7 @@ public class Tournament implements Serializable {
 
 
     @OneToMany(mappedBy="tournament")
-    private List<UserTounamentRole> userTounamentRoles;
+    private List<UserTournamentRole> userTournamentRoles;
 
 
     @OneToMany(mappedBy="tournament")

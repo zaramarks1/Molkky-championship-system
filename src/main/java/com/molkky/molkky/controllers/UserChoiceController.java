@@ -2,11 +2,11 @@ package com.molkky.molkky.controllers;
 
 import com.molkky.molkky.domain.Tournament;
 import com.molkky.molkky.domain.User;
-import com.molkky.molkky.domain.UserTounamentRole;
+import com.molkky.molkky.domain.UserTournamentRole;
 import com.molkky.molkky.model.UserLogged;
 import com.molkky.molkky.repository.TournamentRepository;
 import com.molkky.molkky.repository.UserRepository;
-import com.molkky.molkky.repository.UserTounamentRoleRepository;
+import com.molkky.molkky.repository.UserTournamentRoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,7 +27,7 @@ public class UserChoiceController {
     private UserRepository userRepository;
 
     @Autowired
-    private UserTounamentRoleRepository userTounamentRoleRepository;
+    private UserTournamentRoleRepository userTournamentRoleRepository;
 
     @Autowired
     private TournamentRepository tournamentRepository;
@@ -35,7 +35,7 @@ public class UserChoiceController {
     @GetMapping("/user_choice/choiceTournament")
     public String index(HttpSession session, Model model){
         User user = (User)session.getAttribute("user_temp");
-        List<Tournament> tournaments =  userTounamentRoleRepository.findTournamentFromUser(user);
+        List<Tournament> tournaments =  userTournamentRoleRepository.findTournamentFromUser(user);
         model.addAttribute("tournaments", tournaments);
         model.addAttribute("user", user);
 
@@ -47,7 +47,7 @@ public class UserChoiceController {
         try{
             Tournament tournament = tournamentRepository.findById(Integer.valueOf(tournamentId));
             User user = (User)session.getAttribute("user_temp");
-            List<UserTounamentRole> roles = userTounamentRoleRepository.findUserTounamentRoleByTournamentAndUser(tournament,user);
+            List<UserTournamentRole> roles = userTournamentRoleRepository.findUserTounamentRoleByTournamentAndUser(tournament,user);
             session.setAttribute("tournament",tournament);
             model.addAttribute("roles",roles);
         return new ModelAndView( "/user_choice/choiceRole", model) ;
@@ -61,10 +61,10 @@ public class UserChoiceController {
     @PostMapping("/user_choice/choiceRole")
     public ModelAndView choose(@RequestParam(value = "roleId", required = false) String roleId, HttpSession session, Model model){
         try {
-            UserTounamentRole userTounamentRole = userTounamentRoleRepository.findById(Integer.valueOf(roleId));
-            User userChoice = userTounamentRole.getUser();
+            UserTournamentRole userTournamentRole = userTournamentRoleRepository.findById(Integer.valueOf(roleId));
+            User userChoice = userTournamentRole.getUser();
             Tournament tournament = (Tournament) session.getAttribute("tournament");
-            UserLogged userLogged = new UserLogged(userChoice.getId(),userChoice.getEmail(), userChoice.getPassword(), userTounamentRole.getRole(), tournament);
+            UserLogged userLogged = new UserLogged(userChoice.getId(),userChoice.getEmail(), userChoice.getPassword(), userTournamentRole.getRole(), tournament);
             session.setAttribute("user", userLogged);
             return new ModelAndView("/home");
         }

@@ -1,8 +1,11 @@
 package com.molkky.molkky.controllers;
+
 import com.molkky.molkky.domain.User;
+import com.molkky.molkky.model.UserModel;
 import com.molkky.molkky.repository.TournamentRepository;
 import com.molkky.molkky.service.EmailSenderService;
 import com.molkky.molkky.service.RegisterService;
+import com.molkky.molkky.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +20,8 @@ public class RegisterController {
     @Autowired
     private RegisterService registerService;
     @Autowired
+    private UserService userService;
+    @Autowired
     TournamentRepository tournamentRepository;
     @Autowired
     private EmailSenderService senderService;
@@ -30,8 +35,8 @@ public class RegisterController {
 
     // TODO Retrieve the current tournament within the session
     @PostMapping("/saveUser")
-    public ModelAndView saveUser(@ModelAttribute("user") User user) {
-        //user.setTournament(tournamentRepository.findById(1));
+    public ModelAndView saveUser(@ModelAttribute("user") UserModel userModel) {
+        User user = userService.getUserFromModel(userModel);
         registerService.encodeAndSendEmail(user);
         registerService.saveUser(user);
         return new ModelAndView("redirect:/register");
