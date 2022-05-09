@@ -65,12 +65,14 @@ public class TeamCreateControllerTest {
     }
     /*
     Test work with conditions, example : @Controller -> @RestController or add @RequestBody to method
-      but then the page is not return w
+      but then the page is not return
+
+     */
     @Test
     public void testTeamGetMethod() throws Exception{
-        this.mockMvc.perform(get("/team/create"));
+        this.mockMvc.perform(get("/team/create/"));
     }
-    */
+
 
     @Test
     public void testPostTeamMethod() throws Exception{
@@ -116,9 +118,9 @@ public class TeamCreateControllerTest {
                 .andExpect(status().is3xxRedirection());
 
     }
-    /*Same issue as GetTest
+
     @Test
-    public void testPostSamePlayer() throws Exception{
+    public void testPostSamePlayer() throws Exception {
         List<AddPlayerModel> list = new ArrayList<>();
         list.add(addPlayerModel1);
         list.add(addPlayerModel2);
@@ -134,12 +136,11 @@ public class TeamCreateControllerTest {
         Mockito.when(addPlayerModel2.addPlayer()).thenCallRealMethod();
         Mockito.when(addPlayerModel2.getMail()).thenReturn("test@test.fr");
 
-        mockMvc.perform(post("/team/addPlayer")
-                        .flashAttr("form",addPlayerlistModel))
+        mockMvc.perform(post("/team/addPlayer/")
+                        .flashAttr("form", addPlayerlistModel))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(view().name("/team/addPlayer"))
-                .andExpect(MockMvcResultMatchers.forwardedUrl("/team/create"))
+                .andExpect(MockMvcResultMatchers.forwardedUrl("/team/addPlayer"))
                 .andExpect(status().is2xxSuccessful());
     }
-     */
 }
