@@ -1,16 +1,12 @@
 package com.molkky.molkky.model;
 
 import com.molkky.molkky.domain.Tournament;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import type.UserRole;
 
 import java.io.Serializable;
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserLogged implements Serializable {

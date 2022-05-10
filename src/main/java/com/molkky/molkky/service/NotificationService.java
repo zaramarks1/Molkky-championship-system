@@ -22,9 +22,10 @@ public class NotificationService {
         notification.setLink(link);
         notification.setMessage(message);
         notification.setUserTournamentRole(userTournamentRole);
+        notification = notificationRepository.save(notification);
         userTournamentRole.getNotifications().add(notification);
         userTournamentRoleRepository.save(userTournamentRole);
-        return notificationRepository.save(notification);
+        return notification;
     }
 
     public Integer getUnreadNotificationCount(UserTournamentRole userTournamentRole) {

@@ -40,7 +40,7 @@ public class UserTournamentRole implements Serializable {
     @JoinColumn(name="idUser", nullable = true)
     private User user;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name="idUserTournamentRole", nullable = true)
     private List<Notification> notifications = new ArrayList<>();
 }

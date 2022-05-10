@@ -10,6 +10,11 @@ import com.molkky.molkky.service.NotificationService;
 import org.apache.commons.lang.RandomStringUtils;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,6 +25,7 @@ import java.util.List;
 @SpringBootTest(classes = MolkkyApplication.class, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class NotificationDisplayTest {
+    private static final Logger logger = LoggerFactory.getLogger(NotificationDisplayTest.class);
     @Autowired
     private NotificationService notificationService;
     @Autowired
@@ -61,7 +67,7 @@ class NotificationDisplayTest {
 //        when
         config.getDriver().get(url + "/");
 //        then
-        Assertions.assertEquals(0, config.getDriver().findElements(new By.ById("notificationCount")).size());
+        Assertions.assertEquals(0, config.getDriver().findElements(new By.ById("unreadCount")).size());
     }
 
     @Test
@@ -70,16 +76,43 @@ class NotificationDisplayTest {
         User user = createUser();
         loginUser(user);
 //        when
-        config.getDriver().get(url + "/");
         for(int i = 0; i < 5; i++){
             notificationService.sendNotification(Integer.toString(i), "http://localhost:8080/", user.getUserTournamentRoles().get(0));
         }
+        config.getDriver().get(url + "/");
 //        then
-        Assertions.assertTrue(config.getDriver().findElement(new By.ById("notificationCount")).isDisplayed());
-        Assertions.assertEquals("5", config.getDriver().findElement(new By.ById("notificationCount")).getText());
+        Assertions.assertTrue(config.getDriver().findElement(new By.ById("unreadCount")).isDisplayed());
+        Assertions.assertEquals("5", config.getDriver().findElement(new By.ById("unreadCount")).getText());
+    }
+
+    @Test
+    void testClickNotificationAndDisplay() {
+//        given
+        User user = createUser();
+        loginUser(user);
+//        when
+        for(int i = 0; i < 5; i++){
+            notificationService.sendNotification(Integer.toString(i), "https://www.google.fr/", user.getUserTournamentRoles().get(0));
+        }
+        config.getDriver().get(url + "/");
+//        then
+        WebElement notificationList = config.getDriver().findElement(new By.ById("notificationList"));
+        Assertions.assertEquals("display: none;", notificationList.getAttribute("style")); ;
+
+        WebDriverWait wait = new WebDriverWait(config.getDriver(), 30);
+        config.getDriver().findElement(new By.ById("unreadCount")).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(new By.ById("notificationList")));
+
+
+        notificationList = config.getDriver().findElement(new By.ById("notificationList"));
+        Assertions.assertEquals("display: block;", notificationList.getAttribute("style")); ;
+        WebElement notification = config.getDriver().findElement(new By.ById("notificationList")).findElements(new By.ByTagName("div")).get(0);
+        notification.click();
+        Assertions.assertEquals("https://www.google.fr/", config.getDriver().getCurrentUrl()); ;
     }
 
     void loginUser(User user){
+        logger.info("Login user, username: " + user.getEmail() + ", password: " + user.getPassword());
         config.getDriver().get(url + "/connexion");
         config.getDriver().findElement(new By.ById("email")).sendKeys(user.getEmail());
         config.getDriver().findElement(new By.ById("password")).sendKeys(user.getPassword());

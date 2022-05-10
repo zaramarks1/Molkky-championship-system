@@ -1,5 +1,6 @@
 package com.molkky.molkky.controllers;
 
+import com.molkky.molkky.controllers.superclass.DefaultAttributes;
 import com.molkky.molkky.domain.Tournament;
 import com.molkky.molkky.domain.User;
 import com.molkky.molkky.domain.UserTournamentRole;
@@ -21,7 +22,7 @@ import java.util.List;
 
 
 @Controller
-public class UserChoiceController {
+public class UserChoiceController extends DefaultAttributes {
 
     @Autowired
     private UserRepository userRepository;
@@ -34,10 +35,9 @@ public class UserChoiceController {
 
     @GetMapping("/user_choice/choiceTournament")
     public String index(HttpSession session, Model model){
-        User user = (User)session.getAttribute("user_temp");
+        User user = (User)model.getAttribute("user_temp");
         List<Tournament> tournaments =  userTournamentRoleRepository.findTournamentFromUser(user);
         model.addAttribute("tournaments", tournaments);
-        model.addAttribute("user", user);
 
         return "/user_choice/choiceTournament";
     }

@@ -1,6 +1,7 @@
 package com.molkky.molkky.controllers;
 
 
+import com.molkky.molkky.controllers.superclass.DefaultAttributes;
 import com.molkky.molkky.domain.Tournament;
 import com.molkky.molkky.domain.User;
 import com.molkky.molkky.model.TournamentModel;
@@ -18,7 +19,7 @@ import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/tournament")
-public class TournamentController {
+public class TournamentController extends DefaultAttributes {
     @Autowired
     private TournamentRepository tournamentRepository;
 
@@ -31,8 +32,6 @@ public class TournamentController {
     @GetMapping("/create")
     public String tournamentForm(Model model, HttpSession session) {
         model.addAttribute("tournament", new TournamentModel());
-        User user = (User)session.getAttribute("user");
-        model.addAttribute("user", user);
         return "tournament/create";
     }
 
@@ -47,13 +46,8 @@ public class TournamentController {
 
     @GetMapping("/{id}/view")
     public String tournamentView(Model model, @PathVariable("id") String id){
-
-        //USER FROM SESSION
-        User user = null;
-
         Tournament tournament = tournamentRepository.findById(Integer.valueOf(id));
         model.addAttribute("tournament", tournament);
-        model.addAttribute("user", user);
         model.addAttribute("nbTeam", tournament.getTeams().size());
 
         return "tournament/view";

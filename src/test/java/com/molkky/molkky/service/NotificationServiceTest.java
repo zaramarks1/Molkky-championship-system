@@ -23,9 +23,11 @@ class NotificationServiceTest {
 //        given
         UserTournamentRole userTournamentRole = userTournamentRepository.save(new UserTournamentRole());
 //        when
-        notificationService.sendNotification("lien vers google","http://google.fr",  userTournamentRole);
+        for (int i = 0; i < 20; i++) {
+            Notification notif = notificationService.sendNotification("lien vers google", "http://google.fr", userTournamentRole);
+        }
 //        then
-        Assertions.assertEquals(1, userTournamentRole.getNotifications().size());
+        Assertions.assertEquals(20, userTournamentRole.getNotifications().size());
         Assertions.assertEquals("http://google.fr", userTournamentRole.getNotifications().get(0).getLink());
         Assertions.assertEquals("lien vers google", userTournamentRole.getNotifications().get(0).getMessage());
     }
