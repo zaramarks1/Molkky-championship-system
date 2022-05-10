@@ -1,0 +1,136 @@
+.inputTournament {
+    width: 460px;
+    height: 48px;
+    border-radius: 4px;
+    border: 0;
+    background-color: #F8FAFC;
+    padding: 10px;
+    box-shadow: 0 0 7px #C4C4C4;
+}
+
+.inputTournament[type="checkbox"] {
+    outline: #6D41F3 auto 2px;
+    width: 18px;
+    height: 18px;
+    box-shadow: none;
+}
+
+.inputTournament::placeholder {
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 144%;
+}
+
+.formContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+}
+
+.inputContainer {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: start;
+}
+
+.inputLabel {
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 150%;
+    letter-spacing: 0.01em;
+}
+
+.submitContainer {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+
+.cancelButton {
+    cursor: pointer;
+    width: 193px;
+    height: 56px;
+    background-color: #E9E4FA;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-width: 0;
+    color: #8C69F4;
+    margin-left: 10px;
+}
+
+.nbEquipesContainer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: start;
+}
+
+
+.multiSlider {
+    height: 28px;
+}
+.multiSlider input[type=range] {
+    position: absolute;
+}
+.multiSlider input[type=range]:nth-child(1)::-webkit-slider-thumb::before {
+    background-color: red;
+}
+.multiSlider input[type=range]:nth-child(2) {
+    /*background: none;*/
+}
+.multiSlider input[type=range]:nth-child(2)::-webkit-slider-thumb::before {
+    background-color: grey;
+}
+
+.multiSlider input[type=range] {
+    box-sizing: border-box;
+    appearance: none;
+    width: 460px;
+    margin: 0;
+    padding: 0 2px;
+    overflow: hidden;
+    border: 0;
+    outline: none;
+    background: linear-gradient(#C6B5F7,#C6B5F7) no-repeat center;
+    /*border-radius: 100%;*/
+    background-size: 100% 3px;
+    pointer-events: none;
+}
+.multiSlider input[type=range]:active, .multiSlider input[type=range]:focus {
+    outline: none;
+}
+.multiSlider input[type=range]::-webkit-slider-thumb {
+    height: 28px;
+    width: 28px;
+    border-radius: 28px;
+    background-color: #8C69F4;;
+    position: relative;
+    margin: 5px 0;
+    cursor: pointer;
+    appearance: none;
+    pointer-events: all;
+    box-shadow: 0 1px 4px 0.5px rgba(0,0,0,0.25);
+}
+.multiSlider input[type=range]::-webkit-slider-thumb::before {
+    content: ' ';
+    display: block;
+    position: absolute;
+    top: 13px;
+    left: 100%;
+    width: 2000px;
+    height: 2px;
+}

@@ -1,12 +1,10 @@
 package com.molkky.molkky.controllers;
-
-
 import com.molkky.molkky.domain.Tournament;
 import com.molkky.molkky.domain.User;
 import com.molkky.molkky.model.TournamentModel;
 import com.molkky.molkky.repository.TournamentRepository;
 import com.molkky.molkky.repository.UserRepository;
-import com.molkky.molkky.service.TournamentService;
+import com.molkky.molkky.service.TounamentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,7 +21,7 @@ public class TournamentController {
     private TournamentRepository tournamentRepository;
 
     @Autowired
-    private TournamentService tournamentService;
+    private TounamentService tournamentService;
 
     @Autowired
     private UserRepository userRepository;

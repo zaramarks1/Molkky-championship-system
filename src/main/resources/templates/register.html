@@ -7,9 +7,9 @@
 </head>
 <body>
     <form method="post" th:action="@{/saveUser}" th:object="${user}">
-        <input type="email" pattern="[^@\s]+@[^@\s]+\.[^@\s]+" required="required" th:field="*{email}">
+        <input id="mail" type="email" pattern="[^@\s]+@[^@\s]+\.[^@\s]+" required="required" th:field="*{email}">
         <input type="email" pattern="[^@\s]+@[^@\s]+\.[^@\s]+" required="required">
-        <button type="submit" c>Créer</button>
+        <button id="valider" type="submit" c>Créer</button>
     </form>
 </body>
 </html>

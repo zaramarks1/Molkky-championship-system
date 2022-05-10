@@ -39,6 +39,6 @@ public class RegisterController {
         User user = userService.getUserFromModel(userModel);
         registerService.encodeAndSendEmail(user);
         registerService.saveUser(user);
-        return new ModelAndView("redirect:/register");
+        return new ModelAndView("redirect:/connexion");
     }
 }
