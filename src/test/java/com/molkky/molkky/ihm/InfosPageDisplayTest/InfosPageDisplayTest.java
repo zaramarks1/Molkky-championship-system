@@ -32,7 +32,7 @@ class InfosPageDisplayTest {
     @Autowired
     private CourtRepository courtRepository;
     @Autowired
-    private UserTounamentRoleRepository userTournamentRoleRepository;
+    private UserTournamentRoleRepository userTournamentRoleRepository;
     @Autowired
     private MatchRepository matchRepository;
     private SeleniumConfig config;
@@ -51,7 +51,7 @@ class InfosPageDisplayTest {
         config = new SeleniumConfig();
         url = String.format("http://localhost:%s", port.toString());
         if(tournamentRepository.findByName("TournamentTestStaff")==null) {
-            Tournament tournament = new Tournament();
+            /*Tournament tournament = new Tournament();
             tournament.setName("TournamentTestStaff");
             tournament.setVisible(true);
             tournamentRepository.save(tournament);
@@ -76,7 +76,7 @@ class InfosPageDisplayTest {
                 staff.setEmail(emailStaff);
                 staff.setPassword(passwordStaff);
                 userRepository.save(staff);
-                UserTounamentRole userTournamentRoleStaff = new UserTounamentRole();
+                UserTournamentRole userTournamentRoleStaff = new UserTournamentRole();
                 userTournamentRoleStaff.setRole(UserRole.STAFF);
                 userTournamentRoleStaff.setUser(staff);
                 userTournamentRoleStaff.setTournament(tournament);
@@ -93,18 +93,20 @@ class InfosPageDisplayTest {
             teams.add(team2);
             match.setTeams(teams);
             User staff = userRepository.findUserByEmail(emailStaff);
-            UserTounamentRole userTournamentRoleStaff2 = new UserTounamentRole();
+            UserTournamentRole userTournamentRoleStaff2 = new UserTournamentRole();
             userTournamentRoleStaff2.setRole(UserRole.STAFF);
             userTournamentRoleStaff2.setUser(staff);
             userTournamentRoleStaff2.setTournament(tournament);
             userTournamentRoleRepository.save(userTournamentRoleStaff2);
-            UserTounamentRole userTournamentRoleStaff3 = new UserTounamentRole();
+            UserTournamentRole userTournamentRoleStaff3 = new UserTournamentRole();
             userTournamentRoleStaff3.setRole(UserRole.STAFF);
             userTournamentRoleStaff3.setUser(staff);
             userTournamentRoleStaff3.setTournament(tournament2);
             userTournamentRoleRepository.save(userTournamentRoleStaff3);
             match.setStaff(staff);
             matchRepository.save(match);
+
+             */
         }
     }
 

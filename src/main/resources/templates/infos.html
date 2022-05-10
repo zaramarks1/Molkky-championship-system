@@ -37,6 +37,7 @@
                                 <br>
                                 Nom du court : <span th:text="${match.getCourt().getName()}">msg</span>
                                 <br>
+                                <a th:href="@{'/matches/match?match_id='+${match.getId()}}">text</a>
                                 <div th:if="${match.getFinished()}">
                                 Statut du match : <span>Match terminé</span>
                                     <br>

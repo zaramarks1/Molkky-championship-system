@@ -25,7 +25,7 @@ public class InfosController {
             UserLogged user = (UserLogged) session.getAttribute("user");
             model.addAttribute("user", user);
             if (user.getRole().equals(UserRole.STAFF)) {
-                List<Match> matchList = matchRepository.findMatchAttributedToStaff(user.getTournament(), userRepository.findUserByEmail(user.getEmail()));
+                List<Match> matchList = matchRepository.findMatchAttributedToStaff(user.getTournament());
                 model.addAttribute(matchList);
             }
         }

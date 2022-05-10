@@ -4,13 +4,14 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 @Getter
 @Entity
 @Setter
 @Table(name = "molkky_match")
-public class Match {
+public class Match implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -28,7 +29,11 @@ public class Match {
     @ManyToOne(optional = true)
     @JoinColumn(name="idRound", nullable = true)
     private Round round;
-
+/*
+    @ManyToOne(optional = true)
+    @JoinColumn(name="idStaff")
+    private User user;
+*/
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE, targetEntity = Court.class)
     @JoinColumn(name = "idCourt")
     private Court court;

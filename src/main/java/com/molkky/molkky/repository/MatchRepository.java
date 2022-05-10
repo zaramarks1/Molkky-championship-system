@@ -13,6 +13,6 @@ import java.util.List;
 public interface MatchRepository extends JpaRepository<Match, String>, JpaSpecificationExecutor<Match> {
     Match findById(Integer id);
 
-    @Query(value="SELECT DISTINCT(m) FROM Match m JOIN m.round.tournament t WHERE t=:tournament AND m.staff=:staff")
-    List<Match> findMatchAttributedToStaff(@Param("tournament")Tournament tournament, @Param("staff")User user);
+    @Query(value="SELECT DISTINCT(m) FROM Match m JOIN m.round.tournament t WHERE t=:tournament")
+    List<Match> findMatchAttributedToStaff(@Param("tournament")Tournament tournament);
 }
