@@ -4,12 +4,13 @@ import com.molkky.molkky.domain.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 @Data
 @NoArgsConstructor
-public class TeamModel {
+public class TeamModel implements Serializable {
     private Integer id;
     private String name;
     private Integer nbPlayers;

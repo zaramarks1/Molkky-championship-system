@@ -49,12 +49,6 @@ public class User implements Serializable {
     @JoinColumn(name="idUser", nullable = true)
     private List<UserTournamentRole> userTournamentRoles;
 
-    @OneToMany
-    @JoinColumn(name="idUser", nullable = true)
-    private List<Notification> notifications;
-
-
-
     public User(String pseudo, String surname, String forename, String club, String email) {
         this.pseudo = pseudo;
         this.surname = surname;

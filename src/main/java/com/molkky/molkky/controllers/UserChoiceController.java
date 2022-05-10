@@ -50,7 +50,7 @@ public class UserChoiceController {
             List<UserTournamentRole> roles = userTournamentRoleRepository.findUserTounamentRoleByTournamentAndUser(tournament,user);
             session.setAttribute("tournament",tournament);
             model.addAttribute("roles",roles);
-        return new ModelAndView( "/user_choice/choiceRole", model) ;
+            return new ModelAndView( "/user_choice/choiceRole", model) ;
         }
         catch(Exception e) {
             index(session, model2);
@@ -64,7 +64,7 @@ public class UserChoiceController {
             UserTournamentRole userTournamentRole = userTournamentRoleRepository.findById(Integer.valueOf(roleId));
             User userChoice = userTournamentRole.getUser();
             Tournament tournament = (Tournament) session.getAttribute("tournament");
-            UserLogged userLogged = new UserLogged(userChoice.getId(),userChoice.getEmail(), userChoice.getPassword(), userTournamentRole.getRole(), tournament);
+            UserLogged userLogged = new UserLogged(userChoice.getId(),userTournamentRole.getId() ,userChoice.getEmail(), userChoice.getPassword(), userTournamentRole.getRole(), tournament);
             session.setAttribute("user", userLogged);
             return new ModelAndView("/home");
         }

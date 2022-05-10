@@ -2,6 +2,7 @@ package com.molkky.molkky.controllers;
 
 import com.molkky.molkky.domain.User;
 import com.molkky.molkky.domain.UserTournamentRole;
+import com.molkky.molkky.model.TeamModel;
 import com.molkky.molkky.model.UserConnectionModel;
 import com.molkky.molkky.model.UserLogged;
 import com.molkky.molkky.repository.UserRepository;
@@ -50,8 +51,8 @@ public class ConnexionController {
                 if(userModel.getCode() != null){
                     List<UserTournamentRole> players = userTournamentRoleRepository.findUserWithCode(user,userModel.getCode());
                     if(!players.isEmpty()){
-                        UserLogged userLogged = new UserLogged(user.getId(),userModel.getEmail(),
-                                    userModel.getPassword(), players.get(0).getRole(), players.get(0).getTeam(),players.get(0).getTournament());
+                        UserLogged userLogged = new UserLogged(user.getId(),players.get(0).getId(), userModel.getEmail(),
+                                    userModel.getPassword(), players.get(0).getRole(),players.get(0).getTournament(), new TeamModel(players.get(0).getTeam()));
                         request.getSession().setAttribute("user",userLogged);
                         return new ModelAndView("redirect:/");
                     }
@@ -63,7 +64,7 @@ public class ConnexionController {
                 }
                 List<UserTournamentRole> adminorstaff = userTournamentRoleRepository.findUserAdminStaff(user);
                 if(adminorstaff.size()==1){
-                    UserLogged adminStaffLogged = new UserLogged(user.getId(),userModel.getEmail(),userModel.getPassword(),adminorstaff.get(0).getRole(),adminorstaff.get(0).getTournament());
+                    UserLogged adminStaffLogged = new UserLogged(user.getId(),adminorstaff.get(0).getId(), userModel.getEmail(),userModel.getPassword(),adminorstaff.get(0).getRole(),adminorstaff.get(0).getTournament());
                     request.getSession().setAttribute("user",adminStaffLogged);
                     return new ModelAndView("redirect:/");
                 }

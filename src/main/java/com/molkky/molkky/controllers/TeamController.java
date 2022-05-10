@@ -78,7 +78,7 @@ public class TeamController {
 
 
     @PostMapping("/addPlayer")
-        public ModelAndView addPlayer(@ModelAttribute("form") AddPlayerlistModel form, ModelMap model){
+    public ModelAndView addPlayer(@ModelAttribute("form") AddPlayerlistModel form, ModelMap model){
 
         List<AddPlayerModel> players = form.getPlayers();
         List<User> users = new ArrayList<>();
@@ -99,9 +99,9 @@ public class TeamController {
 
         teamService.addPlayers(form);
         return new ModelAndView( "redirect:/team/create", model) ;
-        }
+    }
 
-        boolean areAllDistinct(List<User> users) {
+    boolean areAllDistinct(List<User> users) {
         return users.stream().map(User::getEmail).distinct().count() == users.size();
     }
 }
