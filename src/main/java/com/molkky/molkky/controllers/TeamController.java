@@ -1,6 +1,5 @@
 package com.molkky.molkky.controllers;
 
-import com.molkky.molkky.controllers.superclass.DefaultAttributes;
 import com.molkky.molkky.service.TeamService;
 import type.TournamentStatus;
 import com.molkky.molkky.domain.Team;
@@ -30,7 +29,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/team")
-public class TeamController extends DefaultAttributes {
+public class TeamController {
     private static final Logger logger = LoggerFactory.getLogger(TeamController.class);
 
     @Autowired
@@ -51,6 +50,8 @@ public class TeamController extends DefaultAttributes {
     public String create(Model model, HttpSession session){
         model.addAttribute("tournaments", tournamentRepository.findByVisibleAndStatus(true, TournamentStatus.AVAILABLE));
         model.addAttribute("team", new CreateTeamModel());
+        User user = (User)session.getAttribute("user");
+        model.addAttribute("user", user);
         return "/team/create";
     }
 
@@ -77,7 +78,7 @@ public class TeamController extends DefaultAttributes {
 
 
     @PostMapping("/addPlayer")
-        public ModelAndView addPlayer(@ModelAttribute("form") AddPlayerlistModel form, ModelMap model){
+    public ModelAndView addPlayer(@ModelAttribute("form") AddPlayerlistModel form, ModelMap model){
 
         List<AddPlayerModel> players = form.getPlayers();
         List<User> users = new ArrayList<>();
@@ -98,9 +99,9 @@ public class TeamController extends DefaultAttributes {
 
         teamService.addPlayers(form);
         return new ModelAndView( "redirect:/team/create", model) ;
-        }
+    }
 
-        boolean areAllDistinct(List<User> users) {
+    boolean areAllDistinct(List<User> users) {
         return users.stream().map(User::getEmail).distinct().count() == users.size();
     }
 }
