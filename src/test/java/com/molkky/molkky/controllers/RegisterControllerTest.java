@@ -17,8 +17,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(value = RegisterController.class, excludeAutoConfiguration = {SecurityAutoConfiguration.class})
 @ExtendWith(MockitoExtension.class)
@@ -39,7 +38,8 @@ public class RegisterControllerTest {
     @Test
     void testRegisterController() throws Exception {
         mockMvc.perform(get("/register/"))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(view().name("/register"));
 
         mockMvc.perform(post("/saveUser/"))
                 .andExpect(status().is3xxRedirection())

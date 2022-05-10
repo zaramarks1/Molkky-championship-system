@@ -25,7 +25,7 @@ public class RegisterController {
     public String createUser(Model model) {
         User u = new User();
         model.addAttribute("user", u);
-        return "register";
+        return "/register";
     }
 
     // TODO Retrieve the current tournament within the session

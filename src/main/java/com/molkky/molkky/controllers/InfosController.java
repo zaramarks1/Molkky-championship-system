@@ -14,6 +14,6 @@ public class InfosController {
     public String index(Model model, HttpSession session){
         UserLogged user = (UserLogged)session.getAttribute("user");
         model.addAttribute("user", user);
-        return "infos";
+        return "/infos";
     }
 }

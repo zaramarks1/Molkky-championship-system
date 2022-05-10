@@ -55,6 +55,6 @@ public class MatchController {
         model.addAttribute("tournament", new TournamentModel(match.getRound().getTournament()));
         model.addAttribute("sets", SetService.createSetModels(match.getSets()));
         model.addAttribute("setTeamIndex", setTeamIndex);
-        return "match/match";
+        return "/match/match";
     }
 }

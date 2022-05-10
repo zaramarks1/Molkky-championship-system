@@ -38,13 +38,12 @@ public class ConnexionController {
         UserConnectionModel userConnectionModel = new UserConnectionModel();
 
         model.addAttribute("userConnection", userConnectionModel);
-        return "connexion";
+        return "/connexion";
     }
 
     @PostMapping("/connexion")
     public ModelAndView connexionUser(@ModelAttribute("userConnection")UserConnectionModel userModel, HttpServletRequest request){
 
-        try {
             if(userRepository.existsUserByEmailAndPassword(userModel.getEmail(), userModel.getPassword())){
                 User user = userRepository.findUserByEmailAndPassword(userModel.getEmail(), userModel.getPassword());
                 if(userModel.getCode() != null){
@@ -75,9 +74,6 @@ public class ConnexionController {
                     return new ModelAndView(changePageConnection);
                 }
 
-        }catch  (Exception e){
-            e.printStackTrace();
-        }
         return new ModelAndView(changePageConnection);
     }
 }

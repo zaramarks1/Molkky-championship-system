@@ -33,7 +33,7 @@ public class TournamentController {
         model.addAttribute("tournament", new TournamentModel());
         User user = (User)session.getAttribute("user");
         model.addAttribute("user", user);
-        return "tournament/create";
+        return "/tournament/create";
     }
 
     @PostMapping("/create")
@@ -56,7 +56,7 @@ public class TournamentController {
         model.addAttribute("user", user);
         model.addAttribute("nbTeam", tournament.getTeams().size());
 
-        return "tournament/view";
+        return "/tournament/view";
     }
 
 
