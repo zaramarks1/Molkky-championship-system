@@ -43,7 +43,6 @@ public class TournamentController {
     }
 
 
-
     @GetMapping("/TournamentClose")
     public String tournamentClose(Model model) {
         model.addAttribute(allTournament, tournamentRepository.findByVisibleAndStatus(true,TournamentStatus.CLOSED));
