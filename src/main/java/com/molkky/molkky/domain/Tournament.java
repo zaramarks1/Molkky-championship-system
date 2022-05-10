@@ -37,7 +37,7 @@ public class Tournament implements Serializable {
     @Column(name = "minTeam")
     private Integer minTeam;
 
-    @Column(name = "maxTeam")
+    @Column(name = "maxTeam", nullable = false, columnDefinition = "int default 10")
     private Integer maxTeam;
 
     @Column(name = "visible")

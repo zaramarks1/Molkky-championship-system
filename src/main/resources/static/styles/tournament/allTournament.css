@@ -300,7 +300,7 @@
     height: 100px;
     left: 5px;
     top: 5px;
-
+    background-color: lightgrey;
     filter: drop-shadow(0px 0px 7px rgba(196, 196, 196, 0.7));
     border-radius: 4px;
 
@@ -320,7 +320,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 0px;
-
+    text-decoration: none;
     width: 1037px;
     height: 60px;
     left: 20.92px;
