@@ -12,7 +12,7 @@ import java.util.List;
 @Entity
 @Setter
 @Table(name = "molkky_match")
-public class Match implements Serializable {
+public class Match {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -40,26 +40,8 @@ public class Match implements Serializable {
             name = "match_team",
             joinColumns = @JoinColumn(name = "match_id"),
             inverseJoinColumns = @JoinColumn(name = "team_id"))
-    private List<Team> teams = new ArrayList<>();
-
+    private List<Team> teams;
 
     @OneToMany(mappedBy = "match", cascade = CascadeType.ALL)
     private List<Set> sets;
-
-    @OneToMany(mappedBy = "match")
-    private List<Shot> shots = new ArrayList<>();
-
-    @Column(name = "scoreTeam1")
-    private Integer scoreTeam1 = 0;
-
-    @Column(name = "scoreTeam2")
-    private Integer scoreTeam2 = 0;
-
-    public Match(Court court, List<Team> teams) {
-        this.court = court;
-        this.teams = teams;
-    }
-
-    public Match() {
-    }
 }

@@ -1,0 +1,29 @@
+<html xmlns:th="http://thymeleaf.org" xmlns="http://www.w3.org/1999/html" lang="fr">
+<head>
+    <div th:replace="fragments/header"></div>
+    <title>Ajouter Une Phase</title>
+</head>
+<body>
+<div>
+    <!--<div th:replace="fragments/sidebar"> </div>-->
+    <div>
+        <div th:replace="fragments/searchbar"> </div>
+        <div>Veuillez choisir les différentes phases du tournoi</div>
+        <br>
+        <form method="post" th:action="@{/phase/EditPhases}" th:object="${form}">
+            <div>
+                <div th:each="phase, itemStat : *{phases}">
+                    <b th:text="Phase + ${itemStat.index+1}"></b>
+                    <select name="phase" th:field="*{phases[__${itemStat.index}__].phaseType}">
+                        <option th:each="phaseOpt : ${T(type.PhaseType).values()}"
+                                th:value="${phaseOpt}"
+                                th:text="${phaseOpt}"
+                        ></option>
+                    </select>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>
