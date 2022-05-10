@@ -1,6 +1,5 @@
 package com.molkky.molkky.controllers;
 
-import com.molkky.molkky.controllers.superclass.DefaultAttributes;
 import com.molkky.molkky.domain.Tournament;
 import com.molkky.molkky.domain.User;
 import com.molkky.molkky.domain.UserTournamentRole;
@@ -22,7 +21,7 @@ import java.util.List;
 
 
 @Controller
-public class UserChoiceController extends DefaultAttributes {
+public class UserChoiceController {
 
     @Autowired
     private UserRepository userRepository;
@@ -35,9 +34,10 @@ public class UserChoiceController extends DefaultAttributes {
 
     @GetMapping("/user_choice/choiceTournament")
     public String index(HttpSession session, Model model){
-        User user = (User)model.getAttribute("user_temp");
+        User user = (User)session.getAttribute("user_temp");
         List<Tournament> tournaments =  userTournamentRoleRepository.findTournamentFromUser(user);
         model.addAttribute("tournaments", tournaments);
+        model.addAttribute("user", user);
 
         return "/user_choice/choiceTournament";
     }
@@ -50,7 +50,7 @@ public class UserChoiceController extends DefaultAttributes {
             List<UserTournamentRole> roles = userTournamentRoleRepository.findUserTounamentRoleByTournamentAndUser(tournament,user);
             session.setAttribute("tournament",tournament);
             model.addAttribute("roles",roles);
-        return new ModelAndView( "/user_choice/choiceRole", model) ;
+            return new ModelAndView( "/user_choice/choiceRole", model) ;
         }
         catch(Exception e) {
             index(session, model2);
@@ -66,7 +66,7 @@ public class UserChoiceController extends DefaultAttributes {
             Tournament tournament = (Tournament) session.getAttribute("tournament");
             UserLogged userLogged = new UserLogged(userChoice.getId(),userTournamentRole.getId() ,userChoice.getEmail(), userChoice.getPassword(), userTournamentRole.getRole(), tournament);
             session.setAttribute("user", userLogged);
-            return new ModelAndView("redirect:/");
+            return new ModelAndView("/home");
         }
         catch (Exception e){
             return new ModelAndView("/user_choice/choiceRole");
