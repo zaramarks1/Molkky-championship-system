@@ -39,6 +39,7 @@ public class RegisterControllerTest {
     void testRegisterController() throws Exception {
         mockMvc.perform(get("/register/"))
                 .andExpect(status().isOk())
+                .andExpect(model().attributeExists("user"))
                 .andExpect(view().name("/register"));
 
         mockMvc.perform(post("/saveUser/"))

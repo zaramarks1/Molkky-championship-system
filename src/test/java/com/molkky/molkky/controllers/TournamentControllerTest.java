@@ -56,6 +56,7 @@ public class TournamentControllerTest {
     void testTournamentController() throws Exception {
         mockMvc.perform(get("/tournament/create/"))
                 .andExpect(status().isOk())
+                .andExpect(model().attributeExists("tournament"))
                 .andExpect(view().name("/tournament/create"));
 
         when(tournamentService.create(any(TournamentModel.class))).thenReturn(this.tournament);
@@ -81,6 +82,9 @@ public class TournamentControllerTest {
         mockMvc.perform(get("/tournament/1/view")
                         .flashAttr("tournament", tournoi))
                 .andExpect(status().isOk())
+                .andExpect(model().attributeExists("tournament"))
+                .andExpect(model().attributeExists("nbTeam"))
+
                 .andExpect(view().name("/tournament/view"));
 
         verify(this.tournamentRepository, times(1)).findById(anyInt());

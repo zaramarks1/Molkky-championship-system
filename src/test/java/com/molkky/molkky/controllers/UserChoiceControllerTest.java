@@ -18,8 +18,7 @@ import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(value = UserChoiceController.class, excludeAutoConfiguration = {SecurityAutoConfiguration.class})
 @ExtendWith(MockitoExtension.class)
@@ -43,8 +42,8 @@ public class UserChoiceControllerTest {
     @Test
     public void testUserChoiceControllerWithException() throws Exception {
         mockMvc.perform(get("/user_choice/choiceTournament"))
-                .andExpect(status().isOk());
-
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("tournaments"));
         mockMvc.perform(post("/user_choice/choiceTournament"))
                 .andExpect(status().isOk());
     }
@@ -55,6 +54,7 @@ public class UserChoiceControllerTest {
         mockMvc.perform(post("/user_choice/choiceTournament")
                         .param("tournamentId", "1"))
                 .andExpect(status().isOk())
+                .andExpect(model().attributeExists("roles"))
                 .andExpect(view().name("/user_choice/choiceRole"));
     }
 

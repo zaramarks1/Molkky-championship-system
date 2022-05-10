@@ -1,67 +1,151 @@
 package com.molkky.molkky.controllers;
 
+import com.molkky.molkky.domain.Team;
+import com.molkky.molkky.domain.Tournament;
 import com.molkky.molkky.model.AddPlayerModel;
+import com.molkky.molkky.model.AddPlayerlistModel;
+import com.molkky.molkky.model.CreateTeamModel;
 import com.molkky.molkky.repository.TeamRepository;
 import com.molkky.molkky.repository.TournamentRepository;
-import com.molkky.molkky.repository.UserRepository;
-import com.molkky.molkky.service.EmailSenderService;
 import com.molkky.molkky.service.TeamService;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@RunWith(SpringJUnit4ClassRunner.class)
+@WebMvcTest(value = TeamController.class, excludeAutoConfiguration = {SecurityAutoConfiguration.class})
+@ExtendWith(MockitoExtension.class)
 public class TeamControllerTest {
 
+    @Autowired
     private MockMvc mockMvc;
-    private AddPlayerModel test;
 
-    @InjectMocks
-    private TeamController teamController;
+    @MockBean
+    private TournamentRepository tournamentRepository;
 
-    @Mock
+    @MockBean
     private TeamRepository teamRepository;
 
     @Mock
-    private TournamentRepository tournamentRepository;
+    private AddPlayerlistModel addPlayerlistModel;
 
     @Mock
-    private UserRepository userRepository;
+    private AddPlayerModel addPlayerModel1;
 
     @Mock
-    private EmailSenderService emailSenderService;
+    private AddPlayerModel addPlayerModel2;
 
-    @Mock
+    @MockBean
     private TeamService teamService;
 
-    @Mock
-    private AddPlayerModel addPlayerModel;
-
-    @Before
-    public void setUp() throws Exception {
-        mockMvc = MockMvcBuilders.standaloneSetup(teamController).build();
-        Mockito.when(this.addPlayerModel.getTeamId()).thenReturn(1);
+    @Test
+    public void testTeamGetMethod() throws Exception{
+        this.mockMvc.perform(get("/team/create/"))
+                .andDo(print())
+                .andExpect(model().attributeExists("tournaments"))
+                .andExpect(model().attributeExists("team"))
+                .andExpect(forwardedUrl("/team/create"));
     }
 
     @Test
-    public void testTeamController() throws Exception {
+    public void testPostTeamMethod() throws Exception{
+        Tournament tournament = new Tournament();
+        tournament.setNbPlayersPerTeam(2);
 
-        Mockito.when(this.teamRepository.findById(addPlayerModel.getTeamId())).thenAnswer(i -> i.getArguments()[0]);
+        Team team = new Team();
+        team.setTournament(tournament);
 
-        mockMvc.perform(get("/team/create/")).andExpect(status().isOk());
-        mockMvc.perform(post("/team/addPlayer/")).andExpect(status().isOk());
+        Mockito.when(teamService.create(Mockito.any(CreateTeamModel.class))).thenReturn(team);
+
+        mockMvc.perform(post("/team/create")
+                        .param("nom","Test")
+                        .param("tournamentId","1")
+                        .flashAttr("teamModel",new CreateTeamModel()))
+                .andDo(print())
+                .andExpect(view().name("/team/addPlayer"))
+                .andExpect(model().attribute("team",team))
+                .andExpect(model().attributeExists("teamModel"))
+                .andExpect(model().attributeExists("form"))
+                .andExpect(model().attribute("isDiffMail",true))
+                .andExpect(forwardedUrl("/team/addPlayer"))
+                .andExpect(status().is2xxSuccessful());
+
+        Mockito.verify(teamService,Mockito.times(1)).create(Mockito.any(CreateTeamModel.class));
+    }
+
+    @Test
+    public void testPostPlayerMethod() throws Exception{
+        List<AddPlayerModel> list = new ArrayList<>();
+        list.add(addPlayerModel1);
+
+        Team team = new Team();
+        team.setId(1);
+
+        Mockito.when(addPlayerlistModel.getPlayers()).thenReturn(list);
+        Mockito.when(addPlayerModel1.getTeamId()).thenReturn(team.getId());
+        Mockito.when(teamRepository.findById(Mockito.anyInt())).thenReturn(team);
+        Mockito.when(addPlayerModel1.addPlayer()).thenCallRealMethod();
+        Mockito.when(addPlayerModel1.getMail()).thenReturn("test@test.fr");
+
+        mockMvc.perform(post("/team/addPlayer")
+                        .flashAttr("form",addPlayerlistModel))
+                .andDo(print())
+                .andExpect(view().name("redirect:/team/create"))
+                .andExpect(redirectedUrl("/team/create"))
+                .andExpect(status().is3xxRedirection());
+
+        Mockito.verify(addPlayerlistModel,Mockito.times(1)).getPlayers();
+        Mockito.verify(addPlayerModel1,Mockito.times(1)).getTeamId();
+        Mockito.verify(addPlayerModel1,Mockito.times(1)).addPlayer();
+        Mockito.verify(addPlayerModel1,Mockito.times(1)).getMail();
+        Mockito.verify(teamRepository,Mockito.times(1)).findById(Mockito.anyInt());
+
+    }
+
+    @Test
+    public void testPostSamePlayer() throws Exception {
+        List<AddPlayerModel> list = new ArrayList<>();
+        list.add(addPlayerModel1);
+        list.add(addPlayerModel2);
+
+        Team team = new Team();
+        team.setId(1);
+
+        Mockito.when(addPlayerlistModel.getPlayers()).thenReturn(list);
+        Mockito.when(addPlayerModel1.getTeamId()).thenReturn(team.getId());
+        Mockito.when(teamRepository.findById(Mockito.anyInt())).thenReturn(team);
+        Mockito.when(addPlayerModel1.addPlayer()).thenCallRealMethod();
+        Mockito.when(addPlayerModel1.getMail()).thenReturn("test@test.fr");
+        Mockito.when(addPlayerModel2.addPlayer()).thenCallRealMethod();
+        Mockito.when(addPlayerModel2.getMail()).thenReturn("test@test.fr");
+
+        mockMvc.perform(post("/team/addPlayer/")
+                        .flashAttr("form", addPlayerlistModel))
+                .andDo(print())
+                .andExpect(view().name("/team/addPlayer"))
+                .andExpect(forwardedUrl("/team/addPlayer"))
+                .andExpect(status().is2xxSuccessful());
+
+        Mockito.verify(addPlayerlistModel,Mockito.times(1)).getPlayers();
+        Mockito.verify(addPlayerModel1,Mockito.times(1)).getTeamId();
+        Mockito.verify(addPlayerModel1,Mockito.times(1)).addPlayer();
+        Mockito.verify(addPlayerModel1,Mockito.times(1)).getMail();
+        Mockito.verify(teamRepository,Mockito.times(1)).findById(Mockito.anyInt());
+        Mockito.verify(addPlayerModel2,Mockito.times(1)).addPlayer();
+        Mockito.verify(addPlayerModel2,Mockito.times(1)).getMail();
     }
 }

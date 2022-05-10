@@ -48,6 +48,7 @@ public class ConnexionControllerTest {
     public void testConnexionControllerWithPlayers() throws Exception {
         mockMvc.perform(get("/connexion/"))
                 .andExpect(status().isOk())
+                .andExpect(model().attributeExists("user"))
                 .andExpect(view().name("/connexion"));
 
         List<UserTournamentRole> players = new ArrayList<>();
