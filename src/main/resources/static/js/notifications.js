@@ -24,7 +24,7 @@ function markAllAsRead(){
 }
 
 function hideUnreadCount(){
+    document.getElementById("notificationList").style.display = "block";
     var unreadCount = document.getElementById("unreadCount");
     unreadCount.style.display = "none";
-    document.getElementById("notificationList").style.display = "block";
 }
