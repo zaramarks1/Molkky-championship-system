@@ -89,7 +89,7 @@ public class Tournament implements Serializable {
         this.teams = new ArrayList<>();
         this.phases = new ArrayList<>();
         this.rounds = new ArrayList<>();
-        this.userTounamentRoles = new ArrayList<>();
+        this.userTournamentRoles = new ArrayList<>();
         this.teams = new ArrayList<>();
     }
 
@@ -108,7 +108,7 @@ public class Tournament implements Serializable {
         this.teams = new ArrayList<>();
         this.phases = new ArrayList<>();
         this.rounds = new ArrayList<>();
-        this.userTounamentRoles = new ArrayList<>();
+        this.userTournamentRoles = new ArrayList<>();
         this.teams = new ArrayList<>();
     }
 
@@ -118,10 +118,9 @@ public class Tournament implements Serializable {
     public Tournament() {
 
         this.status = TournamentStatus.AVAILABLE;
-        this.teams = new ArrayList<>();
         this.phases = new ArrayList<>();
         this.rounds = new ArrayList<>();
-        this.userTounamentRoles = new ArrayList<>();
+        this.userTournamentRoles = new ArrayList<>();
         this.teams = new ArrayList<>();
     }
 }
