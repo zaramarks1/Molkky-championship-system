@@ -16,9 +16,9 @@
                 <p class="sidebarButtonContent">Tournois</p>
             </div>
         </a>
-        <a href="/sets" style="text-decoration: none;">
-            <div th:class="'sidebarButton '+${#httpServletRequest.requestURI.startsWith('/sets') ? 'bgButton textPrimary' : ''}">
-                <img th:class="'sidebarIcon '+${#httpServletRequest.requestURI.startsWith('/sets') ? 'sidebarIcon' : 'sidebarIconInactive'}" th:src="@{/assets/sets.svg}"/>
+        <a href="/match/allMatches" style="text-decoration: none;">
+            <div th:class="'sidebarButton '+${#httpServletRequest.requestURI.startsWith('/match/allMatches') ? 'bgButton textPrimary' : ''}">
+                <img th:class="'sidebarIcon '+${#httpServletRequest.requestURI.startsWith('/match/allMatches') ? 'sidebarIcon' : 'sidebarIconInactive'}" th:src="@{/assets/sets.svg}"/>
                 <p class="sidebarButtonContent">Mes matchs</p>
             </div>
         </a>

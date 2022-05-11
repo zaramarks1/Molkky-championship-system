@@ -1,0 +1,58 @@
+<!DOCTYPE>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html" lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <div th:replace="fragments/header"></div>
+    <title>Affichage des Matchs</title>
+    <link rel="stylesheet" th:href="@{/styles/tournament/alltournament.css}" href="./"/>
+</head>
+<body class="bg">
+<div class="pageContainer">
+    <div th:replace="fragments/sidebar"></div>
+    <div class="contentContainer">
+        <div th:replace="fragments/searchbar"></div>
+        <div class="main">
+            <!-- Emplacement pour les filtres-->
+            <div class="boxmatchList">
+                <div class="boxListe">
+                    <div class="rectangle"></div>
+                    <div class="Listmatch">Liste des matchs</div>
+                </div>
+
+                <div class="allButton">
+                    <ul class="ButtonTournament nav nav-pills nav-fill">
+                        <li class="boxState nav-item">
+                            <a id="open" class="textButton nav-link " aria-current="page" href="/match/allMatches">Tous les matchs</a>
+                        </li>
+                        <li class="boxState nav-item">
+                            <a id="closed" class="textButton nav-link" href="/match/inProgressMatches">Matchs en cours</a>
+                        </li>
+                        <li class="boxState nav-item">
+                            <a id="inProgress" class="textButton nav-link" href="/match/finishedMatches">Matchs terminés</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="boxAllCard">
+                    <ul class="boxOneCard" th:each="match:${matches}">
+                        <li class="boxInOneCard">
+                            <a class="boxInOneCard" th:href="@{'/matches/match?match_id='+${match.getId()}}">
+                                <span class="nameCard" th:text="'ID du match :' + ${match.getId()}"/>
+                                <span class="dateCard" th:text=" 'Emplacement : '+${match.getCourt().getName()}"/>
+                                <span class="nbCard" th:text="${match.getTeams().get(0).getName()} + ' contre ' + ${match.getTeams().get(1).getName()}"/>
+                                <span class="textPlayer" th:text="'Nombres de sets : '+${match.getNbSets()}"/>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
+</div>
+</body>
+<div th:replace="fragments/footer"></div>
+</html>
+

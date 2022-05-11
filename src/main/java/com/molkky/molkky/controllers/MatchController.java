@@ -1,6 +1,8 @@
 package com.molkky.molkky.controllers;
 
 import com.molkky.molkky.domain.Match;
+import com.molkky.molkky.domain.Team;
+import com.molkky.molkky.domain.Tournament;
 import com.molkky.molkky.model.CourtModel;
 import com.molkky.molkky.model.TeamModel;
 import com.molkky.molkky.model.TournamentModel;
@@ -19,6 +21,7 @@ import type.UserRole;
 
 import javax.servlet.http.HttpSession;
 import java.util.Arrays;
+import java.util.List;
 
 @Controller
 public class MatchController {
@@ -33,6 +36,11 @@ public class MatchController {
 
     @Autowired
     private MatchService matchService;
+
+    private String redirectionMatches = "match/allMatches";
+
+    private String matchAttribute = "matches";
+
 
     @GetMapping("/matches/match")
     public String match(Model model, HttpSession session, @RequestParam(name = "match_id", required = true) Integer id) {
@@ -56,5 +64,55 @@ public class MatchController {
         model.addAttribute("sets", SetService.createSetModels(match.getSets()));
         model.addAttribute("setTeamIndex", setTeamIndex);
         return "match/match";
+    }
+
+    @GetMapping("/match/allMatches")
+    public String matches(Model model, HttpSession session) {
+        UserLogged user = (UserLogged)session.getAttribute("user");
+        if (user.getRole().equals(UserRole.PLAYER)){
+            Team team = user.getTeam();
+            List<Match> matchesPlayer= matchRepository.findMatchesByTeams(team);
+            model.addAttribute(matchAttribute, matchesPlayer);
+
+        }
+        else if (user.getRole().equals(UserRole.STAFF)){
+            Tournament tournament = user.getTournament();
+            List<Match> matchesStaff = matchRepository.findMatchAttributedToStaff(tournament);
+            model.addAttribute(matchAttribute, matchesStaff);
+        }
+        return redirectionMatches;
+    }
+
+    @GetMapping("/match/inProgressMatches")
+    public String notFinishedMatches(Model model, HttpSession session) {
+        UserLogged user = (UserLogged)session.getAttribute("user");
+        if (user.getRole().equals(UserRole.PLAYER)){
+            Team team = user.getTeam();
+            List<Match> matchesPlayer= matchRepository.findMatchesByTeamsAndFinished(team,false);
+            model.addAttribute(matchAttribute, matchesPlayer);
+
+        }
+        else if (user.getRole().equals(UserRole.STAFF)){
+            Tournament tournament = user.getTournament();
+            List<Match> matchesStaffNotFinished = matchRepository.findMatchAttributedToStaffAndFinished(tournament,false);
+            model.addAttribute(matchAttribute, matchesStaffNotFinished);
+        }
+        return redirectionMatches;
+    }
+    @GetMapping("/match/finishedMatches")
+    public String finishedMatches(Model model, HttpSession session) {
+        UserLogged user = (UserLogged)session.getAttribute("user");
+        if (user.getRole().equals(UserRole.PLAYER)){
+            Team team = user.getTeam();
+            List<Match> matchesPlayer= matchRepository.findMatchesByTeamsAndFinished(team,true);
+            model.addAttribute(matchAttribute, matchesPlayer);
+
+        }
+        else if (user.getRole().equals(UserRole.STAFF)){
+            Tournament tournament = user.getTournament();
+            List<Match> matchesStaffNotFinished = matchRepository.findMatchAttributedToStaffAndFinished(tournament,true);
+            model.addAttribute(matchAttribute, matchesStaffNotFinished);
+        }
+        return redirectionMatches;
     }
 }
