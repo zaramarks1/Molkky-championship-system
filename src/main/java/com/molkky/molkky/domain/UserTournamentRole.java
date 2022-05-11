@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Entity
@@ -37,4 +39,8 @@ public class UserTournamentRole implements Serializable {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="idUser", nullable = true)
     private User user;
+
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name="idUserTournamentRole", nullable = true)
+    private List<Notification> notifications = new ArrayList<>();
 }

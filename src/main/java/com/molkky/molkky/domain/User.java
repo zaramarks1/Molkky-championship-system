@@ -49,15 +49,6 @@ public class User implements Serializable {
     @JoinColumn(name="idUser", nullable = true)
     private List<UserTournamentRole> userTournamentRoles;
 
-    @OneToMany
-    @JoinColumn(name="idUser", nullable = true)
-    private List<Notification> notifications;
-
-    @OneToMany
-    @LazyCollection(LazyCollectionOption.FALSE)
-    @JoinColumn(name="idStaff", nullable = true)
-    private List<Match> match;
-
     public User(String pseudo, String surname, String forename, String club, String email) {
         this.pseudo = pseudo;
         this.surname = surname;

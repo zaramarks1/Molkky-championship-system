@@ -1,5 +1,6 @@
 package com.molkky.molkky.controllers;
 
+import com.molkky.molkky.controllers.superclass.DefaultAttributes;
 import com.molkky.molkky.domain.Match;
 import com.molkky.molkky.domain.Team;
 import com.molkky.molkky.domain.Tournament;
@@ -24,7 +25,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Controller
-public class MatchController {
+public class MatchController extends DefaultAttributes {
     @Autowired
     private MatchRepository matchRepository;
 
@@ -44,11 +45,10 @@ public class MatchController {
 
     @GetMapping("/matches/match")
     public String match(Model model, HttpSession session, @RequestParam(name = "match_id", required = true) Integer id) {
-        UserLogged user = (UserLogged)session.getAttribute("user");
+        UserLogged user = (UserLogged)model.getAttribute("user");
         if(user == null){
             return "redirect:/connexion";
         }
-        model.addAttribute("user", user);
         Match match = matchRepository.findById(id);
         SetTeamIndex setTeamIndex = matchService.getUserTeamIndex(MatchService.getMatchModelFromEntity(match), UserService.createUserModelFromUserLogged(user));
 

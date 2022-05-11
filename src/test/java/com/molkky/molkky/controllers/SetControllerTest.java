@@ -9,7 +9,9 @@ import com.molkky.molkky.model.UserModel;
 import com.molkky.molkky.repository.MatchRepository;
 import com.molkky.molkky.repository.SetRepository;
 import com.molkky.molkky.repository.UserRepository;
+import com.molkky.molkky.repository.UserTournamentRoleRepository;
 import com.molkky.molkky.service.MatchService;
+import com.molkky.molkky.service.NotificationService;
 import com.molkky.molkky.service.SetService;
 import com.molkky.molkky.service.UserService;
 import org.junit.jupiter.api.Test;
@@ -39,6 +41,8 @@ class SetControllerTest {
     @MockBean
     private MatchRepository matchRepository;
     @MockBean
+    private NotificationService notificationService;
+    @MockBean
     private SetService setService;
     @MockBean
     private UserService userService;
@@ -48,6 +52,8 @@ class SetControllerTest {
     private SetRepository setRepository;
     @MockBean
     private UserRepository userRepository;
+    @MockBean
+    private UserTournamentRoleRepository userTournamentRoleRepository;
     @Autowired
     private SetController setController;
 
