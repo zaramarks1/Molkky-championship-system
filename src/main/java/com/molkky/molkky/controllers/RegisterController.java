@@ -1,6 +1,7 @@
 package com.molkky.molkky.controllers;
 
 import com.molkky.molkky.domain.User;
+import com.molkky.molkky.model.UserRegisterModel;
 import com.molkky.molkky.repository.TournamentRepository;
 import com.molkky.molkky.service.EmailSenderService;
 import com.molkky.molkky.service.RegisterService;
@@ -34,10 +35,12 @@ public class RegisterController {
 
     // TODO Retrieve the current tournament within the session
     @PostMapping("/saveUser")
-    public ModelAndView saveUser(@ModelAttribute("user") User user) {
+    public ModelAndView saveUser(@ModelAttribute("user") UserRegisterModel user) {
         //user.setTournament(tournamentRepository.findById(1));
-        registerService.encodeAndSendEmail(user);
-        registerService.saveUser(user);
+        User user1 = new User();
+        user1.setEmail(user.getEmail());
+        registerService.encodeAndSendEmail(user1);
+        registerService.saveUser(user1);
         return new ModelAndView("redirect:/register");
     }
 }
