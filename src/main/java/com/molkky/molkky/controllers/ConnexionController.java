@@ -44,8 +44,7 @@ public class ConnexionController {
 
     @PostMapping("/connexion")
     public ModelAndView connexionUser(@ModelAttribute("userConnection")UserConnectionModel userModel, HttpServletRequest request){
-
-            if(userRepository.existsUserByEmailAndPassword(userModel.getEmail(), userModel.getPassword())){
+         if(userRepository.existsUserByEmailAndPassword(userModel.getEmail(), userModel.getPassword())){
                 User user = userRepository.findUserByEmailAndPassword(userModel.getEmail(), userModel.getPassword());
                 if(userModel.getCode() != null){
                     List<UserTournamentRole> players = userTournamentRoleRepository.findUserWithCode(user,userModel.getCode());

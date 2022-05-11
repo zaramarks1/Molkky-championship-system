@@ -1,6 +1,7 @@
 package com.molkky.molkky.controllers;
 
 
+import com.molkky.molkky.domain.Team;
 import com.molkky.molkky.domain.User;
 import com.molkky.molkky.domain.UserTournamentRole;
 import com.molkky.molkky.model.UserConnectionModel;
@@ -52,7 +53,14 @@ public class ConnexionControllerTest {
                 .andExpect(view().name("/connexion"));
 
         List<UserTournamentRole> players = new ArrayList<>();
-        players.add(new UserTournamentRole());
+        UserTournamentRole player = new UserTournamentRole();
+        Team team = new Team();
+        team.setId(1);
+        team.setName("team1");
+        team.setNbPlayers(2);
+        team.setNbWins(0);
+        player.setTeam(team);
+        players.add(player);
 
         User user = new User();
         when(this.userRepository.findUserByEmailAndPassword("test72@sfr.fr", "testMDP")).thenReturn(user);

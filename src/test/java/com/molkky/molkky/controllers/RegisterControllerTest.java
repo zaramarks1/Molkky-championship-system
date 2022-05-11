@@ -3,7 +3,9 @@ package com.molkky.molkky.controllers;
 import com.molkky.molkky.domain.User;
 import com.molkky.molkky.repository.TournamentRepository;
 import com.molkky.molkky.service.EmailSenderService;
+import com.molkky.molkky.service.NotificationService;
 import com.molkky.molkky.service.RegisterService;
+import com.molkky.molkky.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -31,6 +33,12 @@ public class RegisterControllerTest {
 
     @MockBean
     private TournamentRepository tournamentRepository;
+
+    @MockBean
+    private NotificationService notificationService;
+
+    @MockBean
+    private UserService userService;
 
     @MockBean
     private EmailSenderService senderService;

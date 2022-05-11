@@ -7,6 +7,7 @@ import com.molkky.molkky.model.TournamentModel;
 import com.molkky.molkky.repository.TournamentRepository;
 import com.molkky.molkky.repository.UserRepository;
 import com.molkky.molkky.repository.UserTournamentRoleRepository;
+import com.molkky.molkky.service.NotificationService;
 import com.molkky.molkky.service.TournamentService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -39,6 +40,9 @@ public class TournamentControllerTest {
 
     @MockBean
     private UserTournamentRoleRepository userTournamentRoleRepository;
+
+    @MockBean
+    private NotificationService notificationService;
 
     @MockBean
     private TournamentService tournamentService;
