@@ -9,7 +9,6 @@ import com.molkky.molkky.repository.UserRepository;
 import com.molkky.molkky.repository.UserTournamentRoleRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
@@ -42,7 +41,7 @@ class ConnexionControllerTest {
     @MockBean
     private UserTournamentRoleRepository userTournamentRoleRepository;
 
-    @Mock
+    @MockBean
     private UserConnectionModel userConnectionModel;
 
     @Test
