@@ -7,6 +7,8 @@ import com.molkky.molkky.model.AddPlayerlistModel;
 import com.molkky.molkky.model.CreateTeamModel;
 import com.molkky.molkky.repository.TeamRepository;
 import com.molkky.molkky.repository.TournamentRepository;
+import com.molkky.molkky.repository.UserRepository;
+import com.molkky.molkky.service.EmailSenderService;
 import com.molkky.molkky.service.TeamService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -35,6 +37,12 @@ public class TeamControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
+    private UserRepository userRepository;
+
+    @MockBean
+    private EmailSenderService emailSenderService;
+
+    @MockBean
     private TournamentRepository tournamentRepository;
 
     @MockBean
@@ -58,7 +66,7 @@ public class TeamControllerTest {
                 .andDo(print())
                 .andExpect(model().attributeExists("tournaments"))
                 .andExpect(model().attributeExists("team"))
-                .andExpect(forwardedUrl("/team/create"));
+                .andExpect(view().name("/team/create"));
     }
 
     @Test
@@ -81,7 +89,7 @@ public class TeamControllerTest {
                 .andExpect(model().attributeExists("teamModel"))
                 .andExpect(model().attributeExists("form"))
                 .andExpect(model().attribute("isDiffMail",true))
-                .andExpect(forwardedUrl("/team/addPlayer"))
+                .andExpect(view().name("/team/addPlayer"))
                 .andExpect(status().is2xxSuccessful());
 
         Mockito.verify(teamService,Mockito.times(1)).create(Mockito.any(CreateTeamModel.class));
@@ -137,15 +145,14 @@ public class TeamControllerTest {
                         .flashAttr("form", addPlayerlistModel))
                 .andDo(print())
                 .andExpect(view().name("/team/addPlayer"))
-                .andExpect(forwardedUrl("/team/addPlayer"))
                 .andExpect(status().is2xxSuccessful());
 
-        Mockito.verify(addPlayerlistModel,Mockito.times(1)).getPlayers();
+        //Mockito.verify(addPlayerlistModel,Mockito.times(1)).getPlayers();
         Mockito.verify(addPlayerModel1,Mockito.times(1)).getTeamId();
         Mockito.verify(addPlayerModel1,Mockito.times(1)).addPlayer();
-        Mockito.verify(addPlayerModel1,Mockito.times(1)).getMail();
+        Mockito.verify(addPlayerModel1,Mockito.times(3)).getMail();
         Mockito.verify(teamRepository,Mockito.times(1)).findById(Mockito.anyInt());
         Mockito.verify(addPlayerModel2,Mockito.times(1)).addPlayer();
-        Mockito.verify(addPlayerModel2,Mockito.times(1)).getMail();
+        Mockito.verify(addPlayerModel2,Mockito.times(3)).getMail();
     }
 }
