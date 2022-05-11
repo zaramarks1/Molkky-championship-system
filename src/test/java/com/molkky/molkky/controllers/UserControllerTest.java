@@ -14,13 +14,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(value = UserController.class, excludeAutoConfiguration = {SecurityAutoConfiguration.class})
 @ExtendWith(MockitoExtension.class)
-public class UserControllerTest {
+class UserControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @Test
-    public void testUserController() throws Exception {
+    void testUserController() throws Exception {
         mockMvc.perform(get("/addPlayer"))
                 .andExpect(status().is4xxClientError());
     }

@@ -23,7 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(value = RegisterController.class, excludeAutoConfiguration = {SecurityAutoConfiguration.class})
 @ExtendWith(MockitoExtension.class)
-public class RegisterControllerTest {
+class RegisterControllerTest {
 
     @Autowired
     private MockMvc mockMvc;

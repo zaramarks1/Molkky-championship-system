@@ -18,7 +18,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(value = InfosController.class, excludeAutoConfiguration = {SecurityAutoConfiguration.class})
 @ExtendWith(MockitoExtension.class)
-public class InfosControllerTest {
+class InfosControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -31,7 +31,7 @@ public class InfosControllerTest {
     private InfosController infosController;
 
     @Test
-    public void testInfosController() throws Exception {
+    void testInfosController() throws Exception {
         mockMvc.perform(get("/infos/"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("infos"));

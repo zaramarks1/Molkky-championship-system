@@ -31,7 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(value = TeamController.class, excludeAutoConfiguration = {SecurityAutoConfiguration.class})
 @ExtendWith(MockitoExtension.class)
-public class TeamControllerTest {
+class TeamControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -61,7 +61,7 @@ public class TeamControllerTest {
     private TeamService teamService;
 
     @Test
-    public void testTeamGetMethod() throws Exception{
+    void testTeamGetMethod() throws Exception{
         this.mockMvc.perform(get("/team/create/"))
                 .andDo(print())
                 .andExpect(model().attributeExists("tournaments"))
@@ -70,7 +70,7 @@ public class TeamControllerTest {
     }
 
     @Test
-    public void testPostTeamMethod() throws Exception{
+    void testPostTeamMethod() throws Exception{
         Tournament tournament = new Tournament();
         tournament.setNbPlayersPerTeam(2);
 
@@ -96,7 +96,7 @@ public class TeamControllerTest {
     }
 
     @Test
-    public void testPostPlayerMethod() throws Exception{
+    void testPostPlayerMethod() throws Exception{
         List<AddPlayerModel> list = new ArrayList<>();
         list.add(addPlayerModel1);
 
@@ -125,7 +125,7 @@ public class TeamControllerTest {
     }
 
     @Test
-    public void testPostSamePlayer() throws Exception {
+    void testPostSamePlayer() throws Exception {
         List<AddPlayerModel> list = new ArrayList<>();
         list.add(addPlayerModel1);
         list.add(addPlayerModel2);

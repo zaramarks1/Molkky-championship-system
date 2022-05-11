@@ -22,7 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(value = UserChoiceController.class, excludeAutoConfiguration = {SecurityAutoConfiguration.class})
 @ExtendWith(MockitoExtension.class)
-public class UserChoiceControllerTest {
+class UserChoiceControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -40,7 +40,7 @@ public class UserChoiceControllerTest {
     private UserTournamentRole userTournamentRole;
 
     @Test
-    public void testUserChoiceControllerWithException() throws Exception {
+    void testUserChoiceControllerWithException() throws Exception {
         mockMvc.perform(get("/user_choice/choiceTournament"))
                 .andExpect(status().isOk())
                 .andExpect(model().attributeExists("tournaments"));
@@ -49,7 +49,7 @@ public class UserChoiceControllerTest {
     }
 
     @Test
-    public void testUserChoiceControllerWithoutException() throws Exception {
+    void testUserChoiceControllerWithoutException() throws Exception {
 
         mockMvc.perform(post("/user_choice/choiceTournament")
                         .param("tournamentId", "1"))
@@ -59,7 +59,7 @@ public class UserChoiceControllerTest {
     }
 
     @Test
-    public void testUserChoiceControllerChoose() throws Exception {
+    void testUserChoiceControllerChoose() throws Exception {
 
         UserTournamentRole userTournamentRole1 = new UserTournamentRole();
         User userChoice = new User();

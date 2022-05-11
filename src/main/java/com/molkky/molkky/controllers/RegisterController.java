@@ -33,10 +33,8 @@ public class RegisterController {
         return "/register";
     }
 
-    // TODO Retrieve the current tournament within the session
     @PostMapping("/saveUser")
     public ModelAndView saveUser(@ModelAttribute("user") UserRegisterModel user) {
-        //user.setTournament(tournamentRepository.findById(1));
         User user1 = new User();
         user1.setEmail(user.getEmail());
         registerService.encodeAndSendEmail(user1);

@@ -26,7 +26,7 @@ import java.util.List;
 
 @WebMvcTest(value = TeamService.class, excludeAutoConfiguration = {SecurityAutoConfiguration.class})
 @ExtendWith(MockitoExtension.class)
-public class TeamServiceTest {
+class TeamServiceTest {
 
     @Autowired
     private TeamService teamService;
@@ -56,7 +56,7 @@ public class TeamServiceTest {
     private User user;
 
     @Test
-    public void testCreateTeam(){
+    void testCreateTeam(){
         Integer idTournament = 1;
         String teamName = "TeamMock"+Math.floor(Math.random() * 100);
         Tournament tournament = new Tournament();
@@ -84,7 +84,7 @@ public class TeamServiceTest {
     }
 
     @Test
-    public void testAddPlayerNonExist(){
+    void testAddPlayerNonExist(){
         List<AddPlayerModel> listPlayer = new ArrayList<>();
         listPlayer.add(addPlayerModel1);
 
@@ -131,7 +131,7 @@ public class TeamServiceTest {
     }
 
     @Test
-    public void testAddPlayerExist(){
+    void testAddPlayerExist(){
         List<AddPlayerModel> listPlayer = new ArrayList<>();
         listPlayer.add(addPlayerModel1);
 
@@ -166,7 +166,7 @@ public class TeamServiceTest {
     }
 
     @Test
-    public void testAreAllDistinctUsers(){
+    void testAreAllDistinctUsers(){
         List<User> users = new ArrayList<>();
 
         User user1 = new User();
@@ -186,7 +186,7 @@ public class TeamServiceTest {
     }
 
     @Test
-    public void testCreateCodeLength(){
+    void testCreateCodeLength(){
         String code = teamService.createCode(10);
         Assertions.assertEquals(10,code.length());
     }

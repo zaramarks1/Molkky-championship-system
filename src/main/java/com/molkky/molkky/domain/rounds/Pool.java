@@ -14,7 +14,6 @@ import javax.persistence.Entity;
 @DiscriminatorValue("Pool")
 public class Pool extends Round{
     public Pool(){
-//        this.setType(RoundType.POOL);
     }
 
     public Pool(Integer nbTeams){

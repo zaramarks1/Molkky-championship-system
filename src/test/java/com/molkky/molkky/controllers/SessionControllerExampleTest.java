@@ -14,13 +14,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(value = SessionControllerExample.class, excludeAutoConfiguration = {SecurityAutoConfiguration.class})
 @ExtendWith(MockitoExtension.class)
-public class SessionControllerExampleTest {
+class SessionControllerExampleTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @Test
-    public void testSessionControllerExample() throws Exception {
+    void testSessionControllerExample() throws Exception {
         mockMvc.perform(get("/session"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("/session"));

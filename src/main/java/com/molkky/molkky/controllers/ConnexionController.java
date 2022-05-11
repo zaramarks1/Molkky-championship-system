@@ -28,7 +28,7 @@ public class ConnexionController {
     @Autowired
     UserTournamentRoleRepository userTournamentRoleRepository;
 
-    private static final String changePageConnection = "redirect:/connexion";
+    private static final String CHANGE_PAGE_CONNECTION = "redirect:/connexion";
 
     @GetMapping("/connexion")
     public String home(Model  model,HttpSession session){
@@ -71,9 +71,9 @@ public class ConnexionController {
                     return new ModelAndView("redirect:/user_choice/choiceTournament") ;
                 }
                 }else{
-                    return new ModelAndView(changePageConnection);
+                    return new ModelAndView(CHANGE_PAGE_CONNECTION);
                 }
 
-        return new ModelAndView(changePageConnection);
+        return new ModelAndView(CHANGE_PAGE_CONNECTION);
     }
 }

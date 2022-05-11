@@ -28,7 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(value = ConnexionController.class, excludeAutoConfiguration = {SecurityAutoConfiguration.class})
 @ExtendWith(MockitoExtension.class)
-public class ConnexionControllerTest {
+class ConnexionControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -46,7 +46,7 @@ public class ConnexionControllerTest {
     private UserConnectionModel userConnectionModel;
 
     @Test
-    public void testConnexionControllerWithPlayers() throws Exception {
+    void testConnexionControllerWithPlayers() throws Exception {
         mockMvc.perform(get("/connexion/"))
                 .andExpect(status().isOk())
                 .andExpect(model().attributeExists("user"))
@@ -78,7 +78,7 @@ public class ConnexionControllerTest {
     }
 
     @Test
-    public void testConnexionControllerWith1AdminOrStaff() throws Exception{
+    void testConnexionControllerWith1AdminOrStaff() throws Exception{
         User user = new User();
         when(this.userRepository.findUserByEmailAndPassword("test72@sfr.fr", "testMDP")).thenReturn(user);
 
@@ -97,7 +97,7 @@ public class ConnexionControllerTest {
     }
 
     @Test
-    public void testConnexionControllerWithAdminOrStaff() throws Exception{
+    void testConnexionControllerWithAdminOrStaff() throws Exception{
         User user = new User();
         when(this.userRepository.findUserByEmailAndPassword("test72@sfr.fr", "testMDP")).thenReturn(user);
 
@@ -117,7 +117,7 @@ public class ConnexionControllerTest {
     }
 
     @Test
-    public void testConnexionControllerWithoutAdminOrStaff() throws Exception{
+    void testConnexionControllerWithoutAdminOrStaff() throws Exception{
         User user = new User();
         when(this.userRepository.findUserByEmailAndPassword("test72@sfr.fr", "testMDP")).thenReturn(user);
 

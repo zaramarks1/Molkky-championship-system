@@ -27,21 +27,19 @@ public class DefaultAttributes {
     @ModelAttribute("user")
     public UserLogged getUser(HttpSession session) {
         UserLogged userLogged = session.getAttribute("user") != null ? (UserLogged) session.getAttribute("user") : null;
-        if(userLogged != null) logger.info("getUser userlogged: " + userLogged.toString());
+        if(userLogged != null) logger.info("getUser userlogged: ${}", userLogged);
         return userLogged;
     }
 
     @ModelAttribute("unreadCount")
     public Integer getUnreadCount(HttpSession session, Model model) {
-//        UserLogged userLogged = session.getAttribute("user") != null ? (UserLogged) session.getAttribute("user") : null;
-
         UserLogged userLogged = model.getAttribute("user") == null ? (UserLogged) session.getAttribute("user") : (UserLogged) model.getAttribute("user");
-        if(userLogged != null) logger.info("getUnreadCount userlogged: " + userLogged.toString());
+        if(userLogged != null) logger.info("getUnreadCount userlogged: {}" ,userLogged);
 
         if(userLogged == null) {
             logger.info("User not logged");
             return 0;
-        };
+        }
         return notificationService.getUnreadNotificationCount(userTournamentRoleRepository.findById(userLogged.getTournamentRoleId()));
     }
 

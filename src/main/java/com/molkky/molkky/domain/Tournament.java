@@ -1,6 +1,7 @@
 package com.molkky.molkky.domain;
 
 import com.molkky.molkky.model.TournamentModel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import type.TournamentStatus;
@@ -10,9 +11,10 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-@Getter
 @Entity
+@Getter
 @Setter
+@AllArgsConstructor
 @Table(name = "tournament")
 public class Tournament implements Serializable {
     @Id
