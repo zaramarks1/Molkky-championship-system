@@ -50,7 +50,7 @@ public class TournamentController extends DefaultAttributes {
         model.addAttribute("tournament", tournament);
         model.addAttribute("nbTeam", tournament.getTeams().size());
 
-        return "tournament/view";
+        return "/tournament/view";
     }
 
 

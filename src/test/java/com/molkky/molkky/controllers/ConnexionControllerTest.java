@@ -1,54 +1,128 @@
 package com.molkky.molkky.controllers;
 
-import com.molkky.molkky.repository.UserRepository;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.springframework.http.MediaType;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import com.molkky.molkky.domain.User;
+import com.molkky.molkky.domain.UserTournamentRole;
+import com.molkky.molkky.model.UserConnectionModel;
+import com.molkky.molkky.repository.UserRepository;
+import com.molkky.molkky.repository.UserTournamentRoleRepository;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.web.servlet.MockMvc;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@RunWith(SpringJUnit4ClassRunner.class)
+@WebMvcTest(value = ConnexionController.class, excludeAutoConfiguration = {SecurityAutoConfiguration.class})
+@ExtendWith(MockitoExtension.class)
 public class ConnexionControllerTest {
+
+    @Autowired
     private MockMvc mockMvc;
 
-    @InjectMocks
+    @Autowired
     private ConnexionController connexionController;
 
-    @Mock
+    @MockBean
     private UserRepository userRepository;
 
-    @Before
-    public void setUp() throws Exception {
-        mockMvc = MockMvcBuilders.standaloneSetup(connexionController).build();
+    @MockBean
+    private UserTournamentRoleRepository userTournamentRoleRepository;
+
+    @Mock
+    private UserConnectionModel userConnectionModel;
+
+    @Test
+    public void testConnexionControllerWithPlayers() throws Exception {
+        mockMvc.perform(get("/connexion/"))
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("user"))
+                .andExpect(view().name("/connexion"));
+
+        List<UserTournamentRole> players = new ArrayList<>();
+        players.add(new UserTournamentRole());
+
+        User user = new User();
+        when(this.userRepository.findUserByEmailAndPassword("test72@sfr.fr", "testMDP")).thenReturn(user);
+
+        when(this.userRepository.existsUserByEmailAndPassword(any(), any())).thenReturn(true);
+        when(this.userTournamentRoleRepository.findUserWithCode(user, "code1")).thenReturn(players);
+
+        mockMvc.perform(post("/connexion/")
+                        .param("email", "test72@sfr.fr")
+                        .param("password", "testMDP")
+                        .param("code","code1")
+                        .flashAttr("userConnection", new UserConnectionModel()))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/"));
     }
 
     @Test
-    public void testConnexionControllerWithInexistantUser() throws Exception {
-        mockMvc.perform(get("/connexion/"))
-                .andExpect(status().isOk());
+    public void testConnexionControllerWith1AdminOrStaff() throws Exception{
+        User user = new User();
+        when(this.userRepository.findUserByEmailAndPassword("test72@sfr.fr", "testMDP")).thenReturn(user);
+
+        List<UserTournamentRole> adminOrStaff = new ArrayList<>();
+        adminOrStaff.add(new UserTournamentRole());
+
+        when(this.userRepository.existsUserByEmailAndPassword(any(), any())).thenReturn(true);
+        when(this.userTournamentRoleRepository.findUserAdminStaff(user)).thenReturn(adminOrStaff);
+
         mockMvc.perform(post("/connexion/")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"email\": \"paco@sfr.fr\", \"password\": \"test\", \"code\": \"test\"}")
-        )
-                .andExpect(status().is3xxRedirection());
+                        .param("email", "test72@sfr.fr")
+                        .param("password", "testMDP")
+                        .flashAttr("userConnection", new UserConnectionModel()))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/"));
     }
 
     @Test
-    public void testConnexionControllerWithExistantUser() throws Exception {
-        mockMvc.perform(get("/connexion/"))
-                .andExpect(status().isOk());
+    public void testConnexionControllerWithAdminOrStaff() throws Exception{
+        User user = new User();
+        when(this.userRepository.findUserByEmailAndPassword("test72@sfr.fr", "testMDP")).thenReturn(user);
+
+        List<UserTournamentRole> adminOrStaff = new ArrayList<>();
+        adminOrStaff.add(new UserTournamentRole());
+        adminOrStaff.add(new UserTournamentRole());
+
+        when(this.userRepository.existsUserByEmailAndPassword(any(), any())).thenReturn(true);
+        when(this.userTournamentRoleRepository.findUserAdminStaff(user)).thenReturn(adminOrStaff);
+
         mockMvc.perform(post("/connexion/")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"email\": \"zara.marks@reseau.eseo.fr\", \"password\": \"test\", \"code\": \"test\"}")
-                )
-                .andExpect(status().is3xxRedirection());
+                        .param("email", "test72@sfr.fr")
+                        .param("password", "testMDP")
+                        .flashAttr("userConnection", new UserConnectionModel()))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/user_choice/choiceTournament"));
+    }
+
+    @Test
+    public void testConnexionControllerWithoutAdminOrStaff() throws Exception{
+        User user = new User();
+        when(this.userRepository.findUserByEmailAndPassword("test72@sfr.fr", "testMDP")).thenReturn(user);
+
+        List<UserTournamentRole> adminOrStaff = new ArrayList<>();
+
+        when(this.userRepository.existsUserByEmailAndPassword(any(), any())).thenReturn(true);
+        when(this.userTournamentRoleRepository.findUserAdminStaff(user)).thenReturn(adminOrStaff);
+
+        mockMvc.perform(post("/connexion/")
+                        .param("email", "test72@sfr.fr")
+                        .param("password", "testMDP")
+                        .flashAttr("userConnection", new UserConnectionModel()))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/connexion"));
     }
 }

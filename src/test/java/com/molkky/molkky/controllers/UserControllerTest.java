@@ -9,23 +9,19 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
-@WebMvcTest(value = HomeController.class, excludeAutoConfiguration = {SecurityAutoConfiguration.class})
+@WebMvcTest(value = UserController.class, excludeAutoConfiguration = {SecurityAutoConfiguration.class})
 @ExtendWith(MockitoExtension.class)
-public class HomeControllerTest {
+public class UserControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
-    @Autowired
-    private HomeController homeController;
-
     @Test
-    void testHomeController() throws Exception {
-        mockMvc.perform(get("/"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("/home"));
+    public void testUserController() throws Exception {
+        mockMvc.perform(get("/addPlayer"))
+                .andExpect(status().is4xxClientError());
     }
 }

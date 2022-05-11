@@ -1,5 +1,6 @@
 package com.molkky.molkky.controllers;
 
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -11,21 +12,20 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-
-@WebMvcTest(value = HomeController.class, excludeAutoConfiguration = {SecurityAutoConfiguration.class})
+@WebMvcTest(value = InfosController.class, excludeAutoConfiguration = {SecurityAutoConfiguration.class})
 @ExtendWith(MockitoExtension.class)
-public class HomeControllerTest {
+public class InfosControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @Autowired
-    private HomeController homeController;
+    private InfosController infosController;
 
     @Test
-    void testHomeController() throws Exception {
-        mockMvc.perform(get("/"))
+    public void testInfosController() throws Exception {
+        mockMvc.perform(get("/infos/"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("/home"));
+                .andExpect(view().name("/infos"));
     }
 }
