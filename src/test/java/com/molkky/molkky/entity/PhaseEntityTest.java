@@ -2,11 +2,9 @@ package com.molkky.molkky.entity;
 
 import com.molkky.molkky.MolkkyApplication;
 import com.molkky.molkky.domain.*;
-import com.molkky.molkky.domain.rounds.Finnish;
 import com.molkky.molkky.domain.rounds.Pool;
 import com.molkky.molkky.repository.*;
 import com.molkky.molkky.service.PhaseService;
-import org.checkerframework.checker.units.qual.A;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +33,7 @@ import java.util.*;
     private UserRepository userRepository;
 
     @Autowired
-    private UserTounamentRoleRepository userTounamentRoleRepository;
+    private UserTournamentRoleRepository userTournamentRoleRepository;
 
     @Autowired
     private PhaseService phaseService;
@@ -94,19 +92,19 @@ import java.util.*;
 
             player =  userRepository.save(player);
 
-            UserTounamentRole userTounamentRole = new UserTounamentRole();
+            UserTournamentRole userTournamentRole = new UserTournamentRole();
 
-            userTounamentRole.setRole(UserRole.PLAYER);
-            userTounamentRole.setUser(player);
-            userTounamentRole.setTournament(tournament);
-            userTounamentRole.setTeam(team);
+            userTournamentRole.setRole(UserRole.PLAYER);
+            userTournamentRole.setUser(player);
+            userTournamentRole.setTournament(tournament);
+            userTournamentRole.setTeam(team);
 
-            player.getUserTounamentRoles().add(userTounamentRole);
-            tournament.getUserTounamentRoles().add(userTounamentRole);
-            team.getUserTounamentRoles().add(userTounamentRole);
+            player.getUserTournamentRoles().add(userTournamentRole);
+            tournament.getUserTournamentRoles().add(userTournamentRole);
+            team.getUserTournamentRoles().add(userTournamentRole);
 
             team = teamRepository.save(team);
-            userTounamentRoleRepository.save(userTounamentRole);
+            userTournamentRoleRepository.save(userTournamentRole);
             tournamentRepository.save(tournament);
             userRepository.save(player);
 
@@ -117,7 +115,7 @@ import java.util.*;
         Assertions.assertEquals(true, tournament.getPhases().get(0) instanceof Pool,
                 " It should be a instance of pool");
         Assertions.assertEquals(8, tournament.getTeams().size(), " There should be 8 teams ");
-        Assertions.assertEquals(1, tournament.getTeams().get(0).getUserTounamentRoles().size(),
+        Assertions.assertEquals(1, tournament.getTeams().get(0).getUserTournamentRoles().size(),
                 " There should be 1 player per team ");
         Assertions.assertEquals(2, results.size(), " There should be 2 rounds of pool ");
 

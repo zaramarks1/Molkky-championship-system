@@ -1,8 +1,6 @@
 package com.molkky.molkky.domain.rounds;
 
 import com.molkky.molkky.domain.Phase;
-import type.PhaseType;
-import com.molkky.molkky.domain.Round;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -35,6 +33,7 @@ public class Pool extends Phase {
     public Pool(){
         this.notifBeginningPhase = false;
         this.notifEachDay = false;
+
     }
 
 }

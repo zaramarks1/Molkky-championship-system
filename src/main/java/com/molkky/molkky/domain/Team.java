@@ -22,14 +22,21 @@ public class Team implements Serializable {
     @Column(name = "name")
     private String name;
 
+
+    @Column(name = "nbPlayers")
+    private Integer nbPlayers;
+
+    @ManyToMany(mappedBy = "teams")
+    private List<Set> sets;
+
     @ManyToMany(mappedBy = "teams")
     private List<Match> matchs;
 
     @ManyToMany(mappedBy = "teams")
     private List<Round> rounds;
 
-    @OneToMany(mappedBy="team")
-    private List<UserTounamentRole> userTounamentRoles;
+    @OneToMany(mappedBy="team", fetch = FetchType.EAGER)
+    private List<UserTournamentRole> userTournamentRoles;
 
     @ManyToOne
     @JoinColumn(name="idTournament", nullable = true)
@@ -50,7 +57,7 @@ public class Team implements Serializable {
 
     public Team(){
         this.shots = new ArrayList<>();
-        this.userTounamentRoles = new ArrayList<>();
+        this.userTournamentRoles = new ArrayList<>();
         this.matchs = new ArrayList<>();
         this.rounds = new ArrayList<>();
         this.eliminated = false;

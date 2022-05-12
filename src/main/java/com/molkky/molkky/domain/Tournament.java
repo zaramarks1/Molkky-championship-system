@@ -1,20 +1,21 @@
 package com.molkky.molkky.domain;
 
-import type.TournamentStatus;
 import com.molkky.molkky.model.TournamentModel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import type.TournamentStatus;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
-@Getter
 @Entity
+@Getter
 @Setter
+@AllArgsConstructor
 @Table(name = "tournament")
 public class Tournament implements Serializable {
     @Id
@@ -56,7 +57,7 @@ public class Tournament implements Serializable {
     private TournamentStatus status;
 
     @OneToMany(mappedBy="tournament")
-    private List<UserTounamentRole> userTounamentRoles;
+    private List<UserTournamentRole> userTournamentRoles;
 
     @OneToMany(mappedBy="tournament")
     private List<Round> rounds;
@@ -90,7 +91,7 @@ public class Tournament implements Serializable {
         this.status = TournamentStatus.AVAILABLE;
         this.phases = new ArrayList<>();
         this.rounds = new ArrayList<>();
-        this.userTounamentRoles = new ArrayList<>();
+        this.userTournamentRoles = new ArrayList<>();
         this.teams = new ArrayList<>();
     }
 
@@ -108,7 +109,7 @@ public class Tournament implements Serializable {
         this.nbPlayersPerTeam = tournamentModel.getNbPlayersPerTeam();
         this.phases = new ArrayList<>();
         this.rounds = new ArrayList<>();
-        this.userTounamentRoles = new ArrayList<>();
+        this.userTournamentRoles = new ArrayList<>();
         this.teams = new ArrayList<>();
     }
 
@@ -120,7 +121,7 @@ public class Tournament implements Serializable {
         this.status = TournamentStatus.AVAILABLE;
         this.phases = new ArrayList<>();
         this.rounds = new ArrayList<>();
-        this.userTounamentRoles = new ArrayList<>();
+        this.userTournamentRoles = new ArrayList<>();
         this.teams = new ArrayList<>();
     }
 }

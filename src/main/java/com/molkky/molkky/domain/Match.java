@@ -5,6 +5,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,11 +19,17 @@ public class Match implements Serializable {
     @Column(name = "id")
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE, targetEntity = Court.class)
+    @Column(name = "nbSets")
+    private Integer nbSets;
+
+    @OneToOne(optional = true)
+    private Team winner;
+
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE, targetEntity = Court.class)
     @JoinColumn(name = "idCourt")
     private Court court;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "match_team",
             joinColumns = @JoinColumn(name = "match_id"),
@@ -45,6 +52,10 @@ public class Match implements Serializable {
     @Column(name = "finished")
     private Boolean finished= false;
 
+    @OneToMany(mappedBy = "match", cascade = CascadeType.ALL)
+    private List<Set> sets;
+
+
     public Match(Court court, List<Team> teams) {
         this.court = court;
         this.teams = teams;
@@ -52,4 +63,6 @@ public class Match implements Serializable {
 
     public Match() {
     }
+
+
 }

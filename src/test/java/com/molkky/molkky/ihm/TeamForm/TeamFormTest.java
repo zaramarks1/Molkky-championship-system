@@ -7,7 +7,6 @@ import com.molkky.molkky.domain.Tournament;
 import com.molkky.molkky.model.TournamentModel;
 import com.molkky.molkky.repository.TeamRepository;
 import com.molkky.molkky.repository.TournamentRepository;
-import org.junit.Assert;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.Select;

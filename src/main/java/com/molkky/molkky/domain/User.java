@@ -45,12 +45,12 @@ public class User implements Serializable {
     private String password;
 
 
+
     @OneToMany(mappedBy = "user")
-    private List<UserTounamentRole> userTounamentRoles = new ArrayList<>();
+    private List<UserTournamentRole> userTournamentRoles = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")
     private List<Notification> notifications = new ArrayList<>();
-
 
 
     public User(String pseudo, String surname, String forename, String club, String email) {

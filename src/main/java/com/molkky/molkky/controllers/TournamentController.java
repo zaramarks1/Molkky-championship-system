@@ -1,12 +1,12 @@
 package com.molkky.molkky.controllers;
 
 
+import com.molkky.molkky.controllers.superclass.DefaultAttributes;
 import com.molkky.molkky.domain.Tournament;
-import com.molkky.molkky.domain.User;
 import com.molkky.molkky.model.TournamentModel;
 import com.molkky.molkky.repository.TournamentRepository;
 import com.molkky.molkky.repository.UserRepository;
-import com.molkky.molkky.service.TounamentService;
+import com.molkky.molkky.service.TournamentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,12 +18,12 @@ import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/tournament")
-public class TournamentController {
+public class TournamentController extends DefaultAttributes {
     @Autowired
     private TournamentRepository tournamentRepository;
 
     @Autowired
-    private TounamentService tournamentService;
+    private TournamentService tournamentService;
 
     @Autowired
     private UserRepository userRepository;
@@ -31,9 +31,7 @@ public class TournamentController {
     @GetMapping("/create")
     public String tournamentForm(Model model, HttpSession session) {
         model.addAttribute("tournament", new TournamentModel());
-        User user = (User)session.getAttribute("user");
-        model.addAttribute("user", user);
-        return "tournament/create";
+        return "/tournament/create";
     }
 
     @PostMapping("/create")
@@ -47,16 +45,11 @@ public class TournamentController {
 
     @GetMapping("/{id}/view")
     public String tournamentView(Model model, @PathVariable("id") String id){
-
-        //USER FROM SESSION
-        User user = null;
-
         Tournament tournament = tournamentRepository.findById(Integer.valueOf(id));
         model.addAttribute("tournament", tournament);
-        model.addAttribute("user", user);
         model.addAttribute("nbTeam", tournament.getTeams().size());
 
-        return "tournament/view";
+        return "/tournament/view";
     }
 
 

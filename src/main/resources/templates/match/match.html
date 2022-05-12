@@ -1,0 +1,90 @@
+<html xmlns:th="http://thymeleaf.org" xmlns="http://www.w3.org/1999/html" lang="fr">
+<head>
+    <div th:replace="fragments/header"></div>
+    <link rel="stylesheet" th:href="@{/styles/match/match.css}" href="../" />
+    <title>Match en cours</title>
+</head>
+<body class="bg">
+<div class="pageContainer">
+    <div th:replace="fragments/sidebar"> </div>
+    <div class="contentContainer">
+        <div th:replace="fragments/searchbar"> </div>
+        <div class="matchAllContainer">
+            <div class="tournamentInfoContainer">
+                <div class="tournamentTitle" th:text="${tournament.name}">placeholder nom tournoi</div>
+                <div class="tournamentDate" th:text="${#dates.format(tournament.date, 'dd/MM/yyyy')}">placeholder date tournoi</div>
+            </div>
+            <div class="matchContainer">
+                <div class="columnContainer">
+                    <div class="teamContainer">
+                        <div class="teamImage">
+
+                        </div>
+                        <div class="teamName" th:text="${teams[0].name}">
+                            Nom de la team
+                        </div>
+                    </div>
+                </div>
+                <div class="columnContainer">
+                    <div class="courtText" th:text="${court.name}">
+                        Court placeholder
+                    </div>
+                    <div class="bestOfText" th:text="'Jeu en ' + ${sets.size} + ' sets'">
+                        Best of placeholder
+                    </div>
+                    <div class="stateContainer" th:if="${match.finished == false}">
+                        <div class="stateText">
+                            En cours
+                        </div>
+                        <div class="liveIndicator">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="columnContainer">
+                    <div class="teamContainer">
+                        <div class="teamImage">
+
+                        </div>
+                        <div class="teamName"  th:text="${teams[1].name}">
+                            Nom de la team
+                        </div>
+                    </div>
+                </div>
+                <div class="columnContainer"></div>
+            </div>
+            <div class="setsContainer">
+                <form method="POST" class="setListContainer" th:each="set, iStat: ${sets}" action="/sets/updateSet">
+                    <div class="setContainer" th:switch="${setTeamIndex.displayValue}">
+                        <input type="hidden" name="id" th:value="${set.id}"/>
+                        <div class="setText" th:text="'SET ' + ${iStat.index}">
+                            SET X
+                        </div>
+                        <input th:case="team1" min="0"  class="setInput" type="number" th:name="score1Team1" value="0" th:value="${set.score1Team1}"/>
+                        <input th:case="team2" min="0"  class="setInput" type="number" th:name="score1Team2" value="0" th:value="${set.score1Team2}"/>
+                        <input th:case="orga" min="0"  class="setInput" type="number" th:name="score1Orga" value="0" th:value="${set.score1Orga}"/>
+                    </div>
+                    <div class="separatorContainer">
+                        <div class="separator">
+
+                        </div>
+                    </div>
+                    <div class="setContainer" th:switch="${setTeamIndex.displayValue}">
+                        <div class="setText" th:text="'SET ' + ${iStat.index}">
+                            SET X
+                        </div>
+                        <input th:case="team1" min="0" class="setInput" type="number" th:name="score2Team1" value="0" th:value="${set.score2Team1}"/>
+                        <input th:case="team2" min="0"  class="setInput" type="number" th:name="score2Team2" value="0" th:value="${set.score2Team2}"/>
+                        <input th:case="orga" min="0" class="setInput" type="number" th:name="score2Orga" value="0" th:value="${set.score2Orga}"/>
+                    </div>
+                    <div class="setContainer">
+                        <button type="submit" class="primaryButton" th:id="'submitSet' + ${iStat.index}">Envoyer</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<div th:replace="fragments/footer"></div>
+

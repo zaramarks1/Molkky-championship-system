@@ -36,12 +36,12 @@ class KnockoutEntityTest {
     void testInsertSimpleGame() {
         Match match = new Match();
         Match match2 = new Match();
-        List<Match> matches = Arrays.asList(match, match2);
+        List<Match> matchs = Arrays.asList(match, match2);
 
         Knockout knockout = new Knockout(2);
         match.setRound(knockout);
         match2.setRound(knockout);
-        knockout.setMatches(matches);
+        knockout.setMatches(matchs);
 
         Tournament tournament = tournamentRepository.save(new Tournament(
                 "tournament_name",

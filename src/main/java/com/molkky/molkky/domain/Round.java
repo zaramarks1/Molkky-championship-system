@@ -4,13 +4,15 @@ import lombok.Data;
 import type.PhaseType;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 @Data
 @Entity
 @Table(name = "round")
-public class Round {
+public class Round implements  Serializable{
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -30,7 +32,9 @@ public class Round {
             inverseJoinColumns = @JoinColumn(name = "team_id"))
     private List<Team> teams =  new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "round")
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "idMatches")
     private List<Match> matches = new ArrayList<>();
 
     @Column(name = "finished")

@@ -5,22 +5,19 @@ import com.molkky.molkky.SeleniumConfig;
 import com.molkky.molkky.domain.Team;
 import com.molkky.molkky.domain.Tournament;
 import com.molkky.molkky.domain.User;
-import com.molkky.molkky.domain.UserTounamentRole;
+import com.molkky.molkky.domain.UserTournamentRole;
 import com.molkky.molkky.repository.TeamRepository;
 import com.molkky.molkky.repository.TournamentRepository;
 import com.molkky.molkky.repository.UserRepository;
-import com.molkky.molkky.repository.UserTounamentRoleRepository;
+import com.molkky.molkky.repository.UserTournamentRoleRepository;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import type.UserRole;
-
-import java.util.Random;
 
 @SpringBootTest(classes = MolkkyApplication.class, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -33,7 +30,7 @@ class ConnexionFormTest {
     @Autowired
     private TournamentRepository tournamentRepository;
     @Autowired
-    private UserTounamentRoleRepository userTournamentRoleRepository;
+    private UserTournamentRoleRepository userTournamentRoleRepository;
     private SeleniumConfig config;
     @Value("${server.port}")
     private Integer port;
@@ -71,22 +68,22 @@ class ConnexionFormTest {
             tournament2.setName(tournamentName2);
             tournament2.setVisible(true);
             tournamentRepository.save(tournament2);
-            UserTounamentRole userTounamentRolePlayer = new UserTounamentRole();
-            userTounamentRolePlayer.setRole(UserRole.PLAYER);
-            userTounamentRolePlayer.setUser(player);
-            userTounamentRolePlayer.setTournament(tournament);
-            userTounamentRolePlayer.setTeam(team);
-            userTournamentRoleRepository.save(userTounamentRolePlayer);
+            UserTournamentRole userTournamentRolePlayer = new UserTournamentRole();
+            userTournamentRolePlayer.setRole(UserRole.PLAYER);
+            userTournamentRolePlayer.setUser(player);
+            userTournamentRolePlayer.setTournament(tournament);
+            userTournamentRolePlayer.setTeam(team);
+            userTournamentRoleRepository.save(userTournamentRolePlayer);
             User admin = new User();
             admin.setEmail(emailAdmin);
             admin.setPassword(passwordAdmin);
             userRepository.save(admin);
-            UserTounamentRole userTounamentRoleAdmin = new UserTounamentRole();
-            userTounamentRoleAdmin.setRole(UserRole.ADM);
-            userTounamentRoleAdmin.setUser(admin);
-            userTounamentRoleAdmin.setTournament(tournament);
-            userTournamentRoleRepository.save(userTounamentRoleAdmin);
-            UserTounamentRole userTournamentRoleAdmin2 = new UserTounamentRole();
+            UserTournamentRole userTournamentRoleAdmin = new UserTournamentRole();
+            userTournamentRoleAdmin.setRole(UserRole.ADM);
+            userTournamentRoleAdmin.setUser(admin);
+            userTournamentRoleAdmin.setTournament(tournament);
+            userTournamentRoleRepository.save(userTournamentRoleAdmin);
+            UserTournamentRole userTournamentRoleAdmin2 = new UserTournamentRole();
             userTournamentRoleAdmin2.setRole(UserRole.ADM);
             userTournamentRoleAdmin2.setUser(admin);
             userTournamentRoleAdmin2.setTournament(tournament2);
@@ -95,7 +92,7 @@ class ConnexionFormTest {
             staff.setEmail(emailStaff);
             staff.setPassword(passwordStaff);
             userRepository.save(staff);
-            UserTounamentRole userTournamentRoleStaff = new UserTounamentRole();
+            UserTournamentRole userTournamentRoleStaff = new UserTournamentRole();
             userTournamentRoleStaff.setRole(UserRole.STAFF);
             userTournamentRoleStaff.setUser(staff);
             userTournamentRoleStaff.setTournament(tournament);
@@ -128,7 +125,7 @@ class ConnexionFormTest {
         config.getDriver().findElement(new By.ById("connexion")).click();
         wait.until(ExpectedConditions.visibilityOf(config.getDriver().findElement(new By.ById("homeDescription"))));
         Assertions.assertEquals("Accueil", config.getDriver().getTitle());
-        config.getDriver().findElement(new By.ById("info")).click();
+        config.getDriver().findElement(new By.ById("infos_sidebar")).click();
         Assertions.assertEquals(emailPlayer, config.getDriver().findElement(new By.ById("email")).getText());
         Assertions.assertEquals(teamName, config.getDriver().findElement(new By.ById("team")).getText());
         Assertions.assertEquals("PLAYER", config.getDriver().findElement(new By.ById("role")).getText());
@@ -161,7 +158,7 @@ class ConnexionFormTest {
         config.getDriver().findElement(new By.ById("buttonRole")).click();
         wait.until(ExpectedConditions.visibilityOf(config.getDriver().findElement(new By.ById("homeDescription"))));
         Assertions.assertEquals("Accueil", config.getDriver().getTitle());
-        config.getDriver().findElement(new By.ById("info")).click();
+        config.getDriver().findElement(new By.ById("infos_sidebar")).click();
         Assertions.assertEquals(emailAdmin, config.getDriver().findElement(new By.ById("email")).getText());
         Assertions.assertEquals("ADM", config.getDriver().findElement(new By.ById("role")).getText());
         Assertions.assertEquals(tournamentName, config.getDriver().findElement(new By.ById("tournament")).getText());

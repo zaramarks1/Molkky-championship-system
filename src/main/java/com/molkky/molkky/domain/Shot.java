@@ -21,7 +21,7 @@ public class Shot implements Serializable {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "match_id", nullable = false)
-    private Match match;
+    private Set set;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "team_id", nullable = false)

@@ -2,47 +2,51 @@ package com.molkky.molkky.service;
 
 import com.molkky.molkky.domain.Tournament;
 import com.molkky.molkky.domain.User;
-import com.molkky.molkky.domain.UserTounamentRole;
+import com.molkky.molkky.domain.UserTournamentRole;
 import com.molkky.molkky.model.TournamentModel;
 import com.molkky.molkky.repository.TournamentRepository;
 import com.molkky.molkky.repository.UserRepository;
-import com.molkky.molkky.repository.UserTounamentRoleRepository;
-import org.junit.Test;
+import com.molkky.molkky.repository.UserTournamentRoleRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.runner.RunWith;
-import org.mockito.*;
-import org.mockito.junit.MockitoJUnitRunner;
-import org.mockito.stubbing.Answer;
-import org.mockito.stubbing.OngoingStubbing;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
-@RunWith(MockitoJUnitRunner.class)
-public class TournamentServiceTest {
+@WebMvcTest(value = TournamentService.class, excludeAutoConfiguration = {SecurityAutoConfiguration.class})
+@ExtendWith(MockitoExtension.class)
+class TournamentServiceTest {
 
     String name = "test" + Math.random() * 10000;
 
-    @InjectMocks
-    private TounamentService tounamentService;
+    @Autowired
+    private TournamentService tournamentService;
 
-    @Mock
+    @MockBean
     private TournamentModel tournamentModel;
 
-    @Mock
-    private UserTounamentRole userTounamentRole;
+    @MockBean
+    private UserTournamentRole userTournamentRole;
 
-    @Mock
+    @MockBean
     private TournamentRepository tournamentRepository;
 
-    @Mock
+    @MockBean
     private UserRepository userRepository;
 
-    @Mock
-    private UserTounamentRoleRepository userTounamentRoleRepository;
+    @MockBean
+    private UserTournamentRoleRepository userTournamentRoleRepository;
 
-    @Mock
+    @MockBean
     private Tournament tournament;
 
-    @Mock
+    @MockBean
     private User user;
 
     @BeforeEach
@@ -52,32 +56,32 @@ public class TournamentServiceTest {
     }
 
     @Test
-    public void testCreateCode() {
-        String code = this.tounamentService.createCode(5);
+    void testCreateCode() {
+        String code = this.tournamentService.createCode(5);
 
         Assertions.assertEquals(5, code.length());
     }
 
     @Test
-    public void createTournamentServiceWithoutUser() {
+    void createTournamentServiceWithoutUser() {
         Mockito.when(this.tournamentModel.getName()).thenReturn("TEST 1");
         Mockito.when(this.tournamentRepository.save(Mockito.any(Tournament.class))).thenAnswer(i -> i.getArguments()[0]);
 
-        Tournament test = this.tounamentService.create(this.tournamentModel);
+        Tournament test = this.tournamentService.create(this.tournamentModel);
 
         // Vérification de la création du tournoi et du nom qui est bien assigné
         Assertions.assertEquals("TEST 1", test.getName(), "Name incorrect");
     }
 
     @Test
-    public void createTournamentServiceWithUser() {
+    void createTournamentServiceWithUser() {
         Mockito.when(this.tournamentModel.getName()).thenReturn("TEST 1");
         Mockito.when(this.tournamentRepository.save(Mockito.any(Tournament.class))).thenAnswer(i -> i.getArguments()[0]);
 
         // On force le test vérifiant l'existence de l'utilisateur à true
         Mockito.when(this.userRepository.existsUserByEmail(this.user.getEmail())).thenReturn(true);
 
-        Tournament test = this.tounamentService.create(this.tournamentModel);
+        Tournament test = this.tournamentService.create(this.tournamentModel);
 
         // Vérification de la création du tournoi et du nom qui est bien assigné
         Assertions.assertEquals("TEST 1", test.getName(), "Name incorrect");
