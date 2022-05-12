@@ -203,6 +203,7 @@ class TournamentEntityTest {
 
         Round round = new Round();
         round.setTournament(tournament);
+        //round.setPhase(new Phase());
         round = roundRepository.save(round);
 
         match.setTeams(teams);

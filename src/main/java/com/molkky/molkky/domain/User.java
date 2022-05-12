@@ -49,8 +49,8 @@ public class User implements Serializable {
     @OneToMany(mappedBy = "user")
     private List<UserTournamentRole> userTournamentRoles = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user")
-    private List<Notification> notifications = new ArrayList<>();
+   // @OneToMany(mappedBy = "user")
+    //private List<Notification> notifications = new ArrayList<>();
 
 
     public User(String pseudo, String surname, String forename, String club, String email) {

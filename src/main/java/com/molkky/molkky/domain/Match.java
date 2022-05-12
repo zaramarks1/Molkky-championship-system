@@ -40,8 +40,6 @@ public class Match implements Serializable {
     @JoinColumn(name="idRound", nullable = true)
     private Round round;
 
-    @OneToMany(mappedBy = "match")
-    private List<Shot> shots = new ArrayList<>();
 
     @Column(name = "scoreTeam1")
     private Integer scoreTeam1 = 0;

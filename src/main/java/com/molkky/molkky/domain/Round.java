@@ -45,7 +45,7 @@ public class Round implements  Serializable{
     private Tournament tournament;
 
     @ManyToOne
-    @JoinColumn(name="phase_id", nullable=false)
+    @JoinColumn(name="phase_id")
     private Phase phase;
 
 
