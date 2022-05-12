@@ -31,8 +31,6 @@ public class MappingTest {
         t.setName("team test");
         t.setTournament(tournament);
 
-
-
         t = teamRepository.save(t);
         tournament.getTeams().add(t);
 

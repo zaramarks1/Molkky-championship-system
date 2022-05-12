@@ -44,9 +44,7 @@ public class User implements Serializable {
     @Column(name = "password")
     private String password;
 
-
-
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy="team", fetch = FetchType.EAGER)
     private List<UserTournamentRole> userTournamentRoles = new ArrayList<>();
 
    // @OneToMany(mappedBy = "user")
