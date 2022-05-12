@@ -1,5 +1,6 @@
-package com.molkky.molkky.model;
+package com.molkky.molkky.model.phase;
 
+import com.molkky.molkky.model.phase.PhaseModel;
 import lombok.Data;
 
 import java.util.ArrayList;
