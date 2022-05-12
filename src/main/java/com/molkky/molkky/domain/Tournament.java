@@ -66,7 +66,7 @@ public class Tournament implements Serializable {
     private List<Phase> phases;
 
     @OneToMany( cascade = CascadeType.ALL, fetch =  FetchType.EAGER)
-   @JoinColumn(name = "idTournament")
+    @JoinColumn(name = "idTournament")
     private List<Team> teams;
 
     @Column(name = "indexPhase")
