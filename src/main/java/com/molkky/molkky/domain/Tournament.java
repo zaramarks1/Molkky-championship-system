@@ -64,7 +64,8 @@ public class Tournament implements Serializable {
     @OneToMany(mappedBy="tournament")
     private List<Phase> phases;
 
-    @OneToMany(mappedBy="tournament", cascade = CascadeType.ALL)
+    @OneToMany( cascade = CascadeType.ALL, fetch =  FetchType.EAGER)
+   @JoinColumn(name = "idTournament")
     private List<Team> teams;
 
     @Column(name = "indexPhase")
@@ -87,7 +88,6 @@ public class Tournament implements Serializable {
         this.nbRounds = nbRounds;
         this.nbCourts = nbCourts;
         this.status = TournamentStatus.AVAILABLE;
-        this.teams = new ArrayList<>();
         this.phases = new ArrayList<>();
         this.rounds = new ArrayList<>();
         this.userTounamentRoles = new ArrayList<>();
@@ -106,7 +106,6 @@ public class Tournament implements Serializable {
         this.nbCourts = tournamentModel.getNbCourts();
         this.status = TournamentStatus.AVAILABLE;
         this.nbPlayersPerTeam = tournamentModel.getNbPlayersPerTeam();
-        this.teams = new ArrayList<>();
         this.phases = new ArrayList<>();
         this.rounds = new ArrayList<>();
         this.userTounamentRoles = new ArrayList<>();
@@ -119,7 +118,6 @@ public class Tournament implements Serializable {
     public Tournament() {
 
         this.status = TournamentStatus.AVAILABLE;
-        this.teams = new ArrayList<>();
         this.phases = new ArrayList<>();
         this.rounds = new ArrayList<>();
         this.userTounamentRoles = new ArrayList<>();
