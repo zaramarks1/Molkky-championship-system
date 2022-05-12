@@ -43,31 +43,6 @@ public class MappingTest {
     }
 
     @Test
-    @Transactional
-    void tournamentTeamMapping2(){
-
-        Tournament tournament = new Tournament();
-
-        tournament.setName("test mapping 2");
-        tournament = tournamentRepository.save(tournament);
-
-        Team t = new Team();
-        t.setName("team test 2");
-        t.setTournament(tournament);
-
-        t = teamRepository.save(t);
-
-        Assertions.assertEquals(tournament, t.getTournament(), "Tournament  not found");
-
-        tournament = tournamentRepository.findById(tournament.getId());
-
-        Assertions.assertEquals("test mapping 2", tournament.getName(), "Tournament not found");
-
-        Assertions.assertEquals(1, tournament.getTeams().size(), "Tournament should have 1 team");
-
-    }
-
-    @Test
     void tournamentTeamMapping3(){
 
         Tournament tournament = new Tournament();
