@@ -25,11 +25,15 @@ public class MappingTest {
     void tournamentTeamMapping(){
 
         Tournament tournament = new Tournament();
+        tournament.setName("test mapping");
+        tournament = tournamentRepository.save(tournament);
         Team t = new Team();
         t.setName("team test");
         t.setTournament(tournament);
-        tournament.setName("test mapping");
 
+
+
+        t = teamRepository.save(t);
         tournament.getTeams().add(t);
 
         tournament = tournamentRepository.save(tournament);
@@ -42,7 +46,7 @@ public class MappingTest {
 
     }
 
-    @Test
+    /*@Test
     void tournamentTeamMapping3(){
 
         Tournament tournament = new Tournament();
@@ -64,6 +68,6 @@ public class MappingTest {
 
     }
 
-
+*/
 
 }
