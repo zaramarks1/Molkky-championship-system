@@ -1,6 +1,9 @@
 package com.molkky.molkky.domain;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import type.PhaseType;
 
 import javax.persistence.*;
@@ -8,7 +11,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "round")
 public class Round implements  Serializable{
@@ -33,15 +38,15 @@ public class Round implements  Serializable{
     private List<Team> teams =  new ArrayList<>();
 
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "idMatches")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "round")
+   // @JoinColumn(name = "idMatches")
     private List<Match> matches = new ArrayList<>();
 
     @Column(name = "finished")
     private Boolean finished = false;
 
     @ManyToOne
-    @JoinColumn(name="tournament_id", nullable=false)
+    @JoinColumn(name="tournament_id")
     private Tournament tournament;
 
     @ManyToOne

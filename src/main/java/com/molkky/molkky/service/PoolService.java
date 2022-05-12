@@ -3,10 +3,10 @@ package com.molkky.molkky.service;
 import com.molkky.molkky.domain.Match;
 import com.molkky.molkky.domain.Round;
 import com.molkky.molkky.domain.Team;
+import com.molkky.molkky.domain.Tournament;
 import com.molkky.molkky.domain.rounds.Pool;
-import com.molkky.molkky.repository.MatchRepository;
-import com.molkky.molkky.repository.RoundRepository;
-import com.molkky.molkky.repository.TeamRepository;
+import com.molkky.molkky.repository.*;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import type.PhaseType;
@@ -28,6 +28,12 @@ public class PoolService {
     @Autowired
     TeamRepository teamRepository;
 
+    @Autowired
+    TournamentRepository tournamentRepository;
+
+    @Autowired
+    PhaseRepository phaseRepository;
+
     public HashMap<Round, List<Match>> generateRounds(Pool pool){
         HashMap<Round, List<Match>> results = new HashMap();
 
@@ -45,10 +51,13 @@ public class PoolService {
             for(int i =1; i <= nbPool;i++){
                 Round round = new Round();
                 round.setPhase(pool);
-                round.setTournament(pool.getTournament());
+
                 round.setType(PhaseType.POOL);
                 rounds.add(round);
+                pool.getRounds().add(round);
             }
+
+
 
             int count =0;
             for(Team t : teamsNew){
@@ -61,8 +70,7 @@ public class PoolService {
                 }
             }
 
-            roundRepository.saveAll(rounds);
-
+           // rounds = roundRepository.saveAll(rounds);
 
             List<Match> matches;
 
@@ -83,13 +91,23 @@ public class PoolService {
 
                       matches.add(match);
 
-                      matchRepository.save(match);
+                     // matchRepository.save(match);
                       teamRepository.save(team1);
                       teamRepository.save(team2);
+
+                      //r.getMatches().add(match);
                   }
               }
+
+                //pool.setRounds(rounds);
+                r.getMatches().addAll(matches);
+
+
+               //r =  roundRepository.save(r);
+
               results.put(r, matches);
             }
+            phaseRepository.save(pool);
         }else {
             roundsWithRanking(pool);
         }

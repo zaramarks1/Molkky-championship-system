@@ -1,13 +1,17 @@
 package com.molkky.molkky.domain;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import type.PhaseStatus;
 import type.PhaseType;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "phase")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -42,8 +46,8 @@ public class Phase {
     @JoinColumn(name="tournament_id", nullable=false)
     private Tournament tournament;
 
-    @OneToMany(mappedBy = "phase")
-    private List<Round> rounds;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "phase")
+    private List<Round> rounds = new ArrayList<>();
 
     public Phase(){
     }

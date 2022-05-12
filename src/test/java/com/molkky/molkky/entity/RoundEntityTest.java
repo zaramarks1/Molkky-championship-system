@@ -2,6 +2,7 @@ package com.molkky.molkky.entity;
 
 import com.molkky.molkky.domain.*;
 import com.molkky.molkky.domain.rounds.Pool;
+import com.molkky.molkky.domain.rounds.SimpleGame;
 import com.molkky.molkky.repository.*;
 import com.molkky.molkky.service.PhaseService;
 import type.PhaseType;
@@ -40,7 +41,85 @@ class RoundEntityTest {
     @Test
     @Rollback(false)
     @Transactional
-    void testInsertTournamentWithRound() {
+    void testInsertTournamentWithPoolRound() {
+  
+        Tournament tournament = createTournament();
+
+        tournament = createPool(tournament, 1);
+
+        insertTeam(tournament, 8);
+
+
+        HashMap<Round, List<Match>> results =  phaseService.generate(tournament.getPhases().get(0).getId().toString());
+        Assertions.assertEquals(1, tournament.getPhases().size(), "Tournament should have 1 phase");
+        Assertions.assertEquals(true, tournament.getPhases().get(0) instanceof Pool,
+                " It should be a instance of pool");
+        Assertions.assertEquals(2, tournament.getPhases().get(0).getRounds().size(),
+                " there should be 2 rounds in the phase");
+        Assertions.assertEquals(8, tournament.getTeams().size(), " There should be 8 teams ");
+        Assertions.assertEquals(1, tournament.getTeams().get(0).getUserTournamentRoles().size(),
+                " There should be 1 player per team ");
+        Assertions.assertEquals(3, tournament.getTeams().get(0).getMatchs().size(),
+                " There should be 3 matches per team ");
+        Assertions.assertEquals(1, tournament.getTeams().get(0).getRounds().size(),
+                " There should be 1 round per team ");
+       // Assertions.assertEquals(6, tournament.getTeams().get(0).getRounds().get(0).getMatches().size(),
+        // " There should be 6 matches per pool ");
+        Assertions.assertEquals(2, results.size(), " There should be 2 rounds of pool ");
+
+
+        for(Map.Entry<Round, List<Match>> entry : results.entrySet()){
+
+            Assertions.assertEquals(PhaseType.POOL, entry.getKey().getType(),
+                    " The round should be of type pool ");
+            Assertions.assertEquals(4, entry.getKey().getTeams().size(), " The  should be 4 teams");
+            Assertions.assertEquals(6, entry.getValue().size(), " The  should be 6 matches");
+
+        }
+
+    }
+
+    @Test
+    @Rollback(false)
+    @Transactional
+    void testInsertTournamentWithSimpleGameRound() {
+
+        Tournament tournament = createTournament();
+
+        tournament = createSimpleGame(tournament, 1);
+
+        insertTeam(tournament, 8);
+
+
+        HashMap<Round, List<Match>> results =  phaseService.generate(tournament.getPhases().get(0).getId().toString());
+        Assertions.assertEquals(1, tournament.getPhases().size(), "Tournament should have 1 phase");
+        //Assertions.assertEquals(1, tournament.getr, "Tournament should have 1 phase");
+        Assertions.assertEquals(true, tournament.getPhases().get(0) instanceof SimpleGame,
+                " It should be a instance of a simple game");
+        Assertions.assertEquals(4, tournament.getPhases().get(0).getRounds().size(),
+                " there should be 4 rounds in the phase");
+        Assertions.assertEquals(8, tournament.getTeams().size(), " There should be 8 teams ");
+        Assertions.assertEquals(1, tournament.getTeams().get(0).getUserTournamentRoles().size(),
+                " There should be 1 player per team ");
+        Assertions.assertEquals(4, results.size(), " There should be 4 rounds of simple game ");
+
+        //Assertions.assertEquals(1, tournament.getTeams().get(0).getRounds().get(0).getMatches().size(),
+               // " There should be 1 match per simple game ");
+
+        for(Map.Entry<Round, List<Match>> entry : results.entrySet()){
+
+            Assertions.assertEquals(PhaseType.SIMPLEGAME, entry.getKey().getType(),
+                    " The round should be of type simple game ");
+            Assertions.assertEquals(2, entry.getKey().getTeams().size(), " The  should be 2 teams");
+            Assertions.assertEquals(1, entry.getValue().size(), " The  should be one match");
+
+        }
+
+    }
+
+
+
+    Tournament createTournament(){
         Tournament tournament = new Tournament(
                 "tournament test",
                 "location",
@@ -55,26 +134,40 @@ class RoundEntityTest {
         tournament.setNbPlayersPerTeam(1);
         tournament.setVisible(true);
         tournament.setStatus(TournamentStatus.AVAILABLE);
-        tournament= tournamentRepository.save(tournament);
+        return tournamentRepository.save(tournament);
 
+    }
+    Tournament createPool(Tournament tournament, int nbPhase){
         Pool pool = new Pool();
 
         pool.setNbSets(1);
         pool.setVictoryValue(2);
-        pool.setNbPhase(1);
+        pool.setNbPhase(nbPhase);
         pool.setNbPools(2);
         pool.setNbTeamsQualified(4);
 
         pool.setTournament(tournament);
         pool =  phaseRepository.save(pool);
 
-        List<Phase> phases = new ArrayList<>();
-        phases.add(pool);
-        tournament.setPhases(phases);
-        tournamentRepository.save(tournament);
+        tournament.getPhases().add(pool);
+        return tournamentRepository.save(tournament);
+    }
 
+    Tournament createSimpleGame(Tournament tournament, int nbPhase){
+        SimpleGame simpleGame = new SimpleGame();
+        simpleGame.setNbSets(3);
+        simpleGame.setTournament(tournament);
+        simpleGame.setNbPhase(nbPhase);
 
-        for (int i =1; i <= 8; i++){
+        simpleGame =  phaseRepository.save(simpleGame);
+
+        tournament.getPhases().add(simpleGame);
+
+        return tournamentRepository.save(tournament);
+    }
+
+    void insertTeam(Tournament tournament, int qtd) {
+        for (int i = 1; i <= qtd; i++) {
             Team team = new Team();
 
             team.setCode("12345");
@@ -83,13 +176,14 @@ class RoundEntityTest {
             team.setTournament(tournament);
 
 
+
             tournament.getTeams().add(team);
 
             User player = new User();
 
             player.setForename("User" + i);
 
-            player =  userRepository.save(player);
+            player = userRepository.save(player);
 
             UserTournamentRole userTournamentRole = new UserTournamentRole();
 
@@ -106,26 +200,6 @@ class RoundEntityTest {
             userTournamentRoleRepository.save(userTournamentRole);
             tournamentRepository.save(tournament);
             userRepository.save(player);
-
         }
-
-        HashMap<Round, List<Match>> results =  phaseService.generate(pool.getId().toString());
-        Assertions.assertEquals(1, tournament.getPhases().size(), "Tournament should have 1 phase");
-        Assertions.assertEquals(true, tournament.getPhases().get(0) instanceof Pool,
-                " It should be a instance of pool");
-        Assertions.assertEquals(8, tournament.getTeams().size(), " There should be 8 teams ");
-        Assertions.assertEquals(1, tournament.getTeams().get(0).getUserTournamentRoles().size(),
-                " There should be 1 player per team ");
-        Assertions.assertEquals(2, results.size(), " There should be 2 rounds of pool ");
-
-        for(Map.Entry<Round, List<Match>> entry : results.entrySet()){
-
-            Assertions.assertEquals(PhaseType.POOL, entry.getKey().getType(),
-                    " The round should be of type pool ");
-            Assertions.assertEquals(4, entry.getKey().getTeams().size(), " The  should be 4 teams");
-            Assertions.assertEquals(6, entry.getValue().size(), " The  should be 6 matches");
-
-        }
-
     }
 }

@@ -44,14 +44,14 @@ public class MappingTest {
 
     }
 
-    /*@Test
+    @Test
     void tournamentTeamMapping3(){
 
         Tournament tournament = new Tournament();
         Team t = new Team();
         t.setName("team test 3");
         tournament.setName("test mapping 3");
-
+        t.setTournament(tournament);
         tournament.getTeams().add(t);
 
         tournament = tournamentRepository.save(tournament);
@@ -60,12 +60,14 @@ public class MappingTest {
 
         Team team = tournament.getTeams().get(0);
 
+        Assertions.assertEquals(tournament.getId(), team.getTournament().getId(), "Tournament  not found");
+
         team = teamRepository.findById(team.getId());
 
         Assertions.assertEquals(tournament.getId(), team.getTournament().getId(), "Tournament  not found");
 
     }
 
-*/
+
 
 }
