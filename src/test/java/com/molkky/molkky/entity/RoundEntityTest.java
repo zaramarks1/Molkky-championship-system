@@ -130,8 +130,6 @@ class RoundEntityTest {
                 2,
                 3,
                 2
-        ));
-                3
         );
         tournament.setNbPlayersPerTeam(1);
         tournament.setVisible(true);

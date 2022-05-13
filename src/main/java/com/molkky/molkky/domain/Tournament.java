@@ -117,7 +117,8 @@ public class Tournament implements Serializable {
 
  
     public Tournament() {
-
+        this.nbPlayersPerTeam = 2;
+        this.maxTeam= 10;
         this.status = TournamentStatus.AVAILABLE;
         this.phases = new ArrayList<>();
         this.rounds = new ArrayList<>();
