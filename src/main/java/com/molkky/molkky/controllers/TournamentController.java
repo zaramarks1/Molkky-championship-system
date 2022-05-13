@@ -10,7 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.molkky.molkky.domain.Tournament;
 import com.molkky.molkky.domain.User;
 import com.molkky.molkky.model.TournamentModel;
-import com.molkky.molkky.service.TounamentService;
+import com.molkky.molkky.service.TournamentService;
 import org.springframework.web.bind.annotation.*;
 import type.TournamentStatus;
 
@@ -24,7 +24,7 @@ public class TournamentController {
     private TournamentRepository tournamentRepository;
 
     @Autowired
-    private TounamentService tournamentService;
+    private TournamentService tournamentService;
 
     private String allTournament="tournament";
     private String redirectionAll = "tournament/allTournament";

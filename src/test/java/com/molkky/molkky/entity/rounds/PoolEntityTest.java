@@ -53,7 +53,8 @@ class PoolEntityTest {
                 2,
                 true,
                 2,
-                3
+                3,
+                2
         ));
 
         pool.setTournament(tournament);

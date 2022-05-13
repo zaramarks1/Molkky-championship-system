@@ -52,7 +52,8 @@ class SimpleGameEntityTest {
                 2,
                 true,
                 2,
-                3
+                3,
+                2
         ));
 
         simpleGame.setTournament(tournament);

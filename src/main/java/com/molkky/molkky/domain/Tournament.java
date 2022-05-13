@@ -73,10 +73,10 @@ public class Tournament implements Serializable {
     @Column(name = "finished")
     private boolean finished;
 
-    @Column(name = "nbPlayersPerTeam")
+    @Column(name = "nbPlayersPerTeam",nullable = false, columnDefinition = "int default 2")
     private Integer nbPlayersPerTeam;
 
-    public Tournament(String name, String location, Date date, Date cutOffDate, Integer minTeam, Integer maxTeam, boolean visible, Integer nbRounds, Integer nbCourts) {
+    public Tournament(String name, String location, Date date, Date cutOffDate, Integer minTeam, Integer maxTeam, boolean visible, Integer nbRounds, Integer nbCourts, Integer nbPlayersPerTeam) {
         this.name = name;
         this.location = location;
         this.date = date;
@@ -87,6 +87,7 @@ public class Tournament implements Serializable {
         this.nbRounds = nbRounds;
         this.nbCourts = nbCourts;
         this.status = TournamentStatus.AVAILABLE;
+        this.nbPlayersPerTeam = nbPlayersPerTeam;
     }
 
     public Tournament(TournamentModel tournamentModel) {
@@ -102,8 +103,6 @@ public class Tournament implements Serializable {
         this.status = TournamentStatus.AVAILABLE;
         this.nbPlayersPerTeam = tournamentModel.getNbPlayersPerTeam();
     }
-
-
 
  
     public Tournament() {

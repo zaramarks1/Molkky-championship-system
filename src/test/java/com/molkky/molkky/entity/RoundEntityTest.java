@@ -39,7 +39,8 @@ class RoundEntityTest {
                 2,
                 true,
                 2,
-                3
+                3,
+                2
         ));
 
         Round round = new Round(RoundType.POOL, 2);

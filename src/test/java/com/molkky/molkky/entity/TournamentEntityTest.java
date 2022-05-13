@@ -46,7 +46,8 @@ class TournamentEntityTest {
                 2,
                 true,
                 2,
-                3
+                3,
+                2
         ));
 
         Assertions.assertEquals("tournament_name", tournament.getName(), "Tournament name should be tournament_name");
@@ -66,7 +67,8 @@ class TournamentEntityTest {
                 2,
                 true,
                 2,
-                3
+                3,
+                2
         ));
         tournament.setNbPlayersPerTeam(2);
         Assertions.assertEquals(2, tournament.getNbPlayersPerTeam(), "Amount of players per team should be 2");
@@ -85,7 +87,8 @@ class TournamentEntityTest {
                 2,
                 true,
                 2,
-                3
+                3,
+                2
         ));
         User user = userRepository.save(new User("pseudoUser1", "surname1", "forename1", "club1", "email1"));
         List<UserTournamentRole> admins = new ArrayList<>();
@@ -112,7 +115,8 @@ class TournamentEntityTest {
                 2,
                 true,
                 2,
-                3
+                3,
+                2
         ));
 
         Round round = new Round(RoundType.FINNISH, 2);
@@ -138,6 +142,7 @@ class TournamentEntityTest {
         tournamentModel.setNbRounds(2);
         tournamentModel.setNbCourts(2);
         tournamentModel.setVisible(true);
+        tournamentModel.setNbPlayersPerTeam(2);
         Tournament tournament = new Tournament(tournamentModel);
         Assertions.assertEquals("tournament_name", tournament.getName(), "Tournament name should be tournament_name");
         Assertions.assertEquals("location", tournament.getLocation(), "Tournament location should be location");
@@ -146,6 +151,8 @@ class TournamentEntityTest {
         Assertions.assertEquals(2, tournament.getNbRounds(), "Tournament nbRounds should be 2");
         Assertions.assertEquals(2, tournament.getNbCourts(), "Tournament nbCounts should be 2");
         Assertions.assertTrue(tournament.isVisible(), "Tournament visible should be true");
+        Assertions.assertEquals(2, tournament.getNbPlayersPerTeam(), "Tournament nbPlayersPerTeam should be 2");
+
     }
 
     @Test
@@ -159,6 +166,7 @@ class TournamentEntityTest {
         tournament.setMinTeam(1);
         tournament.setNbRounds(1);
         tournament.setVisible(true);
+        tournament.setNbPlayersPerTeam(2);
         tournament = tournamentRepository.save(tournament);
 
         Team team1 = new Team();
