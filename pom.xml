@@ -13,10 +13,12 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>molkky</name>
 	<description>Projet Molkky</description>
+	<packaging>war</packaging>
 	<properties>
 		<java.version>11</java.version>
 		<sonar.host.url>https://172.24.1.33/sonar</sonar.host.url>
 		<sonar.login>5da1e6ee849091ca8fec6cf16062bc190df5382e</sonar.login>
+		<sonar.exclusions>src/main/java/com/molkky/molkky/domain/**/**, src/main/java/com/molkky/molkky/model/**/**</sonar.exclusions>
 		<sonar.projectKey>Molkky:${GIT_BRANCH}</sonar.projectKey>
 		<sonar.projectName>${GIT_BRANCH}</sonar.projectName>
 		<sonar.coverage.jacoco.xmlReportPaths>target/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
@@ -31,6 +33,11 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-tomcat</artifactId>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -54,12 +61,22 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-validation</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.sonarsource.scanner.maven</groupId>
 			<artifactId>sonar-maven-plugin</artifactId>
 			<version>3.9.1.2184</version>
+		</dependency>
+		<dependency>
+			<groupId>net.sourceforge.htmlunit</groupId>
+			<artifactId>htmlunit-core-js</artifactId>
+			<version>2.60.0</version>
+			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.h2database</groupId>
@@ -173,6 +190,7 @@
 				</executions>
 			</plugin>
 		</plugins>
+		<finalName>molkky</finalName>
 	</build>
 
 </project>

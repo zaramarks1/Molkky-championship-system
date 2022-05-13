@@ -1,19 +1,22 @@
 package com.molkky.molkky.domain;
 
-import Type.TournamentStatus;
 import com.molkky.molkky.model.TournamentModel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import type.TournamentStatus;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
-import java.util.Set;
+import java.util.List;
 
-@Getter
 @Entity
+@Getter
 @Setter
+@AllArgsConstructor
 @Table(name = "tournament")
-public class Tournament {
+public class Tournament implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -36,43 +39,54 @@ public class Tournament {
     @Column(name = "maxTeam")
     private Integer maxTeam;
 
-    @Column(name = "isVisible")
-    private boolean isVisible;
+    @Column(name = "visible")
+    private boolean visible;
 
     @Column(name = "nbRounds")
     private Integer nbRounds;
 
-    //XXX
     @Column(name = "nbCourts")
     private Integer nbCourts;
 
     @Column(name = "type")
     private String type;
 
-    @Column( name = "status" )
-    private String status;
+    @Column(name = "status")
+    @Enumerated(EnumType.STRING)
+    private TournamentStatus status;
 
 
     @OneToMany(mappedBy="tournament")
-    private Set<User> users;
+    private List<UserTournamentRole> userTournamentRoles;
+
 
     @OneToMany(mappedBy="tournament")
-    private Set<Round> rounds;
+    private List<Round> rounds;
+
 
     @OneToMany(mappedBy="tournament")
-    private Set<Team> teams;
+    private List<Team> teams;
 
-    public Tournament(String name, String location, Date date, Date cutOffDate, Integer minTeam, Integer maxTeam, boolean isVisible, Integer nbRounds, Integer nbCourts) {
+    @Column(name = "indexPhase")
+    private Integer indexPhase = 0;
+
+    @Column(name = "finished")
+    private boolean finished;
+
+    @Column(name = "nbPlayersPerTeam")
+    private Integer nbPlayersPerTeam;
+
+    public Tournament(String name, String location, Date date, Date cutOffDate, Integer minTeam, Integer maxTeam, boolean visible, Integer nbRounds, Integer nbCourts) {
         this.name = name;
         this.location = location;
         this.date = date;
         this.cutOffDate = cutOffDate;
         this.minTeam = minTeam;
         this.maxTeam = maxTeam;
-        this.isVisible = isVisible;
+        this.visible = visible;
         this.nbRounds = nbRounds;
         this.nbCourts = nbCourts;
-        this.status = TournamentStatus.Available;
+        this.status = TournamentStatus.AVAILABLE;
     }
 
     public Tournament(TournamentModel tournamentModel) {
@@ -82,14 +96,17 @@ public class Tournament {
         this.cutOffDate = tournamentModel.getCutOffDate();
         this.minTeam = tournamentModel.getMinTeam();
         this.maxTeam = tournamentModel.getMaxTeam();
-        this.isVisible = tournamentModel.isVisible();
+        this.visible = tournamentModel.isVisible();
         this.nbRounds = tournamentModel.getNbRounds();
         this.nbCourts = tournamentModel.getNbCourts();
-        this.status = TournamentStatus.Available;
+        this.status = TournamentStatus.AVAILABLE;
+        this.nbPlayersPerTeam = tournamentModel.getNbPlayersPerTeam();
     }
+
+
 
  
     public Tournament() {
-        this.status = TournamentStatus.Available;
+        this.status = TournamentStatus.AVAILABLE;
     }
 }

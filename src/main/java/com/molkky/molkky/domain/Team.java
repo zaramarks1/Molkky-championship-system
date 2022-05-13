@@ -1,17 +1,19 @@
 package com.molkky.molkky.domain;
 
-import com.molkky.molkky.model.CreateTeamModel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.io.Serializable;
+import java.util.List;
 
 @Getter
 @Entity
 @Setter
 @Table(name = "team")
-public class Team {
+@NoArgsConstructor
+public class Team implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -23,28 +25,30 @@ public class Team {
     private Integer nbPlayers;
 
     @ManyToMany(mappedBy = "teams")
-    private Set<Match> matchs;
+    private List<Set> sets;
 
     @ManyToMany(mappedBy = "teams")
-    private Set<Round> rounds;
+    private List<Match> matchs;
 
-    @OneToMany(mappedBy="team")
-    private Set<User> users;
+    @ManyToMany(mappedBy = "teams")
+    private List<Round> rounds;
+
+    @OneToMany(mappedBy="team", fetch = FetchType.EAGER)
+    private List<UserTournamentRole> userTournamentRoles;
 
     @ManyToOne
     @JoinColumn(name="idTournament", nullable = true)
     private Tournament tournament;
 
     @OneToMany(mappedBy = "team")
-    private Set<Shot> shots;
+    private List<Shot> shots;
 
-    public Team( String name, Integer nbPlayers) {
-        this.name = name;
-        this.nbPlayers = nbPlayers;
-    }
+    @Column(name = "nbWins")
+    private Integer nbWins = 0;
 
-    public Team() {
-    }
+    @Column(name = "code")
+    String code;
+
 
 
 }

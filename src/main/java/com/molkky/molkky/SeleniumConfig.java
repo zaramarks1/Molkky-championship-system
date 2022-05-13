@@ -19,6 +19,7 @@ public class SeleniumConfig {
             options.addArguments("--headless");
             options.addArguments("--disable-dev-shm-usage");
             options.addArguments("--window-size=1920x1080");
+            options.setExperimentalOption("useAutomationExtension", false);
         }
         driver = new ChromeDriver(options);
     }
@@ -27,7 +28,7 @@ public class SeleniumConfig {
         if(System.getenv("CHROME_DRIVER") != null){
             System.setProperty("webdriver.chrome.driver", System.getenv("CHROME_DRIVER"));
         } else{
-            System.setProperty("webdriver.chrome.driver", "bin/chromedriver99.exe");
+            System.setProperty("webdriver.chrome.driver", "bin/chromedriver100.exe");
         }
     }
 }
