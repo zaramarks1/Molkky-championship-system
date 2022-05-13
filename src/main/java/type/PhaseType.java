@@ -1,6 +1,7 @@
 package type;
 
-public enum RoundType {
+public enum PhaseType {
+    PHASE,
     FINNISH,
     KNOCKOUT,
     POOL,

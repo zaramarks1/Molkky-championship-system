@@ -21,7 +21,7 @@ import java.util.List;
 
 @SpringBootTest(classes = MolkkyApplication.class)
 class KnockoutEntityTest {
-    @Autowired
+   /* @Autowired
     private KnockoutRepository knockoutRepository;
     @Autowired
     private MatchRepository matchRepository;
@@ -65,5 +65,5 @@ class KnockoutEntityTest {
 
         knockout = knockoutRepository.findById(knockout.getId());
         Assertions.assertEquals(2, knockout.getMatches().size());
-    }
+    }*/
 }

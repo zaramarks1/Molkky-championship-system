@@ -1,47 +1,34 @@
-package com.molkky.molkky.entity.rounds;
+package com.molkky.molkky.entity;
 
 import com.molkky.molkky.MolkkyApplication;
 import com.molkky.molkky.domain.*;
 import com.molkky.molkky.domain.rounds.Pool;
 import com.molkky.molkky.domain.rounds.SimpleGame;
 import com.molkky.molkky.repository.*;
-import com.molkky.molkky.service.PhaseService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
-import type.PhaseType;
 import type.TournamentStatus;
-import type.UserRole;
 
 import javax.transaction.Transactional;
 import java.util.*;
 
 @SpringBootTest(classes = MolkkyApplication.class)
-class PoolEntityTest {
+ class PhaseEntityTest {
+
     @Autowired
     private TournamentRepository tournamentRepository;
 
     @Autowired
     private PhaseRepository phaseRepository;
 
-    @Autowired
-    private TeamRepository teamRepository;
-
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private UserTournamentRoleRepository userTournamentRoleRepository;
-
-    @Autowired
-    private PhaseService phaseService;
 
     @Test
     @Rollback(false)
     @Transactional
-    void testPoolRound() {
+    void testInsertTournamentWithRound() {
         Tournament tournament = new Tournament(
                 "tournament test",
                 "location",
@@ -53,10 +40,10 @@ class PoolEntityTest {
                 2,
                 3
         );
-        tournament.setNbPlayersPerTeam(1);
-        tournament.setVisible(true);
-        tournament.setStatus(TournamentStatus.AVAILABLE);
-        tournament= tournamentRepository.save(tournament);
+                tournament.setNbPlayersPerTeam(1);
+                tournament.setVisible(true);
+                tournament.setStatus(TournamentStatus.AVAILABLE);
+         tournament= tournamentRepository.save(tournament);
 
         Pool pool = new Pool();
 
@@ -69,16 +56,26 @@ class PoolEntityTest {
         pool.setTournament(tournament);
         pool =  phaseRepository.save(pool);
 
+        SimpleGame simpleGame = new SimpleGame();
+
+        simpleGame.setNbPhase(2);
+        simpleGame.setTournament(tournament);
+        simpleGame.setNbSets(3);
+
+        simpleGame = phaseRepository.save(simpleGame);
 
         List<Phase> phases = new ArrayList<>();
         phases.add(pool);
+        phases.add(simpleGame);
         tournament.setPhases(phases);
         tournamentRepository.save(tournament);
 
 
-        Assertions.assertEquals(1, tournament.getPhases().size(), "Tournament should have 2 phases");
+        Assertions.assertEquals(2, tournament.getPhases().size(), "Tournament should have 2 phases");
         Assertions.assertEquals(true, tournament.getPhases().get(0) instanceof Pool,
                 " It should be a instance of pool");
+        Assertions.assertEquals(true, tournament.getPhases().get(1) instanceof SimpleGame,
+                " It should be a instance of simple game");
 
     }
 }

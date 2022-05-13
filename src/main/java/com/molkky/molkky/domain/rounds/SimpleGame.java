@@ -1,6 +1,7 @@
 package com.molkky.molkky.domain.rounds;
 
-import type.RoundType;
+import com.molkky.molkky.domain.Phase;
+import type.PhaseType;
 import com.molkky.molkky.domain.Round;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,10 +12,10 @@ import javax.persistence.Entity;
 @Getter
 @Entity
 @Setter
-@DiscriminatorValue("SimpleGame")
-public class SimpleGame extends Round{
+@DiscriminatorValue("SIMPLEGAME")
+public class SimpleGame extends Phase {
     public SimpleGame(){
-        this.setType(RoundType.SIMPLEGAME);
+
     }
 
 }
