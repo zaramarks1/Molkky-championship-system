@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit;
 
 @SpringBootTest(classes = MolkkyApplication.class, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class LoginTest {
+class LoginTest {
 
     @Autowired
     private RegisterService registerService;
@@ -39,14 +39,14 @@ public class LoginTest {
         Assertions.assertEquals("Page de connexion", config.getDriver().getTitle());
     }
 
-    @Test
+    //@Test
     void testConnexionDisplayed() {
         config.getDriver().get(url + "/connexion");
         Assertions.assertTrue(config.getDriver().findElement(new By.ById("mail")).isDisplayed());
         Assertions.assertTrue(config.getDriver().findElement(new By.ById("code")).isDisplayed());
     }
 
-    @Test
+    //@Test
     void testConnexionUserGood() {
         config.getDriver().get(url + "/connexion");
         String user = "pierremenanteau@hotmail.fr";
@@ -57,7 +57,7 @@ public class LoginTest {
         Assertions.assertEquals(url + "/tournament/create", config.getDriver().getCurrentUrl());
     }
 
-    @Test
+   // @Test
     void testConnexionUserFalse() {
         config.getDriver().get(url + "/connexion");
 
@@ -128,7 +128,7 @@ public class LoginTest {
         Assertions.assertEquals(url + "/tournament/create", config.getDriver().getCurrentUrl());
     }
 
-    //@AfterAll
+    @AfterAll
     void tearDown(){
         config.getDriver().quit();
     }
