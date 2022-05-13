@@ -1,27 +1,28 @@
 <html xmlns:th="http://thymeleaf.org" xmlns="http://www.w3.org/1999/html" lang="fr">
 <head>
+    <link rel="stylesheet" th:href="@{/styles/phase/choose.css}" href="../" />
 </head>
 <body>
-    <div>
-        <label for="sets">Nombre de manches</label>
-        <input required id="sets" type="number" min="3" max="5" th:field="*{phases[__${itemStat.index}__].nbSets}">
+    <div class="inputContainer">
+        <label class="inputLabel" for="sets">Nombre de manches</label>
+        <input class="inputPhase" required id="sets" type="number" min="3" max="5" th:field="*{phases[__${itemStat.index}__].nbSets}">
     </div>
-    <div>
-        <label for="ranking">Tenir compte de la phase précedante</label>
-        <input id="ranking" type="checkbox" th:field="*{phases[__${itemStat.index}__].ranking}">
+    <div class="inputContainer">
+        <label class="inputPhase" for="ranking">Tenir compte de la phase précedante</label>
+        <input class="inputPhase" id="ranking" type="checkbox" th:field="*{phases[__${itemStat.index}__].ranking}">
     </div>
-    <div>
-        <label for="topSeeds">Tenir compte têtes de série</label>
-        <input id="topSeeds" type="checkbox" th:field="*{phases[__${itemStat.index}__].topSeeds}">
+    <div class="inputContainer">
+        <label class="inputLabel" for="topSeeds">Tenir compte têtes de série</label>
+        <input class="inputPhase" id="topSeeds" type="checkbox" th:field="*{phases[__${itemStat.index}__].topSeeds}">
     </div>
-    <div>
-        <label for="randomDraw">Tirage au sort intégral à chaque tour</label>
-        <input id="randomDraw" type="checkbox" th:field="*{phases[__${itemStat.index}__].randomDraw}">
+    <div class="inputContainer">
+        <label class="inputLabel" for="randomDraw">Tirage au sort intégral à chaque tour</label>
+        <input class="inputPhase" id="randomDraw" type="checkbox" th:field="*{phases[__${itemStat.index}__].randomDraw}">
     </div>
     <div th:insert="phase/utiles/score"></div>
-    <div>
-        <label for="notifEveryRound">Notification à chaque tour</label>
-        <input id="notifEveryRound" type="checkbox" th:field="*{phases[__${itemStat.index}__].notifEveryRound}">
+    <div class="inputContainer">
+        <label class="inputLabel" for="notifEveryRound">Notification à chaque tour</label>
+        <input class=inputPhase id="notifEveryRound" type="checkbox" th:field="*{phases[__${itemStat.index}__].notifEveryRound}">
     </div>
 </body>
 </html>

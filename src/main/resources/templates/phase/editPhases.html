@@ -1,17 +1,19 @@
 <html xmlns:th="http://thymeleaf.org" xmlns="http://www.w3.org/1999/html" lang="fr">
 <head>
     <div th:replace="fragments/header"></div>
-    <title>Page d'edition des phases</title>
+    <title>Éditer les informations de la/des phase(s)</title>
+    <link rel="stylesheet" th:href="@{/styles/phase/choose.css}" href="../" />
 </head>
-<body>
-<div>
-    <div th:replace="fragments/searchbar"> </div>
-    <div>Veuillez editer les différentes informations de la/des phase(s)</div>
-    <br>
-    <form method="post" th:action="@{/phase/editPhases}" th:object="${listPhase}">
-        <div>
+<body class="bg">
+    <div class="pageContainer">
+        <div th:replace="fragments/sidebar"> </div>
+        <div class="contentContainer">
+        <div th:replace="fragments/searchbar"> </div>
+        <div class="contentTitle">Veuillez editer les différentes informations de la/des phase(s)</div>
+        <br>
+        <form class="formContainer" method="post" th:action="@{/phase/editPhases}" th:object="${listPhase}">
             <div th:each="phase, itemStat : *{phases}">
-                <b th:text="'Phase n°' + ${phase.nbPhase} + ' de type ' + ${phase.phaseType}"></b>
+                <strong class="contentTitle" th:text="'Phase n°' + ${phase.nbPhase} + ' de type ' + ${phase.phaseType}"></strong>
                 <input hidden th:field="*{phases[__${itemStat.index}__].nbPhase}" th:value="${phase.nbPhase}">
                 <input hidden th:field="*{phases[__${itemStat.index}__].tournament}" th:value="${phase.tournament}">
                 <input hidden th:field="*{phases[__${itemStat.index}__].phaseType}" th:value="${phase.phaseType}">
@@ -35,11 +37,13 @@
                 </div>
                 <br>
             </div>
+            <div class="submitContainer">
+                <button id="sendPhases" class="primaryButton" type="submit">Enregistrer Phase(s)</button>
+                <button id="cancelPhases" class="secondaryButton" type="submit">Annuler</button>
+            </div>
+        </form>
         </div>
-        <div>
-            <button id="sendTeam" class="primaryButton" type="submit">Finaliser</button>
-        </div>
-    </form>
-</div>
+    </div>
 </body>
+<div th:replace="fragments/footer"></div>
 </html>

@@ -1,19 +1,18 @@
 <html xmlns:th="http://thymeleaf.org" xmlns="http://www.w3.org/1999/html" lang="fr">
 <head>
     <div th:replace="fragments/header"></div>
-    <title>Ajouter Une Phase</title>
+    <title>Choix de la/des phase(s)</title>
+    <link rel="stylesheet" th:href="@{/styles/phase/choose.css}" href="../" />
 </head>
-<body>
-<div>
-    <!--<div th:replace="fragments/sidebar"> </div>-->
-    <div>
+<body class="bg">
+<div class="pageContainer">
+    <div th:replace="fragments/sidebar"> </div>
+    <div class="contentContainer">
         <div th:replace="fragments/searchbar"> </div>
-        <div>Veuillez choisir les différentes phases du tournoi</div>
-        <br>
-        <form method="post" th:action="@{/phase/choosePhases}" th:object="${form}">
-            <div>
-                <div th:each="phase, itemStat : *{phases}">
-                    <b th:text="Phase + ${itemStat.index+1}"></b>
+        <div class="contentTitle">Veuillez choisir la/les phase(s) du tournoi</div>
+        <form method="post" th:action="@{/phase/choosePhases}" th:object="${form}" class="formContainer">
+                <div class="inputContainer" th:each="phase, itemStat : *{phases}">
+                    <strong class="contentText" th:text="Phase + ' ' + ${itemStat.index+1}"></strong>
                     <input hidden th:field="*{phases[__${itemStat.index}__].tournament}" th:value="${phase.tournament}">
                     <select name="phase" th:field="*{phases[__${itemStat.index}__].phaseType}">
                         <option th:each="phaseOpt : ${T(type.PhaseType).values()}"
@@ -22,10 +21,13 @@
                         ></option>
                     </select>
                 </div>
+            <div class="submitContainer">
+                <button id="choosePhases" class="primaryButton" type="submit">Definir Phase</button>
+                <button id="cancelPhases" class="secondaryButton" type="submit">Annuler</button>
             </div>
-            <button id="sendTeam" class="primaryButton" type="submit">Definir Phase</button>
         </form>
     </div>
 </div>
 </body>
+<div th:replace="fragments/footer"></div>
 </html>

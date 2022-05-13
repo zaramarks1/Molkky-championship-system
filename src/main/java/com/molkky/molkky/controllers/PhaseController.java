@@ -3,19 +3,20 @@ package com.molkky.molkky.controllers;
 import com.molkky.molkky.domain.Phase;
 import com.molkky.molkky.domain.Tournament;
 import com.molkky.molkky.domain.rounds.*;
-import com.molkky.molkky.model.phase.*;
+import com.molkky.molkky.model.UserLogged;
+import com.molkky.molkky.model.phase.PhaseListModel;
+import com.molkky.molkky.model.phase.PhaseModel;
 import com.molkky.molkky.repository.PhaseRepository;
 import com.molkky.molkky.repository.TournamentRepository;
 import com.molkky.molkky.service.PhaseService;
-import org.apache.xpath.operations.Mod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import type.PhaseType;
 
+import javax.servlet.http.HttpSession;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,14 +40,17 @@ public class PhaseController {
     }
 
     @GetMapping("/choosePhases")
-    public String choosePhase(Model model, Integer tournamentId){
-        Tournament t = tournamentRepository.findById(1);
+    public String choosePhase(Model model, @RequestParam(value = "tournamentId") String tournamentId, HttpSession session){
+        UserLogged user = (UserLogged)session.getAttribute("user");
+        Tournament t = tournamentRepository.findById(Integer.valueOf(tournamentId));
         PhaseListModel phases = new PhaseListModel();
         for(int i = 0;i< t.getNbRounds();i++){
             PhaseModel phase = new PhaseModel();
             phase.setTournament(t.getId());
+            phase.setNbCourts(t.getNbCourts());
             phases.add(phase);
         }
+        model.addAttribute("user", user);
         model.addAttribute("form",phases);
         return "/phase/choosePhases";
     }
@@ -64,7 +68,7 @@ public class PhaseController {
     }
 
     @PostMapping("/editPhases")
-    public void savePhases(@ModelAttribute("form")PhaseListModel phasesModel, ModelMap model) throws ParseException {
+    public String savePhases(@ModelAttribute("form")PhaseListModel phasesModel, ModelMap model) throws ParseException {
         Tournament t = tournamentRepository.findById(phasesModel.getPhases().get(0).getTournament());
         List<Phase> phases = new ArrayList<>();
         for(PhaseModel phase : phasesModel.getPhases()){
@@ -89,5 +93,6 @@ public class PhaseController {
             }
         }
         phaseRepository.saveAll(phases);
+        return "redirect:/tournament/view?tournamentId="+t.getId();
     }
 }

@@ -2,8 +2,8 @@
 <head>
 </head>
 <body>
-    <div>
-        <label for="scoreMode">Gestion des scores</label>
+    <div class="inputContainer">
+        <label class ="inputLabel" for="scoreMode">Gestion des scores</label>
         <select required id="scoreMode" th:field="*{phases[__${itemStat.index}__].scoreMode}">
             <option th:each="scoreOpt : ${T(type.ScoreMode).values()}"
                     th:value="${scoreOpt}"

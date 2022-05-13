@@ -1,14 +1,15 @@
 <html xmlns:th="http://thymeleaf.org" xmlns="http://www.w3.org/1999/html" lang="fr">
 <head>
+    <link rel="stylesheet" th:href="@{/styles/phase/choose.css}" href="../" />
 </head>
 <body>
-    <div>
-        <label th:for="'playoff'+${itemStat.index}">Ajout d'un barrage</label>
-        <input th:id="'playoff'+${itemStat.index}" type="checkbox" th:field="*{phases[__${itemStat.index}__].playoff}">
+    <div class="inputContainer">
+        <label class="inputLabel" th:for="'playoff'+${itemStat.index}">Ajout d'un barrage</label>
+        <input class="inputPhase" th:id="'playoff'+${itemStat.index}" type="checkbox" th:field="*{phases[__${itemStat.index}__].playoff}">
     </div>
-    <div th:id="'nbTeamPlayoff'+${itemStat.index}" hidden>
-        <label>Nombre d'équipes qualifiées</label>
-        <input name="nbTeamPlayoff" type="number" min="1" th:field="*{phases[__${itemStat.index}__].numberPlayoffQualify}">
+    <div hidden class="inputHiddenContainer" th:id="'nbTeamPlayoff'+${itemStat.index}">
+        <label class="inputHiddenLabel">Nombre d'équipes qualifiées</label>
+        <input class="inputPhase" name="nbTeamPlayoff" type="number" min="1" th:field="*{phases[__${itemStat.index}__].numberPlayoffQualify}">
     </div>
 </body>
 <script th:inline="javascript">

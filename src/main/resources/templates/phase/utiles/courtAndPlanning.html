@@ -1,30 +1,31 @@
 <html xmlns:th="http://thymeleaf.org" xmlns="http://www.w3.org/1999/html" lang="fr">
 <head>
+    <link rel="stylesheet" th:href="@{/styles/phase/choose.css}" href="../" />
 </head>
 <body>
-    <div>
-        <label th:for="'affectTerrains'+${itemStat.index}">Affectations terrains</label>
-        <input th:id="'affectTerrains'+${itemStat.index}" type="checkbox" th:field="*{phases[__${itemStat.index}__].terrainAffectation}">
+    <div class="inputContainer">
+        <label class="inputLabel" th:for="'affectTerrains'+${itemStat.index}">Affectations terrains</label>
+        <input class="inputPhase" th:id="'affectTerrains'+${itemStat.index}" type="checkbox" th:field="*{phases[__${itemStat.index}__].terrainAffectation}">
     </div>
-    <div th:id="'nbTerrains'+${itemStat.index}" hidden>
-        <label>Nombre de terrains disponibles</label>
-        <input name ="nbTerrains" type="number" min="1" th:field="*{phases[__${itemStat.index}__].nbCourts}">
+    <div hidden class="inputHiddenContainer" th:id="'nbTerrains'+${itemStat.index}">
+        <label class="inputHiddenLabel">Nombre de terrains disponibles</label>
+        <input class="inputPhase" name ="nbTerrains" th:type="number" th:min="1" th:field="*{phases[__${itemStat.index}__].nbCourts}">
     </div>
-    <div th:id="'startCourt'+${itemStat.index}" hidden>
-        <label>Terrain de départ</label>
-        <input name="startCourt" type="number" min="1" th:field="*{phases[__${itemStat.index}__].numStartCourt}">
+    <div hidden class="inputHiddenContainer" th:id="'startCourt'+${itemStat.index}">
+        <label class="inputHiddenLabel">Terrain de départ</label>
+        <input class="inputPhase" name="startCourt" type="number" min="1" th:field="*{phases[__${itemStat.index}__].numStartCourt}">
     </div>
-    <div>
-        <label th:for="'managePlanning'+${itemStat.index}">Gestion du planning</label>
-        <input th:id="'managePlanning'+${itemStat.index}" type="checkbox" th:field="*{phases[__${itemStat.index}__].managePlanning}">
+    <div class="inputContainer">
+        <label class="inputLabel" th:for="'managePlanning'+${itemStat.index}">Gestion du planning</label>
+        <input class="inputPhase" th:id="'managePlanning'+${itemStat.index}" type="checkbox" th:field="*{phases[__${itemStat.index}__].managePlanning}">
     </div>
-    <div th:id="'hourPhaseStart'+${itemStat.index}" hidden>
-        <label>Heure de début de la phase</label>
-        <input name="hourPhaseStart" type="time" th:field="*{phases[__${itemStat.index}__].hourPhaseStart}">
+    <div hidden class="inputHiddenContainer" th:id="'hourPhaseStart'+${itemStat.index}">
+        <label class="inputHiddenLabel">Heure de début de la phase</label>
+        <input class="inputPhase" name="hourPhaseStart" type="time" th:field="*{phases[__${itemStat.index}__].hourPhaseStart}">
     </div>
-    <div th:id="'timePhase'+${itemStat.index}" hidden>
-        <label>Temps maximum de la durée de la phase</label>
-        <input name="timePhase" type="time" th:field="*{phases[__${itemStat.index}__].timePhase}">
+    <div hidden class="inputHiddenContainer" th:id="'timePhase'+${itemStat.index}">
+        <label class="inputHiddenLabel">Temps maximum de la durée de la phase</label>
+        <input class="inputPhase" name="timePhase" type="time" th:field="*{phases[__${itemStat.index}__].timePhase}">
     </div>
 </body>
 <script th:inline="javascript">
@@ -38,9 +39,9 @@
             }
             else{
                 document.getElementById("nbTerrains"+[[${itemStat.index}]]).hidden = true;
-                document.getElementById("nbTerrains"+[[${itemStat.index}]]).getElementsByTagName("input").required = false;
+                document.getElementById("nbTerrains"+[[${itemStat.index}]]).getElementsByTagName("input").required = true;
                 document.getElementById("startCourt"+[[${itemStat.index}]]).hidden = true;
-                document.getElementById("startCourt"+[[${itemStat.index}]]).getElementsByTagName("input").required = false;
+                document.getElementById("startCourt"+[[${itemStat.index}]]).getElementsByTagName("input").required = true;
             }
         })
 </script>
