@@ -28,6 +28,7 @@ public class Pool extends Phase {
     public Pool(){
         this.setNotifBeginningPhase(false);
         this.notifEachDay = false;
+
     }
 
     public Pool(PhaseModel poolModel, Tournament tournament) throws ParseException {

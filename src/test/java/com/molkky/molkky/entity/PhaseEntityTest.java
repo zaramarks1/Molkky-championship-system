@@ -2,11 +2,10 @@ package com.molkky.molkky.entity;
 
 import com.molkky.molkky.MolkkyApplication;
 import com.molkky.molkky.domain.*;
-import com.molkky.molkky.domain.rounds.Finnish;
 import com.molkky.molkky.domain.rounds.Pool;
+import com.molkky.molkky.domain.rounds.SimpleGame;
 import com.molkky.molkky.repository.*;
 import com.molkky.molkky.service.PhaseService;
-import org.checkerframework.checker.units.qual.A;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +27,7 @@ import java.util.*;
     @Autowired
     private PhaseRepository phaseRepository;
 
+
     @Autowired
     private TeamRepository teamRepository;
 
@@ -43,7 +43,7 @@ import java.util.*;
     @Test
     @Rollback(false)
     @Transactional
-    void testInsertTournamentWithRounds() {
+    void testInsertTournamentWithRound() {
         Tournament tournament = new Tournament(
                 "tournament test",
                 "location",
@@ -69,12 +69,22 @@ import java.util.*;
         pool.setNbTeamsQualified(4);
 
         pool.setTournament(tournament);
-       pool =  phaseRepository.save(pool);
+        pool =  phaseRepository.save(pool);
+
+        SimpleGame simpleGame = new SimpleGame();
+
+        simpleGame.setNbPhase(2);
+        simpleGame.setTournament(tournament);
+        simpleGame.setNbSets(3);
+
+        simpleGame = phaseRepository.save(simpleGame);
 
         List<Phase> phases = new ArrayList<>();
         phases.add(pool);
+        phases.add(simpleGame);
         tournament.setPhases(phases);
         tournamentRepository.save(tournament);
+
 
 
         for (int i =1; i <= 8; i++){
@@ -112,7 +122,7 @@ import java.util.*;
 
         }
 
-        HashMap<Round, List<Match>> results =  phaseService.generate(pool.getId().toString());
+        HashMap<Round, List<Match>> results = (HashMap<Round, List<Match>>) phaseService.generate(pool.getId().toString());
         Assertions.assertEquals(1, tournament.getPhases().size(), "Tournament should have 1 phase");
         Assertions.assertEquals(true, tournament.getPhases().get(0) instanceof Pool,
                 " It should be a instance of pool");
@@ -129,6 +139,10 @@ import java.util.*;
             Assertions.assertEquals(6, entry.getValue().size(), " The  should be 6 matches");
 
         }
-
+        Assertions.assertEquals(2, tournament.getPhases().size(), "Tournament should have 2 phases");
+        Assertions.assertEquals(true, tournament.getPhases().get(0) instanceof Pool,
+                " It should be a instance of pool");
+        Assertions.assertEquals(true, tournament.getPhases().get(1) instanceof SimpleGame,
+                " It should be a instance of simple game");
     }
 }

@@ -1,8 +1,8 @@
 package com.molkky.molkky.controllers;
 
 
+import com.molkky.molkky.controllers.superclass.DefaultAttributes;
 import com.molkky.molkky.domain.Tournament;
-import com.molkky.molkky.domain.User;
 import com.molkky.molkky.model.TournamentModel;
 import com.molkky.molkky.repository.TournamentRepository;
 import com.molkky.molkky.repository.UserRepository;
@@ -18,7 +18,7 @@ import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/tournament")
-public class TournamentController {
+public class TournamentController extends DefaultAttributes {
     @Autowired
     private TournamentRepository tournamentRepository;
 
@@ -31,9 +31,7 @@ public class TournamentController {
     @GetMapping("/create")
     public String tournamentForm(Model model, HttpSession session) {
         model.addAttribute("tournament", new TournamentModel());
-        User user = (User)session.getAttribute("user");
-        model.addAttribute("user", user);
-        return "tournament/create";
+        return "/tournament/create";
     }
 
     @PostMapping("/create")
@@ -44,7 +42,14 @@ public class TournamentController {
         int id = tournamentEntity.getId();
         return "redirect:/phase/choosePhases?tournamentId="+id;
     }
+    @GetMapping("/{id}/view")
+    public String tournamentView(Model model, @PathVariable("id") String id){
+        Tournament tournament = tournamentRepository.findById(Integer.valueOf(id));
+        model.addAttribute("tournament", tournament);
+        model.addAttribute("nbTeam", tournament.getTeams().size());
 
+        return "/tournament/view";
+    }
     @GetMapping("/view")
     public String tournamentViewPostLaunch(Model model,@RequestParam(value = "tournamentId", required = false) String tournamentId){
 

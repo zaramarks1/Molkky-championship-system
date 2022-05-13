@@ -1,24 +1,27 @@
 package com.molkky.molkky.domain;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import type.PhaseStatus;
-import type.PhaseType;
 import type.ScoreMode;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Time;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 @Entity
+@NoArgsConstructor
 @Table(name = "phase")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name="typeDiscriminator", discriminatorType = DiscriminatorType.STRING)
 @DiscriminatorValue("PHASE")
-public class Phase {
+public class Phase  implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -90,11 +93,10 @@ public class Phase {
     @JoinColumn(name="tournament_id", nullable=false)
     private Tournament tournament;
 
-    @OneToMany(mappedBy = "phase")
-    private List<Round> rounds;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "phase_id")
+    private List<Round> rounds = new ArrayList<>();
 
-    public Phase(){
-    }
 
     public void setHourPhaseStart(String hourPhaseStart) throws ParseException {
         if(!hourPhaseStart.equals("")){

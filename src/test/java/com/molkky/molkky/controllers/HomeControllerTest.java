@@ -1,33 +1,40 @@
 package com.molkky.molkky.controllers;
 
-import org.junit.Before;
-
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import com.molkky.molkky.repository.UserTournamentRoleRepository;
+import com.molkky.molkky.service.NotificationService;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-public class HomeControllerTest {
 
+@WebMvcTest(value = HomeController.class, excludeAutoConfiguration = {SecurityAutoConfiguration.class})
+@ExtendWith(MockitoExtension.class)
+class HomeControllerTest {
+
+    @Autowired
     private MockMvc mockMvc;
 
-    @InjectMocks
+    @Autowired
     private HomeController homeController;
 
-    @Before
-    public void setUp() throws Exception {
-        mockMvc = MockMvcBuilders.standaloneSetup(homeController).build();
-    }
+    @MockBean
+    private NotificationService notificationService;
 
+    @MockBean
+    private UserTournamentRoleRepository userTournamentRoleRepository;
     @Test
-    public void testHomeController() throws Exception {
-        mockMvc.perform(get("/")).andExpect(status().isOk());
+    void testHomeController() throws Exception {
+        mockMvc.perform(get("/"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("/home"));
     }
 }

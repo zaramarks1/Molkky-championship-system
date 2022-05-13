@@ -1,5 +1,6 @@
 package com.molkky.molkky.controllers;
 
+import com.molkky.molkky.controllers.superclass.DefaultAttributes;
 import com.molkky.molkky.domain.Set;
 import com.molkky.molkky.model.SetModel;
 import com.molkky.molkky.model.UserLogged;
@@ -17,7 +18,7 @@ import type.SetTeamIndex;
 import javax.servlet.http.HttpSession;
 
 @Controller
-public class SetController {
+public class SetController extends DefaultAttributes {
     @Autowired
     private SetRepository setRepository;
 
@@ -32,7 +33,7 @@ public class SetController {
 
     @PostMapping("/sets/updateSet")
     public String updateSet(Model model, @ModelAttribute SetModel setModel, HttpSession session) {
-        UserLogged user = (UserLogged)session.getAttribute("user");
+        UserLogged user = (UserLogged)model.getAttribute("user");
         if(user == null) return "redirect:/connexion";
         Set set = setService.getSetFromModel(setModel);
         SetTeamIndex setTeamIndex = matchService.getUserTeamIndex(MatchService.getMatchModelFromEntity(set.getMatch()), UserService.createUserModelFromUserLogged(user));

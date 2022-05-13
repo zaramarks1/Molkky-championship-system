@@ -44,12 +44,6 @@ public class User implements Serializable {
     @Column(name = "password")
     private String password;
 
-
-    @OneToMany(fetch = FetchType.EAGER)
-    @LazyCollection(LazyCollectionOption.FALSE)
-    @JoinColumn(name="idUser", nullable = true)
-    private List<UserTournamentRole> userTournamentRoles;
-
     @OneToMany(mappedBy = "user")
     private List<UserTournamentRole> userTounamentRoles = new ArrayList<>();
 
@@ -57,6 +51,10 @@ public class User implements Serializable {
     @OneToMany(mappedBy = "user")
     private List<Notification> notifications = new ArrayList<>();
 
+    @OneToMany(fetch = FetchType.EAGER)
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @JoinColumn(name="idUser", nullable = true)
+    private List<UserTournamentRole> userTournamentRoles = new ArrayList<>();
 
 
     public User(String pseudo, String surname, String forename, String club, String email) {

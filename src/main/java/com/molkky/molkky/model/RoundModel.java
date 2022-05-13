@@ -11,7 +11,6 @@ public class RoundModel {
     private Integer id;
     private PhaseType type;
     private Integer nbTeams;
-    private Integer nbSets;
     private Boolean finished = false;
 
     public RoundModel(Round round) {

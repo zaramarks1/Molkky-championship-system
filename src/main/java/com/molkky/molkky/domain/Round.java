@@ -1,16 +1,22 @@
 package com.molkky.molkky.domain;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import type.PhaseType;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "round")
-public class Round {
+public class Round implements  Serializable{
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -39,11 +45,11 @@ public class Round {
     private Boolean finished = false;
 
     @ManyToOne
-    @JoinColumn(name="tournament_id", nullable=false)
+    @JoinColumn(name="tournament_id")
     private Tournament tournament;
 
     @ManyToOne
-    @JoinColumn(name="phase_id", nullable=false)
+    @JoinColumn(name="phase_id")
     private Phase phase;
 
 

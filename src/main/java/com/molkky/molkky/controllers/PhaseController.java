@@ -1,6 +1,8 @@
 package com.molkky.molkky.controllers;
 
+import com.molkky.molkky.domain.Match;
 import com.molkky.molkky.domain.Phase;
+import com.molkky.molkky.domain.Round;
 import com.molkky.molkky.domain.Tournament;
 import com.molkky.molkky.domain.rounds.*;
 import com.molkky.molkky.model.UserLogged;
@@ -15,11 +17,13 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import type.UserRole;
 
 import javax.servlet.http.HttpSession;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/phase")
@@ -28,6 +32,7 @@ public class PhaseController {
     @Autowired
     PhaseService phaseService;
 
+
     @Autowired
     TournamentRepository tournamentRepository;
 
@@ -35,8 +40,28 @@ public class PhaseController {
     PhaseRepository phaseRepository;
 
     @GetMapping("/{id}/generate")
-    public void generate(@PathVariable String id){
+    public void generate(@PathVariable String id) {
         phaseService.generate(id);
+    }
+
+    @GetMapping("/generate")
+    public String generate(Model model, HttpSession session, @RequestParam(name = "phase_id", required = true) String id){
+
+        UserLogged user = (UserLogged) session.getAttribute("user");
+
+        if(user == null){
+            return "redirect:/connexion";
+        }
+        if(user.getRole().equals(UserRole.ADM) ){
+            Map<Round, List<Match>> response = phaseService.generate(id);
+
+            model.addAttribute("round_match", response);
+        }else{
+            return "redirect:/";
+        }
+
+
+        return "redirect:/";
     }
 
     @GetMapping("/choosePhases")
