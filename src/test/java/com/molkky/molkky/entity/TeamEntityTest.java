@@ -1,6 +1,5 @@
 package com.molkky.molkky.entity;
 
-import type.UserRole;
 import com.molkky.molkky.MolkkyApplication;
 import com.molkky.molkky.domain.Team;
 import com.molkky.molkky.domain.User;
@@ -11,11 +10,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
+import type.UserRole;
 
 import javax.transaction.Transactional;
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Set;
+import java.util.List;
 
 @SpringBootTest(classes = MolkkyApplication.class)
 class TeamEntityTest {
@@ -26,8 +26,9 @@ class TeamEntityTest {
 
     @Test
     void testInsertTeam() {
-        Team team = teamRepository.save(new Team());
+        Team team = new Team();
         team.setName("Team 1");
+        teamRepository.save(team);
         Assertions.assertEquals("Team 1", team.getName(), "Team name is not correct");
         Team recupTeam = teamRepository.findById(team.getId());
         Assertions.assertEquals("Team 1", recupTeam.getName(), "Team name is not correct");
@@ -38,14 +39,14 @@ class TeamEntityTest {
     @Transactional
     void testTeamWithUsers(){
         Team team = teamRepository.save(new Team("Team_test", 1));
-        Set<User> users = new HashSet<>();
+        List<User> users = new ArrayList<>();
         User user1 = userRepository.save(new User("pseudoUser1", "surname1", "forename1", "club1", "email1", false, UserRole.PLAYER));
         users.add(user1);
         team.setUsers(users);
         teamRepository.save(team);
         Assertions.assertEquals(1, team.getUsers().size(), "Team has not 2 users");
         Team recupTeam = teamRepository.findById(team.getId());
-        Set<User> recupUsers = recupTeam.getUsers();
+        List<User> recupUsers = recupTeam.getUsers();
         Assertions.assertEquals(1, recupUsers.size(), "Team has not 2 users");
 
         Iterator<User> iter = recupUsers.iterator();

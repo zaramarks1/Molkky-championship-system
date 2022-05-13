@@ -1,14 +1,9 @@
 package com.molkky.molkky.entity;
 
 import com.molkky.molkky.MolkkyApplication;
-import com.molkky.molkky.domain.Round;
-import com.molkky.molkky.domain.Tournament;
-import com.molkky.molkky.domain.User;
-import com.molkky.molkky.domain.UserTounamentRole;
+import com.molkky.molkky.domain.*;
 import com.molkky.molkky.model.TournamentModel;
-import com.molkky.molkky.repository.RoundRepository;
-import com.molkky.molkky.repository.TournamentRepository;
-import com.molkky.molkky.repository.UserRepository;
+import com.molkky.molkky.repository.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +14,9 @@ import type.UserRole;
 
 import javax.transaction.Transactional;
 import java.text.ParseException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 @SpringBootTest(classes = MolkkyApplication.class)
 class TournamentEntityTest {
@@ -29,6 +26,14 @@ class TournamentEntityTest {
     private UserRepository userRepository;
     @Autowired
     private RoundRepository roundRepository;
+    @Autowired
+    private TeamRepository teamRepository;
+    @Autowired
+    private SetRepository setRepository;
+    @Autowired
+    private MatchRepository matchRepository;
+    @Autowired
+    private CourtRepository courtRepository;
 
     @Test
     void testInsertTournament() {
@@ -83,15 +88,15 @@ class TournamentEntityTest {
                 3
         ));
         User user = userRepository.save(new User("pseudoUser1", "surname1", "forename1", "club1", "email1"));
-        Set<UserTounamentRole> admins = new HashSet<>();
-        UserTounamentRole userTounamentRole = new UserTounamentRole();
-        userTounamentRole.setUser(user);
-        userTounamentRole.setRole(UserRole.ADM);
-        admins.add(userTounamentRole);
-        tournament.setUserTounamentRoles(admins);
+        List<UserTournamentRole> admins = new ArrayList<>();
+        UserTournamentRole userTournamentRole = new UserTournamentRole();
+        userTournamentRole.setUser(user);
+        userTournamentRole.setRole(UserRole.ADM);
+        admins.add(userTournamentRole);
+        tournament.setUserTournamentRoles(admins);
         tournamentRepository.save(tournament);
 
-        Assertions.assertEquals(1, tournament.getUserTounamentRoles().size(), "Tournament should have 1 admin");
+        Assertions.assertEquals(1, tournament.getUserTournamentRoles().size(), "Tournament should have 1 admin");
     }
 
     @Test
@@ -141,5 +146,79 @@ class TournamentEntityTest {
         Assertions.assertEquals(2, tournament.getNbRounds(), "Tournament nbRounds should be 2");
         Assertions.assertEquals(2, tournament.getNbCourts(), "Tournament nbCounts should be 2");
         Assertions.assertTrue(tournament.isVisible(), "Tournament visible should be true");
+    }
+
+    @Test
+    void testCreateCompleteTournament(){
+        Tournament tournament = new Tournament();
+        tournament.setName("tournament_name_full");
+        tournament.setLocation("location_full");
+        tournament.setDate(new Date());
+        tournament.setCutOffDate(new Date());
+        tournament.setMaxTeam(2);
+        tournament.setMinTeam(1);
+        tournament.setNbRounds(1);
+        tournament.setVisible(true);
+        tournament = tournamentRepository.save(tournament);
+
+        Team team1 = new Team();
+        team1.setName("team_name_1");
+        team1.setTournament(tournament);
+        teamRepository.save(team1);
+
+        Team team2 = new Team();
+        team2.setName("team_name_2");
+        team2.setTournament(tournament);
+        teamRepository.save(team2);
+
+        List<Team> teams = new ArrayList<>();
+        teams.add(team1);
+        teams.add(team2);
+
+        Match match = matchRepository.save(new Match());
+        List<Set> sets = new ArrayList<>();
+        Set set1 = new Set();
+        set1.setTeams(teams);
+        set1.setFinished(false);
+        set1.setMatch(match);
+        setRepository.save(set1);
+        Set set2 = new Set();
+        set2.setTeams(teams);
+        set2.setFinished(false);
+        set2.setMatch(match);
+        setRepository.save(set2);
+        Set set3 = new Set();
+        set3.setTeams(teams);
+        set3.setFinished(false);
+        set3.setMatch(match);
+        setRepository.save(set3);
+
+        sets.add(set1);
+        sets.add(set2);
+        sets.add(set3);
+
+        Round round = new Round();
+        round.setTournament(tournament);
+        round = roundRepository.save(round);
+
+        match.setTeams(teams);
+        match.setFinished(false);
+        match.setNbSets(3);
+        match.setSets(sets);
+        match.setCourt(courtRepository.save(new Court(true, "Bruh")));
+        match.setRound(round);
+        matchRepository.save(match);
+
+        List<Match> matches = new ArrayList<>();
+        matches.add(match);
+        round.setMatches(matches);
+        roundRepository.save(round);
+        List<Round> rounds = new ArrayList<>();
+        rounds.add(round);
+
+        tournament.setRounds(rounds);
+        tournamentRepository.save(tournament);
+
+        Assertions.assertEquals("tournament_name_full", tournament.getName(), "Tournament name should be tournament_name_full");
     }
 }

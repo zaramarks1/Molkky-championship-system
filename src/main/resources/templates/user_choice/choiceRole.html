@@ -3,16 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <title>Role</title>
+    <link rel="stylesheet" th:href="@{/styles/components.css}" href="./" />
+    <link rel="stylesheet" th:href="@{/styles/choiceUser/choice.css}" href="./" />
+
+
 </head>
 <body>
+<div id="pageContainerItem">
+    <h2 id="rolesChoice">Quel est votre rôle au sein de ce tournoi ?</h2>
+
     <form action="/user_choice/choiceRole" method="post"  class="formContainer">
         <div th:each="role: ${roles}">
-            <input type="checkbox" id="role" th:value="${role.id}" th:name="roleId">
-            <label for="role" th:text="${role.role}">Tournoi</label>
-        </div>
-        <div>
-            <button type="submit">Selectionner tournoi</button>
+            <br>
+            <button id="buttonRole" class="primaryButton" type="submit"  th:value="${role.id}" th:name="roleId"><p th:text="${role.role}"></p></button>
         </div>
     </form>
+</div>
+
 </body>
 </html>

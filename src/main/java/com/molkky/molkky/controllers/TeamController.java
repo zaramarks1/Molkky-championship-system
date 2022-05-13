@@ -3,7 +3,6 @@ package com.molkky.molkky.controllers;
 import com.molkky.molkky.service.TeamService;
 import type.TournamentStatus;
 import com.molkky.molkky.domain.Team;
-import com.molkky.molkky.domain.Tournament;
 import com.molkky.molkky.domain.User;
 import com.molkky.molkky.model.AddPlayerModel;
 import com.molkky.molkky.model.AddPlayerlistModel;
@@ -79,7 +78,7 @@ public class TeamController {
 
 
     @PostMapping("/addPlayer")
-        public ModelAndView addPlayer(@ModelAttribute("form") AddPlayerlistModel form, ModelMap model){
+    public ModelAndView addPlayer(@ModelAttribute("form") AddPlayerlistModel form, ModelMap model){
 
         List<AddPlayerModel> players = form.getPlayers();
         List<User> users = new ArrayList<>();
@@ -100,9 +99,9 @@ public class TeamController {
 
         teamService.addPlayers(form);
         return new ModelAndView( "redirect:/team/create", model) ;
-        }
+    }
 
-        boolean areAllDistinct(List<User> users) {
+    boolean areAllDistinct(List<User> users) {
         return users.stream().map(User::getEmail).distinct().count() == users.size();
     }
 }

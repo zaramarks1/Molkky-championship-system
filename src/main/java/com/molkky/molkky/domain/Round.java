@@ -5,6 +5,7 @@ import lombok.Setter;
 import type.RoundType;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +16,7 @@ import java.util.List;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name="typeDiscriminator", discriminatorType = DiscriminatorType.STRING)
 @DiscriminatorValue("Round")
-public class Round {
+public class Round implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -38,7 +39,7 @@ public class Round {
     private List<Team> teams;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "idFinnish")
+    @JoinColumn(name = "idMatches")
     private List<Match> matches = new ArrayList<>();
 
     @Column(name = "finished")

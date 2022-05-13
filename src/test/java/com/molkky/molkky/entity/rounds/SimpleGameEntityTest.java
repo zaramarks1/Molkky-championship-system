@@ -34,14 +34,14 @@ class SimpleGameEntityTest {
     @Transactional
     @Rollback(false)
     void testInsertSimpleGame() {
-        Match match = new Match();
+        Match Match = new Match();
         Match match2 = new Match();
-        List<Match> matches = Arrays.asList(match, match2);
+        List<Match> matchs = Arrays.asList(Match, match2);
 
         SimpleGame simpleGame = new SimpleGame();
-        match.setRound(simpleGame);
+        Match.setRound(simpleGame);
         match2.setRound(simpleGame);
-        simpleGame.setMatches(matches);
+        simpleGame.setMatches(matchs);
 
         Tournament tournament = tournamentRepository.save(new Tournament(
                 "tournament_name",
@@ -59,7 +59,7 @@ class SimpleGameEntityTest {
         simpleGame = simpleGameRepository.save(simpleGame);
         System.out.println(simpleGame.getMatches());
         Assertions.assertNotNull(simpleGame.getId());
-        Match recupMatch = matchRepository.findById(match.getId());
+        Match recupMatch = matchRepository.findById(Match.getId());
         Assertions.assertEquals(recupMatch.getRound().getId(), simpleGame.getId());
 
         simpleGame = simpleGameRepository.findById(simpleGame.getId());

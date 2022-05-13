@@ -3,42 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <title>Choix du Role/Tournoi</title>
+    <link rel="stylesheet" th:href="@{/styles/components.css}" href="./" />
+    <link rel="stylesheet" th:href="@{/styles/choiceUser/choice.css}" href="./" />
+
 </head>
 <body>
-<h1>Choix</h1>
-<div>
-    <h2>Tournaments</h2>
-    <!--
-    <ul th:each="user: ${listusers}">
-        <p>1</p>
-        <li th:text="${user.role}">msg</li>
-    </ul>
-    -->
-    <!--
-    <form action="#" method="post" th:object="${chooseTournament}" class="formContainer">
-
-    <div class="inputContainer">
-        <label for="tournament" class="inputLabel">Select a tournament</label>
-        <select class="inputLabel" id="tournament" th:field="*{tournaments}" >
-            <option value="0">select option</option>
-            <option th:each="tournament : ${tournaments}" th:value="${tournament.id}" th:text="${tournament.name}" class="inputTournament" >
-            </option>
-        </select>
-    </div>
-        <div>
-            <button type="submit">Selectionner tournoi</button>
-        </div>
-    </form>-->
-    <form action="" method="post"  class="formContainer">
+<div id="pageContainerItem">
+    <h2 id="tournamentChoice">Choisissez le tournoi auquel vous voulez accéder</h2>
+    <form action="" method="post" >
+        <br>
         <div th:each="tournament: ${tournaments}">
-            <input type="checkbox" id="tournoi" th:value="${tournament.id}" th:name="tournamentId">
-            <label for="tournoi" th:text="${tournament.name}">Tournoi</label>
-        </div>
-        <div>
-            <button type="submit">Selectionner tournoi</button>
+                <button id="buttonTournament" class="primaryButton" type="submit"  th:value="${tournament.id}" th:name="tournamentId"><p th:text="${tournament.name}"></p></button>
         </div>
     </form>
-
 </div>
 </body>
 </html>

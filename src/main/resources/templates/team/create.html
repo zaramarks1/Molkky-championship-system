@@ -9,25 +9,25 @@
         <div th:replace="fragments/sidebar"> </div>
         <div class="contentContainer">
             <div th:replace="fragments/searchbar"> </div>
-            <div class="contentTitle">Create a team</div>
+            <div class="contentTitle">Créer une équipe</div>
             <form action="#" th:action="@{/team/create}" method="post" th:object="${team}" class="formContainer">
                 <div class="inputContainer">
-                    <label for="nom" class="inputLabel">Team name</label>
+                    <label for="nom" class="inputLabel">Nom de l'équipe</label>
                     <input id ="nom" name="nom" type="text" th:field="*{name}"  class="inputTournament" placeholder="Nom"/>
                 </div>
 
                 <div class="inputContainer">
-                    <label for="tournament" class="inputLabel">Select a tournament</label>
+                    <label for="tournament" class="inputLabel">Selectionnez un tournoi</label>
                     <select class="inputLabel" id="tournament" th:field="*{tournament}" >
-                        <option value="0">select option</option>
+                        <option value="0">Option de choix</option>
                         <option th:each="tournament : ${tournaments}" th:value="${tournament.id}" th:text="${tournament.name}" class="inputTournament" >
                         </option>
                     </select>
                 </div>
 
                 <div class="submitContainer">
-                    <button id="sendTeam" class="primaryButton" type="submit">Next Step</button>
-                    <button id="cancelTeam" class="secondaryButton" type="submit">Cancel</button>
+                    <button id="sendTeam" class="primaryButton" type="submit">Étape suivante</button>
+                    <button id="cancelTeam" class="secondaryButton" type="submit">Annuler</button>
                 </div>
             </form>
         </div>

@@ -20,7 +20,6 @@ public class ConnexionService {
         String userDBPassword = user.getPassword();
         boolean isPasswordMatches = bcrypt.matches(passwordNotEncrypted, userDBPassword);
         if (isPasswordMatches) {
-            System.out.println("Password Match");
             rightPassword = true;
         }
         return rightPassword;

@@ -3,15 +3,15 @@ package com.molkky.molkky.service;
 import com.molkky.molkky.domain.Team;
 import com.molkky.molkky.domain.Tournament;
 import com.molkky.molkky.domain.User;
-import com.molkky.molkky.domain.UserTounamentRole;
+import com.molkky.molkky.domain.UserTournamentRole;
 import com.molkky.molkky.model.AddPlayerModel;
 import com.molkky.molkky.model.AddPlayerlistModel;
 import com.molkky.molkky.model.CreateTeamModel;
 import com.molkky.molkky.repository.TeamRepository;
 import com.molkky.molkky.repository.TournamentRepository;
 import com.molkky.molkky.repository.UserRepository;
-import com.molkky.molkky.repository.UserTounamentRoleRepository;
-import lombok.Data;
+import com.molkky.molkky.repository.UserTournamentRoleRepository;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,7 +21,7 @@ import type.UserRole;
 import java.util.ArrayList;
 import java.util.List;
 
-@Data
+
 @Service
 public class TeamService {
 
@@ -32,7 +32,7 @@ public class TeamService {
     UserRepository userRepository;
 
     @Autowired
-    UserTounamentRoleRepository userTounamentRoleRepository;
+    UserTournamentRoleRepository userTournamentRoleRepository;
 
     @Autowired
     TournamentRepository tournamentRepository;
@@ -59,13 +59,13 @@ public class TeamService {
     public Team addPlayers(AddPlayerlistModel addPlayerlistModel){
 
         List<AddPlayerModel> players = addPlayerlistModel.getPlayers();
-        List<UserTounamentRole> userTounamentRoles = new ArrayList<>();
+        List<UserTournamentRole> userTournamentRoles = new ArrayList<>();
 
         Team team = teamRepository.findById(players.get(0).getTeamId());
         for(AddPlayerModel player : players){
 
             User user = player.addPlayer();
-           /* user.setTeam(team);
+           /* TODO user.setTeam(team);
             String pwd = user.getCode();
             //emailSenderService.SendEmail(user.getEmail(),"Votre code d'identification au site Molkky","Voici votre code : "+ pwd);
             PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
@@ -79,19 +79,19 @@ public class TeamService {
                 user = userRepository.findUserByEmail(user.getEmail());
             }
 
-            UserTounamentRole userTounamentRole = new UserTounamentRole();
-            userTounamentRole.setTournament(team.getTournament());
-            userTounamentRole.setUser(user);
-            userTounamentRole.setTeam(team);
-            userTounamentRole.setRole(UserRole.PLAYER);
-            userTounamentRoles.add(userTounamentRole);
+            UserTournamentRole userTournamentRole = new UserTournamentRole();
+            userTournamentRole.setTournament(team.getTournament());
+            userTournamentRole.setUser(user);
+            userTournamentRole.setTeam(team);
+            userTournamentRole.setRole(UserRole.PLAYER);
+            userTournamentRoles.add(userTournamentRole);
 
 
 
         }
 
 
-        userTounamentRoleRepository.saveAll(userTounamentRoles);
+        userTournamentRoleRepository.saveAll(userTournamentRoles);
 
 
         return team;

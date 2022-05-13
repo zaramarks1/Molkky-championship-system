@@ -3,8 +3,10 @@ package com.molkky.molkky.ihm.TeamForm;
 import com.molkky.molkky.MolkkyApplication;
 import com.molkky.molkky.SeleniumConfig;
 import com.molkky.molkky.domain.Team;
+import com.molkky.molkky.domain.Tournament;
+import com.molkky.molkky.model.TournamentModel;
 import com.molkky.molkky.repository.TeamRepository;
-import org.junit.Assert;
+import com.molkky.molkky.repository.TournamentRepository;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.Select;
@@ -12,20 +14,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.text.ParseException;
+
 @SpringBootTest(classes = MolkkyApplication.class, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class TeamFormTest {
     @Autowired
     private TeamRepository teamRepository;
+    @Autowired
+    private TournamentRepository tournamentRepository;
     private SeleniumConfig config;
     @Value("${server.port}")
     private Integer port;
     private String url;
 
     @BeforeAll
-    void setUp() {
+    void setUp() throws ParseException {
         config = new SeleniumConfig();
         url = String.format("http://localhost:%s", port.toString());
+        this.createTournament();
     }
 
     @Test
@@ -40,22 +47,19 @@ class TeamFormTest {
         Assertions.assertTrue(config.getDriver().findElement(new By.ByClassName("contentTitle")).isDisplayed());
         Assertions.assertTrue(config.getDriver().findElement(new By.ById("nom")).isDisplayed());
         Assertions.assertTrue(config.getDriver().findElement(new By.ById("tournament")).isDisplayed());
-        Assertions.assertTrue(config.getDriver().findElement(new By.ByName("nbPlayers")).isDisplayed());
         Assertions.assertTrue(config.getDriver().findElement(new By.ById("sendTeam")).isDisplayed());
     }
 
     @Test
     void testTeamFormAddInfo(){
         config.getDriver().get(url + "/team/create");
-        String teamName = "Test" + Math.floor(Math.random() * 100);;
-        String numberOfPlayer = "2";
+        String teamName = "Test" + Math.floor(Math.random() * 100);
 
 
         config.getDriver().findElement(new By.ById("nom")).sendKeys(teamName);
         Select select = new Select(config.getDriver().findElement(new By.ById("tournament")));
-        select.selectByIndex(1);
+        select.selectByIndex(select.getOptions().size() - 1);
         String idTournament = config.getDriver().findElement(new By.ById("tournament")).getAttribute("value");
-        config.getDriver().findElement(new By.ByName("nbPlayers")).sendKeys(numberOfPlayer);
         config.getDriver().findElement(new By.ById("sendTeam")).click();
 
         Team team = teamRepository.findByName(teamName);
@@ -63,6 +67,23 @@ class TeamFormTest {
         Assertions.assertNotNull(team,"Team not save");
         Assertions.assertEquals(teamName,team.getName(),"Name different");
         Assertions.assertEquals(idTournament,String.valueOf(team.getTournament().getId()),"IdTournament different");
+    }
+
+    void createTournament() throws ParseException {
+        TournamentModel tournament = new TournamentModel();
+        tournament.setName("Tournoi " + Math.floor(Math.random() * 1000));
+        tournament.setLocation("location de test");
+        tournament.setDate("2019-01-01");
+        tournament.setCutOffDate("2019-01-01");
+        tournament.setMinTeam(5);
+        tournament.setMaxTeam(20);
+        tournament.setNbRounds(1);
+        tournament.setNbCourts(1);
+        tournament.setNbPlayersPerTeam(2);
+        tournament.setVisible(true);
+
+        Tournament tournament1 = new Tournament(tournament);
+        tournamentRepository.save(tournament1);
     }
 
 

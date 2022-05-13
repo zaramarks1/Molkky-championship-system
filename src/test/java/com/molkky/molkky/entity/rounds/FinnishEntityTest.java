@@ -36,12 +36,12 @@ class FinnishEntityTest {
     void testInsertFinnishGame() {
         Match match = new Match();
         Match match2 = new Match();
-        List<Match> matches = Arrays.asList(match, match2);
+        List<Match> matchs = Arrays.asList(match, match2);
 
         Finnish finnish = new Finnish(2, 2);
         match.setRound(finnish);
         match2.setRound(finnish);
-        finnish.setMatches(matches);
+        finnish.setMatches(matchs);
 
         Tournament tournament = tournamentRepository.save(new Tournament(
                 "tournament_name",
