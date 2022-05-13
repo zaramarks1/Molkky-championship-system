@@ -26,17 +26,14 @@ import type.TournamentStatus;
 import type.UserRole;
 
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(value = PhaseController.class, excludeAutoConfiguration = {SecurityAutoConfiguration.class})
 @ExtendWith(MockitoExtension.class)
-public class PhaseControllerTest {
+ class PhaseControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -81,7 +78,7 @@ public class PhaseControllerTest {
 
     }*/
 
-    HashMap<Round, List<Match>> createRounds(){
+    Map<Round, List<Match>> createRounds(){
         Tournament tournament = new Tournament(
                 "tournament test",
                 "location",

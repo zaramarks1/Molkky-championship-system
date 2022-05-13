@@ -95,21 +95,22 @@ public class PoolService {
                       teamRepository.save(team1);
                       teamRepository.save(team2);
 
-                      //r.getMatches().add(match);
                   }
               }
+               r.getMatches().addAll(matches);
 
-                //pool.setRounds(rounds);
-                r.getMatches().addAll(matches);
-
-
-               //r =  roundRepository.save(r);
-
-              results.put(r, matches);
             }
-            phaseRepository.save(pool);
+
+
+
         }else {
             roundsWithRanking(pool);
+        }
+
+        pool = phaseRepository.save(pool);
+
+        for(Round r : pool.getRounds()){
+            results.put(r, r.getMatches());
         }
 
         return results;

@@ -50,7 +50,7 @@ class RoundEntityTest {
         insertTeam(tournament, 8);
 
 
-        HashMap<Round, List<Match>> results =  phaseService.generate(tournament.getPhases().get(0).getId().toString());
+        Map<Round, List<Match>> results =  phaseService.generate(tournament.getPhases().get(0).getId().toString());
         Assertions.assertEquals(1, tournament.getPhases().size(), "Tournament should have 1 phase");
         Assertions.assertEquals(true, tournament.getPhases().get(0) instanceof Pool,
                 " It should be a instance of pool");
@@ -91,7 +91,7 @@ class RoundEntityTest {
         insertTeam(tournament, 8);
 
 
-        HashMap<Round, List<Match>> results =  phaseService.generate(tournament.getPhases().get(0).getId().toString());
+        Map<Round, List<Match>> results =  phaseService.generate(tournament.getPhases().get(0).getId().toString());
         Assertions.assertEquals(1, tournament.getPhases().size(), "Tournament should have 1 phase");
         //Assertions.assertEquals(1, tournament.getr, "Tournament should have 1 phase");
         Assertions.assertEquals(true, tournament.getPhases().get(0) instanceof SimpleGame,
@@ -103,8 +103,7 @@ class RoundEntityTest {
                 " There should be 1 player per team ");
         Assertions.assertEquals(4, results.size(), " There should be 4 rounds of simple game ");
 
-        //Assertions.assertEquals(1, tournament.getTeams().get(0).getRounds().get(0).getMatches().size(),
-               // " There should be 1 match per simple game ");
+
 
         for(Map.Entry<Round, List<Match>> entry : results.entrySet()){
 
@@ -174,7 +173,6 @@ class RoundEntityTest {
 
             team.setName("Team" + i);
             team.setTournament(tournament);
-
 
 
             tournament.getTeams().add(team);

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class PhaseService {
@@ -24,21 +25,21 @@ public class PhaseService {
     @Autowired
     SimpleGameService simpleGameService;
 
-    public HashMap<Round, List<Match>> generate(String id){
+    public Map<Round, List<Match>> generate(String id){
 
+        Map<Round, List<Match>> results = new HashMap<>();
         Phase phase = phaseRepository.findById(Integer.valueOf(id));
 
         if (phase instanceof Pool){
             Pool pool = (Pool) phase;
-            return poolService.generateRounds(pool);
+            results = poolService.generateRounds(pool);
         }else if(phase instanceof SimpleGame){
-
             SimpleGame simpleGame = (SimpleGame) phase;
 
-            return simpleGameService.generateRounds(simpleGame);
+            results = simpleGameService.generateRounds(simpleGame);
         }
 
-        return null;
+        return results ;
 
     }
 
