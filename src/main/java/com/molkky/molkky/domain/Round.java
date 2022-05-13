@@ -38,8 +38,8 @@ public class Round implements  Serializable{
     private List<Team> teams =  new ArrayList<>();
 
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "round")
-   // @JoinColumn(name = "idMatches")
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "idMatches")
     private List<Match> matches = new ArrayList<>();
 
     @Column(name = "finished")

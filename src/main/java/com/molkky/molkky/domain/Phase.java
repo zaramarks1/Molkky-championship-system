@@ -46,7 +46,8 @@ public class Phase {
     @JoinColumn(name="tournament_id", nullable=false)
     private Tournament tournament;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "phase")
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "phase_id")
     private List<Round> rounds = new ArrayList<>();
 
     public Phase(){

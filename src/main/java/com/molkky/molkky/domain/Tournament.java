@@ -66,8 +66,8 @@ public class Tournament implements Serializable {
     @JoinColumn(name="tournament_id")
     private List<Phase> phases;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tournament")
-    //@JoinColumn(name = "idTournament")
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "idTournament")
     private List<Team> teams;
 
     @Column(name = "indexPhase")
