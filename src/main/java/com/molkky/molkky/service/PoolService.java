@@ -3,10 +3,8 @@ package com.molkky.molkky.service;
 import com.molkky.molkky.domain.Match;
 import com.molkky.molkky.domain.Round;
 import com.molkky.molkky.domain.Team;
-import com.molkky.molkky.domain.Tournament;
 import com.molkky.molkky.domain.rounds.Pool;
 import com.molkky.molkky.repository.*;
-import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import type.PhaseType;
@@ -70,8 +68,6 @@ public class PoolService {
                 }
             }
 
-           // rounds = roundRepository.saveAll(rounds);
-
             List<Match> matches;
 
             for (Round r : rounds){
@@ -91,7 +87,6 @@ public class PoolService {
 
                       matches.add(match);
 
-                     // matchRepository.save(match);
                       teamRepository.save(team1);
                       teamRepository.save(team2);
 

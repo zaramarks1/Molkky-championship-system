@@ -13,7 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import javax.transaction.Transactional;
 
 @SpringBootTest(classes = MolkkyApplication.class)
-public class MappingTest {
+ class MappingTest {
 
     @Autowired
     private TournamentRepository tournamentRepository;
