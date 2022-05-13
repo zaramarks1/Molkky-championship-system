@@ -5,10 +5,11 @@ import com.molkky.molkky.domain.Match;
 import com.molkky.molkky.domain.Team;
 import com.molkky.molkky.domain.Tournament;
 import com.molkky.molkky.model.CourtModel;
-import com.molkky.molkky.model.TeamModel;
 import com.molkky.molkky.model.TournamentModel;
 import com.molkky.molkky.model.UserLogged;
+import com.molkky.molkky.model.TeamModel;
 import com.molkky.molkky.repository.MatchRepository;
+import com.molkky.molkky.repository.TeamRepository;
 import com.molkky.molkky.service.MatchService;
 import com.molkky.molkky.service.SetService;
 import com.molkky.molkky.service.UserService;
@@ -28,13 +29,8 @@ import java.util.List;
 public class MatchController extends DefaultAttributes {
     @Autowired
     private MatchRepository matchRepository;
-
     @Autowired
-    private SetService setService;
-
-    @Autowired
-    private UserService userService;
-
+    private TeamRepository teamRepository;
     @Autowired
     private MatchService matchService;
 
@@ -45,7 +41,7 @@ public class MatchController extends DefaultAttributes {
 
     @GetMapping("/matches/match")
     public String match(Model model, HttpSession session, @RequestParam(name = "match_id", required = true) Integer id) {
-        UserLogged user = (UserLogged)model.getAttribute("user");
+        UserLogged user = getUser(session);
         if(user == null){
             return "redirect:/connexion";
         }
@@ -68,12 +64,12 @@ public class MatchController extends DefaultAttributes {
 
     @GetMapping("/match/allMatches")
     public String matches(Model model, HttpSession session) {
-        UserLogged user = (UserLogged)session.getAttribute("user");
+        UserLogged user = getUser(session);
         if (user.getRole().equals(UserRole.PLAYER)){
-            Team team = user.getTeam();
+            TeamModel teamModel = user.getTeam();
+            Team team = teamRepository.findById(teamModel.getId());
             List<Match> matchesPlayer= matchRepository.findMatchesByTeams(team);
             model.addAttribute(matchAttribute, matchesPlayer);
-
         }
         else if (user.getRole().equals(UserRole.STAFF)){
             Tournament tournament = user.getTournament();
@@ -85,9 +81,10 @@ public class MatchController extends DefaultAttributes {
 
     @GetMapping("/match/inProgressMatches")
     public String notFinishedMatches(Model model, HttpSession session) {
-        UserLogged user = (UserLogged)session.getAttribute("user");
+        UserLogged user = getUser(session);
         if (user.getRole().equals(UserRole.PLAYER)){
-            Team team = user.getTeam();
+            TeamModel teamModel = user.getTeam();
+            Team team = teamRepository.findById(teamModel.getId());
             List<Match> matchesPlayer= matchRepository.findMatchesByTeamsAndFinished(team,false);
             model.addAttribute(matchAttribute, matchesPlayer);
 
@@ -101,9 +98,10 @@ public class MatchController extends DefaultAttributes {
     }
     @GetMapping("/match/finishedMatches")
     public String finishedMatches(Model model, HttpSession session) {
-        UserLogged user = (UserLogged)session.getAttribute("user");
+        UserLogged user = getUser(session);
         if (user.getRole().equals(UserRole.PLAYER)){
-            Team team = user.getTeam();
+            TeamModel teamModel = user.getTeam();
+            Team team = teamRepository.findById(teamModel.getId());
             List<Match> matchesPlayer= matchRepository.findMatchesByTeamsAndFinished(team,true);
             model.addAttribute(matchAttribute, matchesPlayer);
 

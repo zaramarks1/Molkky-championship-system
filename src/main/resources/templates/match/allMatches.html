@@ -14,6 +14,14 @@
         <div class="main">
             <!-- Emplacement pour les filtres-->
             <div class="boxmatchList">
+                <div class="boxListe" th:if="${#strings.equals(session.user.role,'PLAYER')}">
+                    <div class="rectangle"></div>
+                    <div class="Listmatch">Joueur <br> <span th:text="${session.user.team.getName()}"/></div>
+                </div>
+                <div class="boxListe" th:if="${#strings.equals(session.user.role,'STAFF')}">
+                    <div class="rectangle"></div>
+                    <div class="Listmatch">Staff </div>
+                </div>
                 <div class="boxListe">
                     <div class="rectangle"></div>
                     <div class="Listmatch">Liste des matchs</div>
