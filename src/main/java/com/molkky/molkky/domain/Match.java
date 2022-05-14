@@ -28,15 +28,15 @@ public class Match implements Serializable {
 
     @ManyToOne(optional = true)
     @JoinColumn(name="idRound", nullable = true)
-    private Round round;
-/*
+    private transient Round round;
+
     @ManyToOne(optional = true)
     @JoinColumn(name="idStaff")
     private User user;
-*/
+
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE, targetEntity = Court.class)
     @JoinColumn(name = "idCourt")
-    private Court court;
+    private transient Court court;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -46,5 +46,5 @@ public class Match implements Serializable {
     private List<Team> teams;
 
     @OneToMany(mappedBy = "match", cascade = CascadeType.ALL)
-    private List<Set> sets;
+    private transient List<Set> sets;
 }

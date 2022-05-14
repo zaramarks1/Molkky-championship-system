@@ -3,6 +3,7 @@ package com.molkky.molkky.controllers;
 import com.molkky.molkky.domain.*;
 import com.molkky.molkky.model.*;
 import com.molkky.molkky.repository.MatchRepository;
+import com.molkky.molkky.repository.TeamRepository;
 import com.molkky.molkky.repository.UserRepository;
 import com.molkky.molkky.repository.UserTournamentRoleRepository;
 import com.molkky.molkky.service.MatchService;
@@ -47,6 +48,8 @@ class MatchControllerTest {
     private MatchService matchService;
     @MockBean
     private UserRepository userRepository;
+    @MockBean
+    private TeamRepository teamRepository;
     @MockBean
     private NotificationService notificationService;
     @MockBean

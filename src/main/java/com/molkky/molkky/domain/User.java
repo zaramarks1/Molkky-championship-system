@@ -44,7 +44,7 @@ public class User implements Serializable {
     private String password;
 
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany()
     @LazyCollection(LazyCollectionOption.FALSE)
     @JoinColumn(name="idUser", nullable = true)
     private List<UserTournamentRole> userTournamentRoles;

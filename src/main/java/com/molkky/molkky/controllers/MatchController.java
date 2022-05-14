@@ -1,15 +1,14 @@
 package com.molkky.molkky.controllers;
 
 import com.molkky.molkky.controllers.superclass.DefaultAttributes;
-import com.molkky.molkky.domain.Match;
-import com.molkky.molkky.domain.Team;
-import com.molkky.molkky.domain.Tournament;
+import com.molkky.molkky.domain.*;
 import com.molkky.molkky.model.CourtModel;
 import com.molkky.molkky.model.TournamentModel;
 import com.molkky.molkky.model.UserLogged;
 import com.molkky.molkky.model.TeamModel;
 import com.molkky.molkky.repository.MatchRepository;
 import com.molkky.molkky.repository.TeamRepository;
+import com.molkky.molkky.repository.UserRepository;
 import com.molkky.molkky.service.MatchService;
 import com.molkky.molkky.service.SetService;
 import com.molkky.molkky.service.UserService;
@@ -22,6 +21,7 @@ import type.SetTeamIndex;
 import type.UserRole;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -31,6 +31,8 @@ public class MatchController extends DefaultAttributes {
     private MatchRepository matchRepository;
     @Autowired
     private TeamRepository teamRepository;
+    @Autowired
+    private UserRepository userRepository;
     @Autowired
     private MatchService matchService;
 
@@ -73,7 +75,8 @@ public class MatchController extends DefaultAttributes {
         }
         else if (user.getRole().equals(UserRole.STAFF)){
             Tournament tournament = user.getTournament();
-            List<Match> matchesStaff = matchRepository.findMatchAttributedToStaff(tournament);
+            User staff = userRepository.findById(user.getId());
+            List<Match> matchesStaff = matchRepository.findMatchAttributedToStaff(tournament,staff);
             model.addAttribute(matchAttribute, matchesStaff);
         }
         return redirectionMatches;
@@ -91,7 +94,8 @@ public class MatchController extends DefaultAttributes {
         }
         else if (user.getRole().equals(UserRole.STAFF)){
             Tournament tournament = user.getTournament();
-            List<Match> matchesStaffNotFinished = matchRepository.findMatchAttributedToStaffAndFinished(tournament,false);
+            User staff = userRepository.findById(user.getId());
+            List<Match> matchesStaffNotFinished = matchRepository.findMatchAttributedToStaffAndFinished(tournament,staff,false);
             model.addAttribute(matchAttribute, matchesStaffNotFinished);
         }
         return redirectionMatches;
@@ -108,9 +112,31 @@ public class MatchController extends DefaultAttributes {
         }
         else if (user.getRole().equals(UserRole.STAFF)){
             Tournament tournament = user.getTournament();
-            List<Match> matchesStaffNotFinished = matchRepository.findMatchAttributedToStaffAndFinished(tournament,true);
+            User staff = userRepository.findById(user.getId());
+            List<Match> matchesStaffNotFinished = matchRepository.findMatchAttributedToStaffAndFinished(tournament,staff,true);
             model.addAttribute(matchAttribute, matchesStaffNotFinished);
         }
+        return redirectionMatches;
+    }
+
+    @GetMapping("/match/validateMatch")
+    public String validateMatches(Model model, HttpSession session) {
+        UserLogged user = getUser(session);
+        Tournament tournament = user.getTournament();
+        User staff = userRepository.findById(user.getId());
+        List<Match> matchesStaff = matchRepository.findMatchAttributedToStaff(tournament,staff);
+        List<Match> matchIncorrectScore = new ArrayList<>();
+        List<Set> setIncorrectScore = new ArrayList<>();
+        for (Match match : matchesStaff) {
+            for (Set set : match.getSets()){
+                if((!set.getScore1Team1().equals(set.getScore1Team2())||(!set.getScore2Team1().equals(set.getScore2Team2())))){
+                    matchIncorrectScore.add(match);
+                    setIncorrectScore.add(set);
+                }
+            }
+        }
+        model.addAttribute(matchAttribute, matchIncorrectScore);
+        model.addAttribute("incorrectSet", setIncorrectScore);
         return redirectionMatches;
     }
 }
