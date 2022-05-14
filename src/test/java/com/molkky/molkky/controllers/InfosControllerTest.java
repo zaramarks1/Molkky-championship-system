@@ -1,5 +1,6 @@
 package com.molkky.molkky.controllers;
 
+
 import com.molkky.molkky.repository.UserTournamentRoleRepository;
 import com.molkky.molkky.service.NotificationService;
 import org.junit.jupiter.api.Test;
@@ -15,26 +16,24 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
-
-@WebMvcTest(value = HomeController.class, excludeAutoConfiguration = {SecurityAutoConfiguration.class})
+@WebMvcTest(value = InfosController.class, excludeAutoConfiguration = {SecurityAutoConfiguration.class})
 @ExtendWith(MockitoExtension.class)
-class HomeControllerTest {
+class InfosControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
-
-    @Autowired
-    private HomeController homeController;
-
     @MockBean
     private NotificationService notificationService;
-
     @MockBean
     private UserTournamentRoleRepository userTournamentRoleRepository;
+
+    @Autowired
+    private InfosController infosController;
+
     @Test
-    void testHomeController() throws Exception {
-        mockMvc.perform(get("/"))
+    void testInfosController() throws Exception {
+        mockMvc.perform(get("/infos/"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("/home"));
+                .andExpect(view().name("infos"));
     }
 }

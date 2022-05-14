@@ -10,6 +10,7 @@ import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -43,11 +44,14 @@ public class User implements Serializable {
     @Column(name = "password")
     private String password;
 
-
-    @OneToMany()
+    @OneToMany(fetch = FetchType.EAGER)
     @LazyCollection(LazyCollectionOption.FALSE)
     @JoinColumn(name="idUser", nullable = true)
-    private List<UserTournamentRole> userTournamentRoles;
+    private List<UserTournamentRole> userTournamentRoles = new ArrayList<>();
+
+   // @OneToMany(mappedBy = "user")
+    //private List<Notification> notifications = new ArrayList<>();
+
 
     public User(String pseudo, String surname, String forename, String club, String email) {
         this.pseudo = pseudo;

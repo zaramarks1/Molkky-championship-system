@@ -33,9 +33,9 @@ public class UserChoiceController {
     private TournamentRepository tournamentRepository;
 
     @GetMapping("/user_choice/choiceTournament")
-    public String index(HttpSession session, Model model){
-        User user = (User)session.getAttribute("user_temp");
-        List<Tournament> tournaments =  userTournamentRoleRepository.findTournamentFromUser(user);
+    public String index(HttpSession session, Model model) {
+        User user = (User) session.getAttribute("user_temp");
+        List<Tournament> tournaments = userTournamentRoleRepository.findTournamentFromUser(user);
         model.addAttribute("tournaments", tournaments);
         model.addAttribute("user", user);
 
@@ -43,16 +43,15 @@ public class UserChoiceController {
     }
 
     @PostMapping("/user_choice/choiceTournament")
-    public ModelAndView submit(@RequestParam(value = "tournamentId",required = false) String tournamentId, ModelMap model, HttpSession session, Model model2){
-        try{
+    public ModelAndView submit(@RequestParam(value = "tournamentId", required = false) String tournamentId, ModelMap model, HttpSession session, Model model2) {
+        try {
             Tournament tournament = tournamentRepository.findById(Integer.valueOf(tournamentId));
-            User user = (User)session.getAttribute("user_temp");
-            List<UserTournamentRole> roles = userTournamentRoleRepository.findUserTounamentRoleByTournamentAndUser(tournament,user);
-            session.setAttribute("tournament",tournament);
-            model.addAttribute("roles",roles);
-            return new ModelAndView( "/user_choice/choiceRole", model) ;
-        }
-        catch(Exception e) {
+            User user = (User) session.getAttribute("user_temp");
+            List<UserTournamentRole> roles = userTournamentRoleRepository.findUserTounamentRoleByTournamentAndUser(tournament, user);
+            session.setAttribute("tournament", tournament);
+            model.addAttribute("roles", roles);
+            return new ModelAndView("/user_choice/choiceRole", model);
+        } catch (Exception e) {
             index(session, model2);
             return new ModelAndView("/user_choice/choiceTournament", model);
         }

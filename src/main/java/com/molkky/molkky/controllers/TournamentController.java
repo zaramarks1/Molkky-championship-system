@@ -3,7 +3,6 @@ package com.molkky.molkky.controllers;
 
 import com.molkky.molkky.controllers.superclass.DefaultAttributes;
 import com.molkky.molkky.domain.Tournament;
-import com.molkky.molkky.domain.User;
 import com.molkky.molkky.model.TournamentModel;
 import com.molkky.molkky.repository.TournamentRepository;
 import com.molkky.molkky.repository.UserRepository;
@@ -32,7 +31,7 @@ public class TournamentController extends DefaultAttributes {
     @GetMapping("/create")
     public String tournamentForm(Model model, HttpSession session) {
         model.addAttribute("tournament", new TournamentModel());
-        return "tournament/create";
+        return "/tournament/create";
     }
 
     @PostMapping("/create")
@@ -50,7 +49,7 @@ public class TournamentController extends DefaultAttributes {
         model.addAttribute("tournament", tournament);
         model.addAttribute("nbTeam", tournament.getTeams().size());
 
-        return "tournament/view";
+        return "/tournament/view";
     }
 
 

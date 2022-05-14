@@ -28,7 +28,7 @@ public class ConnexionController {
     @Autowired
     UserTournamentRoleRepository userTournamentRoleRepository;
 
-    private static final String changePageConnection = "redirect:/connexion";
+    private static final String CHANGE_PAGE_CONNECTION = "redirect:/connexion";
 
     @GetMapping("/connexion")
     public String home(Model  model,HttpSession session){
@@ -39,14 +39,12 @@ public class ConnexionController {
         UserConnectionModel userConnectionModel = new UserConnectionModel();
 
         model.addAttribute("userConnection", userConnectionModel);
-        return "connexion";
+        return "/connexion";
     }
 
     @PostMapping("/connexion")
     public ModelAndView connexionUser(@ModelAttribute("userConnection")UserConnectionModel userModel, HttpServletRequest request){
-
-        try {
-            if(userRepository.existsUserByEmailAndPassword(userModel.getEmail(), userModel.getPassword())){
+         if(userRepository.existsUserByEmailAndPassword(userModel.getEmail(), userModel.getPassword())){
                 User user = userRepository.findUserByEmailAndPassword(userModel.getEmail(), userModel.getPassword());
                 if(userModel.getCode() != null){
                     List<UserTournamentRole> players = userTournamentRoleRepository.findUserWithCode(user,userModel.getCode());
@@ -73,12 +71,9 @@ public class ConnexionController {
                     return new ModelAndView("redirect:/user_choice/choiceTournament") ;
                 }
                 }else{
-                    return new ModelAndView(changePageConnection);
+                    return new ModelAndView(CHANGE_PAGE_CONNECTION);
                 }
 
-        }catch  (Exception e){
-            e.printStackTrace();
-        }
-        return new ModelAndView(changePageConnection);
+        return new ModelAndView(CHANGE_PAGE_CONNECTION);
     }
 }

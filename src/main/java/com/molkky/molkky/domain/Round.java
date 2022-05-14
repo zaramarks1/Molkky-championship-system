@@ -1,21 +1,22 @@
 package com.molkky.molkky.domain;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
-import type.RoundType;
+import type.PhaseType;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-@Entity
 @Setter
+@NoArgsConstructor
+@Entity
 @Table(name = "round")
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name="typeDiscriminator", discriminatorType = DiscriminatorType.STRING)
-@DiscriminatorValue("Round")
-public class Round {
+public class Round implements  Serializable{
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -23,19 +24,18 @@ public class Round {
 
     @Column(name = "type")
     @Enumerated(EnumType.STRING)
-    private RoundType type;
+    private PhaseType type;
 
     @Column(name = "nbTeams")
     private Integer nbTeams;
 
-    @Column(name = "nbSets")
-    private Integer nbSets;
     @ManyToMany
     @JoinTable(
             name = "team_round",
             joinColumns = @JoinColumn(name = "round_id"),
             inverseJoinColumns = @JoinColumn(name = "team_id"))
-    private List<Team> teams;
+    private List<Team> teams =  new ArrayList<>();
+
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "idMatches")
@@ -45,15 +45,13 @@ public class Round {
     private Boolean finished = false;
 
     @ManyToOne
-    @JoinColumn(name="tournament_id", nullable=false)
+    @JoinColumn(name="tournament_id")
     private Tournament tournament;
 
-    public Round(RoundType type, Integer nbTeams) {
-        this.type = type;
-        this.nbTeams = nbTeams;
-    }
+    @ManyToOne
+    @JoinColumn(name="phase_id")
+    private Phase phase;
 
-    public Round() {
 
-    }
+
 }

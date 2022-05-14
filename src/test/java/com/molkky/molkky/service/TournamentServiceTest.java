@@ -7,43 +7,46 @@ import com.molkky.molkky.model.TournamentModel;
 import com.molkky.molkky.repository.TournamentRepository;
 import com.molkky.molkky.repository.UserRepository;
 import com.molkky.molkky.repository.UserTournamentRoleRepository;
-import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
-@RunWith(MockitoJUnitRunner.class)
-public class TournamentServiceTest {
+@WebMvcTest(value = TournamentService.class, excludeAutoConfiguration = {SecurityAutoConfiguration.class})
+@ExtendWith(MockitoExtension.class)
+class TournamentServiceTest {
 
     String name = "test" + Math.random() * 10000;
 
-    @InjectMocks
+    @Autowired
     private TournamentService tournamentService;
 
-    @Mock
+    @MockBean
     private TournamentModel tournamentModel;
 
-    @Mock
+    @MockBean
     private UserTournamentRole userTournamentRole;
 
-    @Mock
+    @MockBean
     private TournamentRepository tournamentRepository;
 
-    @Mock
+    @MockBean
     private UserRepository userRepository;
 
-    @Mock
+    @MockBean
     private UserTournamentRoleRepository userTournamentRoleRepository;
 
-    @Mock
+    @MockBean
     private Tournament tournament;
 
-    @Mock
+    @MockBean
     private User user;
 
     @BeforeEach
@@ -53,14 +56,14 @@ public class TournamentServiceTest {
     }
 
     @Test
-    public void testCreateCode() {
+    void testCreateCode() {
         String code = this.tournamentService.createCode(5);
 
         Assertions.assertEquals(5, code.length());
     }
 
     @Test
-    public void createTournamentServiceWithoutUser() {
+    void createTournamentServiceWithoutUser() {
         Mockito.when(this.tournamentModel.getName()).thenReturn("TEST 1");
         Mockito.when(this.tournamentRepository.save(Mockito.any(Tournament.class))).thenAnswer(i -> i.getArguments()[0]);
 
@@ -71,7 +74,7 @@ public class TournamentServiceTest {
     }
 
     @Test
-    public void createTournamentServiceWithUser() {
+    void createTournamentServiceWithUser() {
         Mockito.when(this.tournamentModel.getName()).thenReturn("TEST 1");
         Mockito.when(this.tournamentRepository.save(Mockito.any(Tournament.class))).thenAnswer(i -> i.getArguments()[0]);
 

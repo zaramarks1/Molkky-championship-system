@@ -11,9 +11,7 @@ import javax.servlet.http.HttpSession;
 public class HomeController extends DefaultAttributes {
 
     @GetMapping("/")
-    public String Index(Model model, HttpSession session){
-//        UserLogged user = (UserLogged)session.getAttribute("user");
-//        model.addAttribute("user", user);
+    public String index(Model model, HttpSession session){
         return "/home";
     }
 
