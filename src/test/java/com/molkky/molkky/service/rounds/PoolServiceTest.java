@@ -127,7 +127,7 @@ import java.util.Map;
         for(Map.Entry<Round, List<Match>> entry : results.entrySet()){
 
             Round round = entry.getKey();
-            List<Match> matches = entry.getValue();
+            List<Match> matches = results.get(round);
             Assertions.assertEquals(PhaseType.POOL, entry.getKey().getType(),
                     " The round should be of type pool ");
 

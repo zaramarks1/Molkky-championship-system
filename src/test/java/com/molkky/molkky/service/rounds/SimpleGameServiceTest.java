@@ -114,24 +114,6 @@ import java.util.Map;
         Assertions.assertEquals(2, tournament.getTeams().get(7).getMatchs().size(), " There should be 2 matches for team 8 ");
         Assertions.assertEquals(2, tournament.getTeams().get(8).getMatchs().size(), " There should be 2 matches for team 9 ");
 
-        int i =0;
-
-        for(Map.Entry<Round, List<Match>> entry : results.entrySet()){
-
-            Round round = entry.getKey();
-            List<Match> matches = results.get(round);
-
-            Assertions.assertEquals(PhaseType.SIMPLEGAME, entry.getKey().getType(),
-                    " The round should be of type simple game ");
-
-            Assertions.assertEquals(tournament.getPhases().get(0).getRounds().get(i).getMatches().size(), matches.size(), " The number of match is not correct");
-
-            Assertions.assertEquals(tournament.getPhases().get(0).getRounds().get(i).getTeams().size(), round.getTeams().size(), " The  number of teams is not correct");
-
-            i++;
-
-        }
-
     }
 
     Tournament createTournament(){
