@@ -62,7 +62,7 @@ class TeamServiceTest {
         Tournament tournament = new Tournament();
         tournament.setId(idTournament);
 
-        Mockito.when(teamModel.getTournament()).thenReturn(1);
+        Mockito.when(teamModel.getTournament()).thenReturn(idTournament);
         Mockito.when(tournamentRepository.findById(idTournament)).thenReturn(tournament);
         Mockito.when(teamModel.getName()).thenReturn(teamName);
         Mockito.when(teamRepository.save(Mockito.any(Team.class))).thenAnswer(i -> i.getArguments()[0]);
