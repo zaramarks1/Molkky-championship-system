@@ -123,7 +123,7 @@ import java.util.*;
         }
 
         HashMap<Round, List<Match>> results = (HashMap<Round, List<Match>>) phaseService.generate(pool.getId().toString());
-        Assertions.assertEquals(1, tournament.getPhases().size(), "Tournament should have 1 phase");
+        Assertions.assertEquals(2, tournament.getPhases().size(), "Tournament should have 1 phase");
         Assertions.assertEquals(true, tournament.getPhases().get(0) instanceof Pool,
                 " It should be a instance of pool");
         Assertions.assertEquals(8, tournament.getTeams().size(), " There should be 8 teams ");
