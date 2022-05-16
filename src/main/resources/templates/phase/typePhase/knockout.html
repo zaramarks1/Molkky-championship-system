@@ -8,7 +8,7 @@
         <input class="inputPhase" required id="sets" type="number" min="3" max="5" th:field="*{phases[__${itemStat.index}__].nbSets}">
     </div>
     <div class="inputContainer">
-        <label class="inputPhase" for="ranking">Tenir compte de la phase précedante</label>
+        <label class="inputLabel" for="ranking">Tenir compte de la phase précedante</label>
         <input class="inputPhase" id="ranking" type="checkbox" th:field="*{phases[__${itemStat.index}__].ranking}">
     </div>
     <div class="inputContainer">
