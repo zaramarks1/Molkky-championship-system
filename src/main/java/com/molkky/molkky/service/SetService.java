@@ -35,6 +35,9 @@ public class SetService {
                 setEntity.setScore1Orga(set.getScore1Orga());
                 setEntity.setScore2Orga(set.getScore2Orga());
         }
+        if(isSetFinished(setEntity, user)){
+            setEntity.setFinished(true);
+        }
         setRepository.save(setEntity);
     }
 
@@ -65,5 +68,22 @@ public class SetService {
 
     public Set getSetFromModel(SetModel setModel){
         return setRepository.findById(setModel.getId());
+    }
+
+    public Boolean isSetFinished(Set set, UserModel user){
+        Boolean finished = false;
+        if (set.getScore1Orga()==50 || set.getScore2Orga()==50){
+            return true;
+        }
+        if ((set.getScore1Team1()!=set.getScore1Team2())){
+            return false;
+        }
+        if ((set.getScore2Team1()!=set.getScore2Team2())){
+            return false;
+        }
+        if (set.getScore1Team1()==50 || set.getScore2Team1()==50){
+            return true;
+        }
+        return finished;
     }
 }

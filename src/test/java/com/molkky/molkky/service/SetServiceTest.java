@@ -164,4 +164,97 @@ class SetServiceTest {
         match = matchRepository.save(match);
         return match;
     }
+
+    @Test
+    void isMatchFinishedNotEqualNo50() {
+        //        given
+        Match match = createCompleteMatch();
+        Set set = match.getSets().get(0);
+        User user1 = match.getTeams().get(0).getUserTournamentRoles().get(0).getUser();
+        User user2 = match.getTeams().get(1).getUserTournamentRoles().get(0).getUser();
+        User user3 = userRepository.save(new User());
+        set = setRepository.findById(set.getId());
+
+        //        when scores are equal but no team has 50
+        set.setScore1Team1(25);
+        set.setScore2Team1(15);
+        set.setScore1Team2(25);
+        set.setScore2Team2(15);
+        setService.enterSetResults(SetService.createSetModel(set), UserService.createUserModel(user1));
+        setService.enterSetResults(SetService.createSetModel(set), UserService.createUserModel(user2));
+        //        then
+        set = setRepository.findById(set.getId());
+        Assertions.assertEquals(false, set.getFinished());
+    }
+
+    @Test
+    void isMatchFinishedEqual50() {
+        //        given
+        Match match = createCompleteMatch();
+        Set set = match.getSets().get(0);
+        User user1 = match.getTeams().get(0).getUserTournamentRoles().get(0).getUser();
+        User user2 = match.getTeams().get(1).getUserTournamentRoles().get(0).getUser();
+        User user3 = userRepository.save(new User());
+        set = setRepository.findById(set.getId());
+
+        //        when scores are equal and a team has 50
+        set.setScore1Team1(50);
+        set.setScore2Team1(20);
+        set.setScore1Team2(50);
+        set.setScore2Team2(20);
+        setService.enterSetResults(SetService.createSetModel(set), UserService.createUserModel(user1));
+        setService.enterSetResults(SetService.createSetModel(set), UserService.createUserModel(user2));
+        //        then
+        set = setRepository.findById(set.getId());
+        Assertions.assertEquals(true, set.getFinished());
+
+    }
+
+    @Test
+    void isMatchFinishedNotEqualNoStaffScores() {
+        //        given
+        Match match = createCompleteMatch();
+        Set set = match.getSets().get(0);
+        User user1 = match.getTeams().get(0).getUserTournamentRoles().get(0).getUser();
+        User user2 = match.getTeams().get(1).getUserTournamentRoles().get(0).getUser();
+        User user3 = userRepository.save(new User());
+        set = setRepository.findById(set.getId());
+
+
+        //        when scores are not equal and staff has not entered scores
+        set.setScore1Team1(50);
+        set.setScore2Team1(20);
+        set.setScore1Team2(30);
+        set.setScore2Team2(40);
+        setService.enterSetResults(SetService.createSetModel(set), UserService.createUserModel(user1));
+        setService.enterSetResults(SetService.createSetModel(set), UserService.createUserModel(user2));
+        //        then
+        set = setRepository.findById(set.getId());
+        Assertions.assertEquals(false, set.getFinished());
+    }
+
+    @Test
+    void isMatchFinishedNotEqualStaffScores() {
+        //        given
+        Match match = createCompleteMatch();
+        Set set = match.getSets().get(0);
+        User user1 = match.getTeams().get(0).getUserTournamentRoles().get(0).getUser();
+        User user2 = match.getTeams().get(1).getUserTournamentRoles().get(0).getUser();
+        User user3 = userRepository.save(new User());
+        set = setRepository.findById(set.getId());
+
+        //        when scores are not equal and staff has entered scores
+        set.setScore1Team1(50);
+        set.setScore2Team1(20);
+        set.setScore1Team2(30);
+        set.setScore2Team2(40);
+        set.setScore1Orga(50);
+        set.setScore2Orga(20);
+        setService.enterSetResults(SetService.createSetModel(set), UserService.createUserModel(user1));
+        setService.enterSetResults(SetService.createSetModel(set), UserService.createUserModel(user2));
+        setService.enterSetResults(SetService.createSetModel(set), UserService.createUserModel(user3));
+        //        then
+        set = setRepository.findById(set.getId());
+        Assertions.assertEquals(true, set.getFinished());
+    }
 }
