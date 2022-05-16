@@ -2,8 +2,11 @@ package com.molkky.molkky.ihm.tournament;
 
 import com.molkky.molkky.MolkkyApplication;
 import com.molkky.molkky.SeleniumConfig;
+import com.molkky.molkky.domain.Phase;
 import com.molkky.molkky.domain.Tournament;
+import com.molkky.molkky.domain.rounds.*;
 import com.molkky.molkky.model.TournamentModel;
+import com.molkky.molkky.repository.PhaseRepository;
 import com.molkky.molkky.repository.TournamentRepository;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
@@ -21,6 +24,9 @@ import java.util.List;
 
     @Autowired
     private TournamentRepository tournamentRepository;
+
+
+
     private SeleniumConfig config;
     @Value("${server.port}")
     private Integer port;
@@ -112,11 +118,8 @@ import java.util.List;
         config.getDriver().findElement(new By.ById("choosePhases")).click();
 
         Tournament tournament = tournamentRepository.findById(Integer.valueOf(idTournament));
-
         Assertions.assertNotNull(tournament,"Tournament not found");
-        //Assertions.assertEquals( 2,tournament.getPhases().size(),"There should be 2 phases");
-        //Assertions.assertTrue(tournament.getPhases().get(0) instanceof Finnish, "The phase should be finnish");
-        //Assertions.assertTrue(tournament.getPhases().get(1) instanceof Knockout, "The phase should be knockout");
+
 
 
 
