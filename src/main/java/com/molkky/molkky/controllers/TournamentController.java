@@ -72,8 +72,6 @@ public class TournamentController {
     @GetMapping("/create")
     public String tournamentForm(Model model, HttpSession session) {
         model.addAttribute(allTournament, new TournamentModel());
-        User user = (User)session.getAttribute("user");
-        model.addAttribute("user", user);
         return "tournament/create";
     }
 
@@ -90,10 +88,8 @@ public class TournamentController {
 
     @GetMapping("/{id}/view")
     public String tournamentView(Model model, @PathVariable("id") String id){
-        User user = null;
         Tournament tournament = tournamentRepository.findById(Integer.valueOf(id));
         model.addAttribute("tournament", tournament);
-        model.addAttribute("user", user);
         model.addAttribute(allTournament, tournament);
         model.addAttribute("nbTeam", tournament.getTeams().size());
         return "/tournament/view";
