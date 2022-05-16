@@ -40,10 +40,8 @@ class FinnishEntityTest {
                 8,
                 true,
                 2,
-                3,
-                2
+                3
         );
-
         tournament.setNbPlayersPerTeam(1);
         tournament.setVisible(true);
         tournament.setStatus(TournamentStatus.AVAILABLE);
