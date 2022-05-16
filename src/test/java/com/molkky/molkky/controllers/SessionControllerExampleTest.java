@@ -19,6 +19,7 @@ class SessionControllerExampleTest {
     @Autowired
     private MockMvc mockMvc;
 
+
     @Test
     void testSessionControllerExample() throws Exception {
         mockMvc.perform(get("/session"))
