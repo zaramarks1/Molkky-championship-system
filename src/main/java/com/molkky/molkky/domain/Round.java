@@ -29,6 +29,9 @@ public class Round implements  Serializable{
     @Column(name = "nbTeams")
     private Integer nbTeams;
 
+    @Column(name = "finished")
+    private Boolean finished = false;
+
     @ManyToMany
     @JoinTable(
             name = "team_round",
@@ -40,9 +43,7 @@ public class Round implements  Serializable{
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "idMatches")
     private List<Match> matches = new ArrayList<>();
-
-    @Column(name = "finished")
-    private Boolean finished = false;
+    
 
     @ManyToOne
     @JoinColumn(name="tournament_id")

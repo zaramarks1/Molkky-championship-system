@@ -1,18 +1,20 @@
 package com.molkky.molkky.controllers;
+
+
+import com.molkky.molkky.controllers.superclass.DefaultAttributes;
 import com.molkky.molkky.domain.Tournament;
 import com.molkky.molkky.model.TournamentModel;
 import com.molkky.molkky.repository.TournamentRepository;
+import com.molkky.molkky.repository.UserRepository;
+import com.molkky.molkky.service.TournamentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.servlet.ModelAndView;
-import com.molkky.molkky.domain.User;
-import com.molkky.molkky.service.TournamentService;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import type.TournamentStatus;
+
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -92,6 +94,7 @@ public class TournamentController {
         Tournament tournament = tournamentRepository.findById(Integer.valueOf(id));
         model.addAttribute("tournament", tournament);
         model.addAttribute("user", user);
+        model.addAttribute(allTournament, tournament);
         model.addAttribute("nbTeam", tournament.getTeams().size());
         return "/tournament/view";
     }
