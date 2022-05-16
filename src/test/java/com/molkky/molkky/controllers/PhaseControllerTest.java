@@ -28,7 +28,9 @@ import type.UserRole;
 import javax.servlet.http.HttpSession;
 import java.util.*;
 
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(value = PhaseController.class, excludeAutoConfiguration = {SecurityAutoConfiguration.class})
@@ -55,6 +57,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
     @MockBean
     private PhaseService phaseService;
+
+    @Mock
+    private Tournament tournament;
 
     @Test
     void testControllerWithoutUser() throws Exception {
@@ -152,6 +157,19 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
         return  phaseService.generate("1");
 
+    }
+
+    @Test
+    void testPhaseGetMethod() throws Exception{
+        //Tournament tournament = new Tournament();
+        when(this.tournamentRepository.findById(1)).thenReturn(tournament);
+        when(tournament.getNbRounds()).thenReturn(5);
+
+        this.mockMvc.perform(get("/phase/choosePhases"))
+                .andDo(print())
+                .andExpect(model().attributeExists("user"))
+                .andExpect(model().attributeExists("form"))
+                .andExpect(view().name("/phase/choosePhases"));
     }
 
 }

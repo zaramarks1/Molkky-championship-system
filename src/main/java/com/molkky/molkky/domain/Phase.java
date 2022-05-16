@@ -65,7 +65,7 @@ public class Phase  implements Serializable {
     private Boolean topSeeds;
 
     @Column(name = "isRanking")
-    private Boolean ranking;
+    private Boolean ranking = false;
 
     @Column(name = "notifBeginningPhase")
     private boolean notifBeginningPhase;
