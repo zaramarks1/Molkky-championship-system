@@ -51,7 +51,7 @@ public class User implements Serializable {
     @OneToMany()
     @LazyCollection(LazyCollectionOption.FALSE)
     @JoinColumn(name="idUser", nullable = true)
-    private List<UserTournamentRole> userTournamentRoles;
+    private List<UserTournamentRole> userTournamentRoles = new ArrayList<>();
 
 
     public User(String pseudo, String surname, String forename, String club, String email) {

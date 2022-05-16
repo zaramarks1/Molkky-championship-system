@@ -76,7 +76,7 @@ class PoolEntityTest {
         tournamentRepository.save(tournament);
 
 
-        Assertions.assertEquals(1, tournament.getPhases().size(), "Tournament should have 2 phases");
+        Assertions.assertEquals(1, tournament.getPhases().size(), "Tournament should have 1 phase");
         Assertions.assertEquals(true, tournament.getPhases().get(0) instanceof Pool,
                 " It should be a instance of pool");
 
