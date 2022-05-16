@@ -79,7 +79,7 @@ class MatchControllerTest {
                 .andExpect(model().attribute("match", MatchService.getMatchModelFromEntity(match)))
                 .andExpect(model().attribute("teams", TeamModel.createTeamModels(match.getTeams())))
                 .andExpect(model().attribute("court", new CourtModel(match.getCourt())))
-                .andExpect(model().attribute("tournament", new TournamentModel(match.getRound().getTournament())))
+                .andExpect(model().attribute("tournament", new TournamentModel(match.getRound().getPhase().getTournament())))
                 .andExpect(model().attribute("sets", SetService.createSetModels(match.getSets())))
                 .andExpect(model().attribute("setTeamIndex", SetTeamIndex.TEAM1))
                 .andExpect(model().attribute("user", userLogged))
@@ -101,8 +101,12 @@ class MatchControllerTest {
         tournament.setName("tournament");
         tournament.setId(1);
         tournament.setDate(Date.from(new Date().toInstant()));
+        Phase phase = new Phase();
         Round round = new Round();
         round.setTournament(tournament);
+        round.setPhase(phase);
+        phase.setRounds(List.of(round));
+        phase.setTournament(tournament);
         match.setRound(round);
         Set set = new Set();
         set.setMatch(match);
