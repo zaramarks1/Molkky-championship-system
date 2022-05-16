@@ -11,6 +11,7 @@ import type.SetTeamIndex;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class SetService {
@@ -19,6 +20,12 @@ public class SetService {
 
     @Autowired
     private MatchService matchService;
+
+    @Autowired
+    private NotificationService notificationService;
+
+    @Autowired
+    private UserTournamentRoleService userTournamentRoleService;
 
     public void enterSetResults(SetModel set, UserTournamentRoleModel user){
         Set setEntity = getSetFromModel(set);
@@ -70,19 +77,17 @@ public class SetService {
     }
 
     public Boolean isSetFinished(Set set, UserTournamentRoleModel user){
-        Boolean finished = false;
         if (set.getScore1Orga()==50 || set.getScore2Orga()==50){
             return true;
         }
-        if ((set.getScore1Team1()!=set.getScore1Team2())){
+        if ((!Objects.equals(set.getScore1Team1(), set.getScore1Team2()))){
+            notificationService.sendNotificationToList("Les scores rentrés par les deux équipes sont différents. Veuillez inscrire le score final.","/matches/match?match_id="+set.getMatch().getId(),userTournamentRoleService.getTournamentStaffFromUser(user));
             return false;
         }
-        if ((set.getScore2Team1()!=set.getScore2Team2())){
+        if ((!Objects.equals(set.getScore2Team1(), set.getScore2Team2()))){
+            notificationService.sendNotificationToList("Les scores rentrés par les deux équipes sont différents. Veuillez inscrire le score final.","/matches/match?match_id="+set.getMatch().getId(),userTournamentRoleService.getTournamentStaffFromUser(user));
             return false;
         }
-        if (set.getScore1Team1()==50 || set.getScore2Team1()==50){
-            return true;
-        }
-        return finished;
+        return set.getScore1Team1() == 50 || set.getScore2Team1() == 50;
     }
 }
