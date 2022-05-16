@@ -48,7 +48,7 @@
                     <ul class="boxOneCard" th:each="match, iStat:${matches}">
                         <li id="listMatches" class="boxInOneCard">
                             <a class="boxInOneCard" th:href="@{'/matches/match?match_id='+${match.getId()}}">
-                                <span class="idCard" th:text="'ID du match :' + ${match.getId()}"/>
+                                <span id="id" class="idCard" th:text="'ID du match :' + ${match.getId()}"/>
                                 <span class="courtCard" th:text=" 'Emplacement : '+${match.getCourt().getName()}"/>
                                 <span class="teamCard" th:text="${match.getTeams().get(0).getName()} + ' contre ' + ${match.getTeams().get(1).getName()}"/>
                                 <span class="nbSetCard" th:text="'Nombres de sets : '+ ${match.getNbSets()}"/>

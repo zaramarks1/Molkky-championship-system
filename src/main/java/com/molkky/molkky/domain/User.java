@@ -10,6 +10,7 @@ import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -46,7 +47,7 @@ public class User implements Serializable {
     @OneToMany()
     @LazyCollection(LazyCollectionOption.FALSE)
     @JoinColumn(name="idUser", nullable = true)
-    private List<UserTournamentRole> userTournamentRoles;
+    private List<UserTournamentRole> userTournamentRoles = new ArrayList<>();
 
 
 

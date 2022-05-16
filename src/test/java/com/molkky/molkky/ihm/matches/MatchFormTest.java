@@ -6,6 +6,7 @@ import com.molkky.molkky.domain.*;
 import com.molkky.molkky.repository.*;
 import com.molkky.molkky.service.MatchService;
 import org.apache.commons.lang.RandomStringUtils;
+import org.checkerframework.checker.units.qual.A;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +47,8 @@ class MatchFormTest {
     private CourtRepository courtRepository;
     @Autowired
     private RoundRepository roundRepository;
+    @Autowired
+    private  PhaseRepository phaseRepository;
 
 
 
@@ -215,9 +218,15 @@ class MatchFormTest {
         tournament.setDate(Date.from(Instant.now()));
 
         Round round = new Round();
+        Phase phase = new Phase();
         round.setTournament(tournament);
-        roundRepository.save(round);
+        round.setPhase(phase);
+        phase.setTournament(tournament);
+        phase.setRounds(List.of(round));
+
+        phaseRepository.save(phase);
         tournament.setRounds(List.of(round));
+        tournament.setPhases(List.of(phase));
         round.setMatches(List.of(match));
         match.setRound(round);
         tournamentRepository.save(tournament);
