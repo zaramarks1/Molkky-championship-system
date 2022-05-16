@@ -1,4 +1,10 @@
 package com.molkky.molkky.controllers;
+
+
+import com.molkky.molkky.controllers.superclass.DefaultAttributes;
+import com.molkky.molkky.domain.Tournament;
+import com.molkky.molkky.model.TournamentModel;
+<<<<<<< HEAD
 import com.molkky.molkky.repository.TournamentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,6 +17,19 @@ import com.molkky.molkky.domain.Tournament;
 import com.molkky.molkky.domain.User;
 import com.molkky.molkky.model.TournamentModel;
 import com.molkky.molkky.service.TournamentService;
+=======
+
+
+import com.molkky.molkky.controllers.superclass.DefaultAttributes;
+import com.molkky.molkky.domain.Tournament;
+import com.molkky.molkky.model.TournamentModel;
+import com.molkky.molkky.repository.TournamentRepository;
+import com.molkky.molkky.repository.UserRepository;
+import com.molkky.molkky.service.TournamentService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+>>>>>>> origin/PreProd
 import org.springframework.web.bind.annotation.*;
 import type.TournamentStatus;
 
@@ -26,6 +45,7 @@ public class TournamentController {
     @Autowired
     private TournamentService tournamentService;
 
+<<<<<<< HEAD
     private String allTournament="tournament";
     private String redirectionAll = "tournament/allTournament";
 
@@ -73,6 +93,15 @@ public class TournamentController {
         User user = (User)session.getAttribute("user");
         model.addAttribute("user", user);
         return "tournament/create";
+=======
+    @Autowired
+    private UserRepository userRepository;
+
+    @GetMapping("/create")
+    public String tournamentForm(Model model, HttpSession session) {
+        model.addAttribute("tournament", new TournamentModel());
+        return "/tournament/create";
+>>>>>>> origin/PreProd
     }
 
     @PostMapping("/create")
@@ -86,22 +115,50 @@ public class TournamentController {
 
     @GetMapping("/{id}/view")
     public String tournamentView(Model model, @PathVariable("id") String id){
+<<<<<<< HEAD
         User user = null;
+=======
+>>>>>>> origin/PreProd
         Tournament tournament = tournamentRepository.findById(Integer.valueOf(id));
         model.addAttribute("tournament", tournament);
         model.addAttribute("user", user);
         model.addAttribute("nbTeam", tournament.getTeams().size());
+<<<<<<< HEAD
         return "tournament/view";
+=======
+
+        return "/tournament/view";
+>>>>>>> origin/PreProd
     }
+
+
 
     @PostMapping(value = "/view" , params = "launch")
     public String tournamentViewPostLaunch(@RequestParam(value = "tournamentId", required = false) String tournamentId){
 
         Tournament tournament = tournamentRepository.findById(Integer.valueOf(tournamentId));
+
         tournament.setStatus(TournamentStatus.INPROGRESS);
+
         tournamentRepository.save(tournament);
-        return redirectionAll;
+
+        return "redirect:/tournament/create";
+    }
+
+
+
+}
+import com.molkky.molkky.repository.UserRepository;
+import com.molkky.molkky.service.TournamentService;
+    @Autowired
+    private UserRepository userRepository;
+        model.addAttribute("tournament", new TournamentModel());
+
+        return "/tournament/view";
+
+
+
+        return "redirect:/tournament/create";
     }
 
 }
-
