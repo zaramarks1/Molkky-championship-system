@@ -44,13 +44,11 @@ public class User implements Serializable {
     @Column(name = "password")
     private String password;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany()
     @LazyCollection(LazyCollectionOption.FALSE)
     @JoinColumn(name="idUser", nullable = true)
     private List<UserTournamentRole> userTournamentRoles = new ArrayList<>();
 
-   // @OneToMany(mappedBy = "user")
-    //private List<Notification> notifications = new ArrayList<>();
 
 
     public User(String pseudo, String surname, String forename, String club, String email) {

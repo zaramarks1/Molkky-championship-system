@@ -25,6 +25,10 @@ public class Match implements Serializable {
     @OneToOne(optional = true)
     private Team winner;
 
+    @ManyToOne(optional = true)
+    @JoinColumn(name="idStaff")
+    private User user;
+
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE, targetEntity = Court.class)
     @JoinColumn(name = "idCourt")
     private Court court;
