@@ -4,6 +4,7 @@ import com.molkky.molkky.domain.Match;
 import com.molkky.molkky.domain.UserTournamentRole;
 import com.molkky.molkky.model.MatchModel;
 import com.molkky.molkky.model.UserModel;
+import com.molkky.molkky.model.UserTournamentRoleModel;
 import com.molkky.molkky.repository.MatchRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,16 +20,16 @@ public class MatchService {
     private MatchRepository matchRepository;
     @Autowired
     private UserService userService;
-    public SetTeamIndex getUserTeamIndex(MatchModel match, UserModel user) {
+    public SetTeamIndex getUserTeamIndex(MatchModel match, UserTournamentRoleModel user) {
         Match matchEntity = getMatchFromModel(match);
 
         for(UserTournamentRole u : matchEntity.getTeams().get(0).getUserTournamentRoles()) {
-            if(Objects.equals(u.getUser().getId(), user.getId())) {
+            if(Objects.equals(u.getId(), user.getId())) {
                 return SetTeamIndex.TEAM1;
             }
         }
         for(UserTournamentRole u : matchEntity.getTeams().get(1).getUserTournamentRoles()) {
-            if(Objects.equals(u.getUser().getId(), user.getId())) {
+            if(Objects.equals(u.getId(), user.getId())) {
                 return SetTeamIndex.TEAM2;
             }
         }

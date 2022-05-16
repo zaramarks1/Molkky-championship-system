@@ -20,12 +20,14 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.web.servlet.MockMvc;
 import type.SetTeamIndex;
+import type.UserRole;
 
 import javax.servlet.http.HttpSession;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -64,11 +66,19 @@ class MatchControllerTest {
     void testControllerWithUser() throws Exception {
 //        given
         UserLogged userLogged = Mockito.mock(UserLogged.class);
+        userLogged.setTournamentRoleId(1);
         HttpSession session = new MockHttpSession(null, "user");
         session.setAttribute("user", userLogged);
         Match match = createMatch();
         when(matchRepository.findById(1)).thenReturn(match);
-        when(matchService.getUserTeamIndex(any(MatchModel.class), any(UserModel.class))).thenReturn(SetTeamIndex.TEAM1);
+
+        UserTournamentRole userTournamentRole = Mockito.mock(UserTournamentRole.class);
+        userTournamentRole.setId(1);
+        userTournamentRole.setRole(UserRole.PLAYER);
+        userTournamentRole.setIsRegistered(true);
+        when(userTournamentRoleRepository.findById(anyInt())).thenReturn(userTournamentRole);
+
+        when(matchService.getUserTeamIndex(any(MatchModel.class), any(UserTournamentRoleModel.class))).thenReturn(SetTeamIndex.TEAM1);
 //        when
 //        then
         this.mockMvc.perform(get("/matches/match?match_id=1").sessionAttr("user", userLogged))

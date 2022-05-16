@@ -3,6 +3,7 @@ package com.molkky.molkky.service;
 import com.molkky.molkky.domain.Set;
 import com.molkky.molkky.model.SetModel;
 import com.molkky.molkky.model.UserModel;
+import com.molkky.molkky.model.UserTournamentRoleModel;
 import com.molkky.molkky.repository.SetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,7 +20,7 @@ public class SetService {
     @Autowired
     private MatchService matchService;
 
-    public void enterSetResults(SetModel set, UserModel user){
+    public void enterSetResults(SetModel set, UserTournamentRoleModel user){
         Set setEntity = getSetFromModel(set);
         SetTeamIndex teamIndex = matchService.getUserTeamIndex(MatchService.getMatchModelFromEntity(setEntity.getMatch()), user);
         switch (teamIndex){
@@ -35,9 +36,7 @@ public class SetService {
                 setEntity.setScore1Orga(set.getScore1Orga());
                 setEntity.setScore2Orga(set.getScore2Orga());
         }
-        if(isSetFinished(setEntity, user)){
-            setEntity.setFinished(true);
-        }
+        setEntity.setFinished(isSetFinished(setEntity, user));
         setRepository.save(setEntity);
     }
 
@@ -70,7 +69,7 @@ public class SetService {
         return setRepository.findById(setModel.getId());
     }
 
-    public Boolean isSetFinished(Set set, UserModel user){
+    public Boolean isSetFinished(Set set, UserTournamentRoleModel user){
         Boolean finished = false;
         if (set.getScore1Orga()==50 || set.getScore2Orga()==50){
             return true;
