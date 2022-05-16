@@ -13,8 +13,8 @@
         <form method="post" th:action="@{/phase/choosePhases}" th:object="${form}" class="formContainer">
                 <div class="inputContainer" th:each="phase, itemStat : *{phases}">
                     <strong class="contentText" th:text="Phase + ' ' + ${itemStat.index+1}"></strong>
-                    <input hidden th:field="*{phases[__${itemStat.index}__].tournament}" th:value="${phase.tournament}">
-                    <select name="phase" th:field="*{phases[__${itemStat.index}__].phaseType}">
+                    <input id = "tournament" hidden th:field="*{phases[__${itemStat.index}__].tournament}" th:value="${phase.tournament}">
+                    <select  name="phase" th:field="*{phases[__${itemStat.index}__].phaseType}">
                         <option th:each="phaseOpt : ${T(type.PhaseType).values()}"
                                 th:value="${phaseOpt}"
                                 th:text="${phaseOpt}"

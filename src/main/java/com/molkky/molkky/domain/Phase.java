@@ -90,7 +90,7 @@ public class Phase  implements Serializable {
     private Integer victoryValue;
 
     @ManyToOne
-    @JoinColumn(name="tournament_id", nullable=false)
+    @JoinColumn(name="tournament_id")
     private Tournament tournament;
 
     @OneToMany(cascade = CascadeType.ALL)
