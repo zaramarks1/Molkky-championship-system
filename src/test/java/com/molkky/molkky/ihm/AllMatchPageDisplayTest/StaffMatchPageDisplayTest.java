@@ -83,6 +83,13 @@ class StaffMatchPageDisplayTest {
                 userTournamentRoleStaff.setTournament(tournament);
                 userTournamentRoleRepository.save(userTournamentRoleStaff);
             }
+            else{
+                User staff = userRepository.findUserByEmail(emailStaff);
+                Tournament old = tournamentRepository.findByName("TournamentConnexion");
+                List<UserTournamentRole> utr = userTournamentRoleRepository.findUserTounamentRoleByTournamentAndUser(old,staff);
+                utr.get(0).setTournament(tournament);
+                userTournamentRoleRepository.save(utr.get(0));
+            }
             Match match = new Match();
             match.setRound(round);
             match.setCourt(court);
@@ -141,13 +148,9 @@ class StaffMatchPageDisplayTest {
         //Test finishedIsDisplayed
         config.getDriver().findElement(new By.ById("closed")).click();
         Assertions.assertEquals(url+"/match/finishedMatches", config.getDriver().getCurrentUrl());
-
-
     }
     @AfterAll
     void tearDown() {
         config.getDriver().quit();
     }
 }
-
-
