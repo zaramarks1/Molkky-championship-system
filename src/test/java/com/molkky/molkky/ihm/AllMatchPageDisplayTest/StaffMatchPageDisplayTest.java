@@ -99,11 +99,6 @@ class StaffMatchPageDisplayTest {
             teams.add(team2);
             match.setTeams(teams);
             User staff = userRepository.findUserByEmail(emailStaff);
-            /*UserTournamentRole userTournamentRoleStaff3 = new UserTournamentRole();
-            userTournamentRoleStaff3.setRole(UserRole.STAFF);
-            userTournamentRoleStaff3.setUser(staff);
-            userTournamentRoleStaff3.setTournament(tournament2);
-            userTournamentRoleRepository.save(userTournamentRoleStaff3);*/
             match.setUser(staff);
             matchRepository.save(match);
             Set set1 = new Set();
