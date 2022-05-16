@@ -7,6 +7,7 @@ import com.molkky.molkky.domain.UserTournamentRole;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
+import type.UserRole;
 
 import java.util.List;
 
@@ -20,6 +21,6 @@ public interface UserTournamentRoleRepository extends UserTournamentRoleCustom, 
 
     UserTournamentRole findById(Integer id);
 
-    List<UserTournamentRole> findUserTounamentRoleByTournamentAndUser(Tournament tournament, User user);
-
+    List<UserTournamentRole> findUserTournamentRoleByTournamentAndUser(Tournament tournament, User user);
+    List<UserTournamentRole> findUserTournamentRoleByRoleAndAndTournament(UserRole role, Tournament tournament);
 }
