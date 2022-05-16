@@ -54,7 +54,6 @@ public class Team implements Serializable {
     @Column(name = "eliminated")
     private boolean eliminated;
 
-
     public Team(){
         this.shots = new ArrayList<>();
         this.userTournamentRoles = new ArrayList<>();
