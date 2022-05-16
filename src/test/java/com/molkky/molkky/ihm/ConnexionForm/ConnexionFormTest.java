@@ -88,16 +88,17 @@ class ConnexionFormTest {
             userTournamentRoleAdmin2.setUser(admin);
             userTournamentRoleAdmin2.setTournament(tournament2);
             userTournamentRoleRepository.save(userTournamentRoleAdmin2);
-            User staff = new User();
-            staff.setEmail(emailStaff);
-            staff.setPassword(passwordStaff);
-            userRepository.save(staff);
-            UserTournamentRole userTournamentRoleStaff = new UserTournamentRole();
-            userTournamentRoleStaff.setRole(UserRole.STAFF);
-            userTournamentRoleStaff.setUser(staff);
-            userTournamentRoleStaff.setTournament(tournament);
-            userTournamentRoleRepository.save(userTournamentRoleStaff);
-
+            if(userRepository.findUserByEmail(emailStaff)==null) {
+                User staff = new User();
+                staff.setEmail(emailStaff);
+                staff.setPassword(passwordStaff);
+                userRepository.save(staff);
+                UserTournamentRole userTournamentRoleStaff = new UserTournamentRole();
+                userTournamentRoleStaff.setRole(UserRole.STAFF);
+                userTournamentRoleStaff.setUser(staff);
+                userTournamentRoleStaff.setTournament(tournament);
+                userTournamentRoleRepository.save(userTournamentRoleStaff);
+            }
         }
     }
 
@@ -164,103 +165,6 @@ class ConnexionFormTest {
         Assertions.assertEquals(tournamentName, config.getDriver().findElement(new By.ById("tournament")).getText());
     }
 
-
-/*
-    @Test
-    void testPlayerFormGetPage() {
-        enterTeam("1");
-        Assertions.assertEquals("Create Team", config.getDriver().getTitle());
-    }
-
-    @Test
-    void testFormIsDisplayed(){
-        enterTeam("1");
-
-        Assertions.assertTrue(config.getDriver().findElement(new By.ByClassName("contentTitle")).isDisplayed());
-        Assertions.assertTrue(config.getDriver().findElement(new By.ByXPath("/html/body/div/div[2]/form/div[1]/a")).isDisplayed());
-
-        //Joueur 1
-        Assertions.assertTrue(config.getDriver().findElement(new By.ByXPath("/html/body/div/div[2]/form/div[3]/div/b")).isDisplayed());
-        Assertions.assertTrue(config.getDriver().findElement(new By.ByName("players[0].forename")).isDisplayed());
-        Assertions.assertTrue(config.getDriver().findElement(new By.ByName("players[0].surname")).isDisplayed());
-        Assertions.assertTrue(config.getDriver().findElement(new By.ByName("players[0].mail")).isDisplayed());
-        Assertions.assertTrue(config.getDriver().findElement(new By.ByName("players[0].club")).isDisplayed());
-
-        Assertions.assertTrue(config.getDriver().findElement(new By.ById("sendTeam")).isDisplayed());
-    }
-
-    @Test
-    void testFormAddInfo(){
-        String nameTeam = enterTeam("1");
-        String nom = this.generateName();
-        String prenom = this.generateName();
-        String mail = prenom+"."+nom+"@gmail.com";
-
-        config.getDriver().findElement(new By.ByName("players[0].forename")).sendKeys(prenom);
-        config.getDriver().findElement(new By.ByName("players[0].surname")).sendKeys(nom);
-        config.getDriver().findElement(new By.ByName("players[0].mail")).sendKeys(mail);
-        config.getDriver().findElement(new By.ByName("players[0].club")).sendKeys("Molkky Angers");
-
-        config.getDriver().findElement(new By.ById("sendTeam")).click();
-
-        Team team = teamRepository.findByName(nameTeam);
-        User user = userRepository.findUsersByEmail(mail);
-
-        Assertions.assertNotNull(user);
-        Assertions.assertEquals(nom,user.getSurname());
-        Assertions.assertEquals(prenom,user.getForename());
-        Assertions.assertEquals(mail,user.getEmail());
-        Assertions.assertEquals("Molkky Angers",user.getClub());
-        Assertions.assertEquals(team.getId(),user.getTeam().getId());
-    }
-
-    @Test
-    void testFormErrorSameMail(){
-        enterTeam("2");
-        String nom = this.generateName();
-        String prenom = this.generateName();
-        String mail = prenom+"."+nom+"@gmail.com";
-
-        config.getDriver().findElement(new By.ByName("players[0].forename")).sendKeys(nom);
-        config.getDriver().findElement(new By.ByName("players[0].surname")).sendKeys(prenom);
-        config.getDriver().findElement(new By.ByName("players[0].mail")).sendKeys(mail);
-        config.getDriver().findElement(new By.ByName("players[0].club")).sendKeys("Molkky Angers");
-
-        config.getDriver().findElement(new By.ByName("players[1].forename")).sendKeys(nom);
-        config.getDriver().findElement(new By.ByName("players[1].surname")).sendKeys(prenom);
-        config.getDriver().findElement(new By.ByName("players[1].mail")).sendKeys(mail);
-        config.getDriver().findElement(new By.ByName("players[1].club")).sendKeys("Molkky Angers");
-
-        config.getDriver().findElement(new By.ById("sendTeam")).click();
-
-        Assertions.assertTrue(config.getDriver().findElement(new By.ByXPath("/html/body/div/div[2]/form/div[2]/span")).isDisplayed());
-    }
-
-    @AfterAll
-    void tearDown() {
-        config.getDriver().quit();
-    }
-
-    private String enterTeam(String nbPlayer){
-        config.getDriver().get(url + "/team/create");
-        String teamName = "Test" + Math.floor(Math.random() * 1000);
-        config.getDriver().findElement(new By.ById("nom")).sendKeys(teamName);
-        Select select = new Select(config.getDriver().findElement(new By.ById("tournament")));
-        select.selectByIndex(select.getOptions().size() - 1);
-        String idTournament = config.getDriver().findElement(new By.ById("tournament")).getAttribute("value");
-        config.getDriver().findElement(new By.ByName("nbPlayers")).sendKeys(nbPlayer);
-        config.getDriver().findElement(new By.ById("sendTeam")).click();
-        return teamName;
-    }
-
-    private String generateName(){
-        String str = "";
-        for(int i = 0; i < 5 ; i++){
-            char c = (char)(new Random().nextInt(25)+'a');
-            str +=c;
-        }
-        return str;
-    }*/
     @AfterAll
     void tearDown() {
         config.getDriver().quit();

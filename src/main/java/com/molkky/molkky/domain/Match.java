@@ -6,7 +6,6 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.io.Serializable;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -25,6 +24,10 @@ public class Match {
     @OneToOne(optional = true)
     private Team winner;
 
+    @ManyToOne(optional = true)
+    @JoinColumn(name="idStaff")
+    private User user;
+
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE, targetEntity = Court.class)
     @JoinColumn(name = "idCourt")
     private Court court;
@@ -38,6 +41,7 @@ public class Match {
 
     @OneToMany(mappedBy = "match", cascade = CascadeType.ALL)
     private List<Set> sets;
+
 
     @ManyToOne(optional = true)
     @JoinColumn(name="idRound", nullable = true)
