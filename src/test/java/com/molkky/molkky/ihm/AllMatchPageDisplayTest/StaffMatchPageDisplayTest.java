@@ -130,7 +130,7 @@ class StaffMatchPageDisplayTest {
         //Test allMatchesPageIsDisplayed
         config.getDriver().findElement(new By.ById("all")).click();
         Assertions.assertEquals(url+"/match/allMatches", config.getDriver().getCurrentUrl());
-        WebElement matches = config.getDriver().findElement(new By.ById("listMatches"));
+        //WebElement matches = config.getDriver().findElement(new By.ById("listMatches"));
         //Assertions.assertEquals(1, matches.);
         //Test inProgressPageIsDisplayed
         config.getDriver().findElement(new By.ById("inProgress")).click();

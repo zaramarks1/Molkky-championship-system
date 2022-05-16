@@ -88,16 +88,17 @@ class ConnexionFormTest {
             userTournamentRoleAdmin2.setUser(admin);
             userTournamentRoleAdmin2.setTournament(tournament2);
             userTournamentRoleRepository.save(userTournamentRoleAdmin2);
-            User staff = new User();
-            staff.setEmail(emailStaff);
-            staff.setPassword(passwordStaff);
-            userRepository.save(staff);
-            UserTournamentRole userTournamentRoleStaff = new UserTournamentRole();
-            userTournamentRoleStaff.setRole(UserRole.STAFF);
-            userTournamentRoleStaff.setUser(staff);
-            userTournamentRoleStaff.setTournament(tournament);
-            userTournamentRoleRepository.save(userTournamentRoleStaff);
-
+            if(userRepository.findUserByEmail(emailStaff)==null) {
+                User staff = new User();
+                staff.setEmail(emailStaff);
+                staff.setPassword(passwordStaff);
+                userRepository.save(staff);
+                UserTournamentRole userTournamentRoleStaff = new UserTournamentRole();
+                userTournamentRoleStaff.setRole(UserRole.STAFF);
+                userTournamentRoleStaff.setUser(staff);
+                userTournamentRoleStaff.setTournament(tournament);
+                userTournamentRoleRepository.save(userTournamentRoleStaff);
+            }
         }
     }
 
