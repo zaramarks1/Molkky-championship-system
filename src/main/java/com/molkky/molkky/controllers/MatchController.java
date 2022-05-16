@@ -126,12 +126,14 @@ public class MatchController extends DefaultAttributes {
         User staff = userRepository.findById(user.getId());
         List<Match> matchesStaff = matchRepository.findMatchAttributedToStaff(tournament,staff);
         List<Match> matchIncorrectScore = new ArrayList<>();
-        List<Set> setIncorrectScore = new ArrayList<>();
+        List<Integer> setIncorrectScore = new ArrayList<>();
+        int i = 1;
         for (Match match : matchesStaff) {
             for (Set set : match.getSets()){
                 if((!set.getScore1Team1().equals(set.getScore1Team2())||(!set.getScore2Team1().equals(set.getScore2Team2())))){
                     matchIncorrectScore.add(match);
-                    setIncorrectScore.add(set);
+                    setIncorrectScore.add(i);
+                    i=i+1;
                 }
             }
         }

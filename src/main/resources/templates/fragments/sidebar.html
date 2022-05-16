@@ -24,7 +24,7 @@
         </a>
         <div th:if="${session.user != null} and (${#strings.equals(session.user.role, 'STAFF')} or ${#strings.equals(session.user.role, 'PLAYER')})">
             <a href="/match/allMatches" style="text-decoration: none;">
-                <div th:class="'sidebarButton '+${#httpServletRequest.requestURI.startsWith('/match/allMatches') ? 'bgButton textPrimary' : ''}">
+                <div id="matches" th:class="'sidebarButton '+${#httpServletRequest.requestURI.startsWith('/match/allMatches') ? 'bgButton textPrimary' : ''}">
                     <img th:class="'sidebarIcon '+${#httpServletRequest.requestURI.startsWith('/match/allMatches') ? 'sidebarIcon' : 'sidebarIconInactive'}" th:src="@{/assets/mymatches.svg}" alt ="Boxing fist for my matches icon"/>
                     <p id="mymatches_sidebar" class="sidebarButtonContent">Mes matchs</p>
                 </div>
