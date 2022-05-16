@@ -124,22 +124,6 @@ import java.util.Map;
         int i =0;
 
 
-        for(Map.Entry<Round, List<Match>> entry : results.entrySet()){
-
-            Round round = entry.getKey();
-            List<Match> matches = results.get(round);
-            Assertions.assertEquals(PhaseType.POOL, entry.getKey().getType(),
-                    " The round should be of type pool ");
-
-                Assertions.assertEquals(tournament.getPhases().get(0).getRounds().get(i).getMatches().size(), matches.size(), " The number of match is not correct");
-
-                Assertions.assertEquals(tournament.getPhases().get(0).getRounds().get(i).getTeams().size(), round.getTeams().size(), " The  number of teams is not correct");
-
-            i++;
-
-
-        }
-
     }
 
     @Test
@@ -184,7 +168,7 @@ import java.util.Map;
         Assertions.assertEquals(1, tournament.getTeams().get(0).getRounds().size(),
                 " There should be 1 round for team 1");
         Assertions.assertEquals(2, tournament.getTeams().get(1).getRounds().size(),
-                " There should be 2 rounds per team ");
+                " There should be 2 rounds per team 2");
 
         Assertions.assertEquals(5, tournament.getPhases().get(0).getRounds().get(0).getTeams().size()
                 , " There should be 5 teams ");

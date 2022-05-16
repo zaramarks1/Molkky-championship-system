@@ -83,6 +83,13 @@ class StaffMatchPageDisplayTest {
                 userTournamentRoleStaff.setTournament(tournament);
                 userTournamentRoleRepository.save(userTournamentRoleStaff);
             }
+            else{
+                User staff = userRepository.findUserByEmail(emailStaff);
+                Tournament old = tournamentRepository.findByName("TournamentConnexion");
+                List<UserTournamentRole> utr = userTournamentRoleRepository.findUserTounamentRoleByTournamentAndUser(old,staff);
+                utr.get(0).setTournament(tournament);
+                userTournamentRoleRepository.save(utr.get(0));
+            }
             Match match = new Match();
             match.setRound(round);
             match.setCourt(court);
@@ -92,11 +99,6 @@ class StaffMatchPageDisplayTest {
             teams.add(team2);
             match.setTeams(teams);
             User staff = userRepository.findUserByEmail(emailStaff);
-            /*UserTournamentRole userTournamentRoleStaff3 = new UserTournamentRole();
-            userTournamentRoleStaff3.setRole(UserRole.STAFF);
-            userTournamentRoleStaff3.setUser(staff);
-            userTournamentRoleStaff3.setTournament(tournament2);
-            userTournamentRoleRepository.save(userTournamentRoleStaff3);*/
             match.setUser(staff);
             matchRepository.save(match);
             Set set1 = new Set();
@@ -141,13 +143,9 @@ class StaffMatchPageDisplayTest {
         //Test finishedIsDisplayed
         config.getDriver().findElement(new By.ById("closed")).click();
         Assertions.assertEquals(url+"/match/finishedMatches", config.getDriver().getCurrentUrl());
-
-
     }
     @AfterAll
     void tearDown() {
         config.getDriver().quit();
     }
 }
-
-
