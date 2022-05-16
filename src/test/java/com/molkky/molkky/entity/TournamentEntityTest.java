@@ -2,6 +2,7 @@ package com.molkky.molkky.entity;
 
 import com.molkky.molkky.MolkkyApplication;
 import com.molkky.molkky.domain.*;
+import com.molkky.molkky.domain.rounds.Finnish;
 import com.molkky.molkky.model.TournamentModel;
 import com.molkky.molkky.repository.*;
 import org.junit.jupiter.api.Assertions;
@@ -9,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
-import type.RoundType;
+import type.PhaseType;
 import type.UserRole;
 
 import javax.transaction.Transactional;
@@ -34,6 +35,9 @@ class TournamentEntityTest {
     private MatchRepository matchRepository;
     @Autowired
     private CourtRepository courtRepository;
+
+    @Autowired
+    private PhaseRepository phaseRepository;
 
     @Test
     void testInsertTournament() {
@@ -115,15 +119,15 @@ class TournamentEntityTest {
                 3
         ));
 
-        Round round = new Round(RoundType.FINNISH, 2);
-        round.setTournament(tournament);
-        roundRepository.save(round);
-        List<Round> rounds = new ArrayList<>();
-        rounds.add(round);
-        tournament.setRounds(rounds);
+        Finnish finnish = new Finnish();
+        finnish.setTournament(tournament);
+        phaseRepository.save(finnish);
+        List<Phase> phases = new ArrayList<>();
+        phases.add(finnish);
+        tournament.setPhases(phases);
         tournamentRepository.save(tournament);
 
-        Assertions.assertEquals(1, tournament.getRounds().size(), "Tournament should have 1 round");
+        Assertions.assertEquals(1, tournament.getPhases().size(), "Tournament should have 1 phase");
     }
 
     @Test
@@ -199,6 +203,7 @@ class TournamentEntityTest {
 
         Round round = new Round();
         round.setTournament(tournament);
+        //round.setPhase(new Phase());
         round = roundRepository.save(round);
 
         match.setTeams(teams);

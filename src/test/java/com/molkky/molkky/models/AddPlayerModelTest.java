@@ -6,7 +6,7 @@ import com.molkky.molkky.model.AddPlayerlistModel;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class AddPlayerModelTest {
+ class AddPlayerModelTest {
 
     @Test
     void testAddPlayerConstructor1(){

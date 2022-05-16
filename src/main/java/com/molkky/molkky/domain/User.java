@@ -43,11 +43,12 @@ public class User implements Serializable {
     @Column(name = "password")
     private String password;
 
-
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany()
     @LazyCollection(LazyCollectionOption.FALSE)
     @JoinColumn(name="idUser", nullable = true)
     private List<UserTournamentRole> userTournamentRoles;
+
+
 
     public User(String pseudo, String surname, String forename, String club, String email) {
         this.pseudo = pseudo;

@@ -1,31 +1,29 @@
 package com.molkky.molkky.domain.rounds;
 
-import type.RoundType;
-import com.molkky.molkky.domain.Round;
+import com.molkky.molkky.domain.Phase;
+import type.PhaseType;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.print.attribute.standard.Finishings;
 
 @Getter
 @Entity
 @Setter
-@DiscriminatorValue("Finnish")
-public class Finnish extends Round {
+@DiscriminatorValue("FINNISH")
+public class Finnish extends Phase {
+
     @Column(name = "nbFinnish")
     private Integer nbFinnish;
 
     @Column(name = "nbTeamsQualified")
     private Integer nbTeamsQualified;
 
-    public Finnish(Integer nbFinnish, Integer nbTeams){
-        super(RoundType.FINNISH, nbTeams);
-        this.nbFinnish = nbFinnish;
+
+    public Finnish(){
     }
 
-    public Finnish() {
-
-    }
 }
