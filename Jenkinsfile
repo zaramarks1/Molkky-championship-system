@@ -10,6 +10,7 @@ pipeline {
         DB_URL = "jdbc:h2:mem:testdb"
         DRIVER_CLASS_NAME = "org.h2.Driver"
         OPENSSL_CONF = "/dev/null"
+        HIBERNATE_DDL = "create-drop"
     }
     stages {
         stage('Build') {
