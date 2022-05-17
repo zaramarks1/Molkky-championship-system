@@ -80,6 +80,9 @@ public class SetService {
         if (set.getScore1Orga()==50 || set.getScore2Orga()==50){
             return true;
         }
+        if((set.getScore1Team1() == 0 && set.getScore2Team1() == 0) || (set.getScore1Team2() == 0 && set.getScore2Team2() == 0)){
+            return false;
+        }
         if ((!Objects.equals(set.getScore1Team1(), set.getScore1Team2()))){
             notificationService.sendNotificationToList("Les scores rentrés par les deux équipes sont différents. Veuillez inscrire le score final.","/matches/match?match_id="+set.getMatch().getId(),userTournamentRoleService.getTournamentStaffFromUser(user));
             return false;

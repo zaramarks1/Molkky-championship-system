@@ -8,10 +8,12 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
 class SetServiceTest {
@@ -31,6 +33,8 @@ class SetServiceTest {
     private SetRepository setRepository;
     @Autowired
     private SetService setService;
+    @MockBean
+    private NotificationService notificationService;
 
     @Test
     void enterSetResultsTestTeam1() {
@@ -186,6 +190,7 @@ class SetServiceTest {
         //        then
         set = setRepository.findById(set.getId());
         Assertions.assertEquals(false, set.getFinished());
+        verify(notificationService, times(0)).sendNotificationToList(anyString(), anyString(), anyList());
     }
 
     @Test
@@ -232,6 +237,7 @@ class SetServiceTest {
         //        then
         set = setRepository.findById(set.getId());
         Assertions.assertEquals(false, set.getFinished());
+        verify(notificationService, times(1)).sendNotificationToList(anyString(), anyString(), anyList());
     }
 
     @Test
