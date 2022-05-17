@@ -2,13 +2,11 @@ package com.molkky.molkky.controllers;
 
 import com.molkky.molkky.controllers.superclass.DefaultAttributes;
 import com.molkky.molkky.domain.*;
-import com.molkky.molkky.model.CourtModel;
-import com.molkky.molkky.model.TournamentModel;
-import com.molkky.molkky.model.UserLogged;
-import com.molkky.molkky.model.TeamModel;
+import com.molkky.molkky.model.*;
 import com.molkky.molkky.repository.MatchRepository;
 import com.molkky.molkky.repository.TeamRepository;
 import com.molkky.molkky.repository.UserRepository;
+import com.molkky.molkky.repository.UserTournamentRoleRepository;
 import com.molkky.molkky.service.MatchService;
 import com.molkky.molkky.service.SetService;
 import com.molkky.molkky.service.UserService;
@@ -35,6 +33,8 @@ public class MatchController extends DefaultAttributes {
     private UserRepository userRepository;
     @Autowired
     private MatchService matchService;
+    @Autowired
+    private UserTournamentRoleRepository userTournamentRoleRepository;
 
     private String redirectionMatches = "match/allMatches";
 
@@ -48,7 +48,7 @@ public class MatchController extends DefaultAttributes {
             return "redirect:/connexion";
         }
         Match match = matchRepository.findById(id);
-        SetTeamIndex setTeamIndex = matchService.getUserTeamIndex(MatchService.getMatchModelFromEntity(match), UserService.createUserModelFromUserLogged(user));
+        SetTeamIndex setTeamIndex = matchService.getUserTeamIndex(MatchService.getMatchModelFromEntity(match), new UserTournamentRoleModel(userTournamentRoleRepository.findById(user.getTournamentRoleId())));
 
 //        case the user is a player but not in the match
         if(Boolean.TRUE.equals(!matchService.isUserInMatch(MatchService.getMatchModelFromEntity(match), UserService.createUserModelFromUserLogged(user))) && user.getRole() == UserRole.PLAYER){
