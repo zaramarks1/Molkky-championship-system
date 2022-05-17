@@ -57,7 +57,6 @@ public class SessionControllerExample {
     }
     @PostMapping("/sendMail")
     public String sendMail() {
-        emailSenderService.sendEmail("sacha.thuault@gmail.com", "GPI LESGO", "Yes");
         return redirect;
     }
 }
