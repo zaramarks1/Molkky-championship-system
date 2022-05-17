@@ -38,9 +38,10 @@ class PlayerFormTest {
     private String url;
 
     @BeforeAll
-    void setUp() {
+    void setUp() throws ParseException {
         config = new SeleniumConfig();
         url = String.format("http://localhost:%s", port.toString());
+        this.createTournament();
     }
 
     void createTournament() throws ParseException {
@@ -61,8 +62,7 @@ class PlayerFormTest {
     }
 
     @BeforeEach
-    void enterTeam() throws ParseException {
-        createTournament();
+    void enterTeam(){
         config.getDriver().get(url + "/team/create");
         String teamName = "Test" + Math.floor(Math.random() * 1000);
         config.getDriver().findElement(new By.ById("nom")).sendKeys(teamName);

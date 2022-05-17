@@ -3,8 +3,11 @@ package com.molkky.molkky.controllers;
 import com.molkky.molkky.domain.*;
 import com.molkky.molkky.model.*;
 import com.molkky.molkky.repository.MatchRepository;
+import com.molkky.molkky.repository.TeamRepository;
 import com.molkky.molkky.repository.UserRepository;
+import com.molkky.molkky.repository.UserTournamentRoleRepository;
 import com.molkky.molkky.service.MatchService;
+import com.molkky.molkky.service.NotificationService;
 import com.molkky.molkky.service.SetService;
 import com.molkky.molkky.service.UserService;
 import org.junit.jupiter.api.Test;
@@ -27,8 +30,7 @@ import java.util.List;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(value = MatchController.class, excludeAutoConfiguration = {SecurityAutoConfiguration.class})
 @ExtendWith(MockitoExtension.class)
@@ -45,13 +47,20 @@ class MatchControllerTest {
     private MatchService matchService;
     @MockBean
     private UserRepository userRepository;
+    @MockBean
+    private TeamRepository teamRepository;
+    @MockBean
+    private NotificationService notificationService;
+    @MockBean
+    private UserTournamentRoleRepository userTournamentRoleRepository;
     @Autowired
     private MatchController matchController;
 
     @Test
     void testControllerWithoutUser() throws Exception {
         mockMvc.perform(get("/matches/match?match_id=1"))
-                .andExpect(status().is3xxRedirection());
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/connexion"));
     }
 
     @Test
@@ -70,10 +79,11 @@ class MatchControllerTest {
                 .andExpect(model().attribute("match", MatchService.getMatchModelFromEntity(match)))
                 .andExpect(model().attribute("teams", TeamModel.createTeamModels(match.getTeams())))
                 .andExpect(model().attribute("court", new CourtModel(match.getCourt())))
-                .andExpect(model().attribute("tournament", new TournamentModel(match.getRound().getTournament())))
+                .andExpect(model().attribute("tournament", new TournamentModel(match.getRound().getPhase().getTournament())))
                 .andExpect(model().attribute("sets", SetService.createSetModels(match.getSets())))
                 .andExpect(model().attribute("setTeamIndex", SetTeamIndex.TEAM1))
-                .andExpect(model().attribute("user", userLogged));
+                .andExpect(model().attribute("user", userLogged))
+                .andExpect(view().name("/match/match"));
 
     }
 
@@ -91,8 +101,12 @@ class MatchControllerTest {
         tournament.setName("tournament");
         tournament.setId(1);
         tournament.setDate(Date.from(new Date().toInstant()));
+        Phase phase = new Phase();
         Round round = new Round();
         round.setTournament(tournament);
+        round.setPhase(phase);
+        phase.setRounds(List.of(round));
+        phase.setTournament(tournament);
         match.setRound(round);
         Set set = new Set();
         set.setMatch(match);

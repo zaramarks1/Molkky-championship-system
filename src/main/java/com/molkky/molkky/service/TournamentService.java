@@ -36,7 +36,6 @@ public class TournamentService {
         User user= new User();
 
         if(!userRepository.existsUserByEmail(mail)){
-
             user.setEmail(mail);
             user.setPassword(createCode(5));
             user =  userRepository.save(user);

@@ -1,68 +1,68 @@
 package com.molkky.molkky.entity.rounds;
 
 import com.molkky.molkky.MolkkyApplication;
-import com.molkky.molkky.domain.Match;
+import com.molkky.molkky.domain.Phase;
 import com.molkky.molkky.domain.Tournament;
 import com.molkky.molkky.domain.rounds.SimpleGame;
-import com.molkky.molkky.repository.MatchRepository;
-import com.molkky.molkky.repository.RoundRepository;
-import com.molkky.molkky.repository.SimpleGameRepository;
-import com.molkky.molkky.repository.TournamentRepository;
+import com.molkky.molkky.repository.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
+import type.TournamentStatus;
 
 import javax.transaction.Transactional;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @SpringBootTest(classes = MolkkyApplication.class)
 class SimpleGameEntityTest {
     @Autowired
-    private SimpleGameRepository simpleGameRepository;
-    @Autowired
-    private MatchRepository matchRepository;
-    @Autowired
-    private RoundRepository roundRepository;
-    @Autowired
     private TournamentRepository tournamentRepository;
 
+    @Autowired
+    private PhaseRepository phaseRepository;
+
     @Test
-    @Transactional
     @Rollback(false)
-    void testInsertSimpleGame() {
-        Match Match = new Match();
-        Match match2 = new Match();
-        List<Match> matchs = Arrays.asList(Match, match2);
-
-        SimpleGame simpleGame = new SimpleGame();
-        Match.setRound(simpleGame);
-        match2.setRound(simpleGame);
-        simpleGame.setMatches(matchs);
-
-        Tournament tournament = tournamentRepository.save(new Tournament(
-                "tournament_name",
+    @Transactional
+    void testInsertTournamentWithRound() {
+        Tournament tournament = new Tournament(
+                "tournament test",
                 "location",
                 new Date(),
                 new Date(),
                 1,
-                2,
+                8,
                 true,
                 2,
-                3
-        ));
+                3,
+                2
+        );
+        tournament.setNbPlayersPerTeam(1);
+        tournament.setVisible(true);
+        tournament.setStatus(TournamentStatus.AVAILABLE);
+        tournament= tournamentRepository.save(tournament);
 
+        SimpleGame simpleGame = new SimpleGame();
+
+        simpleGame.setNbPhase(1);
         simpleGame.setTournament(tournament);
-        simpleGame = simpleGameRepository.save(simpleGame);
-        System.out.println(simpleGame.getMatches());
-        Assertions.assertNotNull(simpleGame.getId());
-        Match recupMatch = matchRepository.findById(Match.getId());
-        Assertions.assertEquals(recupMatch.getRound().getId(), simpleGame.getId());
+        simpleGame.setNbSets(3);
 
-        simpleGame = simpleGameRepository.findById(simpleGame.getId());
-        Assertions.assertEquals(2, simpleGame.getMatches().size());
+        simpleGame = phaseRepository.save(simpleGame);
+
+        List<Phase> phases = new ArrayList<>();
+        phases.add(simpleGame);
+        tournament.setPhases(phases);
+        tournamentRepository.save(tournament);
+
+
+        Assertions.assertEquals(1, tournament.getPhases().size(), "Tournament should have 2 phases");
+        Assertions.assertEquals(true, tournament.getPhases().get(0) instanceof SimpleGame,
+                " It should be a instance of simple game");
+
     }
 }

@@ -28,7 +28,7 @@ public class SeleniumConfig {
         if(System.getenv("CHROME_DRIVER") != null){
             System.setProperty("webdriver.chrome.driver", System.getenv("CHROME_DRIVER"));
         } else{
-            System.setProperty("webdriver.chrome.driver", "bin/chromedriver99.exe");
+            System.setProperty("webdriver.chrome.driver", "bin/chromedriver100.exe");
         }
     }
 }

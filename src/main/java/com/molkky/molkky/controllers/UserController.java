@@ -11,6 +11,6 @@ public class UserController {
 
     @GetMapping("/addPlayer")
     public String addPlayerForm(Model model){
-        return "team/addPlayer";
+        return "/team/addPlayer";
     }
 }
