@@ -20,18 +20,17 @@ import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/tournament")
-public class TournamentController extends DefaultAttributes {
+public class TournamentController {
     @Autowired
     private TournamentRepository tournamentRepository;
 
     @Autowired
     private TournamentService tournamentService;
 
-    @Autowired
-    private UserRepository userRepository;
 
     private String allTournament="tournament";
     private String redirectionAll = "tournament/allTournament";
+
 
     @GetMapping("/allTournament")
     public String tournamentForm(Model model) {
@@ -44,6 +43,7 @@ public class TournamentController extends DefaultAttributes {
         model.addAttribute(allTournament, tournamentRepository.findByVisibleAndStatus(true,TournamentStatus.AVAILABLE));
         return redirectionAll;
     }
+
 
     @GetMapping("/TournamentClose")
     public String tournamentClose(Model model) {
@@ -72,8 +72,10 @@ public class TournamentController extends DefaultAttributes {
     @GetMapping("/create")
     public String tournamentForm(Model model, HttpSession session) {
         model.addAttribute(allTournament, new TournamentModel());
-        return "/tournament/create";
+        return "tournament/create";
     }
+
+
 
     @PostMapping("/create")
     public String tournamentSubmit(@Valid @ModelAttribute("tournament") TournamentModel tournament, Model model) {
@@ -86,9 +88,9 @@ public class TournamentController extends DefaultAttributes {
     @GetMapping("/{id}/view")
     public String tournamentView(Model model, @PathVariable("id") String id){
         Tournament tournament = tournamentRepository.findById(Integer.valueOf(id));
+        model.addAttribute("tournament", tournament);
         model.addAttribute(allTournament, tournament);
         model.addAttribute("nbTeam", tournament.getTeams().size());
-
         return "/tournament/view";
     }
     @GetMapping("/view")

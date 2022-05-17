@@ -51,7 +51,6 @@ class MatchFormTest {
     private  PhaseRepository phaseRepository;
 
 
-
     @BeforeAll
     void setUp() {
         config = new SeleniumConfig();
@@ -59,7 +58,7 @@ class MatchFormTest {
     }
 
     @Test
-    void testAccessUnlogged(){
+    void testAccessUnlogged() {
 //        given
         Match match = createCompleteMatch();
 //        when
@@ -69,7 +68,7 @@ class MatchFormTest {
     }
 
     @Test
-    void testMatchFormDisplayedLogged(){
+    void testMatchFormDisplayedLogged() {
 //        given
         Match match = createCompleteMatch();
         loginUser(match.getTeams().get(0).getUserTournamentRoles().get(0).getUser());
@@ -88,7 +87,7 @@ class MatchFormTest {
     }
 
     @Test
-    void testInsertScoreTeam1(){
+    void testInsertScoreTeam1() {
 //        given
         Match match = createCompleteMatch();
         loginUser(match.getTeams().get(0).getUserTournamentRoles().get(0).getUser());
@@ -108,7 +107,7 @@ class MatchFormTest {
     }
 
     @Test
-    void testInsertScoreTeam2(){
+    void testInsertScoreTeam2() {
 //        given
         Match match = createCompleteMatch();
         loginUser(match.getTeams().get(1).getUserTournamentRoles().get(0).getUser());
@@ -128,7 +127,7 @@ class MatchFormTest {
     }
 
     @Test
-    void testInsertScoreTeamOrga(){
+    void testInsertScoreTeamOrga() {
 //        given
         Match match = createCompleteMatch();
         User user = createOrgaUser();
@@ -148,17 +147,17 @@ class MatchFormTest {
         Assertions.assertEquals(Integer.toString(score2), config.getDriver().findElement(By.name("score2Orga")).getAttribute("value"));
     }
 
-    void loginUser(User user){
+    void loginUser(User user) {
         config.getDriver().get(url + "/connexion");
         config.getDriver().findElement(new By.ById("email")).sendKeys(user.getEmail());
         config.getDriver().findElement(new By.ById("password")).sendKeys(user.getPassword());
-        if(user.getUserTournamentRoles().get(0).getRole() != UserRole.STAFF){
+        if (user.getUserTournamentRoles().get(0).getRole() != UserRole.STAFF) {
             config.getDriver().findElement(new By.ById("teamCode")).sendKeys(user.getUserTournamentRoles().get(0).getTeam().getCode());
         }
         config.getDriver().findElement(new By.ById("connexion")).click();
     }
 
-    User createOrgaUser(){
+    User createOrgaUser() {
         UserTournamentRole userTournamentRole1 = userTournamentRoleRepository.save(new UserTournamentRole());
         User user1 = new User();
         user1.setEmail(RandomStringUtils.randomAlphabetic(10) + "@gmail.com");
@@ -235,6 +234,7 @@ class MatchFormTest {
 
         return match;
     }
+
     @AfterAll
     void tearDown() {
         config.getDriver().quit();

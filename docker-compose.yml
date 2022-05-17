@@ -12,6 +12,7 @@ services:
     image: phpmyadmin/phpmyadmin:latest
     ports:
       - 8000:80
+    restart: always
     environment:
       - PMA_ARBITRARY=1
       - PMA_HOST=mysql
@@ -22,5 +23,6 @@ services:
     image: "redis"
     ports:
       - "6379:6379"
+    restart: always
     environment:
       - REDIS_REPLICATION_MODE=master

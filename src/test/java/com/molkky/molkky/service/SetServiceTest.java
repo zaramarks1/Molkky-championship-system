@@ -2,15 +2,18 @@ package com.molkky.molkky.service;
 
 import com.molkky.molkky.domain.*;
 import com.molkky.molkky.model.SetModel;
+import com.molkky.molkky.model.UserTournamentRoleModel;
 import com.molkky.molkky.repository.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
 class SetServiceTest {
@@ -30,17 +33,19 @@ class SetServiceTest {
     private SetRepository setRepository;
     @Autowired
     private SetService setService;
+    @MockBean
+    private NotificationService notificationService;
 
     @Test
     void enterSetResultsTestTeam1() {
 //        given
         Match match = createCompleteMatch();
         Set set = match.getSets().get(0);
-        User user1 = match.getTeams().get(0).getUserTournamentRoles().get(0).getUser();
+        UserTournamentRole user1 = match.getTeams().get(0).getUserTournamentRoles().get(0);
 //        when
         set.setScore1Team1(25);
         set.setScore2Team1(15);
-        setService.enterSetResults(SetService.createSetModel(set), UserService.createUserModel(user1));
+        setService.enterSetResults(SetService.createSetModel(set), new UserTournamentRoleModel(user1));
 //    then
         Assertions.assertEquals(25, set.getScore1Team1());
         Assertions.assertEquals(15, set.getScore2Team1());
@@ -51,11 +56,11 @@ class SetServiceTest {
 //        given
         Match match = createCompleteMatch();
         Set set = match.getSets().get(0);
-        User user2 = match.getTeams().get(1).getUserTournamentRoles().get(0).getUser();
+        UserTournamentRole user2 = match.getTeams().get(1).getUserTournamentRoles().get(0);
 //        when
         set.setScore1Team2(25);
         set.setScore2Team2(15);
-        setService.enterSetResults(SetService.createSetModel(set), UserService.createUserModel(user2));
+        setService.enterSetResults(SetService.createSetModel(set), new UserTournamentRoleModel(user2));
 //    then
         Assertions.assertEquals(25, set.getScore1Team2());
         Assertions.assertEquals(15, set.getScore2Team2());
@@ -66,11 +71,11 @@ class SetServiceTest {
 //        given
         Match match = createCompleteMatch();
         Set set = match.getSets().get(0);
-        User user2 = userRepository.save(new User());
+        UserTournamentRole user2 = userTournamentRoleRepository.save(new UserTournamentRole());
 //        when
         set.setScore1Orga(25);
         set.setScore2Orga(15);
-        setService.enterSetResults(SetService.createSetModel(set), UserService.createUserModel(user2));
+        setService.enterSetResults(SetService.createSetModel(set), new UserTournamentRoleModel(user2));
 //    then
         Assertions.assertEquals(25, set.getScore1Orga());
         Assertions.assertEquals(15, set.getScore2Orga());
@@ -163,5 +168,100 @@ class SetServiceTest {
         match.setTeams(Arrays.asList(team1, team2));
         match = matchRepository.save(match);
         return match;
+    }
+
+    @Test
+    void isMatchFinishedNotEqualNo50() {
+        //        given
+        Match match = createCompleteMatch();
+        Set set = match.getSets().get(0);
+        UserTournamentRole user1 = match.getTeams().get(0).getUserTournamentRoles().get(0);
+        UserTournamentRole user2 = match.getTeams().get(1).getUserTournamentRoles().get(0);
+        User user3 = userRepository.save(new User());
+        set = setRepository.findById(set.getId());
+
+        //        when scores are equal but no team has 50
+        set.setScore1Team1(25);
+        set.setScore2Team1(15);
+        set.setScore1Team2(25);
+        set.setScore2Team2(15);
+        setService.enterSetResults(SetService.createSetModel(set), new UserTournamentRoleModel(user1));
+        setService.enterSetResults(SetService.createSetModel(set), new UserTournamentRoleModel(user2));
+        //        then
+        set = setRepository.findById(set.getId());
+        Assertions.assertEquals(false, set.getFinished());
+        verify(notificationService, times(0)).sendNotificationToList(anyString(), anyString(), anyList());
+    }
+
+    @Test
+    void isMatchFinishedEqual50() {
+        //        given
+        Match match = createCompleteMatch();
+        Set set = match.getSets().get(0);
+        UserTournamentRole user1 = match.getTeams().get(0).getUserTournamentRoles().get(0);
+        UserTournamentRole user2 = match.getTeams().get(1).getUserTournamentRoles().get(0);
+        User user3 = userRepository.save(new User());
+        set = setRepository.findById(set.getId());
+
+        //        when scores are equal and a team has 50
+        set.setScore1Team1(50);
+        set.setScore2Team1(20);
+        set.setScore1Team2(50);
+        set.setScore2Team2(20);
+        setService.enterSetResults(SetService.createSetModel(set), new UserTournamentRoleModel(user1));
+        setService.enterSetResults(SetService.createSetModel(set), new UserTournamentRoleModel(user2));
+        //        then
+        set = setRepository.findById(set.getId());
+        Assertions.assertEquals(true, set.getFinished());
+
+    }
+
+    @Test
+    void isMatchFinishedNotEqualNoStaffScores() {
+        //        given
+        Match match = createCompleteMatch();
+        Set set = match.getSets().get(0);
+        UserTournamentRole user1 = match.getTeams().get(0).getUserTournamentRoles().get(0);
+        UserTournamentRole user2 = match.getTeams().get(1).getUserTournamentRoles().get(0);
+        User user3 = userRepository.save(new User());
+        set = setRepository.findById(set.getId());
+
+
+        //        when scores are not equal and staff has not entered scores
+        set.setScore1Team1(50);
+        set.setScore2Team1(20);
+        set.setScore1Team2(30);
+        set.setScore2Team2(40);
+        setService.enterSetResults(SetService.createSetModel(set), new UserTournamentRoleModel(user1));
+        setService.enterSetResults(SetService.createSetModel(set), new UserTournamentRoleModel(user2));
+        //        then
+        set = setRepository.findById(set.getId());
+        Assertions.assertEquals(false, set.getFinished());
+        verify(notificationService, times(1)).sendNotificationToList(anyString(), anyString(), anyList());
+    }
+
+    @Test
+    void isMatchFinishedNotEqualStaffScores() {
+        //        given
+        Match match = createCompleteMatch();
+        Set set = match.getSets().get(0);
+        UserTournamentRole user1 = match.getTeams().get(0).getUserTournamentRoles().get(0);
+        UserTournamentRole user2 = match.getTeams().get(1).getUserTournamentRoles().get(0);
+        UserTournamentRole user3 = userTournamentRoleRepository.save(new UserTournamentRole());
+        set = setRepository.findById(set.getId());
+
+        //        when scores are not equal and staff has entered scores
+        set.setScore1Team1(50);
+        set.setScore2Team1(20);
+        set.setScore1Team2(30);
+        set.setScore2Team2(40);
+        set.setScore1Orga(50);
+        set.setScore2Orga(20);
+        setService.enterSetResults(SetService.createSetModel(set), new UserTournamentRoleModel(user1));
+        setService.enterSetResults(SetService.createSetModel(set), new UserTournamentRoleModel(user2));
+        setService.enterSetResults(SetService.createSetModel(set), new UserTournamentRoleModel(user3));
+        //        then
+        set = setRepository.findById(set.getId());
+        Assertions.assertEquals(true, set.getFinished());
     }
 }

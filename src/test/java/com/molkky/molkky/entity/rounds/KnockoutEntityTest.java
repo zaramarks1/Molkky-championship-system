@@ -52,7 +52,8 @@ class KnockoutEntityTest {
                 2,
                 true,
                 2,
-                3
+                3,
+                2
         ));
 
         knockout.setTournament(tournament);

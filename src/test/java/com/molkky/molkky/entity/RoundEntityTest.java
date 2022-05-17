@@ -42,7 +42,7 @@ class RoundEntityTest {
     @Rollback(false)
     @Transactional
     void testInsertTournamentWithPoolRound() {
-  
+
         Tournament tournament = createTournament();
 
         tournament = createPool(tournament, 1);
@@ -107,7 +107,8 @@ class RoundEntityTest {
                 8,
                 true,
                 2,
-                3
+                3,
+                2
         );
         tournament.setNbPlayersPerTeam(1);
         tournament.setVisible(true);

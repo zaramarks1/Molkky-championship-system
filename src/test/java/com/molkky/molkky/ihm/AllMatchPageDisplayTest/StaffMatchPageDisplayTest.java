@@ -86,7 +86,7 @@ class StaffMatchPageDisplayTest {
             else{
                 User staff = userRepository.findUserByEmail(emailStaff);
                 Tournament old = tournamentRepository.findByName("TournamentConnexion");
-                List<UserTournamentRole> utr = userTournamentRoleRepository.findUserTounamentRoleByTournamentAndUser(old,staff);
+                List<UserTournamentRole> utr = userTournamentRoleRepository.findUserTournamentRoleByTournamentAndUser(old,staff);
                 utr.get(0).setTournament(tournament);
                 userTournamentRoleRepository.save(utr.get(0));
             }
@@ -112,37 +112,86 @@ class StaffMatchPageDisplayTest {
             setRepository.save(set1);
             setRepository.save(set2);
         }
-    }
-
-
-    @Test
-    void connectStaff(){
-        WebDriverWait wait = new WebDriverWait(config.getDriver(), 30);
         config.getDriver().get(url + "/connexion");
         config.getDriver().findElement(new By.ById("email")).sendKeys(emailStaff);
         config.getDriver().findElement(new By.ById("password")).sendKeys(passwordStaff);
         config.getDriver().findElement(new By.ById("connexion")).click();
-        wait.until(ExpectedConditions.visibilityOf(config.getDriver().findElement(new By.ById("homeDescription"))));
         Assertions.assertEquals("Accueil", config.getDriver().getTitle());
+        config.getDriver().findElement(new By.ById("matches")).click();
+    }
+
+
+    @Test
+    void allMatchStaff(){
         config.getDriver().findElement(new By.ById("matches")).click();
         Assertions.assertEquals("Affichage des Matchs", config.getDriver().getTitle());
         Assertions.assertEquals(url+"/match/allMatches", config.getDriver().getCurrentUrl());
         Assertions.assertEquals("Affichage des Matchs", config.getDriver().getTitle());
-        //TO DO : Separate tests
-        //Test allMatchesPageIsDisplayed
+        config.getDriver().get(url + "/match/allMatches");
         config.getDriver().findElement(new By.ById("all")).click();
         Assertions.assertEquals(url+"/match/allMatches", config.getDriver().getCurrentUrl());
-        //WebElement matches = config.getDriver().findElement(new By.ById("listMatches"));
-        //Assertions.assertEquals(1, matches.);
-        //Test inProgressPageIsDisplayed
+        int nbMatchBDD = matchRepository.findMatchAttributedToStaff(tournamentRepository.findByName("TournamentTestStaff"),
+                userRepository.findUserByEmail(emailStaff)).size();
+        if(nbMatchBDD!=0) {
+            List<WebElement> nbMatch = config.getDriver().findElements(new By.ById("listMatches"));
+            Assertions.assertEquals(nbMatchBDD, nbMatch.size());
+            String idDiv = config.getDriver().findElement(new By.ById("id")).getText();
+            String[] div = idDiv.split(" :");
+            String id = div[1];
+            config.getDriver().findElement(new By.ById("listMatches")).click();
+            Assertions.assertEquals("Match en cours", config.getDriver().getTitle());
+            Assertions.assertEquals(url + "/matches/match?match_id=" + id, config.getDriver().getCurrentUrl());
+        }
+    }
+    @Test
+    void matchInProgressDisplay() {
+        config.getDriver().get(url + "/match/allMatches");
         config.getDriver().findElement(new By.ById("inProgress")).click();
         Assertions.assertEquals(url+"/match/inProgressMatches", config.getDriver().getCurrentUrl());
-        //Test validatePageIsDisplayed
+        int nbMatchBDD = matchRepository.findMatchAttributedToStaffAndFinished(tournamentRepository.findByName("TournamentTestStaff"),
+                userRepository.findUserByEmail(emailStaff),false).size();
+        if(nbMatchBDD!=0) {
+            List<WebElement> nbMatch2 = config.getDriver().findElements(new By.ById("listMatches"));
+            Assertions.assertEquals(nbMatchBDD, nbMatch2.size());
+            String idDiv2 = config.getDriver().findElement(new By.ById("id")).getText();
+            String[] div2 = idDiv2.split(" :");
+            String id2 = div2[1];
+            config.getDriver().findElement(new By.ById("listMatches")).click();
+            Assertions.assertEquals("Match en cours", config.getDriver().getTitle());
+            Assertions.assertEquals(url + "/matches/match?match_id=" + id2, config.getDriver().getCurrentUrl());
+        }
+    }
+
+    @Test
+    void matchToCheckDisplay() {
+        config.getDriver().get(url + "/match/allMatches");
         config.getDriver().findElement(new By.ById("toCheck")).click();
         Assertions.assertEquals(url+"/match/validateMatch", config.getDriver().getCurrentUrl());
-        //Test finishedIsDisplayed
+        String idDiv3 = config.getDriver().findElement(new By.ById("id")).getText();
+        String[] div3 = idDiv3.split(" :");
+        String id3 = div3[1];
+        config.getDriver().findElement(new By.ById("listMatches")).click();
+        Assertions.assertEquals("Match en cours", config.getDriver().getTitle());
+        Assertions.assertEquals(url+"/matches/match?match_id="+id3, config.getDriver().getCurrentUrl());
+    }
+    @Test
+    void matchFinishedDisplay() {
+        config.getDriver().get(url + "/match/allMatches");
         config.getDriver().findElement(new By.ById("closed")).click();
-        Assertions.assertEquals(url+"/match/finishedMatches", config.getDriver().getCurrentUrl());
+        Assertions.assertEquals(url + "/match/finishedMatches", config.getDriver().getCurrentUrl());
+        int nbMatchBDD = matchRepository.findMatchAttributedToStaffAndFinished(tournamentRepository.findByName("TournamentTestStaff"),
+                userRepository.findUserByEmail(emailStaff),true).size();
+        if(nbMatchBDD!=0) {
+            List<WebElement> nbMatch4 = config.getDriver().findElements(new By.ById("listMatches"));
+            Assertions.assertEquals(nbMatchBDD, nbMatch4.size());
+            String idDiv4 = config.getDriver().findElement(new By.ById("id")).getText();
+            String[] div4 = idDiv4.split(" :");
+            String id4 = div4[1];
+            config.getDriver().findElement(new By.ById("listMatches")).click();
+            Assertions.assertEquals("Match en cours", config.getDriver().getTitle());
+            Assertions.assertEquals(url+"/matches/match?match_id="+id4, config.getDriver().getCurrentUrl());
+        }
+
     }
     @AfterAll
     void tearDown() {

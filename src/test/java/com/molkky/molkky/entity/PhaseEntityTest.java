@@ -53,7 +53,8 @@ import java.util.*;
                 8,
                 true,
                 2,
-                3
+                3,
+                2
         );
                 tournament.setNbPlayersPerTeam(1);
                 tournament.setVisible(true);
