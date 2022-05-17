@@ -12,6 +12,7 @@ import type.PhaseType;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.*;
 
 @Service
@@ -32,17 +33,18 @@ public class PoolService {
     @Autowired
     PhaseRepository phaseRepository;
 
-    public HashMap<Round, List<Match>> generateRounds(Pool pool){
-        HashMap<Round, List<Match>> results = new HashMap();
+    public Map<Round, List<Match>> generateRounds(Pool pool){
+        Map<Round, List<Match>> results = new HashMap();
 
-        if(Boolean.FALSE.equals(pool.getRanking())){
-            int nbPool = pool.getNbPools();
+        List<Team> teamsOld = pool.getTournament().getTeams();
+        List<Team> teams = new ArrayList<>();
+        int nbPool = pool.getNbPools();
+        if(Boolean.FALSE.equals(pool.getRanking()) || pool.getNbPhase() == 1) {
 
-            List<Team> teamsOld = pool.getTournament().getTeams();
-
-            List<Team> teamsNew = teamsOld.stream()
+             teams = teamsOld.stream()
                     .filter(team -> !team.isEliminated())
-                            .collect(Collectors.toList());
+                    .collect(Collectors.toList());
+        }
 
             List<Round> rounds = new ArrayList<>();
 
@@ -56,9 +58,8 @@ public class PoolService {
             }
 
 
-
             int count =0;
-            for(Team t : teamsNew){
+            for(Team t : teams){
                 t.getRounds().add( rounds.get(count));
                 rounds.get(count).getTeams().add(t);
                 count++;
@@ -95,12 +96,6 @@ public class PoolService {
                r.getMatches().addAll(matches);
 
             }
-
-
-
-        }else {
-            roundsWithRanking(pool);
-        }
 
         pool = phaseRepository.save(pool);
 

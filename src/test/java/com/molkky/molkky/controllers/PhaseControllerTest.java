@@ -88,10 +88,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
                 8,
                 true,
                 2,
-                3
+                3,
+                2
         );
         tournament.setId(1);
-        tournament.setNbPlayersPerTeam(1);
+        tournament.setNbPlayersPerTeam(2);
         tournament.setVisible(true);
         tournament.setStatus(TournamentStatus.AVAILABLE);
         tournament= tournamentRepository.save(tournament);
