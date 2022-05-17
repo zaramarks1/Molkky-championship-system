@@ -1,5 +1,7 @@
 package com.molkky.molkky.controllers;
 
+import com.molkky.molkky.service.EmailSenderService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,8 +15,12 @@ import java.util.List;
 
 @Controller
 public class SessionControllerExample {
+    @Autowired
+    private EmailSenderService emailSenderService;
 
     String messagesAttribute = "MY_SESSION_MESSAGES";
+
+    String redirect = "redirect:/session";
 
     @GetMapping("/session")
     public String home(Model model, HttpSession session) {
@@ -41,16 +47,17 @@ public class SessionControllerExample {
         msgs.add(msg);
         request.getSession().setAttribute(messagesAttribute, msgs);
         request.getSession().setAttribute("SESSION_TEST","yeah");
-        return "redirect:/session";
+        return redirect;
     }
 
     @PostMapping("/destroy")
     public String destroySession(HttpServletRequest request) {
         request.getSession().invalidate();
-        return "redirect:/session";
+        return redirect;
     }
-    @PostMapping("/goToRegister")
-    public String goToRegister() {
-        return "redirect:/register";
+    @PostMapping("/sendMail")
+    public String sendMail() {
+        emailSenderService.sendEmail("sacha.thuault@gmail.com", "GPI LESGO", "Yes");
+        return redirect;
     }
 }
