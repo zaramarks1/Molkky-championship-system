@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import type.UserRole;
 
-@Data
+
 @Service
 public class TournamentService {
 
