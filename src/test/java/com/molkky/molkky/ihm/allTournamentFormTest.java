@@ -14,7 +14,7 @@ import java.util.List;
 
 @SpringBootTest(classes = MolkkyApplication.class, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class allTournamentFormTest {
+class AllTournamentFormTest {
     @Autowired
     private TournamentRepository tournamentRepository;
     private SeleniumConfig config;
@@ -60,13 +60,13 @@ public class allTournamentFormTest {
     void testButtonTypeTournament() {
         config.getDriver().get(url);
         config.getDriver().findElement(new By.ById("open")).click();
-        Assertions.assertEquals("http://localhost:8080/tournament/TournamentOpen", config.getDriver().getCurrentUrl());
+        Assertions.assertTrue(config.getDriver().getCurrentUrl().endsWith("tournament/TournamentOpen"));
         config.getDriver().findElement(new By.ById("closed")).click();
-        Assertions.assertEquals("http://localhost:8080/tournament/TournamentClose", config.getDriver().getCurrentUrl());
+        Assertions.assertTrue(config.getDriver().getCurrentUrl().endsWith("tournament/TournamentClose"));
         config.getDriver().findElement(new By.ById("inProgress")).click();
-        Assertions.assertEquals("http://localhost:8080/tournament/TournamentInProgress", config.getDriver().getCurrentUrl());
+        Assertions.assertTrue(config.getDriver().getCurrentUrl().endsWith("tournament/TournamentInProgress"));
         config.getDriver().findElement(new By.ById("valider")).click();
-        Assertions.assertEquals("http://localhost:8080/tournament/create", config.getDriver().getCurrentUrl());
+        Assertions.assertTrue( config.getDriver().getCurrentUrl().endsWith("tournament/create"));
     }
 
     @Test
