@@ -86,7 +86,7 @@ class StaffMatchPageDisplayTest {
             else{
                 User staff = userRepository.findUserByEmail(emailStaff);
                 Tournament old = tournamentRepository.findByName("TournamentConnexion");
-                List<UserTournamentRole> utr = userTournamentRoleRepository.findUserTounamentRoleByTournamentAndUser(old,staff);
+                List<UserTournamentRole> utr = userTournamentRoleRepository.findUserTournamentRoleByTournamentAndUser(old,staff);
                 utr.get(0).setTournament(tournament);
                 userTournamentRoleRepository.save(utr.get(0));
             }
