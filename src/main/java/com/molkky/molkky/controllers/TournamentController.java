@@ -92,6 +92,8 @@ public class TournamentController {
         model.addAttribute(allTournament, tournament);
         model.addAttribute("nbTeam", tournament.getTeams().size());
         return "/tournament/view";
+
+
     }
     @GetMapping("/view")
     public String tournamentViewPostLaunch(Model model,@RequestParam(value = "tournamentId", required = false) String tournamentId){

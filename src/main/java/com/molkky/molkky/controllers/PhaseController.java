@@ -117,7 +117,7 @@ public class PhaseController {
                     break;
             }
         }
-       // phaseRepository.saveAll(phases);
+        phaseRepository.saveAll(phases);
         t.setPhases(phases);
        t =  tournamentRepository.save(t);
         return "redirect:/tournament/view?tournamentId="+t.getId();

@@ -78,7 +78,7 @@ import java.util.List;
     @Test
     void testFormIsDisplayed(){
         Assertions.assertTrue(config.getDriver().findElement(new By.ByClassName("contentTitle")).isDisplayed());
-        Assertions.assertEquals("Veuillez editer les différentes informations de la/des phase(s)",config.getDriver().findElement
+        Assertions.assertEquals("Veuillez choisir la/les phase(s) du tournoi",config.getDriver().findElement
                 (new By.ByClassName("contentTitle")).getText());
 
         Assertions.assertTrue(config.getDriver().findElement

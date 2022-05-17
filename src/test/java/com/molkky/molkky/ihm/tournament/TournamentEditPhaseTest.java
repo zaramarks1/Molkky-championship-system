@@ -124,6 +124,7 @@ import java.util.List;
 
 
         //knockout
+       // Assertions.assertTrue(config.getDriver().findElement(new By.ByName("phases[1].nbMatch")).isDisplayed());
         Assertions.assertTrue(config.getDriver().findElement(new By.ByName("phases[1].nbSets")).isDisplayed());
         Assertions.assertTrue(config.getDriver().findElement(new By.ByName("phases[1].ranking")).isDisplayed());
         Assertions.assertTrue(config.getDriver().findElement(new By.ByName("phases[1].topSeeds")).isDisplayed());
@@ -291,6 +292,7 @@ import java.util.List;
 
         //knockout
         config.getDriver().findElement(new By.ByName("phases[1].nbSets")).sendKeys("3");
+        //config.getDriver().findElement(new By.ByName("phases[1].nbMatch")).sendKeys("3");
 
         //pool
         config.getDriver().findElement(new By.ByName("phases[2].nbPools")).sendKeys("2");
@@ -326,7 +328,6 @@ import java.util.List;
         Assertions.assertNotNull(tournament);
 
     }
-
     @AfterAll
     void tearDown() {
         config.getDriver().quit();
