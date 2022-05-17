@@ -44,11 +44,9 @@
                                 <span class="dateCard" th:text="${tournament.date}"/>
                                 <span class="nbCard" th:text="${tournament.nbPlayersPerTeam}+' joueurs par équipes'"/>
                                 <p class="textPlayer" th:if="${!tournament.getTeams().isEmpty()}">
-                                <span class="textPlayer" th:text="${tournament.getTeams().size()}*${tournament.nbPlayersPerTeam}+' / '+${tournament.getMaxTeam()}*${tournament.getNbPlayersPerTeam()}+' Joueurs'"/>
-                                </p>
+                                    <span class="textPlayer" th:text="${tournament.getTeams().size()}*${tournament.nbPlayersPerTeam}+' / '+${tournament.getMaxTeam()}*${tournament.getNbPlayersPerTeam()}+' Joueurs'"/></p>
                                 <p class="textPlayer" th:unless="${!tournament.getTeams().isEmpty()}">
-                                    <span class="textPlayer" th:text="'0 / '+${tournament.getMaxTeam()}*${tournament.getNbPlayersPerTeam()}+' Joueurs'"/>
-                                </p>
+                                    <span class="textPlayer" th:text="'0 / '+${tournament.getMaxTeam()}*${tournament.getNbPlayersPerTeam()}+' Joueurs'"/></p>
                                 <p class="textInscriptionClosed" th:unless="${tournament.visible}">Incriptions fermés</p>
                                 <p class="textInscriptionOpen" th:if="${tournament.visible}">Incriptions ouvertes</p>
                             </a>

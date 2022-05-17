@@ -52,7 +52,8 @@ class SwissPoolEntityTest {
                 2,
                 true,
                 2,
-                3
+                3,
+                2
         ));
 
         swissPool.setTournament(tournament);
@@ -79,7 +80,8 @@ class SwissPoolEntityTest {
                 2,
                 true,
                 2,
-                3
+                3,
+                2
         ));
         swissPool.setTournament(tournament);
         swissPoolRepository.save(swissPool);
