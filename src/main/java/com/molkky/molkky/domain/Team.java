@@ -35,7 +35,7 @@ public class Team implements Serializable {
     @ManyToMany(mappedBy = "teams")
     private List<Round> rounds;
 
-    @OneToMany(mappedBy="team", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy="team",fetch = FetchType.EAGER)
     private List<UserTournamentRole> userTournamentRoles;
 
     @ManyToOne
@@ -53,7 +53,6 @@ public class Team implements Serializable {
 
     @Column(name = "eliminated")
     private boolean eliminated;
-
 
     public Team(){
         this.shots = new ArrayList<>();

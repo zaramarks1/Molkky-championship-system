@@ -43,6 +43,9 @@ public class Phase  implements Serializable {
     @Column(name = "isTerrainAffectation")
     private Boolean terrainAffectation = false;
 
+    @Column(name = "isFinished")
+    private Boolean finished = false;
+
     @ManyToOne
     @JoinColumn(name="tournament_id", nullable=false)
     private Tournament tournament;
