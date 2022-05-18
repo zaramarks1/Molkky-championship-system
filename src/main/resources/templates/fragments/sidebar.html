@@ -11,9 +11,9 @@
             </div>
         </a>
         <div th:if="${session.user != null}">
-            <a href="/tournament/tournamentongoing" style="text-decoration: none;">
-                <div th:class="'sidebarButton '+${#httpServletRequest.requestURI.startsWith('/tournament/tournamentongoing') ? 'bgButton textPrimary' : ''}">
-                    <img th:class="'sidebarIcon '+${#httpServletRequest.requestURI.startsWith('/tournament/tournamentongoing') ? 'sidebarIcon' : 'sidebarIconInactive'}" th:src="@{/assets/tournamentongoing.svg}" alt="Tournament cup for ongoin tournament icon"/>
+            <a href="/tournament/tournamentOnGoing" style="text-decoration: none;">
+                <div th:class="'sidebarButton '+${#httpServletRequest.requestURI.startsWith('/tournament/tournamentOnGoing') ? 'bgButton textPrimary' : ''}">
+                    <img th:class="'sidebarIcon '+${#httpServletRequest.requestURI.startsWith('/tournament/tournamentOnGoing') ? 'sidebarIcon' : 'sidebarIconInactive'}" th:src="@{/assets/tournamentongoing.svg}" alt="Tournament cup for ongoin tournament icon"/>
                     <p id="tournamentongoing_sidebar" class="sidebarButtonContent">Tournoi en cours</p>
                 </div>
             </a>

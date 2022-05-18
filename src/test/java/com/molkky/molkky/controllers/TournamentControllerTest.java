@@ -25,6 +25,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
@@ -92,5 +93,41 @@ class TournamentControllerTest {
                 .andExpect(view().name("/tournament/view"));
 
         verify(this.tournamentRepository, times(1)).findById(anyInt());
+    }
+
+    @Test
+    void testAllTournament() throws Exception{
+        mockMvc.perform(get("/tournament/allTournament"))
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(model().attributeExists("tournament"))
+                .andExpect(view().name("/tournament/allTournament"));
+
+        mockMvc.perform(get("/tournament/TournamentOpen"))
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(model().attributeExists("tournament"))
+                .andExpect(view().name("/tournament/allTournament"));
+
+        mockMvc.perform(get("/tournament/TournamentClose"))
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(model().attributeExists("tournament"))
+                .andExpect(view().name("/tournament/allTournament"));
+
+        mockMvc.perform(get("/tournament/TournamentInProgress"))
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(model().attributeExists("tournament"))
+                .andExpect(view().name("/tournament/allTournament"));
+
+        mockMvc.perform(post("/tournament/allTournament"))
+                .andDo(print())
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/tournament/create?unreadCount=0"))
+                .andExpect(view().name("redirect:/tournament/create"));
+    }
+
+    @Test
+    void testTournamentOnGoing() throws Exception{
+        mockMvc.perform(get("/tournament/tournamentOnGoing"))
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(view().name("/tournament/tournamentOnGoing"));
     }
 }
