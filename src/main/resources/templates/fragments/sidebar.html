@@ -11,16 +11,16 @@
             </div>
         </a>
         <div th:if="${session.user != null}">
-        <a href="/tournamentongoing" style="text-decoration: none;">
-            <div th:class="'sidebarButton '+${#httpServletRequest.requestURI.startsWith('/tournamentongoing') ? 'bgButton textPrimary' : ''}">
-                <img th:class="'sidebarIcon '+${#httpServletRequest.requestURI.startsWith('/tournamentongoing') ? 'sidebarIcon' : 'sidebarIconInactive'}" th:src="@{/assets/tournamentongoing.svg}" alt="Tournament cup for ongoin tournament icon"/>
-                <p id="tournamentongoing_sidebar" class="sidebarButtonContent">Tournoi en cours</p>
-            </div>
-        </a>
+            <a href="/tournament/tournamentongoing" style="text-decoration: none;">
+                <div th:class="'sidebarButton '+${#httpServletRequest.requestURI.startsWith('/tournament/tournamentongoing') ? 'bgButton textPrimary' : ''}">
+                    <img th:class="'sidebarIcon '+${#httpServletRequest.requestURI.startsWith('/tournament/tournamentongoing') ? 'sidebarIcon' : 'sidebarIconInactive'}" th:src="@{/assets/tournamentongoing.svg}" alt="Tournament cup for ongoin tournament icon"/>
+                    <p id="tournamentongoing_sidebar" class="sidebarButtonContent">Tournoi en cours</p>
+                </div>
+            </a>
         </div>
         <a href="/tournament/allTournament" style="text-decoration: none;">
-            <div th:class="'sidebarButton '+${#httpServletRequest.requestURI.startsWith('/tournament') ? 'bgButton textPrimary' : ''}">
-                <img th:class="'sidebarIcon '+${#httpServletRequest.requestURI.startsWith('/tournament') ? 'sidebarIcon' : 'sidebarIconInactive'}" th:src="@{/assets/tournament.svg}" alt="Tournament bracket for tournnaments icon"/>
+            <div th:class="'sidebarButton '+${#httpServletRequest.requestURI.startsWith('/tournament/allTournament') ? 'bgButton textPrimary' : ''}">
+                <img th:class="'sidebarIcon '+${#httpServletRequest.requestURI.startsWith('/tournament/allTournament') ? 'sidebarIcon' : 'sidebarIconInactive'}" th:src="@{/assets/tournament.svg}" alt="Tournament bracket for tournnaments icon"/>
                 <p id="tournament_sidebar" class="sidebarButtonContent">Tournois</p>
             </div>
         </a>
