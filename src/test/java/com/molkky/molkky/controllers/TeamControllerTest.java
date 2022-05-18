@@ -8,7 +8,9 @@ import com.molkky.molkky.model.CreateTeamModel;
 import com.molkky.molkky.repository.TeamRepository;
 import com.molkky.molkky.repository.TournamentRepository;
 import com.molkky.molkky.repository.UserRepository;
+import com.molkky.molkky.repository.UserTournamentRoleRepository;
 import com.molkky.molkky.service.EmailSenderService;
+import com.molkky.molkky.service.NotificationService;
 import com.molkky.molkky.service.TeamService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -47,7 +49,10 @@ class TeamControllerTest {
 
     @MockBean
     private TeamRepository teamRepository;
-
+    @MockBean
+    private UserTournamentRoleRepository userTournamentRoleRepository;
+    @MockBean
+    private NotificationService notificationService;
     @Mock
     private AddPlayerlistModel addPlayerlistModel;
 
@@ -113,7 +118,7 @@ class TeamControllerTest {
                         .flashAttr("form",addPlayerlistModel))
                 .andDo(print())
                 .andExpect(view().name("redirect:/team/create"))
-                .andExpect(redirectedUrl("/team/create"))
+                .andExpect(redirectedUrl("/team/create?unreadCount=0"))
                 .andExpect(status().is3xxRedirection());
 
         Mockito.verify(addPlayerlistModel,Mockito.times(1)).getPlayers();
