@@ -124,7 +124,7 @@ public class SimpleGameService {
                 }else{
                     // add if round has more than one match (3 teams)
                 }
-                
+
             teamRepository.saveAll(teamsEliminated);
     }
 }

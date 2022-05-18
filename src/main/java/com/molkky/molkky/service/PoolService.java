@@ -4,15 +4,13 @@ import com.molkky.molkky.domain.Match;
 import com.molkky.molkky.domain.Round;
 import com.molkky.molkky.domain.Team;
 import com.molkky.molkky.domain.rounds.Pool;
+import com.molkky.molkky.model.phase.PoolRankingModel;
 import com.molkky.molkky.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import type.PhaseType;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.*;
 
 @Service
@@ -106,7 +104,62 @@ public class PoolService {
         return results;
     }
 
-    public void roundsWithRanking(Pool pool){
-         pool.getNbPhase();
+    void validateRound(Round round){
+        int victoryValue = round.getPhase().getVictoryValue();
+
+        List<PoolRankingModel> scoresList = new ArrayList<>();
+        Map<Team, PoolRankingModel> scores = new HashMap<>();
+
+       /* for(Team t : round.getTeams()){
+            PoolRankingModel poolRankingModel = new PoolRankingModel();
+            poolRankingModel.setTeamId(t.getId());
+            scores.put(t, poolRankingModel);
+        }*/
+
+        for(Match m : round.getMatches()){
+            Team team1 = m.getTeams().get(0);
+            Team team2 = m.getTeams().get(1);
+
+            PoolRankingModel poolRankingModel1 = scores.get(team1);
+            poolRankingModel1.setTeam(team1);
+            poolRankingModel1.setTotalPoints(poolRankingModel1.getTotalPoints() + m.getScoreTeam1());
+            PoolRankingModel poolRankingModel2 = scores.get(team2);
+            poolRankingModel2.setTeam(team2);
+            poolRankingModel2.setTotalPoints(poolRankingModel2.getTotalPoints() + m.getScoreTeam2());
+
+            for(Team t : m.getTeams()){
+                if(t.getId().equals(team1.getId()) && t.getId().equals(m.getWinner().getId())){
+                    poolRankingModel1.setValues(poolRankingModel1.getValues() + victoryValue);
+                }else  if(t.getId().equals(team2.getId()) && t.getId().equals(m.getWinner().getId())){
+                    poolRankingModel2.setValues(poolRankingModel2.getValues() + victoryValue);
+                }
+            }
+
+
+            scores.put(team1,poolRankingModel1);
+            scores.put(team2, poolRankingModel2);
+        }
+
+        for(Map.Entry<Team, PoolRankingModel> entry : scores.entrySet()){
+
+           Team team = entry.getKey();
+           PoolRankingModel poolRankingModel= scores.get(team);
+
+            scoresList.add(poolRankingModel);
+
+        }
+
+        scoresList.sort(Comparator.comparing(PoolRankingModel::getValues).thenComparing(PoolRankingModel::getTotalPoints));
+
+        Map<Team, PoolRankingModel> scoresSorted = new HashMap<>();
+
+        for (PoolRankingModel p: scoresList){
+            scoresSorted.put(p.getTeam(),p );
+        }
+
+
+
     }
+
+
 }
