@@ -42,7 +42,7 @@ class RoundEntityTest {
     @Rollback(false)
     @Transactional
     void testInsertTournamentWithPoolRound() {
-  
+
         Tournament tournament = createTournament();
 
         tournament = createPool(tournament, 1);
@@ -54,28 +54,15 @@ class RoundEntityTest {
         Assertions.assertEquals(1, tournament.getPhases().size(), "Tournament should have 1 phase");
         Assertions.assertEquals(true, tournament.getPhases().get(0) instanceof Pool,
                 " It should be a instance of pool");
-        //Assertions.assertEquals(2, tournament.getPhases().get(0).getRounds().size(),
-        // " there should be 2 rounds in the phase");
+        Assertions.assertEquals(2, tournament.getPhases().get(0).getRounds().size(),
+                " there should be 2 rounds in the phase");
         Assertions.assertEquals(8, tournament.getTeams().size(), " There should be 8 teams ");
         Assertions.assertEquals(1, tournament.getTeams().get(0).getUserTournamentRoles().size(),
                 " There should be 1 player per team ");
-        //Assertions.assertEquals(3, tournament.getTeams().get(0).getMatchs().size(),
-        //       " There should be 3 matches per team ");
-        //Assertions.assertEquals(1, tournament.getTeams().get(0).getRounds().size(),
-        //        " There should be 1 round per team ");
-       // Assertions.assertEquals(6, tournament.getTeams().get(0).getRounds().get(0).getMatches().size(),
-        // " There should be 6 matches per pool ");
-        //Assertions.assertEquals(2, results.size(), " There should be 2 rounds of pool ");
+        Assertions.assertEquals(1, tournament.getTeams().get(0).getRounds().size(),
+                " There should be 1 round per team ");
+        Assertions.assertEquals(2, results.size(), " There should be 2 rounds of pool ");
 
-
-        for(Map.Entry<Round, List<Match>> entry : results.entrySet()){
-
-            Assertions.assertEquals(PhaseType.POOL, entry.getKey().getType(),
-                    " The round should be of type pool ");
-            Assertions.assertEquals(4, entry.getKey().getTeams().size(), " The  should be 4 teams");
-            Assertions.assertEquals(6, entry.getValue().size(), " The  should be 6 matches");
-
-        }
 
     }
 
@@ -103,17 +90,6 @@ class RoundEntityTest {
                 " There should be 1 player per team ");
         //Assertions.assertEquals(4, results.size(), " There should be 4 rounds of simple game ");
 
-
-
-        for(Map.Entry<Round, List<Match>> entry : results.entrySet()){
-
-            Assertions.assertEquals(PhaseType.SIMPLEGAME, entry.getKey().getType(),
-                    " The round should be of type simple game ");
-            Assertions.assertEquals(2, entry.getKey().getTeams().size(), " The  should be 2 teams");
-            Assertions.assertEquals(1, entry.getValue().size(), " The  should be one match");
-
-        }
-
     }
 
 
@@ -128,7 +104,8 @@ class RoundEntityTest {
                 8,
                 true,
                 2,
-                3
+                3,
+                2
         );
         tournament.setNbPlayersPerTeam(1);
         tournament.setVisible(true);

@@ -61,7 +61,7 @@ class TournamentControllerTest {
         mockMvc.perform(get("/tournament/create/"))
                 .andExpect(status().isOk())
                 .andExpect(model().attributeExists("tournament"))
-                .andExpect(view().name("/tournament/create"));
+                .andExpect(view().name("tournament/create"));
 
         when(tournamentService.create(any(TournamentModel.class))).thenReturn(this.tournament);
         when(this.tournament.getId()).thenReturn(5);

@@ -5,6 +5,7 @@ import com.molkky.molkky.domain.Team;
 import com.molkky.molkky.domain.User;
 import com.molkky.molkky.domain.UserTournamentRole;
 import com.molkky.molkky.model.MatchModel;
+import com.molkky.molkky.model.UserTournamentRoleModel;
 import com.molkky.molkky.repository.MatchRepository;
 import com.molkky.molkky.repository.TeamRepository;
 import com.molkky.molkky.repository.UserRepository;
@@ -93,7 +94,7 @@ class MatchServiceTest {
         match.setTeams(Arrays.asList(team1, team2));
         match = matchRepository.save(match);
 //        when
-        SetTeamIndex index = matchService.getUserTeamIndex(MatchService.getMatchModelFromEntity(match), UserService.createUserModel(user1));
+        SetTeamIndex index = matchService.getUserTeamIndex(MatchService.getMatchModelFromEntity(match), new UserTournamentRoleModel(userTournamentRole1));
 //        then
         Assertions.assertEquals(SetTeamIndex.TEAM1, index);
         Assertions.assertTrue(matchService.isUserInMatch(MatchService.getMatchModelFromEntity(match), UserService.createUserModel(user1)));
@@ -117,7 +118,7 @@ class MatchServiceTest {
         match.setTeams(Arrays.asList(team2, team1));
         match = matchRepository.save(match);
 //        when
-        SetTeamIndex index = matchService.getUserTeamIndex(MatchService.getMatchModelFromEntity(match), UserService.createUserModel(user1));
+        SetTeamIndex index = matchService.getUserTeamIndex(MatchService.getMatchModelFromEntity(match), new UserTournamentRoleModel(userTournamentRole1));
 //        then
         Assertions.assertEquals(SetTeamIndex.TEAM2, index);
         Assertions.assertTrue(matchService.isUserInMatch(MatchService.getMatchModelFromEntity(match), UserService.createUserModel(user1)));
@@ -131,18 +132,22 @@ class MatchServiceTest {
         Team team2 = teamRepository.save(new Team());
 
         UserTournamentRole userTournamentRole1 = userTournamentRoleRepository.save(new UserTournamentRole());
+        UserTournamentRole userTournamentRole2 = userTournamentRoleRepository.save(new UserTournamentRole());
         User user1 = userRepository.save(new User());
         User user2 = userRepository.save(new User());
+        userTournamentRole2.setUser(user2);
+        user2.setUserTournamentRoles(List.of(userTournamentRole2));
         userTournamentRole1.setUser(user1);
         userTournamentRole1.setTeam(team1);
         userTournamentRoleRepository.save(userTournamentRole1);
+        userTournamentRoleRepository.save(userTournamentRole2);
         team1.setUserTournamentRoles(List.of(userTournamentRole1));
         team1 = teamRepository.save(team1);
 
         match.setTeams(Arrays.asList(team2, team1));
         match = matchRepository.save(match);
 //        when
-        SetTeamIndex index = matchService.getUserTeamIndex(MatchService.getMatchModelFromEntity(match), UserService.createUserModel(user2));
+        SetTeamIndex index = matchService.getUserTeamIndex(MatchService.getMatchModelFromEntity(match), new UserTournamentRoleModel(userTournamentRole2));
 //        then
         Assertions.assertEquals(SetTeamIndex.ORGA, index);
         Assertions.assertFalse(matchService.isUserInMatch(MatchService.getMatchModelFromEntity(match), UserService.createUserModel(user2)));

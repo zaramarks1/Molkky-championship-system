@@ -89,6 +89,9 @@ public class Phase  implements Serializable {
     @Column(name = "victoryValue")
     private Integer victoryValue;
 
+    @Column(name = "isFinished")
+    private Boolean finished = false;
+
     @ManyToOne
     @JoinColumn(name="tournament_id", nullable=false)
     private Tournament tournament;

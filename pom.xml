@@ -19,7 +19,9 @@
 		<sonar.host.url>https://172.24.1.33/sonar</sonar.host.url>
 		<sonar.login>5da1e6ee849091ca8fec6cf16062bc190df5382e</sonar.login>
 		<sonar.exclusions>src/main/java/com/molkky/molkky/domain/**/**, src/main/java/com/molkky/molkky/model/**/**</sonar.exclusions>
+		<!--suppress UnresolvedMavenProperty -->
 		<sonar.projectKey>Molkky:${GIT_BRANCH}</sonar.projectKey>
+		<!--suppress UnresolvedMavenProperty -->
 		<sonar.projectName>${GIT_BRANCH}</sonar.projectName>
 		<sonar.coverage.jacoco.xmlReportPaths>target/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
 	</properties>
@@ -160,6 +162,14 @@
 			</plugins>
 		</pluginManagement>
 		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>3.0.0-M6</version>
+				<configuration>
+					<forkCount>1</forkCount>
+				</configuration>
+			</plugin>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>

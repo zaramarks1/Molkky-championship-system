@@ -53,7 +53,8 @@ import java.util.*;
                 8,
                 true,
                 2,
-                3
+                3,
+                2
         );
                 tournament.setNbPlayersPerTeam(1);
                 tournament.setVisible(true);
@@ -111,7 +112,7 @@ import java.util.*;
             userTournamentRole.setTournament(tournament);
             userTournamentRole.setTeam(team);
 
-            player.getUserTounamentRoles().add(userTournamentRole);
+            player.getUserTournamentRoles().add(userTournamentRole);
             tournament.getUserTournamentRoles().add(userTournamentRole);
             team.getUserTournamentRoles().add(userTournamentRole);
 

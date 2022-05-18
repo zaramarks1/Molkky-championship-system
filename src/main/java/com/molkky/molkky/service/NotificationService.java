@@ -45,4 +45,10 @@ public class NotificationService {
         List<Notification> notifications = userTournamentRole.getNotifications();
         return NotificationModel.createTeamModels(notifications);
     }
+
+    public void sendNotificationToList(String message, String link, List<UserTournamentRole> listUserTournamentRole){
+        for(UserTournamentRole user : listUserTournamentRole){
+            sendNotification(message,link,user);
+        }
+    }
 }

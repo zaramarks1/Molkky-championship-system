@@ -9,10 +9,13 @@ import com.molkky.molkky.model.CreateTeamModel;
 import com.molkky.molkky.repository.TeamRepository;
 import com.molkky.molkky.repository.TournamentRepository;
 import com.molkky.molkky.repository.UserRepository;
+import com.molkky.molkky.repository.UserTournamentRoleRepository;
 import com.molkky.molkky.service.EmailSenderService;
+import com.molkky.molkky.service.NotificationService;
 import com.molkky.molkky.service.TeamService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
@@ -53,6 +56,12 @@ class TeamCreateControllerTest {
 
     @Autowired
     private TeamController teamController;
+
+    @MockBean
+    private NotificationService notificationService;
+
+    @MockBean
+    private UserTournamentRoleRepository userTournamentRoleRepository;
 
     @MockBean
     private EmailSenderService emailSenderService;

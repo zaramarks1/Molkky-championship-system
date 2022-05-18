@@ -47,7 +47,7 @@ public class UserChoiceController {
         try {
             Tournament tournament = tournamentRepository.findById(Integer.valueOf(tournamentId));
             User user = (User) session.getAttribute("user_temp");
-            List<UserTournamentRole> roles = userTournamentRoleRepository.findUserTounamentRoleByTournamentAndUser(tournament, user);
+            List<UserTournamentRole> roles = userTournamentRoleRepository.findUserTournamentRoleByTournamentAndUser(tournament, user);
             session.setAttribute("tournament", tournament);
             model.addAttribute("roles", roles);
             return new ModelAndView("/user_choice/choiceRole", model);
