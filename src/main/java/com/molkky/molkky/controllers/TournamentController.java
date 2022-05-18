@@ -5,7 +5,6 @@ import com.molkky.molkky.controllers.superclass.DefaultAttributes;
 import com.molkky.molkky.domain.Tournament;
 import com.molkky.molkky.model.TournamentModel;
 import com.molkky.molkky.repository.TournamentRepository;
-import com.molkky.molkky.repository.UserRepository;
 import com.molkky.molkky.service.TournamentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,7 +19,7 @@ import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/tournament")
-public class TournamentController {
+public class TournamentController extends DefaultAttributes {
     @Autowired
     private TournamentRepository tournamentRepository;
 
