@@ -12,6 +12,12 @@
     <div class="contentContainer">
         <div th:replace="fragments/searchbar"></div>
 
+        <div th:if="${session.user != null} and (${#strings.equals(session.user.role, 'ADM')})">
+            <form th:if="${session.user != null} and (${#strings.equals(session.user.role, 'ADM')})" action="#" th:action="@{/tournament/allTournament}" method="post" class="formContainer">
+                <input id="valider" type="submit" class="primaryButton" value="Créer tournoi">
+            </form>
+        </div>
+
         <div class="main">
             <!-- Emplacement pour les filtres-->
             <div class="boxTournamentList">
@@ -54,12 +60,6 @@
                     </ul>
                 </div>
             </div>
-
-
-
-            <form action="#" th:action="@{/tournament/allTournament}" method="post" class="formContainer">
-                <input id="valider" type="submit" class="primaryButton" value="Créer tournoi">
-            </form>
         </div>
     </div>
 </div>

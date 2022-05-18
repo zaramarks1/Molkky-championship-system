@@ -133,8 +133,8 @@ public class MatchController extends DefaultAttributes {
                 if((!set.getScore1Team1().equals(set.getScore1Team2())||(!set.getScore2Team1().equals(set.getScore2Team2())))){
                     matchIncorrectScore.add(match);
                     setIncorrectScore.add(i);
-                    i=i+1;
                 }
+                i=i+1;
             }
         }
         model.addAttribute(matchAttribute, matchIncorrectScore);

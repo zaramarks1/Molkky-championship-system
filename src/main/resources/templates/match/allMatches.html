@@ -52,9 +52,7 @@
                                 <span class="courtCard" th:text=" 'Emplacement : '+${match.getCourt().getName()}"/>
                                 <span class="teamCard" th:text="${match.getTeams().get(0).getName()} + ' contre ' + ${match.getTeams().get(1).getName()}"/>
                                 <span class="nbSetCard" th:text="'Nombres de sets : '+ ${match.getNbSets()}"/>
-                            </a>
-                            <a class="boxInOneCard" th:if="${incorrectSet!= null}">
-                                <span class="setCard" th:text="'Set concerne:' + ${incorrectSet.get(iStat.index)}"/>
+                                <span th:if="${incorrectSet!= null}" class="setCard" th:text="'Set concerné: ' + ${incorrectSet.get(iStat.index)}"/>
                             </a>
                         </li>
                     </ul>
