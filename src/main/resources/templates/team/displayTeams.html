@@ -4,25 +4,35 @@
     <meta charset="UTF-8">
     <div th:replace="fragments/header"></div>
     <title>Affichage des équipes</title>
-    <link rel="stylesheet" th:href="@{/styles/team/team.css}" href="./"/>
+    <link rel="stylesheet" th:href="@{/styles/team/listTeam.css}" href="./"/>
 </head>
 <body class="bg">
 <div class="pageContainer">
     <div th:replace="fragments/sidebar"></div>
-    <div class="contentContainer">
-        <div th:replace="fragments/searchbar"></div>
+        <div class="contentContainer">
+            <div th:replace="fragments/searchbar"></div>
 
-        <div class="">
-            <!-- Emplacement pour les filtres-->
+
+            <div th:each="team: ${teams}" class="cardTeam">
+                <div class="teamHeader">
+                    <div class="teamName">
+                        <p th:text="${team}"></p>
+                    </div>
+                </div>
+            </div>
             <div class="">
-                Liste des équipes
+                <!-- Emplacement pour les filtres-->
+                <div class="">
+                    Liste des équipes
+                    <div>
+                        <ul th:each="team: ${teams}">
+                            <li th:text="${team}">Team</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-</div>
-
-</div>
-</div>
 </body>
 <div th:replace="fragments/footer"></div>
 </html>

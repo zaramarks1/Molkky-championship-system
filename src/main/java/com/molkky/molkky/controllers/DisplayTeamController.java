@@ -15,7 +15,7 @@ public class DisplayTeamController {
 
     @GetMapping("/displayTeams")
     public String displayTeams(Model model) {
-        model.addAttribute("teams", teamRepository.findAll());
+        model.addAttribute("teams", teamRepository.findTeamsName());
         return "team/displayTeams";
     }
 

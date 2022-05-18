@@ -1,0 +1,99 @@
+/* Main */
+
+
+/* Auto layout */
+.bg {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 16px;
+    gap: 5px;
+
+    width: 1147px;
+    height: 735.38px;
+    overflow-y: scroll;
+
+    /* backgroundgrey */
+
+    background: #F4F4F8;
+    transform: rotate(-0.08deg);
+
+    /* Inside auto layout */
+
+    flex: none;
+    order: 1;
+    align-self: stretch;
+    flex-grow: 1;
+}
+
+/* Card 1 */
+
+.cardTeam{
+    box-sizing: border-box;
+
+    /* Auto layout */
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0px;
+
+    width: 246px;
+    height: 125px;
+
+    background: #F4F4F8;
+    /* secondary */
+
+    border: 1px solid #C4C4C4;
+    box-shadow: 0px 0px 7px 2px rgba(196, 196, 196, 0.25);
+    border-radius: 7px;
+
+    /* Inside auto layout */
+
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+}
+
+.teamHeader{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 246px;
+    height: 31px;
+
+    background: #5B5A58;
+
+    /* Inside auto layout */
+
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+}
+
+.teamName{
+
+    width: 236px;
+    height: 21px;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 24px;
+    /* or 120% */
+
+    display: flex;
+    align-items: center;
+    letter-spacing: 0.2px;
+
+    color: #FFFFFF;
+
+
+    /* Inside auto layout */
+
+    flex: none;
+    order: 0;
+    align-self: stretch;
+    flex-grow: 1;
+}
