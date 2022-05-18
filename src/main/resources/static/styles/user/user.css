@@ -1,0 +1,51 @@
+.playerFormContainer {
+    flex-wrap: wrap;
+    margin-top: -20px;
+    max-width: 1048px;
+}
+
+.bigBox{
+    /* Main */
+    /* Auto layout */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 16px;
+    gap: 5px;
+
+    width: 1147px;
+    height: 779.38px;
+    overflow-y: scroll;
+
+    /* backgroundgrey */
+    background: #F4F4F8;
+    transform: rotate(-0.08deg);
+
+    /* Inside auto layout */
+    flex: none;
+    order: 1;
+    align-self: stretch;
+    flex-grow: 1;
+}
+
+.boxListe{
+    /* Main */
+    /* Auto layout */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 16px;
+    gap: 5px;
+
+    width: 1147px;
+    height: 779.38px;
+    overflow-y: scroll;
+    /* backgroundgrey */
+    background: #F4F4F8;
+    transform: rotate(-0.08deg);
+    /* Inside auto layout */
+    flex: none;
+    order: 1;
+    align-self: stretch;
+    flex-grow: 1;
+}
