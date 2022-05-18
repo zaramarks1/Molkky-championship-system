@@ -193,6 +193,44 @@ class MatchServiceTest {
 
     }
 
+    @Test
+    @Rollback(false)
+    @Transactional
+    void validateMatchPool(){
+
+        Tournament tournament = createTournament();
+
+        tournament = createPool(tournament, 1);
+
+        insertTeam(tournament, 6);
+
+        Map<Round, List<Match>> results =  phaseService.generate(tournament.getPhases().get(0).getId().toString());
+
+        tournament = tournamentRepository.findById(tournament.getId());
+
+        List<Round> rounds = new ArrayList<>(tournament.getPhases().get(0).getRounds());
+        //List<Round> rounds = tournament.getPhases().get(0).getRounds();
+        for (Round r: rounds){
+           for(Match m : r.getMatches()){
+               Random rand = new Random();
+               m.setFinished(true);
+               m.setWinner(m.getTeams().get(0));
+               m.setScoreTeam1(50);
+               m.setScoreTeam2(rand.nextInt(49));
+               matchRepository.save(m);
+               matchService.validateMatch(m);
+           }
+
+
+        }
+        List<Team> teams = teamRepository.findByTournamentAndEliminated(tournament,false);
+
+        Assertions.assertEquals(6, tournament.getTeams().size(), "there should be 6 teams");
+        Assertions.assertEquals(4, teams.size(), "there should be 4 teams remaining");
+        Assertions.assertEquals(1, teams.get(0).getUserTournamentRoles().get(0).getNotifications().size(), "each player must have one notification");
+
+    }
+
     Tournament createTournament(){
         Tournament tournament = new Tournament(
                 "tournament test",
@@ -220,6 +258,7 @@ class MatchServiceTest {
         pool.setNbPhase(nbPhase);
         pool.setNbPools(2);
         pool.setNbTeamsQualified(4);
+        pool.setSeedingSystem(true);
 
         pool.setTournament(tournament);
         pool =  phaseRepository.save(pool);

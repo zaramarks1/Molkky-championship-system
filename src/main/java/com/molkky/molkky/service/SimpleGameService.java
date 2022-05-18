@@ -110,21 +110,23 @@ public class SimpleGameService {
     }
 
     void validateRound(Round round){
-
-            List<Team> teamsEliminated = new ArrayList<>();
+            List<Team> teams = round.getMatches().get(0).getTeams();
                 if(round.getMatches().size() == 1){
                     Team winner = round.getMatches().get(0).getWinner();
-
-                    for(Team t : round.getMatches().get(0).getTeams()){
+                    for(Team t : teams){
                         if(!t.getId().equals(winner.getId())){
                             t.setEliminated(true);
-                            teamsEliminated.add(t);
+
                         }
                     }
+
                 }else{
                     // add if round has more than one match (3 teams)
                 }
-
-            teamRepository.saveAll(teamsEliminated);
+                if(round.getPhase().getSeedingSystem()){
+                    teams.get(0).setNbPoints(teams.get(0).getNbPoints() + round.getMatches().get(0).getScoreTeam1());
+                    teams.get(1).setNbPoints(teams.get(1).getNbPoints() + round.getMatches().get(0).getScoreTeam2());
+                }
+            teamRepository.saveAll(teams);
     }
 }
