@@ -28,7 +28,7 @@ public class TournamentController extends DefaultAttributes {
 
 
     private String allTournament="tournament";
-    private String redirectionAll = "tournament/allTournament";
+    private String redirectionAll = "/tournament/allTournament";
 
 
     @GetMapping("/allTournament")
@@ -66,6 +66,11 @@ public class TournamentController extends DefaultAttributes {
     @PostMapping ("/currentTournament")
     public String currentTournament() {
         return "/";
+    }
+
+    @GetMapping ("/tournamentOnGoing")
+    public String getTournamentOnGoing() {
+        return "/tournament/tournamentOnGoing";
     }
 
     @GetMapping("/create")
