@@ -17,6 +17,19 @@
             <div class="boxListe">
                 Liste des utilisateurs
             </div>
+            <div class="searchbar">
+                Emplacement de la searchbar
+                <img th:class="user" th:src="@{/assets/teams.svg}">
+            </div>
+
+            <ul class="boxAllUser" th:each="user:${users}" th:unless="${user.pseudo == null}">
+                <li class="boxOneUser">
+                    <a class="boxOneUser">
+                        <img class="userImage" th:src="@{/assets/teams.svg}">
+                        <span class="nameUser" th:text="${user.pseudo}"/>
+                    </a>
+                </li>
+            </ul>
         </div>
     </div>
 </div>
