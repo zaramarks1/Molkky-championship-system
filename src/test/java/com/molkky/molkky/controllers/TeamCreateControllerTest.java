@@ -9,7 +9,9 @@ import com.molkky.molkky.model.CreateTeamModel;
 import com.molkky.molkky.repository.TeamRepository;
 import com.molkky.molkky.repository.TournamentRepository;
 import com.molkky.molkky.repository.UserRepository;
+import com.molkky.molkky.repository.UserTournamentRoleRepository;
 import com.molkky.molkky.service.EmailSenderService;
+import com.molkky.molkky.service.NotificationService;
 import com.molkky.molkky.service.TeamService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -56,6 +58,10 @@ class TeamCreateControllerTest {
 
     @MockBean
     private EmailSenderService emailSenderService;
+    @MockBean
+    private NotificationService notificationService;
+    @MockBean
+    private UserTournamentRoleRepository userTournamentRoleRepository;
 
     /*
     Test work with conditions, example : @Controller -> @RestController or add @RequestBody to method
