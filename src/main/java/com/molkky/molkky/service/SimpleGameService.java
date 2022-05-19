@@ -127,7 +127,7 @@ public class SimpleGameService {
         teams.add(scoresList.get(0).getTeam());
         teams.add(scoresList.get(1).getTeam());
 
-            if(round.getPhase().getSeedingSystem()){
+            if(Boolean.TRUE.equals(round.getPhase().getSeedingSystem())){
                     teams.get(0).setNbPoints(teams.get(0).getNbPoints() + round.getMatches().get(0).getScoreTeam1());
                     teams.get(1).setNbPoints(teams.get(1).getNbPoints() + round.getMatches().get(0).getScoreTeam2());
             }

@@ -213,6 +213,7 @@ public class KnockoutServiceTest {
         knockout.setNbSets(3);
         knockout.setNbMatch(nbMatch);
         knockout.setTournament(tournament);
+        knockout.setRanking(true);
 
 
         knockout =  phaseRepository.save(knockout);

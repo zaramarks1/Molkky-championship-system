@@ -129,7 +129,7 @@ import java.util.Map;
 
         Tournament tournament = createTournament();
 
-        tournament = createSimpleGame(tournament, 1, false, false);
+        tournament = createSimpleGame(tournament, 1, true, true);
 
         insertTeam(tournament, 8);
 

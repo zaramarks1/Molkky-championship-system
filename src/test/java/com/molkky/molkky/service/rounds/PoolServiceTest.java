@@ -196,7 +196,7 @@ import java.util.*;
 
         Tournament tournament = createTournament();
 
-        tournament = createPool(tournament, 1, 2, 4, false, true);
+        tournament = createPool(tournament, 1, 2, 4, true, true);
 
         insertTeam(tournament, 6);
 
@@ -256,8 +256,10 @@ import java.util.*;
         pool.setNbSets(1);
         pool.setVictoryValue(2);
         pool.setNbPhase(nbPhase);
-        pool.setNbPools(nbPool); //2
-        pool.setNbTeamsQualified(nbTeamsQualified); //4
+        pool.setNbPools(nbPool);
+        pool.setNbTeamsQualified(nbTeamsQualified);
+        pool.setSeedingSystem(seedingSystem);
+        pool.setRanking(ranking);
 
         pool.setTournament(tournament);
         pool =  phaseRepository.save(pool);
