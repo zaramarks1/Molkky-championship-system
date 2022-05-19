@@ -28,7 +28,7 @@ public class TournamentController extends DefaultAttributes {
 
 
     private String allTournament="tournament";
-    private String redirectionAll = "tournament/allTournament";
+    private String redirectionAll = "/tournament/allTournament";
 
 
     @GetMapping("/allTournament")
@@ -62,10 +62,18 @@ public class TournamentController extends DefaultAttributes {
         return new ModelAndView("redirect:/tournament/create", model);
     }
 
+    @PostMapping("/inscription")
+    public ModelAndView goToInscription(ModelMap model){return new ModelAndView("redirect:/team/create",model);}
+
 
     @PostMapping ("/currentTournament")
     public String currentTournament() {
         return "/";
+    }
+
+    @GetMapping ("/tournamentOnGoing")
+    public String getTournamentOnGoing() {
+        return "/tournament/tournamentOnGoing";
     }
 
     @GetMapping("/create")
@@ -73,8 +81,6 @@ public class TournamentController extends DefaultAttributes {
         model.addAttribute(allTournament, new TournamentModel());
         return "tournament/create";
     }
-
-
 
     @PostMapping("/create")
     public String tournamentSubmit(@Valid @ModelAttribute("tournament") TournamentModel tournament, Model model) {

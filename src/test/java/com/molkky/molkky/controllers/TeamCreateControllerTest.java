@@ -63,6 +63,12 @@ class TeamCreateControllerTest {
     @MockBean
     private UserTournamentRoleRepository userTournamentRoleRepository;
 
+    @MockBean
+    private NotificationService notificationService;
+
+    @MockBean
+    private UserTournamentRoleRepository userTournamentRoleRepository;
+
     /*
     Test work with conditions, example : @Controller -> @RestController or add @RequestBody to method
       but then the page is not return
