@@ -4,6 +4,7 @@ import com.molkky.molkky.MolkkyApplication;
 import com.molkky.molkky.domain.*;
 import com.molkky.molkky.domain.rounds.SimpleGame;
 import com.molkky.molkky.repository.*;
+import com.molkky.molkky.service.MatchService;
 import com.molkky.molkky.service.PhaseService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -40,6 +41,11 @@ import java.util.Map;
     @Autowired
     private PhaseService phaseService;
 
+    @Autowired
+    private MatchRepository matchRepository;
+    @Autowired
+    private MatchService matchService;
+
     @Test
     @Rollback(false)
     @Transactional
@@ -47,7 +53,7 @@ import java.util.Map;
 
         Tournament tournament = createTournament();
 
-        tournament = createSimpleGame(tournament, 1);
+        tournament = createSimpleGame(tournament, 1, false, false);
 
         insertTeam(tournament, 8);
 
@@ -84,7 +90,7 @@ import java.util.Map;
 
         Tournament tournament = createTournament();
 
-        tournament = createSimpleGame(tournament, 1);
+        tournament = createSimpleGame(tournament, 1, false, false);
 
         insertTeam(tournament, 9);
 
@@ -116,9 +122,38 @@ import java.util.Map;
 
     }
 
+    @Test
+    @Rollback(false)
+    @Transactional
+    void validateMatchSimpleGame(){
+
+        Tournament tournament = createTournament();
+
+        tournament = createSimpleGame(tournament, 1, false, false);
+
+        insertTeam(tournament, 8);
+
+        Map<Round, List<Match>> results =  phaseService.generate(tournament.getPhases().get(0).getId().toString());
+
+        tournament = tournamentRepository.findById(tournament.getId());
+
+        for (Round r: tournament.getPhases().get(0).getRounds()){
+            r.getMatches().get(0).setFinished(true);
+            r.getMatches().get(0).setWinner(r.getMatches().get(0).getTeams().get(0));
+            matchRepository.save(r.getMatches().get(0));
+            matchService.validateMatch(r.getMatches().get(0));
+        }
+
+        List<Team> teams = teamRepository.findByTournamentAndEliminated(tournament,false);
+
+        Assertions.assertEquals(8, tournament.getTeams().size(), "there should be 8 teams");
+        Assertions.assertEquals(4, teams.size(), "there should be 4 teams remaining");
+
+    }
+
     Tournament createTournament(){
         Tournament tournament = new Tournament(
-                "tournament test",
+                "tournament test simple game service",
                 "location",
                 new Date(),
                 new Date(),
@@ -135,11 +170,13 @@ import java.util.Map;
         return tournamentRepository.save(tournament);
 
     }
-    Tournament createSimpleGame(Tournament tournament, int nbPhase){
+    Tournament createSimpleGame(Tournament tournament, int nbPhase, boolean ranking, boolean seedingSystem){
         SimpleGame simpleGame = new SimpleGame();
         simpleGame.setNbSets(3);
         simpleGame.setTournament(tournament);
         simpleGame.setNbPhase(nbPhase);
+        simpleGame.setRanking(ranking);
+        simpleGame.setSeedingSystem(seedingSystem);
 
         simpleGame =  phaseRepository.save(simpleGame);
 

@@ -95,7 +95,7 @@ public class MatchService {
         return matchRepository.findById(matchModel.getId());
     }
 
-    void validateMatch(Match match){
+    public void validateMatch(Match match){
 
         Round round = match.getRound();
 
