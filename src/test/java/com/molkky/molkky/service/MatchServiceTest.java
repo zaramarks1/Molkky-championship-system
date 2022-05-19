@@ -209,7 +209,6 @@ class MatchServiceTest {
         tournament = tournamentRepository.findById(tournament.getId());
 
         List<Round> rounds = new ArrayList<>(tournament.getPhases().get(0).getRounds());
-        //List<Round> rounds = tournament.getPhases().get(0).getRounds();
         for (Round r: rounds){
            for(Match m : r.getMatches()){
                Random rand = new Random();
@@ -226,6 +225,9 @@ class MatchServiceTest {
         List<Team> teams = teamRepository.findByTournamentAndEliminated(tournament,false);
 
         Assertions.assertEquals(6, tournament.getTeams().size(), "there should be 6 teams");
+        Assertions.assertEquals(4, teams.size(), "there should be 4 teams remaining");
+        Assertions.assertTrue( tournament.getTeams().get(4).isEliminated(), "TEAM 5 should be eliminated");
+        Assertions.assertTrue( tournament.getTeams().get(5).isEliminated(), "TEAM 6 should be eliminated");
         Assertions.assertEquals(4, teams.size(), "there should be 4 teams remaining");
         Assertions.assertEquals(1, teams.get(0).getUserTournamentRoles().get(0).getNotifications().size(), "each player must have one notification");
 

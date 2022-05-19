@@ -13,10 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import type.PhaseType;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -42,11 +39,14 @@ public class KnockoutService {
 
         int nbMatch = knockout.getNbMatch();
 
-        if(Boolean.FALSE.equals(knockout.getRanking()) || knockout.getNbPhase() == 1) {
+        teams = teamsOld.stream()
+                .filter(team -> !team.isEliminated())
+                .collect(Collectors.toList());
 
-            teams = teamsOld.stream()
-                    .filter(team -> !team.isEliminated())
-                    .collect(Collectors.toList());
+        if(Boolean.TRUE.equals(knockout.getRanking()) ) {
+            teams.sort(Comparator
+                    .comparing(Team :: getNbPoints)
+                    .reversed());
         }
 
         List<Team> teamsUpdated = new ArrayList<>();

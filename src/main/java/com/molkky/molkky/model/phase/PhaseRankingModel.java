@@ -8,7 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class PoolRankingModel {
+public class PhaseRankingModel {
 
     Team team;
     Integer totalPoints = 0;
