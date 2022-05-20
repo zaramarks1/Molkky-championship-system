@@ -49,8 +49,8 @@ public class SetService {
         setEntity.setFinished(isSetFinished(setEntity, user));
         Match match = matchRepository.findById(setEntity.getId());
         setEntity.getMatch().setFinished(matchService.isMatchFinished(match));
+        matchService.validateMatch(match);
         matchRepository.save(setEntity.getMatch());
-        Boolean finishedMatch = matchService.isMatchFinished(match);
         setRepository.save(setEntity);
     }
 

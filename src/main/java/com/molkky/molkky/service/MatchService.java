@@ -122,16 +122,6 @@ public class MatchService {
             if( Boolean.FALSE.equals(m.getFinished())){
                 finished = false;
             }
-
-    }
-
-    public Boolean isMatchFinished(Match match){
-        for (Set set : match.getSets()){
-            if (!set.getFinished()){
-                return false;
-            }
-        }
-        return true;
         }
 
         if(Boolean.TRUE.equals(finished)){
@@ -163,6 +153,15 @@ public class MatchService {
             }
         }
 
+    }
+
+    public Boolean isMatchFinished(Match match){
+        for (Set set : match.getSets()){
+            if (!set.getFinished()){
+                return false;
+            }
+        }
+        return true;
     }
 
 }
