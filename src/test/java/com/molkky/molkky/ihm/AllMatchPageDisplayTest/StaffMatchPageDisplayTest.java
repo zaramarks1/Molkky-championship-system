@@ -4,6 +4,7 @@ package com.molkky.molkky.ihm.AllMatchPageDisplayTest;
 import com.molkky.molkky.MolkkyApplication;
 import com.molkky.molkky.SeleniumConfig;
 import com.molkky.molkky.domain.*;
+import com.molkky.molkky.domain.rounds.Pool;
 import com.molkky.molkky.repository.*;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
@@ -36,6 +37,10 @@ class StaffMatchPageDisplayTest {
     private MatchRepository matchRepository;
     @Autowired
     private SetRepository setRepository;
+
+    @Autowired
+    private PhaseRepository phaseRepository;
+
     private SeleniumConfig config;
 
 
@@ -64,9 +69,19 @@ class StaffMatchPageDisplayTest {
             Team team2 = new Team();
             team2.setName(teamName2);
             teamRepository.save(team2);
+
+            Pool phase = new Pool();
             Round round = new Round();
+
+            //phase.setRounds(List.of(round));
+            phase.setTournament(tournament);
+            phaseRepository.save(phase);
+
+            round.setPhase(phase);
             round.setTournament(tournament);
-            roundRepository.save(round);
+            round = roundRepository.save(round);
+
+            //roundRepository.save(round);
             Court court = new Court();
             court.setName("courtTestStaff");
             courtRepository.save(court);

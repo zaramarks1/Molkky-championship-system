@@ -88,7 +88,7 @@ class MatchControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(model().attribute("match", MatchService.getMatchModelFromEntity(match)))
                 .andExpect(model().attribute("teams", TeamModel.createTeamModels(match.getTeams())))
-                .andExpect(model().attribute("court", new CourtModel(match.getCourt())))
+                //.andExpect(model().attribute("court", new CourtModel(match.getCourt())))
                 .andExpect(model().attribute("tournament", new TournamentModel(match.getRound().getPhase().getTournament())))
                 .andExpect(model().attribute("sets", SetService.createSetModels(match.getSets())))
                 .andExpect(model().attribute("setTeamIndex", SetTeamIndex.TEAM1))
