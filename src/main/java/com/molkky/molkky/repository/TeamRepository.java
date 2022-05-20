@@ -12,6 +12,10 @@ import java.util.List;
 public interface TeamRepository extends JpaRepository<Team, String>, JpaSpecificationExecutor<Team> {
     Team findById(Integer id);
     Team findByName(String teamName);
+
+    List<Team> findTeamByName(String teamName);
+    Boolean existsTeamByName(String teamName);
     @Query(value="SELECT t.name FROM Team t")
     List<String> findTeamsName();
+
 }

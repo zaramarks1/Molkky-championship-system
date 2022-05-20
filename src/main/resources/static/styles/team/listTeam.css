@@ -27,7 +27,13 @@
 }
 
 /* Card 1 */
-
+.cardContainer{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+}
 .cardTeam{
     box-sizing: border-box;
 
@@ -35,12 +41,13 @@
 
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     padding: 0px;
 
     width: 246px;
     height: 125px;
+    margin-bottom: 30px;
 
     background: #F4F4F8;
     /* secondary */
@@ -61,37 +68,40 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    width: 246px;
-    height: 31px;
-
+    width: -webkit-fill-available;
+    height: 2em;
     background: #5B5A58;
-
-    /* Inside auto layout */
-
+    border-top-left-radius: 7px;
+    border-top-right-radius: 7px;
     flex: none;
     order: 0;
     flex-grow: 0;
 }
+.teamInfo {
+    width: -webkit-fill-available;
+    height: -webkit-fill-available;
+}
+.playerName{
+    width: 246px;
+    height: 31px;
+}
+.teamPicture{
+    width: 246px;
+    height: 31px;
+}
 
 .teamName{
-
+    margin-left: 10px;
     width: 236px;
-    height: 21px;
+    height: auto;
     font-style: normal;
     font-weight: 600;
     font-size: 20px;
     line-height: 24px;
-    /* or 120% */
-
     display: flex;
     align-items: center;
     letter-spacing: 0.2px;
-
     color: #FFFFFF;
-
-
-    /* Inside auto layout */
-
     flex: none;
     order: 0;
     align-self: stretch;
