@@ -58,10 +58,8 @@ class TeamCreateControllerTest {
 
     @MockBean
     private EmailSenderService emailSenderService;
-
     @MockBean
     private NotificationService notificationService;
-
     @MockBean
     private UserTournamentRoleRepository userTournamentRoleRepository;
 

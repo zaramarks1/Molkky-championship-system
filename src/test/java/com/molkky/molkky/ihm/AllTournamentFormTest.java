@@ -9,6 +9,7 @@ import com.molkky.molkky.domain.UserTournamentRole;
 import com.molkky.molkky.repository.TournamentRepository;
 import com.molkky.molkky.repository.UserRepository;
 import com.molkky.molkky.repository.UserTournamentRoleRepository;
+import org.checkerframework.checker.units.qual.A;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -69,6 +70,8 @@ class AllTournamentFormTest {
     @Test
     void testAllBoutonIsDisplayed() {
         config.getDriver().get(url+"/tournament/allTournament");
+        Assertions.assertTrue(config.getDriver().findElement(new By.ById("valider")).isDisplayed());
+        Assertions.assertTrue(config.getDriver().findElement(new By.ById("inscription")).isDisplayed());
         Assertions.assertTrue(config.getDriver().findElement(new By.ById("open")).isDisplayed());
         Assertions.assertTrue(config.getDriver().findElement(new By.ById("closed")).isDisplayed());
         Assertions.assertTrue(config.getDriver().findElement(new By.ById("inProgress")).isDisplayed());

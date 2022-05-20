@@ -118,10 +118,16 @@ class TournamentControllerTest {
                 .andExpect(view().name("/tournament/allTournament"));
 
         mockMvc.perform(post("/tournament/allTournament"))
-                .andDo(print())
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/tournament/create?unreadCount=0"))
                 .andExpect(view().name("redirect:/tournament/create"));
+
+        mockMvc.perform(post("/tournament/inscription"))
+                .andDo(print())
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/team/create?unreadCount=0"))
+                .andExpect(view().name("redirect:/team/create"));
+
     }
 
     @Test
