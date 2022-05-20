@@ -2,6 +2,7 @@ package com.molkky.molkky.service;
 
 import com.molkky.molkky.domain.Match;
 import com.molkky.molkky.domain.Round;
+import com.molkky.molkky.domain.Set;
 import com.molkky.molkky.domain.Team;
 import com.molkky.molkky.model.phase.PhaseRankingModel;
 import org.springframework.stereotype.Service;
@@ -64,5 +65,23 @@ public class RoundService {
 
         return scoresList;
 
+    }
+
+    public List<Match> createSetsFromMatch(List<Match> matches){
+        int nbSets = matches.get(0).getRound().getPhase().getNbSets();
+        List<Match> results  = new ArrayList<>();
+
+        for(Match m : matches){
+            List<com.molkky.molkky.domain.Set> sets = new ArrayList<>();
+            for(int i =0; i <nbSets; i++){
+                Set set = new Set();
+                set.setTeams(m.getTeams());
+                set.setMatch(m);
+                sets.add(set);
+            }
+            m.setSets(sets);
+            results.add(m);
+        }
+        return results;
     }
 }
