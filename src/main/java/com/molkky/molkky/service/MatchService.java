@@ -1,10 +1,13 @@
 package com.molkky.molkky.service;
 
+import com.molkky.molkky.domain.Court;
 import com.molkky.molkky.domain.Match;
 import com.molkky.molkky.domain.UserTournamentRole;
+import com.molkky.molkky.model.CourtModel;
 import com.molkky.molkky.model.MatchModel;
 import com.molkky.molkky.model.UserModel;
 import com.molkky.molkky.model.UserTournamentRoleModel;
+import com.molkky.molkky.repository.CourtRepository;
 import com.molkky.molkky.repository.MatchRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,7 +22,11 @@ public class MatchService {
     @Autowired
     private MatchRepository matchRepository;
     @Autowired
+    private CourtRepository courtRepository;
+    @Autowired
     private UserService userService;
+    @Autowired
+    private CourtService courtService;
     public SetTeamIndex getUserTeamIndex(MatchModel match, UserTournamentRoleModel user) {
         Match matchEntity = getMatchFromModel(match);
 
@@ -69,6 +76,15 @@ public class MatchService {
             }
         }
         return matchModels;
+    }
+
+    public void setCourt(MatchModel matchModel, CourtModel courtModel){
+        Match match = getMatchFromModel(matchModel);
+        Court court = courtService.getCourtFromModel(courtModel);
+        match.setCourt(court);
+        court.getMatches().add(match);
+        matchRepository.save(match);
+        courtRepository.save(court);
     }
 
     Match getMatchFromModel(MatchModel matchModel) {

@@ -1,15 +1,10 @@
 package com.molkky.molkky.service;
 
-import com.molkky.molkky.domain.Match;
-import com.molkky.molkky.domain.Team;
-import com.molkky.molkky.domain.User;
-import com.molkky.molkky.domain.UserTournamentRole;
+import com.molkky.molkky.domain.*;
+import com.molkky.molkky.model.CourtModel;
 import com.molkky.molkky.model.MatchModel;
 import com.molkky.molkky.model.UserTournamentRoleModel;
-import com.molkky.molkky.repository.MatchRepository;
-import com.molkky.molkky.repository.TeamRepository;
-import com.molkky.molkky.repository.UserRepository;
-import com.molkky.molkky.repository.UserTournamentRoleRepository;
+import com.molkky.molkky.repository.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +21,8 @@ class MatchServiceTest {
     private MatchRepository matchRepository;
     @Autowired
     private MatchService matchService;
+    @Autowired
+    private CourtRepository courtRepository;
     @Autowired
     private TeamRepository teamRepository;
     @Autowired
@@ -153,4 +150,17 @@ class MatchServiceTest {
         Assertions.assertFalse(matchService.isUserInMatch(MatchService.getMatchModelFromEntity(match), UserService.createUserModel(user2)));
     }
 
+    @Test
+    void setCourtTest(){
+//        given
+        Match match = matchRepository.save(new Match());
+        Court court = courtRepository.save(new Court(true, "testCourt"));
+        MatchModel matchModel = MatchService.getMatchModelFromEntity(match);
+        CourtModel courtModel = new CourtModel(court);
+//        when
+        matchService.setCourt(matchModel, courtModel);
+        match = matchRepository.findById(match.getId());
+//        then
+        Assertions.assertEquals(court.getId(), match.getCourt().getId());
+    }
 }
