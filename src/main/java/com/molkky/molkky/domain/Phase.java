@@ -9,7 +9,6 @@ import type.ScoreMode;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Time;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -101,7 +100,7 @@ public class Phase  implements Serializable {
     private List<Round> rounds = new ArrayList<>();
 
 
-    public void setHourPhaseStart(String hourPhaseStart) throws ParseException {
+    public void setHourPhaseStart(String hourPhaseStart) {
         if(!hourPhaseStart.equals("")){
             hourPhaseStart = hourPhaseStart + ":00";
             this.hourPhaseStart = Time.valueOf(hourPhaseStart);
@@ -111,7 +110,7 @@ public class Phase  implements Serializable {
         }
     }
 
-    public void setTimePhase(String timePhase) throws ParseException {
+    public void setTimePhase(String timePhase) {
         if(!timePhase.equals("")){
             timePhase = timePhase + ":00";
             this.timePhase = Time.valueOf(timePhase);

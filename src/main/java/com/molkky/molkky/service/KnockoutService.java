@@ -35,7 +35,7 @@ public class KnockoutService {
         Map<Round, List<Match>> results = new HashMap<>();
 
         List<Team> teamsOld = knockout.getTournament().getTeams();
-        List<Team> teams = new ArrayList<>();
+        List<Team> teams;
 
         int nbMatch = knockout.getNbMatch();
 

@@ -42,7 +42,7 @@ public class PoolService {
     RoundService roundService;
 
     public Map<Round, List<Match>> generateRounds(Pool pool){
-        Map<Round, List<Match>> results = new HashMap();
+        Map<Round, List<Match>> results = new HashMap<>();
 
         List<Team> teamsOld = pool.getTournament().getTeams();
         List<Team> teams;
