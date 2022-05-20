@@ -29,4 +29,8 @@ public class Notification implements Serializable {
     @ManyToOne(optional = true)
     @JoinColumn(name="idUserTournamentRole")
     private UserTournamentRole userTournamentRole;
+
+    @ManyToOne(optional = true)
+    @JoinColumn(name="idUser")
+    private User user;
 }

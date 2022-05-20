@@ -1,0 +1,28 @@
+<html xmlns:th="http://thymeleaf.org" xmlns="http://www.w3.org/1999/html" lang="fr">
+<head>
+    <link rel="stylesheet" th:href="@{/styles/phase/choose.css}" href="../" />
+</head>
+<body>
+    <div class="inputContainer">
+        <label class="inputLabel" th:for="'playoff'+${itemStat.index}">Ajout d'un barrage</label>
+        <input class="inputPhase" th:id="'playoff'+${itemStat.index}" type="checkbox" th:field="*{phases[__${itemStat.index}__].playoff}">
+    </div>
+    <div hidden class="inputHiddenContainer" th:id="'nbTeamPlayoff'+${itemStat.index}">
+        <label class="inputHiddenLabel">Nombre d'équipes qualifiées</label>
+        <input class="inputPhase" name="nbTeamPlayoff" type="number" min="1" th:field="*{phases[__${itemStat.index}__].numberPlayoffQualify}">
+    </div>
+</body>
+<script th:inline="javascript">
+    document.getElementById("playoff"+[[${itemStat.index}]])
+        .addEventListener("click",function(){
+            if(this.checked){
+                document.getElementById("nbTeamPlayoff"+[[${itemStat.index}]]).hidden = false;
+                document.getElementById("nbTeamPlayoff"+[[${itemStat.index}]]).getElementsByTagName("input").required = true;
+            }
+            else{
+                document.getElementById("nbTeamPlayoff"+[[${itemStat.index}]]).hidden = true;
+                document.getElementById("nbTeamPlayoff"+[[${itemStat.index}]]).getElementsByTagName("input").required = false;
+            }
+        })
+</script>
+</html>

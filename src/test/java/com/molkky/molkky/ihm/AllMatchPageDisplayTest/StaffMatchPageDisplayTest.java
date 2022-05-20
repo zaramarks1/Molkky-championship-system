@@ -8,8 +8,6 @@ import com.molkky.molkky.repository.*;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -135,7 +133,7 @@ class StaffMatchPageDisplayTest {
         if(nbMatchBDD!=0) {
             List<WebElement> nbMatch = config.getDriver().findElements(new By.ById("listMatches"));
             Assertions.assertEquals(nbMatchBDD, nbMatch.size());
-            String idDiv = config.getDriver().findElement(new By.ById("id")).getText();
+            String idDiv = config.getDriver().findElement(new By.ById("idMatchList")).getText();
             String[] div = idDiv.split(" :");
             String id = div[1];
             config.getDriver().findElement(new By.ById("listMatches")).click();
@@ -153,7 +151,7 @@ class StaffMatchPageDisplayTest {
         if(nbMatchBDD!=0) {
             List<WebElement> nbMatch2 = config.getDriver().findElements(new By.ById("listMatches"));
             Assertions.assertEquals(nbMatchBDD, nbMatch2.size());
-            String idDiv2 = config.getDriver().findElement(new By.ById("id")).getText();
+            String idDiv2 = config.getDriver().findElement(new By.ById("idMatchList")).getText();
             String[] div2 = idDiv2.split(" :");
             String id2 = div2[1];
             config.getDriver().findElement(new By.ById("listMatches")).click();
@@ -167,7 +165,7 @@ class StaffMatchPageDisplayTest {
         config.getDriver().get(url + "/match/allMatches");
         config.getDriver().findElement(new By.ById("toCheck")).click();
         Assertions.assertEquals(url+"/match/validateMatch", config.getDriver().getCurrentUrl());
-        String idDiv3 = config.getDriver().findElement(new By.ById("id")).getText();
+        String idDiv3 = config.getDriver().findElement(new By.ById("idMatchList")).getText();
         String[] div3 = idDiv3.split(" :");
         String id3 = div3[1];
         config.getDriver().findElement(new By.ById("listMatches")).click();
@@ -184,7 +182,7 @@ class StaffMatchPageDisplayTest {
         if(nbMatchBDD!=0) {
             List<WebElement> nbMatch4 = config.getDriver().findElements(new By.ById("listMatches"));
             Assertions.assertEquals(nbMatchBDD, nbMatch4.size());
-            String idDiv4 = config.getDriver().findElement(new By.ById("id")).getText();
+            String idDiv4 = config.getDriver().findElement(new By.ById("idMatchList")).getText();
             String[] div4 = idDiv4.split(" :");
             String id4 = div4[1];
             config.getDriver().findElement(new By.ById("listMatches")).click();

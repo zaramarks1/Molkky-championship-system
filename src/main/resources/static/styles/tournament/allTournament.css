@@ -56,8 +56,6 @@
     height: 60px;
     left: 495.3px;
     top: 0px;
-
-    font-family: 'Poppins';
     font-style: normal;
     font-weight: 400;
     font-size: 14px;
@@ -127,7 +125,6 @@
     height: 24px;
     left: 45.67px;
     top: 15.5px;
-    font-family: 'Inter-Black';
     font-style: normal;
     font-weight: 600;
     font-size: 20px;
@@ -148,8 +145,6 @@
     height: 24px;
     left: 48.67px;
     top: 15.5px;
-
-    font-family: 'Poppins';
     font-style: normal;
     font-weight: 600;
     font-size: 20px;
@@ -237,8 +232,6 @@
     height: 24px;
     left: 26px;
     top: 19.5px;
-
-    font-family: 'Inter-Black';
     font-style: normal;
     font-weight: 600;
     font-size: 20px;
@@ -330,6 +323,8 @@
     left: 20.92px;
     top: 19.65px;
     color:white;
+    font-weight: 600;
+    font-size: 16px;
 }
 
 
@@ -341,11 +336,7 @@
     height: 60px;
     left: 0px;
     top: 0px;
-
-    font-family: 'Poppins';
     font-style: normal;
-    font-weight: 400;
-    font-size: 16px;
     line-height: 24px;
     /* or 150% */
     display: flex;
@@ -369,11 +360,7 @@
     height: 60px;
     left: 270.65px;
     top: 0px;
-
-    font-family: 'Poppins';
     font-style: normal;
-    font-weight: 400;
-    font-size: 14px;
     line-height: 24px;
     /* or 171% */
     display: flex;
@@ -396,10 +383,7 @@
     height: 60px;
     left: 675.95px;
     top: 0px;
-    font-family: 'Poppins';
     font-style: normal;
-    font-weight: 400;
-    font-size: 14px;
     line-height: 24px;
     /* or 171% */
     display: flex;
@@ -424,11 +408,7 @@
     height: 60px;
     left: 829.6px;
     top: 0px;
-
-    font-family: 'Poppins';
     font-style: normal;
-    font-weight: 400;
-    font-size: 16px;
     line-height: 24px;
     /* or 150% */
     display: flex;
@@ -451,11 +431,7 @@
     height: 60px;
     left: 829.6px;
     top: 0px;
-
-    font-family: 'Poppins';
     font-style: normal;
-    font-weight: 400;
-    font-size: 16px;
     line-height: 24px;
     /* or 150% */
     display: flex;
@@ -476,10 +452,7 @@
     left: 485.3px;
     top: 0px;
 
-    font-family: 'Poppins';
     font-style: normal;
-    font-weight: 400;
-    font-size: 14px;
     line-height: 24px;
     /* or 171% */
     display: flex;
@@ -491,4 +464,11 @@
     order: 2;
     flex-grow: 0;
     margin: 0px 0px;
+}
+
+.submitContainer {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }

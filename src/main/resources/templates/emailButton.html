@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Email Button</title>
+</head>
+<body>
+<div>
+  <form th:action="@{/sendMail}" method="post">
+    <input type="submit" value="Test email" />
+  </form>
+</div>
+</body>
+</html>

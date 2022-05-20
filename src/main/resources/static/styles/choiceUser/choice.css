@@ -18,6 +18,7 @@ html, body {
 }
 div{
     text-align:center;
+    font-family: "Inter", sans-serif;
 }
 
 #listTournaments {

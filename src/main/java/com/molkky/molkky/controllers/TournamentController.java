@@ -5,7 +5,6 @@ import com.molkky.molkky.controllers.superclass.DefaultAttributes;
 import com.molkky.molkky.domain.Tournament;
 import com.molkky.molkky.model.TournamentModel;
 import com.molkky.molkky.repository.TournamentRepository;
-import com.molkky.molkky.repository.UserRepository;
 import com.molkky.molkky.service.TournamentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,7 +19,7 @@ import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/tournament")
-public class TournamentController {
+public class TournamentController extends DefaultAttributes {
     @Autowired
     private TournamentRepository tournamentRepository;
 
@@ -29,7 +28,7 @@ public class TournamentController {
 
 
     private String allTournament="tournament";
-    private String redirectionAll = "tournament/allTournament";
+    private String redirectionAll = "/tournament/allTournament";
 
 
     @GetMapping("/allTournament")
@@ -63,10 +62,18 @@ public class TournamentController {
         return new ModelAndView("redirect:/tournament/create", model);
     }
 
+    @PostMapping("/inscription")
+    public ModelAndView goToInscription(ModelMap model){return new ModelAndView("redirect:/team/create",model);}
+
 
     @PostMapping ("/currentTournament")
     public String currentTournament() {
         return "/";
+    }
+
+    @GetMapping ("/tournamentOnGoing")
+    public String getTournamentOnGoing() {
+        return "/tournament/tournamentOnGoing";
     }
 
     @GetMapping("/create")
@@ -75,38 +82,25 @@ public class TournamentController {
         return "tournament/create";
     }
 
-
-
     @PostMapping("/create")
     public String tournamentSubmit(@Valid @ModelAttribute("tournament") TournamentModel tournament, Model model) {
 
         Tournament tournamentEntity = tournamentService.create(tournament);
 
         int id = tournamentEntity.getId();
-        return "redirect:/tournament/"+id+"/view";
+        return "redirect:/phase/choosePhases?tournamentId="+id;
     }
 
-    @GetMapping("/{id}/view")
-    public String tournamentView(Model model, @PathVariable("id") String id){
-        Tournament tournament = tournamentRepository.findById(Integer.valueOf(id));
-        model.addAttribute("tournament", tournament);
-        model.addAttribute(allTournament, tournament);
-        model.addAttribute("nbTeam", tournament.getTeams().size());
-        return "/tournament/view";
-    }
-
-
-
-    @PostMapping(value = "/view" , params = "launch")
-    public String tournamentViewPostLaunch(@RequestParam(value = "tournamentId", required = false) String tournamentId){
+    @GetMapping("/view")
+    public String tournamentViewPostLaunch(Model model,@RequestParam(value = "tournamentId", required = false) String tournamentId){
 
         Tournament tournament = tournamentRepository.findById(Integer.valueOf(tournamentId));
 
         tournament.setStatus(TournamentStatus.INPROGRESS);
 
         tournamentRepository.save(tournament);
-
-        return "redirect:/tournament/create";
+        model.addAttribute("tournament",tournament);
+        return "/tournament/view";
     }
 
 

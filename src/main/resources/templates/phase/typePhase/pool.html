@@ -1,0 +1,46 @@
+<html xmlns:th="http://thymeleaf.org" xmlns="http://www.w3.org/1999/html" lang="fr">
+<head>
+    <link rel="stylesheet" th:href="@{/styles/phase/choose.css}" href="../" />
+</head>
+<body>
+    <div class="inputContainer">
+        <label class="inputLabel" for="poulesPool">Nombre de poules</label>
+        <input class="inputPhase" required id = "poulesPool" type="number" min="1" th:field="*{phases[__${itemStat.index}__].nbPools}">
+    </div>
+    <div class="inputContainer">
+        <label class="inputLabel" for="sets">Nombre de manches</label>
+        <input class="inputPhase" required id="sets" type="number" min="1" th:field="*{phases[__${itemStat.index}__].nbSets}">
+    </div>
+    <div class="inputContainer">
+        <label class="inputLabel" for="victoryValue">Valeur victoire</label>
+        <input class="inputPhase" required id="victoryValue" type="number" min="2" max="3" th:field="*{phases[__${itemStat.index}__].victoryValue}">
+    </div>
+    <div class="inputContainer">
+        <label class="inputLabel" for="ranking">Tenir compte de la phase précedante</label>
+        <input class="inputPhase" id="ranking" type="checkbox" th:field="*{phases[__${itemStat.index}__].ranking}">
+    </div>
+    <div class="inputContainer">
+        <label class="inputLabel" for="topSeeds">Tenir compte têtes de série</label>
+        <input class="inputPhase" id="topSeeds" type="checkbox" th:field="*{phases[__${itemStat.index}__].topSeeds}">
+    </div>
+    <div class="inputContainer">
+        <label class="inputLabel" for="sameClub">Tenir compte affrontement même club</label>
+        <input class="inputPhase" id="sameClub" type="checkbox" th:field="*{phases[__${itemStat.index}__].playTeamSameClub}">
+    </div>
+    <div th:insert="phase/utiles/score"></div>
+    <div class="inputContainer">
+        <label class="inputLabel" for="notifStartPhase">Notification début de la phase</label>
+        <input class="inputPhase" id="notifStartPhase" type="checkbox" th:field="*{phases[__${itemStat.index}__].notifBeginningPhase}">
+    </div>
+    <div class="inputContainer">
+        <label class="inputLabel" for="notifEachDay">Notification début de chaque journée</label>
+        <input class="inputPhase" id="notifEachDay" type="checkbox" th:field="*{phases[__${itemStat.index}__].notifEachDay}">
+    </div>
+    <div class="inputContainer">
+        <label class="inputLabel" for="numberQualifyTeam">Nombre d'équipes qualifiées</label>
+        <input class="inputPhase" required id="numberQualifyTeam" type="number" min="1" th:field="*{phases[__${itemStat.index}__].nbTeamsQualified}">
+    </div>
+    <div th:insert="phase/utiles/playoff"></div>
+    <div th:insert="phase/utiles/consolation"></div>
+</body>
+</html>

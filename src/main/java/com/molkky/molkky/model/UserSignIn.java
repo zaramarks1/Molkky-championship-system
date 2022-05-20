@@ -1,17 +1,13 @@
 package com.molkky.molkky.model;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Getter
-@Setter
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserSignIn {
-    public String email;
-    public String code;
-
-    public UserSignIn(){
-
-    }
-
-
+    private String email;
+    private String code;
 }

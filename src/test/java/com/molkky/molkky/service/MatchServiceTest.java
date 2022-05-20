@@ -1,6 +1,8 @@
 package com.molkky.molkky.service;
 
 import com.molkky.molkky.domain.*;
+import com.molkky.molkky.domain.*;
+import com.molkky.molkky.model.CourtModel;
 import com.molkky.molkky.model.MatchModel;
 import com.molkky.molkky.model.UserTournamentRoleModel;
 import com.molkky.molkky.repository.*;
@@ -9,10 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import type.SetTeamIndex;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 @SpringBootTest
 class MatchServiceTest {
@@ -20,6 +19,8 @@ class MatchServiceTest {
     private MatchRepository matchRepository;
     @Autowired
     private MatchService matchService;
+    @Autowired
+    private CourtRepository courtRepository;
     @Autowired
     private TeamRepository teamRepository;
     @Autowired
@@ -30,6 +31,18 @@ class MatchServiceTest {
     private SetService setService;
     @Autowired
     private UserTournamentRoleRepository userTournamentRoleRepository;
+
+    @Autowired
+    private TournamentRepository tournamentRepository;
+
+    @Autowired
+    private PhaseRepository phaseRepository;
+
+    @Autowired
+    private PhaseService phaseService;
+
+    @Autowired
+    private RoundRepository roundRepository;
 
     @Test
     void createMatchModelsTest() {
@@ -209,4 +222,17 @@ class MatchServiceTest {
         Assertions.assertEquals(true, match.getFinished());
     }
 
+    @Test
+    void setCourtTest(){
+//        given
+        Match match = matchRepository.save(new Match());
+        Court court = courtRepository.save(new Court(true, "testCourt"));
+        MatchModel matchModel = MatchService.getMatchModelFromEntity(match);
+        CourtModel courtModel = new CourtModel(court);
+//        when
+        matchService.setCourt(matchModel, courtModel);
+        match = matchRepository.findById(match.getId());
+//        then
+        Assertions.assertEquals(court.getId(), match.getCourt().getId());
+    }
 }

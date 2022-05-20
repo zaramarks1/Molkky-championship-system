@@ -7,6 +7,7 @@ import com.molkky.molkky.repository.MatchRepository;
 import com.molkky.molkky.repository.TeamRepository;
 import com.molkky.molkky.repository.UserRepository;
 import com.molkky.molkky.repository.UserTournamentRoleRepository;
+import com.molkky.molkky.service.CourtService;
 import com.molkky.molkky.service.MatchService;
 import com.molkky.molkky.service.SetService;
 import com.molkky.molkky.service.UserService;
@@ -14,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import type.SetTeamIndex;
 import type.UserRole;
@@ -33,6 +36,8 @@ public class MatchController extends DefaultAttributes {
     private UserRepository userRepository;
     @Autowired
     private MatchService matchService;
+    @Autowired
+    private CourtService courtService;
     @Autowired
     private UserTournamentRoleRepository userTournamentRoleRepository;
 
@@ -54,7 +59,7 @@ public class MatchController extends DefaultAttributes {
         if(Boolean.TRUE.equals(!matchService.isUserInMatch(MatchService.getMatchModelFromEntity(match), UserService.createUserModelFromUserLogged(user))) && user.getRole() == UserRole.PLAYER){
             return "redirect:/";
         }
-
+        model.addAttribute("availableCourts", courtService.getAvailableCourts());
         model.addAttribute("match", MatchService.getMatchModelFromEntity(match));
         model.addAttribute("teams", Arrays.asList(new TeamModel(match.getTeams().get(0)), new TeamModel(match.getTeams().get(1))));
         model.addAttribute("court", new CourtModel(match.getCourt()));
@@ -133,12 +138,25 @@ public class MatchController extends DefaultAttributes {
                 if((!set.getScore1Team1().equals(set.getScore1Team2())||(!set.getScore2Team1().equals(set.getScore2Team2())))){
                     matchIncorrectScore.add(match);
                     setIncorrectScore.add(i);
-                    i=i+1;
                 }
+                i=i+1;
             }
         }
         model.addAttribute(matchAttribute, matchIncorrectScore);
         model.addAttribute("incorrectSet", setIncorrectScore);
         return redirectionMatches;
+    }
+
+    @PostMapping("/match/updateMatchCourt")
+    public String updateMatchCourt(Model model, @ModelAttribute CourtFormModel courtFormModel, HttpSession httpSession){
+        UserLogged user = (UserLogged)model.getAttribute("user");
+        if(user == null) return "redirect:/connexion";
+        if(user.getRole() != UserRole.STAFF) return "redirect:/";
+        MatchModel match = new MatchModel();
+        match.setId(courtFormModel.getMatchId());
+        CourtModel court = new CourtModel();
+        court.setId(courtFormModel.getId());
+        matchService.setCourt(match, court);
+        return "redirect:/matches/match?match_id=" + courtFormModel.getMatchId();
     }
 }
