@@ -88,9 +88,8 @@ public class TournamentController extends DefaultAttributes {
         Tournament tournamentEntity = tournamentService.create(tournament);
 
         int id = tournamentEntity.getId();
-        return "redirect:/tournament/"+id+"/view";
+        return "redirect:/phase/choosePhases?tournamentId="+id;
     }
-
     @GetMapping("/{id}/view")
     public String tournamentView(Model model, @PathVariable("id") String id){
         Tournament tournament = tournamentRepository.findById(Integer.valueOf(id));
@@ -98,20 +97,19 @@ public class TournamentController extends DefaultAttributes {
         model.addAttribute(allTournament, tournament);
         model.addAttribute("nbTeam", tournament.getTeams().size());
         return "/tournament/view";
+
+
     }
-
-
-
-    @PostMapping(value = "/view" , params = "launch")
-    public String tournamentViewPostLaunch(@RequestParam(value = "tournamentId", required = false) String tournamentId){
+    @GetMapping("/view")
+    public String tournamentViewPostLaunch(Model model,@RequestParam(value = "tournamentId", required = false) String tournamentId){
 
         Tournament tournament = tournamentRepository.findById(Integer.valueOf(tournamentId));
 
         tournament.setStatus(TournamentStatus.INPROGRESS);
 
         tournamentRepository.save(tournament);
-
-        return "redirect:/tournament/create";
+        model.addAttribute("tournament",tournament);
+        return "/tournament/view";
     }
 
 

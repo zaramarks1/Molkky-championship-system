@@ -1,0 +1,33 @@
+<html xmlns:th="http://thymeleaf.org" xmlns="http://www.w3.org/1999/html" lang="fr">
+<head>
+    <div th:replace="fragments/header"></div>
+    <title>Choix de la/des phase(s)</title>
+    <link rel="stylesheet" th:href="@{/styles/phase/choose.css}" href="../" />
+</head>
+<body class="bg">
+<div class="pageContainer">
+    <div th:replace="fragments/sidebar"> </div>
+    <div class="contentContainer">
+        <div th:replace="fragments/searchbar"> </div>
+        <div class="contentTitle">Veuillez choisir la/les phase(s) du tournoi</div>
+        <form method="post" th:action="@{/phase/choosePhases}" th:object="${form}" class="formContainer">
+                <div class="inputContainer" th:each="phase, itemStat : *{phases}">
+                    <strong class="contentText" th:text="Phase + ' ' + ${itemStat.index+1}"></strong>
+                    <input id = "tournament" hidden th:field="*{phases[__${itemStat.index}__].tournament}" th:value="${phase.tournament}">
+                    <select  name="phase" th:field="*{phases[__${itemStat.index}__].phaseType}">
+                        <option th:each="phaseOpt : ${T(type.PhaseType).values()}"
+                                th:value="${phaseOpt}"
+                                th:text="${phaseOpt}"
+                        ></option>
+                    </select>
+                </div>
+            <div class="submitContainer">
+                <button id="choosePhases" class="primaryButton" type="submit">Definir Phase</button>
+                <button id="cancelPhases" class="secondaryButton" type="submit">Annuler</button>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+<div th:replace="fragments/footer"></div>
+</html>

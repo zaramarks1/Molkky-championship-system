@@ -1,20 +1,14 @@
 package com.molkky.molkky.service;
 
-import com.molkky.molkky.domain.Match;
-import com.molkky.molkky.domain.Round;
-import com.molkky.molkky.domain.Team;
+import com.molkky.molkky.domain.*;
 import com.molkky.molkky.domain.rounds.SimpleGame;
-import com.molkky.molkky.repository.MatchRepository;
-import com.molkky.molkky.repository.PhaseRepository;
-import com.molkky.molkky.repository.RoundRepository;
-import com.molkky.molkky.repository.TeamRepository;
+import com.molkky.molkky.model.phase.PhaseRankingModel;
+import com.molkky.molkky.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import type.PhaseType;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -32,17 +26,31 @@ public class SimpleGameService {
     @Autowired
     PhaseRepository phaseRepository;
 
+    @Autowired
+    UserTournamentRoleRepository userTournamentRoleRepository;
+
+    @Autowired
+    NotificationService notificationService;
+
+    @Autowired
+    RoundService roundService;
+
         Map<Round, List<Match>> generateRounds(SimpleGame simpleGame) {
-        Map<Round, List<Match>> results = new HashMap<>();
+            Map<Round, List<Match>> results = new HashMap<>();
 
             List<Team> teamsOld = simpleGame.getTournament().getTeams();
-            List<Team> teams = new ArrayList<>();
-            if(Boolean.FALSE.equals(simpleGame.getRanking()) || simpleGame.getNbPhase() == 1) {
+            List<Team> teams;
 
-                teams = teamsOld.stream()
-                        .filter(team -> !team.isEliminated())
-                        .collect(Collectors.toList());
+            teams = teamsOld.stream()
+                    .filter(team -> !team.isEliminated())
+                    .collect(Collectors.toList());
+
+            if(Boolean.TRUE.equals(simpleGame.getRanking()) ) {
+                teams.sort(Comparator
+                        .comparing(Team :: getNbPoints)
+                        .reversed());
             }
+
 
             List<Team> teamsUpdated = new ArrayList<>();
 
@@ -107,5 +115,42 @@ public class SimpleGameService {
 
 
         return results;
+    }
+
+    void validateRound(Round round){
+
+
+        List<PhaseRankingModel>  scoresList =  roundService.orderTeamsByScoreInRound(round, 2);
+        scoresList.get(1).getTeam().setEliminated(true);
+
+        List<Team> teams = new ArrayList<>();
+        teams.add(scoresList.get(0).getTeam());
+        teams.add(scoresList.get(1).getTeam());
+
+            if(Boolean.TRUE.equals(round.getPhase().getSeedingSystem())){
+                    teams.get(0).setNbPoints(teams.get(0).getNbPoints() + round.getMatches().get(0).getScoreTeam1());
+                    teams.get(1).setNbPoints(teams.get(1).getNbPoints() + round.getMatches().get(0).getScoreTeam2());
+            }
+
+          teams = teamRepository.saveAll(teams);
+
+        generateNotificationAfterRound(teams);
+
+    }
+
+    void generateNotificationAfterRound(List<Team> teams){
+
+        for(int i=0;i<teams.size();i++) {
+            Team t = teams.get(i);
+            String message ;
+            if(t.isEliminated()){
+                message = "Ton equipe a été malheuseusement  dequalifié";
+            }else{
+                message = " Felicitations! Ton equipe est qualifié à la prochaine phase";
+            }
+
+            notificationService.sendNotificationToList(message, "", t.getUserTournamentRoles());
+
+        }
     }
 }

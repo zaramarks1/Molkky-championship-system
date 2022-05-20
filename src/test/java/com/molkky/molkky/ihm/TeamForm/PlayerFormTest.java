@@ -17,6 +17,7 @@ import org.openqa.selenium.support.ui.Select;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
+import type.UserRole;
 
 import java.text.ParseException;
 import java.util.Random;
@@ -79,21 +80,46 @@ class PlayerFormTest {
     @Test
     void testFormIsDisplayed(){
         Assertions.assertTrue(config.getDriver().findElement(new By.ByClassName("contentTitle")).isDisplayed());
-        Assertions.assertTrue(config.getDriver().findElement(new By.ByXPath("/html/body/div/div[2]/form/div[1]/a")).isDisplayed());
+        Assertions.assertEquals("Ajouter un joueur à l'équipe",config.getDriver().findElement
+                (new By.ByClassName("contentTitle")).getText());
+        Assertions.assertTrue(config.getDriver().findElement
+                (new By.ByXPath("/html/body/div/div[2]/form/div[1]/a")).isDisplayed());
 
         //Joueur 1
-        Assertions.assertTrue(config.getDriver().findElement(new By.ByXPath("/html/body/div/div[2]/form/div[3]/div/b")).isDisplayed());
+        Assertions.assertTrue(config.getDriver().findElement
+                (new By.ByXPath("/html/body/div/div[2]/form/div[3]/div/b")).isDisplayed());
+        Assertions.assertEquals("Joueur 1",config.getDriver().findElement
+                (new By.ByXPath("/html/body/div/div[2]/form/div[3]/div/b")).getText());
         Assertions.assertTrue(config.getDriver().findElement(new By.ByName("players[0].forename")).isDisplayed());
         Assertions.assertTrue(config.getDriver().findElement(new By.ByName("players[0].surname")).isDisplayed());
         Assertions.assertTrue(config.getDriver().findElement(new By.ByName("players[0].mail")).isDisplayed());
         Assertions.assertTrue(config.getDriver().findElement(new By.ByName("players[0].club")).isDisplayed());
 
+        Assertions.assertEquals("Prénom",config.getDriver().findElement
+                (new By.ByCssSelector("body > div > div.contentContainer > form > div.formContainer " +
+                        "> div:nth-child(1) > div > div:nth-child(1) > label")).getText());
+        Assertions.assertEquals("Nom de famille",config.getDriver().findElement
+                (new By.ByCssSelector("body > div > div.contentContainer > form > div.formContainer " +
+                        "> div:nth-child(1) > div > div:nth-child(2) > label")).getText());
+        Assertions.assertEquals("Mail",config.getDriver().findElement
+                (new By.ByCssSelector("body > div > div.contentContainer > form > div.formContainer " +
+                        "> div:nth-child(1) > div > div:nth-child(3) > label")).getText());
+        Assertions.assertEquals("Club",config.getDriver().findElement
+                (new By.ByCssSelector("body > div > div.contentContainer > form > div.formContainer " +
+                        "> div:nth-child(1) > div > div:nth-child(4) > label")).getText());
+
+        Assertions.assertTrue(config.getDriver().findElement
+                (new By.ByXPath("/html/body/div/div[2]/form/div[3]/div[2]/b")).isDisplayed());
+        Assertions.assertEquals("Joueur 2",config.getDriver().findElement
+                (new By.ByXPath("/html/body/div/div[2]/form/div[3]/div[2]/b")).getText());
         Assertions.assertTrue(config.getDriver().findElement(new By.ByName("players[1].forename")).isDisplayed());
         Assertions.assertTrue(config.getDriver().findElement(new By.ByName("players[1].surname")).isDisplayed());
         Assertions.assertTrue(config.getDriver().findElement(new By.ByName("players[1].mail")).isDisplayed());
         Assertions.assertTrue(config.getDriver().findElement(new By.ByName("players[1].club")).isDisplayed());
 
         Assertions.assertTrue(config.getDriver().findElement(new By.ById("sendTeam")).isDisplayed());
+        Assertions.assertEquals("Finaliser",config.getDriver().findElement(new By.ById("sendTeam")).getText());
+
     }
 
     @Test
@@ -134,6 +160,8 @@ class PlayerFormTest {
         Assertions.assertEquals(mail,user.getEmail());
         Assertions.assertEquals("Molkky Angers",user.getClub());
         Assertions.assertNotNull(userTournamentRole1);
+        Assertions.assertEquals(UserRole.PLAYER,userTournamentRole1.getRole());
+        Assertions.assertEquals(team.getTournament().getId(),userTournamentRole1.getTournament().getId());
 
         Assertions.assertNotNull(user);
         Assertions.assertEquals(nom2,user2.getSurname());
@@ -141,6 +169,8 @@ class PlayerFormTest {
         Assertions.assertEquals(mail2,user2.getEmail());
         Assertions.assertEquals("Molkky Angers",user.getClub());
         Assertions.assertNotNull(userTournamentRole2);
+        Assertions.assertEquals(UserRole.PLAYER,userTournamentRole2.getRole());
+        Assertions.assertEquals(team.getTournament().getId(),userTournamentRole2.getTournament().getId());
     }
 
     @Test
@@ -161,7 +191,8 @@ class PlayerFormTest {
 
         config.getDriver().findElement(new By.ById("sendTeam")).click();
 
-        Assertions.assertTrue(config.getDriver().findElement(new By.ByXPath("/html/body/div/div[2]/form/div[2]/span")).isDisplayed());
+        Assertions.assertTrue(config.getDriver().findElement
+                (new By.ByXPath("/html/body/div/div[2]/form/div[2]/span")).isDisplayed());
     }
 
     @AfterAll

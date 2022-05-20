@@ -5,8 +5,6 @@ import com.molkky.molkky.model.RoundModel;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import type.PhaseType;
-
-
 class RoundModelTest {
     @Test
     void testDefaultConstructor() {

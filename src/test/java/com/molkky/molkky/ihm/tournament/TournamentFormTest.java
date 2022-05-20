@@ -1,4 +1,4 @@
-package com.molkky.molkky.ihm;
+package com.molkky.molkky.ihm.tournament;
 
 import com.molkky.molkky.MolkkyApplication;
 import com.molkky.molkky.SeleniumConfig;

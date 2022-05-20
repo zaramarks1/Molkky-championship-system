@@ -72,7 +72,7 @@ class TournamentControllerTest {
                         .param("cutOffDate", "2020-03-01")
                         .flashAttr("tournament", new TournamentModel()))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/tournament/5/view"));
+                .andExpect(redirectedUrl("/phase/choosePhases?tournamentId=5"));
         ;
         verify(tournamentService, times(1)).create(any(TournamentModel.class));
     }

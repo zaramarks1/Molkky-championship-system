@@ -10,10 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import type.SetTeamIndex;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 @SpringBootTest
 class MatchServiceTest {
@@ -29,6 +26,18 @@ class MatchServiceTest {
     private UserRepository userRepository;
     @Autowired
     private UserTournamentRoleRepository userTournamentRoleRepository;
+
+    @Autowired
+    private TournamentRepository tournamentRepository;
+
+    @Autowired
+    private PhaseRepository phaseRepository;
+
+    @Autowired
+    private PhaseService phaseService;
+
+    @Autowired
+    private RoundRepository roundRepository;
 
     @Test
     void createMatchModelsTest() {
