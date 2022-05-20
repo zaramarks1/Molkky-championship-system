@@ -2,7 +2,6 @@ package com.molkky.molkky.service;
 
 import com.molkky.molkky.domain.Court;
 import com.molkky.molkky.domain.Match;
-import com.molkky.molkky.domain.Phase;
 import com.molkky.molkky.domain.Round;
 import com.molkky.molkky.domain.UserTournamentRole;
 import com.molkky.molkky.model.CourtModel;
@@ -21,7 +20,6 @@ import type.SetTeamIndex;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.Phaser;
 
 
 @Service
