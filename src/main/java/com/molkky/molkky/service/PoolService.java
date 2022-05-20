@@ -41,8 +41,6 @@ public class PoolService {
     @Autowired
     RoundService roundService;
 
-    //@Autowired
-    //SetService setService;
 
     public Map<Round, List<Match>> generateRounds(Pool pool){
         Map<Round, List<Match>> results = new HashMap<>();
@@ -108,7 +106,6 @@ public class PoolService {
 
                   }
               }
-              //matches = roundService.createSetsFromMatch(matches);
                r.getMatches().addAll(roundService.createSetsFromMatch(matches));
 
             }

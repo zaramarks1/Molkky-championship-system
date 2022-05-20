@@ -68,7 +68,6 @@ public class SimpleGameService {
                     Match match = new Match();
                     match.setRound(round);
                     match.setTeams(List.of(team1, team2));
-                   // round.getMatches().add(match);
                     matches.add(match);
 
 
@@ -84,14 +83,12 @@ public class SimpleGameService {
                         Match match2 = new Match();
                         match2.setRound(round);
                         match2.setTeams(List.of(team1, team3));
-                        //round.getMatches().add(match2);
 
                         matches.add(match2);
 
                         Match match3 = new Match();
                         match3.setRound(round);
                         match3.setTeams(List.of(team2, team3));
-                       // round.getMatches().add(match3);
                         matches.add(match3);
 
                         team1.getMatchs().add(match2);

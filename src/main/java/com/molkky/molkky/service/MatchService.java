@@ -16,7 +16,6 @@ import com.molkky.molkky.repository.RoundRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import type.PhaseType;
-import org.springframework.transaction.annotation.Transactional;
 import type.SetTeamIndex;
 
 import java.util.ArrayList;
@@ -157,7 +156,7 @@ public class MatchService {
 
     public Boolean isMatchFinished(Match match){
         for (Set set : match.getSets()){
-            if (!set.getFinished()){
+            if (Boolean.FALSE.equals(set.getFinished())){
                 return false;
             }
         }

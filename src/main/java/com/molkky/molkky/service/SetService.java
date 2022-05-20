@@ -1,8 +1,6 @@
 package com.molkky.molkky.service;
 
 import com.molkky.molkky.domain.Match;
-import com.molkky.molkky.domain.Phase;
-
 import com.molkky.molkky.domain.Set;
 import com.molkky.molkky.model.SetModel;
 import com.molkky.molkky.model.UserModel;
