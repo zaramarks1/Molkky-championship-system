@@ -44,7 +44,7 @@
                 <div class="boxAllCard">
                     <ul class="boxOneCard" th:each="tournament:${tournament}">
                         <li class="boxInOneCard">
-                            <a class="boxInOneCard" th:href="@{'/tournament/'+${tournament.id}+'/view'}">
+                            <a class="boxInOneCard" th:href="@{'/tournament/view?tournamentId='+${tournament.id}}">
                                 <span class="nameCard" th:text="${tournament.name}"/>
                                 <span class="dateCard" th:text="${tournament.date}"/>
                                 <span class="nbCard" th:text="${tournament.nbPlayersPerTeam}+' joueurs par équipes'"/>

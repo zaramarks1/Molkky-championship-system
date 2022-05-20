@@ -98,9 +98,6 @@ import java.util.List;
         Assertions.assertTrue(config.getDriver().findElement(new By.ById("choosePhases")).isDisplayed());
         Assertions.assertEquals("Definir Phase",config.getDriver().findElement(new By.ById("choosePhases")).getText());
 
-        Assertions.assertTrue(config.getDriver().findElement(new By.ById("cancelPhases")).isDisplayed());
-        Assertions.assertEquals("Annuler",config.getDriver().findElement(new By.ById("cancelPhases")).getText());
-
     }
 
     @Test

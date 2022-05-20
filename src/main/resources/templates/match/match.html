@@ -82,6 +82,15 @@
                     </div>
                 </form>
             </div>
+<!--            form for updating the court-->
+            <form method="POST" action="/match/updateMatchCourt" class="courtFormContainer">
+                <label for="courtInput">Choix du terrain</label>
+                <input type="number" hidden name="matchId" th:value="${match.id}">
+                <select id="courtInput" name="id">
+                    <option th:each="court, iStat: ${availableCourts}" th:value="${court.id}" th:text="${court.name}"></option>
+                </select>
+                <button type="submit" class="primaryButton" id="courtFormSubmit">Changer le terrain</button>
+            </form>
         </div>
     </div>
 </div>

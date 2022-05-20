@@ -90,16 +90,7 @@ public class TournamentController extends DefaultAttributes {
         int id = tournamentEntity.getId();
         return "redirect:/phase/choosePhases?tournamentId="+id;
     }
-    @GetMapping("/{id}/view")
-    public String tournamentView(Model model, @PathVariable("id") String id){
-        Tournament tournament = tournamentRepository.findById(Integer.valueOf(id));
-        model.addAttribute("tournament", tournament);
-        model.addAttribute(allTournament, tournament);
-        model.addAttribute("nbTeam", tournament.getTeams().size());
-        return "/tournament/view";
 
-
-    }
     @GetMapping("/view")
     public String tournamentViewPostLaunch(Model model,@RequestParam(value = "tournamentId", required = false) String tournamentId){
 

@@ -39,11 +39,6 @@ public class PhaseController {
     @Autowired
     PhaseRepository phaseRepository;
 
-    @GetMapping("/{id}/generate")
-    public void generate(@PathVariable String id) {
-        phaseService.generate(id);
-    }
-
     @GetMapping("/generate")
     public String generate(Model model, HttpSession session, @RequestParam(name = "phase_id", required = true) String id){
 
@@ -59,8 +54,6 @@ public class PhaseController {
         }else{
             return "redirect:/";
         }
-
-
         return "redirect:/";
     }
 
@@ -119,7 +112,7 @@ public class PhaseController {
         }
         phaseRepository.saveAll(phases);
         t.setPhases(phases);
-       t =  tournamentRepository.save(t);
+        t =  tournamentRepository.save(t);
         return "redirect:/tournament/view?tournamentId="+t.getId();
     }
 }

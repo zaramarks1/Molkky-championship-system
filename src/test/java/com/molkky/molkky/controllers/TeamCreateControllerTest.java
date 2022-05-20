@@ -15,6 +15,7 @@ import com.molkky.molkky.service.NotificationService;
 import com.molkky.molkky.service.TeamService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
@@ -57,11 +58,14 @@ class TeamCreateControllerTest {
     private TeamController teamController;
 
     @MockBean
-    private EmailSenderService emailSenderService;
-    @MockBean
     private NotificationService notificationService;
+
     @MockBean
     private UserTournamentRoleRepository userTournamentRoleRepository;
+
+    @MockBean
+    private EmailSenderService emailSenderService;
+
 
     /*
     Test work with conditions, example : @Controller -> @RestController or add @RequestBody to method
