@@ -221,10 +221,15 @@ import java.util.*;
         List<Team> teams = teamRepository.findByTournamentAndEliminated(tournament,false);
 
         Assertions.assertEquals(6, tournament.getTeams().size(), "there should be 6 teams");
+
         Assertions.assertEquals(4, teams.size(), "there should be 4 teams remaining");
+
         Assertions.assertTrue( tournament.getTeams().get(4).isEliminated(), "TEAM 5 should be eliminated");
         Assertions.assertTrue( tournament.getTeams().get(5).isEliminated(), "TEAM 6 should be eliminated");
-        Assertions.assertEquals(4, teams.size(), "there should be 4 teams remaining");
+
+        Assertions.assertEquals(100, tournament.getTeams().get(0).getNbPoints(), "team 1 should have 100 points");
+        Assertions.assertEquals(100, tournament.getTeams().get(1).getNbPoints(), "team 2 should have 100 points");
+
         Assertions.assertEquals(1, teams.get(0).getUserTournamentRoles().get(0).getNotifications().size(), "each player must have one notification");
 
     }
