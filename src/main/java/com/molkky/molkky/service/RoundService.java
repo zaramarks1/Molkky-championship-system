@@ -33,10 +33,12 @@ public class RoundService {
             phaseRankingModel2.setTotalPoints(phaseRankingModel2.getTotalPoints() + m.getScoreTeam2());
 
             for(Team t : m.getTeams()){
-                if(t.getId().equals(team1.getId()) && t.getId().equals(m.getWinner().getId())){
-                    phaseRankingModel1.setValues(phaseRankingModel1.getValues() + victoryValue);
-                }else  if(t.getId().equals(team2.getId()) && t.getId().equals(m.getWinner().getId())){
-                    phaseRankingModel2.setValues(phaseRankingModel2.getValues() + victoryValue);
+                if(m.getWinner()!= null){
+                    if(t.getId().equals(team1.getId()) && t.getId().equals(m.getWinner().getId())){
+                        phaseRankingModel1.setValues(phaseRankingModel1.getValues() + victoryValue);
+                    }else  if(t.getId().equals(team2.getId()) && t.getId().equals(m.getWinner().getId())){
+                        phaseRankingModel2.setValues(phaseRankingModel2.getValues() + victoryValue);
+                    }
                 }
             }
 
