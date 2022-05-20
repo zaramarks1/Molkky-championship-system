@@ -1,6 +1,7 @@
 package com.molkky.molkky.service;
 
 import com.molkky.molkky.domain.Match;
+import com.molkky.molkky.domain.Set;
 import com.molkky.molkky.domain.UserTournamentRole;
 import com.molkky.molkky.model.MatchModel;
 import com.molkky.molkky.model.UserModel;
@@ -8,6 +9,7 @@ import com.molkky.molkky.model.UserTournamentRoleModel;
 import com.molkky.molkky.repository.MatchRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import type.SetTeamIndex;
 
 import java.util.ArrayList;
@@ -74,5 +76,14 @@ public class MatchService {
     Match getMatchFromModel(MatchModel matchModel) {
         return matchRepository.findById(matchModel.getId());
 
+    }
+
+    public Boolean isMatchFinished(Match match){
+        for (Set set : match.getSets()){
+            if (!set.getFinished()){
+                return false;
+            }
+        }
+        return true;
     }
 }

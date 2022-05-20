@@ -1,9 +1,11 @@
 package com.molkky.molkky.service;
 
+import com.molkky.molkky.domain.Match;
 import com.molkky.molkky.domain.Set;
 import com.molkky.molkky.model.SetModel;
 import com.molkky.molkky.model.UserModel;
 import com.molkky.molkky.model.UserTournamentRoleModel;
+import com.molkky.molkky.repository.MatchRepository;
 import com.molkky.molkky.repository.SetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,7 +19,8 @@ import java.util.Objects;
 public class SetService {
     @Autowired
     private SetRepository setRepository;
-
+    @Autowired
+    private MatchRepository matchRepository;
     @Autowired
     private MatchService matchService;
 
@@ -44,6 +47,10 @@ public class SetService {
                 setEntity.setScore2Orga(set.getScore2Orga());
         }
         setEntity.setFinished(isSetFinished(setEntity, user));
+        Match match = matchRepository.findById(setEntity.getId());
+        setEntity.getMatch().setFinished(matchService.isMatchFinished(match));
+        matchRepository.save(setEntity.getMatch());
+        Boolean finishedMatch = matchService.isMatchFinished(match);
         setRepository.save(setEntity);
     }
 

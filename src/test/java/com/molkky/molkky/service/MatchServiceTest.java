@@ -1,15 +1,9 @@
 package com.molkky.molkky.service;
 
-import com.molkky.molkky.domain.Match;
-import com.molkky.molkky.domain.Team;
-import com.molkky.molkky.domain.User;
-import com.molkky.molkky.domain.UserTournamentRole;
+import com.molkky.molkky.domain.*;
 import com.molkky.molkky.model.MatchModel;
 import com.molkky.molkky.model.UserTournamentRoleModel;
-import com.molkky.molkky.repository.MatchRepository;
-import com.molkky.molkky.repository.TeamRepository;
-import com.molkky.molkky.repository.UserRepository;
-import com.molkky.molkky.repository.UserTournamentRoleRepository;
+import com.molkky.molkky.repository.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +24,10 @@ class MatchServiceTest {
     private TeamRepository teamRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private SetRepository setRepository;
+    @Autowired
+    private SetService setService;
     @Autowired
     private UserTournamentRoleRepository userTournamentRoleRepository;
 
@@ -151,6 +149,64 @@ class MatchServiceTest {
 //        then
         Assertions.assertEquals(SetTeamIndex.ORGA, index);
         Assertions.assertFalse(matchService.isUserInMatch(MatchService.getMatchModelFromEntity(match), UserService.createUserModel(user2)));
+    }
+    Match createCompleteMatch() {
+        Match match = matchRepository.save(new Match());
+        Team team1 = teamRepository.save(new Team());
+        Team team2 = teamRepository.save(new Team());
+
+        UserTournamentRole userTournamentRole1 = userTournamentRoleRepository.save(new UserTournamentRole());
+        User user1 = userRepository.save(new User());
+        userTournamentRole1.setUser(user1);
+        userTournamentRole1.setTeam(team1);
+        userTournamentRoleRepository.save(userTournamentRole1);
+        team1.setUserTournamentRoles(List.of(userTournamentRole1));
+        team1 = teamRepository.save(team1);
+
+        UserTournamentRole userTournamentRole2 = userTournamentRoleRepository.save(new UserTournamentRole());
+        User user2 = userRepository.save(new User());
+        userTournamentRole2.setUser(user2);
+        userTournamentRole2.setTeam(team2);
+        userTournamentRoleRepository.save(userTournamentRole2);
+        team2.setUserTournamentRoles(List.of(userTournamentRole2));
+        team2 = teamRepository.save(team2);
+
+        Set set1 = setRepository.save(new Set());
+        set1.setMatch(match);
+        set1.setTeams(List.of(team1, team2));
+        setRepository.save(set1);
+
+        match.setSets(List.of(set1));
+        match.setTeams(Arrays.asList(team1, team2));
+        match = matchRepository.save(match);
+        return match;
+    }
+
+
+    @Test
+    void isMatchFinished(){
+//        given
+        Match match = createCompleteMatch();
+        UserTournamentRole user1 = match.getTeams().get(0).getUserTournamentRoles().get(0);
+        UserTournamentRole user2 = match.getTeams().get(1).getUserTournamentRoles().get(0);
+        User user3 = userRepository.save(new User());
+        //Set set = match.getSets().get(0);
+//      when sets are finished
+        for (Set set : match.getSets()){
+            set = setRepository.findById(set.getId());
+            set.setScore1Team1(50);
+            set.setScore2Team1(20);
+            set.setScore1Team2(50);
+            set.setScore2Team2(20);
+            setService.enterSetResults(SetService.createSetModel(set), new UserTournamentRoleModel(user1));
+            setService.enterSetResults(SetService.createSetModel(set), new UserTournamentRoleModel(user2));
+            set = setRepository.findById(set.getId());
+            Assertions.assertEquals(true, set.getFinished());
+        }
+
+//        then
+        match = matchRepository.findById(match.getId());
+        Assertions.assertEquals(true, match.getFinished());
     }
 
 }
