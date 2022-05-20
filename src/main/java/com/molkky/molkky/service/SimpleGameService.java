@@ -54,8 +54,9 @@ public class SimpleGameService {
 
             List<Team> teamsUpdated = new ArrayList<>();
 
-                for (int i = 0; i < teams.size()-1; i = i + 2) {
 
+                for (int i = 0; i < teams.size()-1; i = i + 2) {
+                    List<Match> matches = new ArrayList<>();
                     Team team1 = teams.get(i);
                     Team team2 = teams.get(i+1);
 
@@ -67,7 +68,8 @@ public class SimpleGameService {
                     Match match = new Match();
                     match.setRound(round);
                     match.setTeams(List.of(team1, team2));
-                    round.getMatches().add(match);
+                   // round.getMatches().add(match);
+                    matches.add(match);
 
 
                     team1.getMatchs().add(match);
@@ -80,14 +82,17 @@ public class SimpleGameService {
                         Team team3 = teams.get(teams.size()-1);
 
                         Match match2 = new Match();
-                        match.setRound(round);
+                        match2.setRound(round);
                         match2.setTeams(List.of(team1, team3));
-                        round.getMatches().add(match2);
+                        //round.getMatches().add(match2);
+
+                        matches.add(match2);
 
                         Match match3 = new Match();
-                        match.setRound(round);
+                        match3.setRound(round);
                         match3.setTeams(List.of(team2, team3));
-                        round.getMatches().add(match3);
+                       // round.getMatches().add(match3);
+                        matches.add(match3);
 
                         team1.getMatchs().add(match2);
                         team2.getMatchs().add(match3);
@@ -101,8 +106,8 @@ public class SimpleGameService {
                     teamsUpdated.add(team1);
                     teamsUpdated.add(team2);
 
+                    round.getMatches().addAll(roundService.createSetsFromMatch(matches));
                     simpleGame.getRounds().add(round);
-
 
             }
 
