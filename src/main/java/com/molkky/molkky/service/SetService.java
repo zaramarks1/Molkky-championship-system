@@ -74,11 +74,13 @@ public class SetService {
             match.setScoreTeam2(scoreTeam2);
 
             match = matchRepository.save(match);
+
+            matchService.validateMatch(match);
         }
 
 
 
-       // matchService.validateMatch(match);
+
 
 
     }

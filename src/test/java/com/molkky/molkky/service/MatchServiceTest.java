@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import type.PhaseType;
 import type.SetTeamIndex;
 import type.TournamentStatus;
 
@@ -174,7 +175,7 @@ class MatchServiceTest {
 
         Round round = new Round();
         round.setPhase(tournament.getPhases().get(0));
-
+        round.setType(PhaseType.SIMPLEGAME);
         Match m = new Match();
         m.setRound(round);
 

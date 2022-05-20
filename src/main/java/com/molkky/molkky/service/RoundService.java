@@ -5,6 +5,8 @@ import com.molkky.molkky.domain.Round;
 import com.molkky.molkky.domain.Set;
 import com.molkky.molkky.domain.Team;
 import com.molkky.molkky.model.phase.PhaseRankingModel;
+import com.molkky.molkky.repository.TeamRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -12,24 +14,27 @@ import java.util.*;
 @Service
 public class RoundService {
 
+    @Autowired
+    TeamRepository teamRepository;
+
     public List<PhaseRankingModel> orderTeamsByScoreInRound(Round round, int victoryValue){
-        Map<Team, PhaseRankingModel> scores = new HashMap<>();
+        Map<Integer, PhaseRankingModel> scores = new HashMap<>();
         List<PhaseRankingModel> scoresList = new ArrayList<>();
 
         for(Team t : round.getTeams()){
             PhaseRankingModel phaseRankingModel = new PhaseRankingModel();
             phaseRankingModel.setTeam(t);
-            scores.put(t, phaseRankingModel);
+            scores.put(t.getId(), phaseRankingModel);
         }
 
         for(Match m : round.getMatches()){
             Team team1 = m.getTeams().get(0);
             Team team2 = m.getTeams().get(1);
 
-            PhaseRankingModel phaseRankingModel1 = scores.get(team1);
+            PhaseRankingModel phaseRankingModel1 = scores.get(team1.getId());
             phaseRankingModel1.setTeam(team1);
             phaseRankingModel1.setTotalPoints(phaseRankingModel1.getTotalPoints() + m.getScoreTeam1());
-            PhaseRankingModel phaseRankingModel2 = scores.get(team2);
+            PhaseRankingModel phaseRankingModel2 = scores.get(team2.getId());
             phaseRankingModel2.setTeam(team2);
             phaseRankingModel2.setTotalPoints(phaseRankingModel2.getTotalPoints() + m.getScoreTeam2());
 
@@ -44,14 +49,14 @@ public class RoundService {
             }
 
 
-            scores.put(team1, phaseRankingModel1);
-            scores.put(team2, phaseRankingModel2);
+            scores.put(team1.getId(), phaseRankingModel1);
+            scores.put(team2.getId(), phaseRankingModel2);
         }
 
-        for(Map.Entry<Team, PhaseRankingModel> entry : scores.entrySet()){
+        for(Map.Entry<Integer, PhaseRankingModel> entry : scores.entrySet()){
 
-            Team team = entry.getKey();
-            PhaseRankingModel phaseRankingModel = scores.get(team);
+            Team team = teamRepository.findById(entry.getKey());
+            PhaseRankingModel phaseRankingModel = scores.get(team.getId());
 
             scoresList.add(phaseRankingModel);
 
