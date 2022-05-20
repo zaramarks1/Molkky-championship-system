@@ -3,6 +3,7 @@ package com.molkky.molkky.service;
 import com.molkky.molkky.domain.*;
 import com.molkky.molkky.domain.*;
 import com.molkky.molkky.domain.Set;
+import com.molkky.molkky.domain.rounds.SimpleGame;
 import com.molkky.molkky.model.CourtModel;
 import com.molkky.molkky.model.MatchModel;
 import com.molkky.molkky.model.UserTournamentRoleModel;
@@ -12,6 +13,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import type.SetTeamIndex;
+import type.TournamentStatus;
+
 import java.util.*;
 
 @SpringBootTest
@@ -165,7 +168,22 @@ class MatchServiceTest {
         Assertions.assertFalse(matchService.isUserInMatch(MatchService.getMatchModelFromEntity(match), UserService.createUserModel(user2)));
     }
     Match createCompleteMatch() {
-        Match match = matchRepository.save(new Match());
+        Tournament tournament = createTournament();
+
+        tournament = createSimpleGame(tournament, 1, false, false);
+
+        Round round = new Round();
+        round.setPhase(tournament.getPhases().get(0));
+
+        Match m = new Match();
+        m.setRound(round);
+
+        round.getMatches().add(m);
+
+        round = roundRepository.save(round);
+
+        Match match = round.getMatches().get(0);
+
         Team team1 = teamRepository.save(new Team());
         Team team2 = teamRepository.save(new Team());
 
@@ -195,6 +213,42 @@ class MatchServiceTest {
         match = matchRepository.save(match);
         return match;
     }
+
+    Tournament createTournament(){
+        Tournament tournament = new Tournament(
+                "tournament test pool service",
+                "location",
+                new Date(),
+                new Date(),
+                1,
+                8,
+                true,
+                2,
+                3,
+                2
+        );
+        tournament.setNbPlayersPerTeam(1);
+        tournament.setVisible(true);
+        tournament.setStatus(TournamentStatus.AVAILABLE);
+        return tournamentRepository.save(tournament);
+
+    }
+
+    Tournament createSimpleGame(Tournament tournament, int nbPhase, boolean ranking, boolean seedingSystem){
+        SimpleGame simpleGame = new SimpleGame();
+        simpleGame.setNbSets(1);
+        simpleGame.setTournament(tournament);
+        simpleGame.setNbPhase(nbPhase);
+        simpleGame.setRanking(ranking);
+        simpleGame.setSeedingSystem(seedingSystem);
+
+        simpleGame =  phaseRepository.save(simpleGame);
+
+        tournament.getPhases().add(simpleGame);
+
+        return tournamentRepository.save(tournament);
+    }
+
 
 
     @Test
