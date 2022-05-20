@@ -107,7 +107,7 @@ class ConnexionControllerTest {
         when(this.userRepository.existsUserByEmailAndPassword(any(), any())).thenReturn(true);
         when(this.userTournamentRoleRepository.findUserAdminStaff(user)).thenReturn(adminOrStaff);
 
-        mockMvc.perform(post("/connexion/")
+        mockMvc.perform(post("/connexxion/")
                         .param("email", "test72@sfr.fr")
                         .param("password", "testMDP")
                         .flashAttr("userConnection", new UserConnectionModel()))
