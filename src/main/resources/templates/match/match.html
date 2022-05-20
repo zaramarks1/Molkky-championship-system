@@ -26,7 +26,7 @@
                     </div>
                 </div>
                 <div class="columnContainer">
-                    <div class="courtText" th:text="${court.name}">
+                    <div th:if=" ${court} != null" class="courtText" th:text="${court.name}">
                         Court placeholder
                     </div>
                     <div class="bestOfText" th:text="'Jeu en ' + ${sets.size} + ' sets'">

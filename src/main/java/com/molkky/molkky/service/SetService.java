@@ -1,6 +1,8 @@
 package com.molkky.molkky.service;
 
 import com.molkky.molkky.domain.Match;
+import com.molkky.molkky.domain.Phase;
+
 import com.molkky.molkky.domain.Set;
 import com.molkky.molkky.model.SetModel;
 import com.molkky.molkky.model.UserModel;
@@ -46,12 +48,39 @@ public class SetService {
                 setEntity.setScore1Orga(set.getScore1Orga());
                 setEntity.setScore2Orga(set.getScore2Orga());
         }
-        setEntity.setFinished(isSetFinished(setEntity, user));
-        Match match = matchRepository.findById(setEntity.getId());
-        setEntity.getMatch().setFinished(matchService.isMatchFinished(match));
-        matchService.validateMatch(match);
-        matchRepository.save(setEntity.getMatch());
-        setRepository.save(setEntity);
+        if(Boolean.TRUE.equals(isSetFinished(setEntity, user))){
+
+            if(setEntity.getScore1Orga()==0 && setEntity.getScore2Orga()==0 ){
+                setEntity.setScore1Orga(set.getScore1Team1());
+                setEntity.setScore2Orga(set.getScore2Team1());
+            }
+            setEntity.setFinished(true);
+        }
+
+        setEntity = setRepository.save(setEntity);
+
+        Match match = setEntity.getMatch();
+
+        if(Boolean.TRUE.equals(matchService.isMatchFinished(match))){
+            match.setFinished(true);
+            int scoreTeam1 =0;
+            int scoreTeam2=0;
+
+            for(Set s: match.getSets()){
+                scoreTeam1 += s.getScore1Orga();
+                scoreTeam2 +=s.getScore2Orga();
+            }
+            match.setScoreTeam1(scoreTeam1);
+            match.setScoreTeam2(scoreTeam2);
+
+            match = matchRepository.save(match);
+        }
+
+
+
+       // matchService.validateMatch(match);
+
+
     }
 
     public Boolean isUserInSet(SetModel setModel, UserModel user){
@@ -98,6 +127,9 @@ public class SetService {
             notificationService.sendNotificationToList("Les scores rentrés par les deux équipes sont différents. Veuillez inscrire le score final.","/matches/match?match_id="+set.getMatch().getId(),userTournamentRoleService.getTournamentStaffFromUser(user));
             return false;
         }
+
         return set.getScore1Team1() == 50 || set.getScore2Team1() == 50;
     }
+
+
 }

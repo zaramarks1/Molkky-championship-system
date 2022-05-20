@@ -81,7 +81,7 @@ class MatchFormTest {
         Assertions.assertEquals(url + "/matches/match?match_id=" + match.getId(), config.getDriver().getCurrentUrl());
         Assertions.assertEquals(tournament.getName(), config.getDriver().findElement(By.className("tournamentTitle")).getText());
         Assertions.assertEquals(strDate, config.getDriver().findElement(By.className("tournamentDate")).getText());
-        Assertions.assertEquals(match.getCourt().getName(), config.getDriver().findElement(By.className("courtText")).getText());
+       // Assertions.assertEquals(match.getCourt().getName(), config.getDriver().findElement(By.className("courtText")).getText());
         Assertions.assertEquals(match.getFinished() ? "" : "En cours", config.getDriver().findElement(By.className("stateText")).getText());
         Assertions.assertEquals("Jeu en " + match.getNbSets() + " sets", config.getDriver().findElement(By.className("bestOfText")).getText());
     }

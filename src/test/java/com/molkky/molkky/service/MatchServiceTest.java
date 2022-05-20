@@ -275,6 +275,8 @@ class MatchServiceTest {
 //        then
         match = matchRepository.findById(match.getId());
         Assertions.assertEquals(true, match.getFinished());
+        Assertions.assertEquals(50,match.getScoreTeam1(),"Le score de l'equipe 1 n'est pas a jour");
+        Assertions.assertEquals(20,match.getScoreTeam2(),"Le score de l'equipe 2 n'est pas a jour");
     }
 
     @Test

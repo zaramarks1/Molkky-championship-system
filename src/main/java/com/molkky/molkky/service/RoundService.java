@@ -2,6 +2,7 @@ package com.molkky.molkky.service;
 
 import com.molkky.molkky.domain.Match;
 import com.molkky.molkky.domain.Round;
+import com.molkky.molkky.domain.Set;
 import com.molkky.molkky.domain.Team;
 import com.molkky.molkky.model.phase.PhaseRankingModel;
 import org.springframework.stereotype.Service;
@@ -33,10 +34,12 @@ public class RoundService {
             phaseRankingModel2.setTotalPoints(phaseRankingModel2.getTotalPoints() + m.getScoreTeam2());
 
             for(Team t : m.getTeams()){
-                if(t.getId().equals(team1.getId()) && t.getId().equals(m.getWinner().getId())){
-                    phaseRankingModel1.setValues(phaseRankingModel1.getValues() + victoryValue);
-                }else  if(t.getId().equals(team2.getId()) && t.getId().equals(m.getWinner().getId())){
-                    phaseRankingModel2.setValues(phaseRankingModel2.getValues() + victoryValue);
+                if(m.getWinner()!= null){
+                    if(t.getId().equals(team1.getId()) && t.getId().equals(m.getWinner().getId())){
+                        phaseRankingModel1.setValues(phaseRankingModel1.getValues() + victoryValue);
+                    }else  if(t.getId().equals(team2.getId()) && t.getId().equals(m.getWinner().getId())){
+                        phaseRankingModel2.setValues(phaseRankingModel2.getValues() + victoryValue);
+                    }
                 }
             }
 
@@ -62,5 +65,23 @@ public class RoundService {
 
         return scoresList;
 
+    }
+
+    public List<Match> createSetsFromMatch(List<Match> matches){
+        int nbSets = matches.get(0).getRound().getPhase().getNbSets();
+        List<Match> results  = new ArrayList<>();
+
+        for(Match m : matches){
+            List<com.molkky.molkky.domain.Set> sets = new ArrayList<>();
+            for(int i =0; i <nbSets; i++){
+                Set set = new Set();
+                set.setTeams(m.getTeams());
+                set.setMatch(m);
+                sets.add(set);
+            }
+            m.setSets(sets);
+            results.add(m);
+        }
+        return results;
     }
 }

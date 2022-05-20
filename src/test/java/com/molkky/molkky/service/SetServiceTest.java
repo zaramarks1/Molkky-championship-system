@@ -2,6 +2,7 @@ package com.molkky.molkky.service;
 
 import com.molkky.molkky.domain.*;
 import com.molkky.molkky.domain.Set;
+import com.molkky.molkky.domain.rounds.Pool;
 import com.molkky.molkky.domain.rounds.SimpleGame;
 import com.molkky.molkky.model.SetModel;
 import com.molkky.molkky.model.UserTournamentRoleModel;
@@ -229,7 +230,7 @@ class SetServiceTest {
     @Test
     void isMatchFinishedNotEqualStaffScores() {
         //        given
-        Match match = createCompleteMatch();
+        Match match = createCompleteMatch2();
         Set set = match.getSets().get(0);
         UserTournamentRole user1 = match.getTeams().get(0).getUserTournamentRoles().get(0);
         UserTournamentRole user2 = match.getTeams().get(1).getUserTournamentRoles().get(0);
@@ -303,9 +304,9 @@ class SetServiceTest {
     Match createCompleteMatch2(){
         Tournament tournament = createTournament();
 
-        tournament = createSimpleGame(tournament, 1, false, false);
+        tournament = createPool(tournament);
 
-        insertTeam(tournament, 1);
+        insertTeam(tournament, 2);
         Map<Round, List<Match>> results =  phaseService.generate(tournament.getPhases().get(0).getId().toString());
 
         tournament = tournamentRepository.findById(tournament.getId());
@@ -346,6 +347,22 @@ class SetServiceTest {
 
         tournament.getPhases().add(simpleGame);
 
+        return tournamentRepository.save(tournament);
+    }
+
+    Tournament createPool(Tournament tournament){
+        Pool pool = new Pool();
+
+        pool.setNbSets(1);
+        pool.setVictoryValue(2);
+        pool.setNbPhase(1);
+        pool.setNbPools(1);
+        pool.setNbTeamsQualified(1);
+
+        pool.setTournament(tournament);
+        pool =  phaseRepository.save(pool);
+
+        tournament.getPhases().add(pool);
         return tournamentRepository.save(tournament);
     }
 
