@@ -4,25 +4,41 @@
     <meta charset="UTF-8">
     <div th:replace="fragments/header"></div>
     <title>Affichage des équipes</title>
-    <link rel="stylesheet" th:href="@{/styles/team/team.css}" href="./"/>
+    <link rel="stylesheet" th:href="@{/styles/team/listTeam.css}" href="./"/>
 </head>
 <body class="bg">
 <div class="pageContainer">
     <div th:replace="fragments/sidebar"></div>
-    <div class="contentContainer">
-        <div th:replace="fragments/searchbar"></div>
-
-        <div class="">
-            <!-- Emplacement pour les filtres-->
-            <div class="">
-                Liste des équipes
+        <div class="contentContainer">
+            <div th:replace="fragments/searchbar"></div>
+            <div>
+                <form method="post" th:action="@{/team/filter}" autocomplete="off" th:object="${teamModel}">
+                <div class="txt_field">
+                    <input id="name" autocomplete="off" type="text" required="required" th:field="*{name}"></p>
+                    <span></span>
+                    <label>Nom</label>
+                </div>
+                <input type="submit" class="primaryButton" value="Filtrer">
+                </form>
             </div>
+            <div class="cardContainer">
+            <div th:each="team: ${teams}" class="cardTeam">
+                <div class="teamHeader">
+                    <div class="teamName">
+                        <p th:text="${team}"></p>
+                    </div>
+                </div>
+                <div class = "teamInfo">
+                    <div class = "playerName">
+                    </div>
+                    <div class = "teamPicture">
+                    </div>
+                </div>
+            </div>
+            </div>
+
         </div>
     </div>
-</div>
-
-</div>
-</div>
 </body>
 <div th:replace="fragments/footer"></div>
 </html>
