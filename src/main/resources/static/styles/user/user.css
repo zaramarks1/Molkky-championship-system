@@ -5,22 +5,17 @@
 }
 
 .bigBox{
-    /* Main */
-    /* Auto layout */
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     padding: 16px;
     gap: 5px;
-
     width: 1147px;
     height: 779.38px;
     overflow-y: scroll;
-
     /* backgroundgrey */
     background: #F4F4F8;
     transform: rotate(-0.08deg);
-
     /* Inside auto layout */
     flex: none;
     order: 1;
@@ -48,4 +43,93 @@
     order: 1;
     align-self: stretch;
     flex-grow: 1;
+}
+
+.boxAllUser{
+    /* Auto layout */
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 0px 40px 10px 0px;
+    gap: 5px;
+    width: 1115px;
+    height: 542.7px;
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+    /* Inside auto layout */
+    flex: none;
+    order: 1;
+    align-self: stretch;
+    flex-grow: 1;
+}
+.boxInOneUser{
+
+}
+
+.nameUser{
+    width: 70px;
+    height: 11px;
+
+    font-family: 'Poppins', serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 10px;
+    line-height: 24px;
+    /* or 240% */
+    display: flex;
+    align-items: center;
+    text-align: center;
+    letter-spacing: 0.2px;
+    color: #000000;
+    /* Inside auto layout */
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+}
+.userImage{
+    left: 5px;
+    right: 5px;
+    top: 0px;
+    bottom: 16px;
+    background: #FFFFFF;
+}
+
+.textListUsers{
+    width: 211px;
+    height: 24px;
+
+    font-family: "Poppins", emoji;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 24px;
+    /* identical to box height, or 120% */
+    display: flex;
+    align-items: center;
+    letter-spacing: 0.2px;
+
+    color: #000000;
+
+
+    /* Inside auto layout */
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+}
+.boxOneUser{
+
+
+}
+
+.searchbar2 {
+    max-width: 1500px;
+    flex-grow: 1;
+    height: 58px;
+    background-color: #E7E7ED;
+    border-radius: 7px;
+    border-width: 0;
+    padding: 0 50px;
+    font-weight: 100;
+    font-size: 15px;
+    line-height: 18px;
+    color: #8787A1;
 }
