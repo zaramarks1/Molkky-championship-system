@@ -180,12 +180,16 @@ class StaffMatchPageDisplayTest {
         config.getDriver().get(url + "/match/allMatches");
         config.getDriver().findElement(new By.ById("toCheck")).click();
         Assertions.assertEquals(url+"/match/validateMatch", config.getDriver().getCurrentUrl());
-        String idDiv3 = config.getDriver().findElement(new By.ById("idMatchList")).getText();
-        String[] div3 = idDiv3.split(" :");
-        String id3 = div3[1];
-        config.getDriver().findElement(new By.ById("listMatches")).click();
-        Assertions.assertEquals("Match en cours", config.getDriver().getTitle());
-        Assertions.assertEquals(url+"/matches/match?match_id="+id3, config.getDriver().getCurrentUrl());
+        int nbMatchBDD = matchRepository.findMatchAttributedToStaff(tournamentRepository.findByName("TournamentTestStaff"),
+                userRepository.findUserByEmail(emailStaff)).size();
+        if(nbMatchBDD!=0) {
+            String idDiv3 = config.getDriver().findElement(new By.ById("idMatchList")).getText();
+            String[] div3 = idDiv3.split(" :");
+            String id3 = div3[1];
+            config.getDriver().findElement(new By.ById("listMatches")).click();
+            Assertions.assertEquals("Match en cours", config.getDriver().getTitle());
+            Assertions.assertEquals(url + "/matches/match?match_id=" + id3, config.getDriver().getCurrentUrl());
+        }
     }
     @Test
     void matchFinishedDisplay() {
