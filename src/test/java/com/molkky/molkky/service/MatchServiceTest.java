@@ -1,24 +1,23 @@
 package com.molkky.molkky.service;
 
-import com.molkky.molkky.domain.Match;
-import com.molkky.molkky.domain.Team;
-import com.molkky.molkky.domain.User;
-import com.molkky.molkky.domain.UserTournamentRole;
+import com.google.j2objc.annotations.AutoreleasePool;
+import com.molkky.molkky.domain.*;
+import com.molkky.molkky.domain.rounds.Pool;
+import com.molkky.molkky.domain.rounds.SimpleGame;
 import com.molkky.molkky.model.MatchModel;
 import com.molkky.molkky.model.UserTournamentRoleModel;
-import com.molkky.molkky.repository.MatchRepository;
-import com.molkky.molkky.repository.TeamRepository;
-import com.molkky.molkky.repository.UserRepository;
-import com.molkky.molkky.repository.UserTournamentRoleRepository;
+import com.molkky.molkky.repository.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 import type.SetTeamIndex;
+import type.TournamentStatus;
+import type.UserRole;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import javax.transaction.Transactional;
+import java.util.*;
 
 @SpringBootTest
 class MatchServiceTest {
@@ -32,6 +31,18 @@ class MatchServiceTest {
     private UserRepository userRepository;
     @Autowired
     private UserTournamentRoleRepository userTournamentRoleRepository;
+
+    @Autowired
+    private TournamentRepository tournamentRepository;
+
+    @Autowired
+    private PhaseRepository phaseRepository;
+
+    @Autowired
+    private PhaseService phaseService;
+
+    @Autowired
+    private RoundRepository roundRepository;
 
     @Test
     void createMatchModelsTest() {
@@ -152,5 +163,8 @@ class MatchServiceTest {
         Assertions.assertEquals(SetTeamIndex.ORGA, index);
         Assertions.assertFalse(matchService.isUserInMatch(MatchService.getMatchModelFromEntity(match), UserService.createUserModel(user2)));
     }
+
+
+
 
 }

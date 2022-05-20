@@ -49,29 +49,27 @@
 
                 <div class="inputContainer">
                     <label for="nbPlayersPerTeam" class="inputLabel">Nombre de joueurs par équipe</label>
-                    <input id="nbPlayersPerTeam" name="nbPlayersPerTeam" type="number" th:field="*{nbPlayersPerTeam}" class="inputTournament"/>
+                    <input id="nbPlayersPerTeam" name="nbPlayersPerTeam" min="1" type="number" th:field="*{nbPlayersPerTeam}" class="inputTournament"/>
                 </div>
 
                 <div class="inputContainer">
                     <label for="nbRounds" class="inputLabel">Nombre de Rounds</label>
-                    <input id="nbRounds" name="nbRounds" type="number" th:field="*{nbRounds}" class="inputTournament"/>
+                    <input id="nbRounds" name="nbRounds" min="1" type="number" th:field="*{nbRounds}" class="inputTournament"/>
                 </div>
 
                 <div class="inputContainer">
                     <label for="nbCourts" class="inputLabel">Nombre de terrains disponibles</label>
-                    <input id="nbCourts" name="nbCourts" type="number" th:field="*{nbCourts}" class="inputTournament"/>
+                    <input id="nbCourts" name="nbCourts" min="1" type="number" th:field="*{nbCourts}" class="inputTournament"/>
                 </div>
 
                 <div class="inputContainer">
                     <label for="nbCourts" class="inputLabel">Email du administrateur </label>
-                    <input id="email" name="email" type="text" th:field="*{email}" class="inputTournament"/>
+                    <input id="email" name="email" type="email" th:field="*{email}" class="inputTournament"/>
                 </div>
                 <div class="submitContainer">
                     <button id="sendTournament" class="primaryButton" type="submit">Créer le tournoi</button>
                     <button id="cancelTournament" class="secondaryButton" type="submit">Annuler</button>
                 </div>
-
-
             </form>
         </div>
     </div>

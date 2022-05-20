@@ -13,7 +13,7 @@
             <form action="#" th:action="@{/team/create}" method="post" th:object="${team}" class="formContainer">
                 <div class="inputContainer">
                     <label for="nom" class="inputLabel">Nom de l'équipe</label>
-                    <input id ="nom" name="nom" type="text" th:field="*{name}"  class="inputTournament" placeholder="Nom"/>
+                    <input required id ="nom" name="nom" type="text" th:field="*{name}"  class="inputTournament" placeholder="Nom"/>
                 </div>
 
                 <div class="inputContainer">
