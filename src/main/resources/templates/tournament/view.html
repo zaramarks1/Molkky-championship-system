@@ -100,15 +100,16 @@
                         </div>
                     </form>
                 </div>
-                <div th:if=" ${tournament.status} == 'Available'">
-
-                    <div th:if=" ${tournament.isVisible} == false">
+                <div class="partContainer" th:if="${#strings.equals(tournament.status, 'AVAILABLE')}">
+                    <h2 class="partTitle">Visible</h2>
+                    <span th:if=" ${tournament.isVisible} == false">
+                        <p>Votre tournois n'est pas encore visible au publique</p>
                         <button id="isValid" name = "visible" class="primaryButton" type="submit">Rendre public le tournoi</button>
-                    </div>
-
-                    <div th:if=" ${tournament.isVisible} == true">
+                    </span>
+                    <span th:if=" ${tournament.isVisible} == true">
+                        <p>Votre tournois est  visible au publique ! Souhaitez-vous débuter le tounois?</p>
                         <button id="startTounament" name = "launch" class="primaryButton" type="submit">Lancer le tournoi</button>
-                    </div>
+                    </span>
                 </div>
             </div>
             <input hidden th:value="${tournament.id}" th:name="tournamentId"/>
