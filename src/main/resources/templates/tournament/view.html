@@ -94,7 +94,7 @@
                         <h2 class="partTitle">Ajouter Staff</h2>
                         <div class="inputContainer">
                             <label class="inputLabel">Ajout Staff</label>
-                            <input style="margin-bottom: 15px;" class="inputPhase" id="staff-counter" name="nbStaff" th:name="staffCount" type="number" min="1">
+                            <input style="margin-bottom: 10px;" class="inputPhase" id="staff-counter" name="nbStaff" th:name="staffCount" type="number" min="1">
                             <input hidden th:value="${tournament.id}" th:name="tournamentId"/>
                             <button id="addStaff" class="primaryButton" type="submit">Ajouter Staff</button>
                         </div>
@@ -104,15 +104,21 @@
                     <h2 class="partTitle">Visible</h2>
                     <span th:if=" ${tournament.isVisible} == false">
                         <p>Votre tournois n'est pas encore visible au publique</p>
-                        <button id="isValid" name = "visible" class="primaryButton" type="submit">Rendre public le tournoi</button>
+                        <form action="#" th:action="@{/tournament/setVisible}" method="post" class="formContainer">
+                            <input hidden th:value="${tournament.id}" th:name="tournamentId"/>
+                            <button id="isValid" name = "visible" class="primaryButton" type="submit">Rendre public le tournoi</button>
+                        </form>
                     </span>
                     <span th:if=" ${tournament.isVisible} == true">
                         <p>Votre tournois est  visible au publique ! Souhaitez-vous débuter le tounois?</p>
-                        <button id="startTounament" name = "launch" class="primaryButton" type="submit">Lancer le tournoi</button>
+                        <form action="#" th:action="@{/tournament/publish}" method="post" class="formContainer">
+                            <input hidden th:value="${tournament.id}" th:name="tournamentId"/>
+                            <button id="startTounament" name = "launch" class="primaryButton" type="submit">Lancer le tournoi</button>
+                        </form>
                     </span>
                 </div>
             </div>
-            <input hidden th:value="${tournament.id}" th:name="tournamentId"/>
+
         </div>
     </div>
 </div>

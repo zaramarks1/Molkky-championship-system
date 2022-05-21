@@ -103,6 +103,7 @@ public class TournamentController extends DefaultAttributes {
     @GetMapping("/view")
     public String tournamentViewPostLaunch(Model model,@RequestParam(value = "tournamentId", required = false) String tournamentId,  HttpSession session){
 
+        
         Tournament tournament = tournamentRepository.findById(Integer.valueOf(tournamentId));
 
         //USER FROM SESSION
@@ -110,7 +111,10 @@ public class TournamentController extends DefaultAttributes {
 
         if (user != null) {
             if (user.getTournament().getId().toString().equals(tournamentId) && user.getRole().equals(UserRole.ADM)) {
+
                 model.addAttribute("user", user);
+            }else{
+                model.addAttribute("user", null);
             }
         }
 
@@ -161,6 +165,44 @@ public class TournamentController extends DefaultAttributes {
         return "/tournament/view";
 
     }
+
+    @PostMapping("/addStaffMembers")
+    public String addStaffToTournament(Model model, @RequestParam(name="staffCount") String staffCount,
+                                       @RequestParam(name="tournamentId") String tournamentId) {
+
+        model.addAttribute("tournament_id", tournamentId);
+        model.addAttribute("staff_counter", staffCount);
+        return "redirect:/tournament/"+tournamentId+"/view";
     }
+
+    @PostMapping("/setVisible")
+    public String setVisibleTournament(Model model,@RequestParam(name="tournamentId") String tournamentId ){
+
+        Tournament tournament = tournamentRepository.findById(Integer.valueOf(tournamentId));
+
+        tournament.setVisible(true);
+         tournamentRepository.save(tournament);
+
+        model.addAttribute("tournament_id", tournamentId);
+
+        return "redirect:/tournament/view?tournamentId=" + tournamentId;
+
+    }
+
+    @PostMapping("/publish")
+    public String pubishTournament(Model model,@RequestParam(name="tournamentId") String tournamentId ){
+
+        Tournament tournament = tournamentRepository.findById(Integer.valueOf(tournamentId));
+
+        tournament.setStatus(TournamentStatus.INPROGRESS);
+        tournamentRepository.save(tournament);
+
+        model.addAttribute("tournament_id", tournamentId);
+
+        return "redirect:/tournament/view?tournamentId=" + tournamentId;
+
+    }
+
+}
 
 
