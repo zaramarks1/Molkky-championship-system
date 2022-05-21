@@ -41,7 +41,18 @@ ul.roundsList {
     flex-direction: row;
 }
 .teamName {
-    background-color: #5B5A58;
+    background-color: forestgreen;
+    color: white;
+    font-weight: bold;
+    margin: 0;
+    padding: 2px 5px;
+    border-top-right-radius: 7px;
+    border-top-left-radius: 7px;
+    text-transform: uppercase;
+}
+
+.teamNameEliminated {
+    background-color: darkred;
     color: white;
     font-weight: bold;
     margin: 0;

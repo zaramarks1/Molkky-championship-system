@@ -97,6 +97,7 @@ public class SetService {
         setModel.setScore2Team2(set.getScore2Team2());
         setModel.setScore1Orga(set.getScore1Orga());
         setModel.setScore2Orga(set.getScore2Orga());
+        setModel.setFinished(set.getFinished());
         return setModel;
     }
 
