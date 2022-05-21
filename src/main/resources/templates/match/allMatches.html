@@ -51,7 +51,7 @@
                                 <span id="idMatchList" class="idCard" th:text="'ID du match :' + ${match.getId()}"/>
                                 <span th:if=" ${match.getCourt()} != null" class="courtCard" th:text=" 'Emplacement : '+${match.getCourt().getName()}"/>
                                 <span class="teamCard" th:text="${match.getTeams().get(0).getName()} + ' contre ' + ${match.getTeams().get(1).getName()}"/>
-                                <span class="nbSetCard" th:text="'Nombres de sets : '+ ${match.getNbSets()}"/>
+                                <span class="nbSetCard" th:text="'Nombres de sets : '+ ${match.getRound().getPhase().getNbSets()}"/>
                                 <span th:if="${incorrectSet!= null}" class="setCard" th:text="'Set concerné: ' + ${incorrectSet.get(iStat.index)}"/>
                             </a>
                         </li>
