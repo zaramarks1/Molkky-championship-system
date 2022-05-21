@@ -77,7 +77,7 @@
                         <input th:case="team2" min="0"  class="setInput" type="number" th:name="score2Team2" value="0" th:value="${set.score2Team2}"/>
                         <input th:case="orga" min="0" class="setInput" type="number" th:name="score2Orga" value="0" th:value="${set.score2Orga}"/>
                     </div>
-                    <div class="setContainer">
+                    <div class="setContainer" th:if = "${match.finished == false} and ${set.finished == false}" >
                         <button type="submit" class="primaryButton" th:id="'submitSet' + ${iStat.index}">Envoyer</button>
                     </div>
                 </form>
