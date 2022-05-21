@@ -1,56 +1,120 @@
 <html xmlns:th="http://thymeleaf.org" xmlns="http://www.w3.org/1999/html" lang="fr">
 <head>
     <div th:replace="fragments/header"></div>
+    <link rel="stylesheet" th:href="@{/styles/tournament/view.css}" href="../" />
     <link rel="stylesheet" th:href="@{/styles/tournament/create.css}" href="../" />
     <title>View Tournoi</title>
 </head>
-<body>
-    <h1>Nom</h1>
-    <h2 th:text="${tournament.name}"></h2>
+<body class="bg">
+<div class="pageContainer">
+    <div th:replace="fragments/sidebar"></div>
+    <div class="contentContainer">
+        <div th:replace="fragments/searchbar"></div>
+        <div class="contentTitle">
+            <div class="setInline statusCircleGreen"> - </div>
+            <p id="tournament_name" class="setInline" th:text="|${tournament.name}|"></p>
+            <p id="tournament_status" class="setInline" th:text="|(${tournament.status})|"></p>
+        </div>
+        <div class="partContainer">
+            <h2 class="partTitle">Informations générales</h2>
+            <p id="date-and-location" th:text="|Le tournoi ${tournament.name} du ${tournament.date} aura lieu à ${tournament.location} débutera le ${tournament.date}.|"></p>
+            <p>Merci d'apporter votre propre jeu de molkky et de quoi manger pour la journée. Le club ne propose pas de services de restauration.</p>
+            <br>
+            <p id="teams-extremums" th:text="|Le nombre d'équipes pour ce tournoi est compris entre ${tournament.minTeam} et ${tournament.maxTeam}.|"></p>
+            <p id="nbTeam" th:text="|Il y a actuellement ${nbTeam} équipes inscrites à ce tournoi.|"></p>
+            <p id="current-phase" th:text="|La phase courante est la phase n°${tournament.indexPhase}.|"></p>
+        </div>
 
-    <h1>Location</h1>
-    <h2 th:text="${tournament.location}"></h2>
+        <div class="partContainer">
+            <h2 class="partTitle">Format du tournoi</h2>
+            <p>Le tournoi suit un format classique, à savoir une phase de poules suivie d'un bracket.</p>
+            <h3 class="partSubtitle">Rounds</h3>
+            <div class="dir">
+                <div>
+                    <ul>
+                        <li th:each="phase, itemStat: ${phasesType}">
+                            <span th:text="'Phase ' + ${itemStat.index+1}  "></span> : <span th:text="${phase.getPhaseType()}"></span>
 
-    <h1>Date</h1>
-    <h2 th:text="${tournament.date}"></h2>
-
-    <h1>Nombre minimum d'équipe </h1>
-    <h2 th:text="${tournament.minTeam}"></h2>
-
-    <h1>Nombre maximum d'équipe </h1>
-    <h2 th:text="${tournament.maxTeam}"></h2>
-
-    <h1>Status </h1>
-    <h2 th:text="${tournament.status}"></h2>
-
-    <h1>Phase courante </h1>
-    <h2 th:text="${tournament.indexPhase}"></h2>
-
-
-    <h1>Nombre  d'équipe inscrits </h1>
-    <h2 th:text="${nbTeam}"></h2>
-
-    <form action="#" th:action="@{/tournament/view}" method="post"  class="formContainer">
-
-        <div th:if=" ${user} != null">
-            <div th:if=" ${user.role} == 'Administrator'">
-                <div th:if=" ${tournament.status} == 'Available'">
-
-                <div th:if=" ${tournament.isVisible} == false">
-                    <button id="isValid" name = "visible" class="primaryButton" type="submit">Rendre publique le tournois</button>
+                            <div th:switch="${phase.getPhaseType()}">
+                                <div th:case="${T(type.PhaseType).POOL}">
+                                    <span th:text="'Nombre des poules: ' + ${phase.getPhase().getNbPools()}  "></span>
+                                </div>
+                                <div th:case="${T(type.PhaseType).KNOCKOUT}">
+                                </div>
+                                <div th:case="${T(type.PhaseType).FINNISH}">
+                                </div>
+                                <div th:case="${T(type.PhaseType).SIMPLEGAME}">
+                                </div>
+                                <div th:case="${T(type.PhaseType).SWISSPOOL}">
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
-
-                <div th:if=" ${tournament.isVisible} == true">
-                    <button id="startTounament" name = "launch" class="primaryButton" type="submit">Lancer le tournois</button>
+                <div>
                 </div>
-            </div>
             </div>
         </div>
-        <input hidden   th:value="${tournament.id}" th:name="tournamentId"/>
-    </form>
 
+        <div class="partContainer">
+            <h2 class="partTitle">Bracket</h2>
+            <p>The following image will be replaced by the right planning when the US will be developed and tested.</p>
+            <img th:src="@{/assets/bracket.png}" class="imgBracket" alt="Tournament Bracket">
+        </div>
 
+        <div class="partContainer">
+            <h2 class="partTitle">Participants</h2>
+            <div id="participantContainer">
 
+                <th:block th:each="team : ${tournament.getTeams()}">
+                    <div class="teamCard">
+                        <h3 class="teamName" th:text="${team.getName()}"></h3>
+                        <div class="cardContentContainer">
+                            <p class="teamLogo"></p>
+                            <ul class="roundsList">
+                                <th:block th:each="team : ${team.getUserTournamentRoles()}">
+                                    <li class="teamMember" th:text="${team.getUser().getForename()}"></li>
+                                </th:block>
+                            </ul>
+                        </div>
+                    </div>
+                </th:block>
+            </div>
+        </div>
 
+        <div class="partContainer">
+            <h2 class="partTitle">Règles</h2>
+            <p>A définir...</p>
+        </div>
+
+        <div th:if=" ${user} != null">
+            <div th:if="${#strings.equals(user.role, 'ADM')}">
+                <div class="partContainer">
+                    <form action="#" th:action="@{/tournament/addStaffMembers}" method="post" class="formContainer">
+                        <h2 class="partTitle">Ajouter Staff</h2>
+                        <div class="inputContainer">
+                            <label class="inputLabel">Ajout Staff</label>
+                            <input style="margin-bottom: 15px;" class="inputPhase" id="staff-counter" name="nbStaff" th:name="staffCount" type="number" min="1">
+                            <input hidden th:value="${tournament.id}" th:name="tournamentId"/>
+                            <button id="addStaff" class="primaryButton" type="submit">Ajouter Staff</button>
+                        </div>
+                    </form>
+                </div>
+                <div th:if=" ${tournament.status} == 'Available'">
+
+                    <div th:if=" ${tournament.isVisible} == false">
+                        <button id="isValid" name = "visible" class="primaryButton" type="submit">Rendre public le tournoi</button>
+                    </div>
+
+                    <div th:if=" ${tournament.isVisible} == true">
+                        <button id="startTounament" name = "launch" class="primaryButton" type="submit">Lancer le tournoi</button>
+                    </div>
+                </div>
+            </div>
+            <input hidden th:value="${tournament.id}" th:name="tournamentId"/>
+        </div>
+    </div>
+</div>
+<div th:replace="fragments/footer"></div>
 </body>
 </html>

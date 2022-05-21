@@ -93,7 +93,7 @@ class TournamentControllerTest {
                 .andExpect(view().name("/tournament/view"));
 
         verify(this.tournamentRepository, times(1)).findById(anyInt());
-        verify(this.tournamentRepository,times(1)).save(Mockito.any(Tournament.class));
+       // verify(this.tournamentRepository,times(1)).save(Mockito.any(Tournament.class));
     }
 
     @Test

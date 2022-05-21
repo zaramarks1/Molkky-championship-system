@@ -11,13 +11,14 @@
             </div>
         </a>
         <div th:if="${session.user != null}">
-            <a href="/tournament/tournamentOnGoing" style="text-decoration: none;">
-                <div th:class="'sidebarButton '+${#httpServletRequest.requestURI.startsWith('/tournament/tournamentOnGoing') ? 'bgButton textPrimary' : ''}">
-                    <img th:class="'sidebarIcon '+${#httpServletRequest.requestURI.startsWith('/tournament/tournamentOnGoing') ? 'sidebarIcon' : 'sidebarIconInactive'}" th:src="@{/assets/tournamentongoing.svg}" alt="Tournament cup for ongoin tournament icon"/>
-                    <p id="tournamentongoing_sidebar" class="sidebarButtonContent">Tournoi en cours</p>
+            <a th:href="'/tournament/view?tournamentId='+${session.user.tournament.id} "  style="text-decoration: none;">
+                <div th:class="'sidebarButton '+${#httpServletRequest.requestURI.startsWith('/tournament/view?tournamentId=' + '${session.user.tournament.id}' ) ? 'bgButton textPrimary' : ''}">
+                    <img th:class="'sidebarIcon '+${#httpServletRequest.requestURI.startsWith('/tournament/view?tournamentId=' + '${session.user.tournament.id}') ? 'sidebarIcon' : 'sidebarIconInactive'}" th:src="@{/assets/tournamentongoing.svg}" alt="Tournament cup for ongoin tournament icon"/>
+                    <p id="tournamentongoing_sidebar" class="sidebarButtonContent">Mon tournoi</p>
                 </div>
             </a>
         </div>
+
         <a href="/tournament/allTournament" style="text-decoration: none;">
             <div th:class="'sidebarButton '+${#httpServletRequest.requestURI.startsWith('/tournament/allTournament') ? 'bgButton textPrimary' : ''}">
                 <img th:class="'sidebarIcon '+${#httpServletRequest.requestURI.startsWith('/tournament/allTournament') ? 'sidebarIcon' : 'sidebarIconInactive'}" th:src="@{/assets/tournament.svg}" alt="Tournament bracket for tournnaments icon"/>

@@ -12,7 +12,7 @@
     <div class="contentContainer">
         <div th:replace="fragments/searchbar"></div>
         <div class="submitContainer">
-                <form th:if="${session.user != null} and (${#strings.equals(session.user.role, 'ADM')})" action="#" th:action="@{/tournament/allTournament}" method="post" class="formContainer">
+                <form  action="#" th:action="@{/tournament/allTournament}" method="post" class="formContainer">
                     <input id="valider" type="submit" class="primaryButton" value="Créer tournoi">
                 </form>
                 <form action="#" method="post" th:action="@{/tournament/inscription}" class="formContainer">
