@@ -68,7 +68,8 @@
 
                 <th:block th:each="team : ${tournament.getTeams()}">
                     <div class="teamCard">
-                        <h3 class="teamName" th:text="${team.getName()}"></h3>
+                        <h3 class="teamNameEliminated"  th:if= "${team.eliminated == true}"  th:text="${team.getName()}"></h3>
+                        <h3 class="teamName"   th:if= "${team.eliminated == false}"  th:text="${team.getName()}"></h3>
                         <div class="cardContentContainer">
                             <p class="teamLogo"></p>
                             <ul class="roundsList">

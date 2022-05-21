@@ -210,6 +210,7 @@ public class TournamentController extends DefaultAttributes {
         Tournament tournament = tournamentRepository.findById(Integer.valueOf(tournamentId));
 
         tournament.setStatus(TournamentStatus.INPROGRESS);
+        tournament.setIndexPhase(1);
         tournamentRepository.save(tournament);
 
 
