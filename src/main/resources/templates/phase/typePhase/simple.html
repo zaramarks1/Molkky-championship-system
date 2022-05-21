@@ -15,6 +15,8 @@
         <label class="inputLabel" for="topSeeds">Tenir compte têtes de série</label>
         <input class="inputPhase" id="topSeeds" type="checkbox" th:field="*{phases[__${itemStat.index}__].topSeeds}">
     </div>
+
+
     <div th:insert="phase/utiles/score"></div>
     <div class="inputContainer">
         <label class="inputLabel" for="notifStartPhase">Notification début de la phase</label>

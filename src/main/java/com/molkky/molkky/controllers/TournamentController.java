@@ -112,7 +112,6 @@ public class TournamentController extends DefaultAttributes {
 
         Tournament tournament = tournamentRepository.findById(Integer.valueOf(tournamentId));
 
-
         //USER FROM SESSION
         UserLogged user = getUser(session);
 

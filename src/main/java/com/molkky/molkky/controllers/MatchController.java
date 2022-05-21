@@ -49,6 +49,7 @@ public class MatchController extends DefaultAttributes {
     @GetMapping("/matches/match")
     public String match(Model model, HttpSession session, @RequestParam(name = "match_id", required = true) Integer id) {
         UserLogged user = getUser(session);
+        System.out.println("oi");
         if(user == null){
             return "redirect:/connexion";
         }
@@ -134,11 +135,14 @@ public class MatchController extends DefaultAttributes {
         int i = 1;
         for (Match match : matchesStaff) {
             for (Set set : match.getSets()){
-                if((!set.getScore1Team1().equals(set.getScore1Team2())||(!set.getScore2Team1().equals(set.getScore2Team2())))){
-                    matchIncorrectScore.add(match);
-                    setIncorrectScore.add(i);
+                if(set.getScore1Orga()!=50 && set.getScore2Orga()!=50){
+                    if((!set.getScore1Team1().equals(set.getScore1Team2())||(!set.getScore2Team1().equals(set.getScore2Team2())))){
+                        matchIncorrectScore.add(match);
+                        setIncorrectScore.add(i);
+                    }
+                    i=i+1;
                 }
-                i=i+1;
+
             }
         }
         model.addAttribute(matchAttribute, matchIncorrectScore);

@@ -58,7 +58,7 @@ public class Phase  implements Serializable {
     private Integer nbSets;
 
     @Column(name = "isSeedingSystem")
-    private Boolean seedingSystem = false;
+    private Boolean seedingSystem = true;
 
     @Column(name = "isTopSeeds")
     private Boolean topSeeds;
