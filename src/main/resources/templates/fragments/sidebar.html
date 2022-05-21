@@ -10,7 +10,7 @@
                 <p id="home_sidebar" class="sidebarButtonContent">Accueil</p>
             </div>
         </a>
-        <div th:if="${session.user != null}">
+        <div th:if="${session.user != null} and ${session.user.tournament != null}">
             <a th:href="'/tournament/view?tournamentId='+${session.user.tournament.id} "  style="text-decoration: none;">
                 <div th:class="'sidebarButton '+${#httpServletRequest.requestURI.startsWith('/tournament/view?tournamentId=' + '${session.user.tournament.id}' ) ? 'bgButton textPrimary' : ''}">
                     <img th:class="'sidebarIcon '+${#httpServletRequest.requestURI.startsWith('/tournament/view?tournamentId=' + '${session.user.tournament.id}') ? 'sidebarIcon' : 'sidebarIconInactive'}" th:src="@{/assets/tournamentongoing.svg}" alt="Tournament cup for ongoin tournament icon"/>

@@ -6,6 +6,8 @@ import com.molkky.molkky.domain.Phase;
 import com.molkky.molkky.domain.Team;
 import com.molkky.molkky.domain.Tournament;
 import com.molkky.molkky.domain.rounds.*;
+import com.molkky.molkky.model.AddStaff;
+import com.molkky.molkky.model.AddStaffList;
 import com.molkky.molkky.model.TournamentModel;
 import com.molkky.molkky.model.UserLogged;
 import com.molkky.molkky.repository.TournamentRepository;
@@ -103,8 +105,9 @@ public class TournamentController extends DefaultAttributes {
     @GetMapping("/view")
     public String tournamentViewPostLaunch(Model model,@RequestParam(value = "tournamentId", required = false) String tournamentId,  HttpSession session){
 
-        
+
         Tournament tournament = tournamentRepository.findById(Integer.valueOf(tournamentId));
+
 
         //USER FROM SESSION
         UserLogged user = getUser(session);
@@ -117,9 +120,6 @@ public class TournamentController extends DefaultAttributes {
                 model.addAttribute("user", null);
             }
         }
-
-
-        List<Team> teams = tournament.getTeams();
 
         List<Phase> phases = tournament.getPhases();
 
@@ -166,13 +166,25 @@ public class TournamentController extends DefaultAttributes {
 
     }
 
-    @PostMapping("/addStaffMembers")
-    public String addStaffToTournament(Model model, @RequestParam(name="staffCount") String staffCount,
+    @PostMapping("/addStaff")
+    public ModelAndView addStaffToTournament(ModelMap model, @RequestParam(name="staffCount") String staffCount,
                                        @RequestParam(name="tournamentId") String tournamentId) {
 
-        model.addAttribute("tournament_id", tournamentId);
+        model.addAttribute("tournamentId", tournamentId);
         model.addAttribute("staff_counter", staffCount);
-        return "redirect:/tournament/"+tournamentId+"/view";
+
+        List<AddStaff> staffList = new ArrayList<>();
+
+        for(int i =0; i< Integer.valueOf(staffCount) ;i++){
+            AddStaff addStaff = new AddStaff();
+            addStaff.setTournamentId(Integer.valueOf(tournamentId));
+            staffList.add(addStaff);
+        }
+
+
+        model.addAttribute("isDiffMail", true);
+        model.addAttribute("staffList", new AddStaffList(staffList));
+        return new ModelAndView( "/tournament/addStaff", model) ;
     }
 
     @PostMapping("/setVisible")
@@ -196,6 +208,8 @@ public class TournamentController extends DefaultAttributes {
 
         tournament.setStatus(TournamentStatus.INPROGRESS);
         tournamentRepository.save(tournament);
+
+
 
         model.addAttribute("tournament_id", tournamentId);
 

@@ -22,6 +22,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
+import static org.mockito.Mockito.when;
+
 @SpringBootTest(classes = MolkkyApplication.class, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class MatchFormTest {
@@ -150,6 +152,7 @@ class MatchFormTest {
         Match match = createCompleteMatch();
         User user = createOrgaUser();
         loginUser(user);
+
         config.getDriver().get(url + "/matches/match?match_id=" + match.getId());
         int score1 = new Random().nextInt(50);
         int score2 = new Random().nextInt(50);

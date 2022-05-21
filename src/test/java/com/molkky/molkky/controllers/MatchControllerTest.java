@@ -12,12 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.web.servlet.MockMvc;
 import type.SetTeamIndex;
 import type.UserRole;
 
-import javax.servlet.http.HttpSession;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -65,11 +63,11 @@ class MatchControllerTest {
 
     @Test
     void testControllerWithUser() throws Exception {
-//        given
         UserLogged userLogged = Mockito.mock(UserLogged.class);
-        userLogged.setTournamentRoleId(1);
-        HttpSession session = new MockHttpSession(null, "user");
-        session.setAttribute("user", userLogged);
+        Tournament t = new Tournament();
+        t.setId(1);
+        when(userLogged.getTournamentRoleId()).thenReturn(1);
+        when(userLogged.getTournament()).thenReturn(t);
         Match match = createMatch();
         when(matchRepository.findById(1)).thenReturn(match);
 
@@ -80,9 +78,9 @@ class MatchControllerTest {
         when(userTournamentRoleRepository.findById(anyInt())).thenReturn(userTournamentRole);
 
         when(matchService.getUserTeamIndex(any(MatchModel.class), any(UserTournamentRoleModel.class))).thenReturn(SetTeamIndex.TEAM1);
-//        when
-//        then
-        this.mockMvc.perform(get("/matches/match?match_id=1").sessionAttr("user", userLogged))
+
+        this.mockMvc.perform(get("/matches/match?match_id=1").sessionAttr("user", userLogged)
+                        .sessionAttr("user",userLogged))
                 .andExpect(status().isOk())
                 .andExpect(model().attribute("match", MatchService.getMatchModelFromEntity(match)))
                 .andExpect(model().attribute("teams", TeamModel.createTeamModels(match.getTeams())))

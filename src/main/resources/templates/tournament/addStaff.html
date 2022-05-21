@@ -1,0 +1,43 @@
+<html xmlns:th="http://thymeleaf.org" xmlns="http://www.w3.org/1999/html" lang="fr">
+<head>
+  <div th:replace="fragments/header"></div>
+  <link rel="stylesheet" th:href="@{/styles/tournament/create.css}" href="../" />
+  <link rel="stylesheet" th:href="@{/styles/team/team.css}" href="../" />
+  <title>Créer Staff</title>
+</head>
+<body class="bg">
+<div class="pageContainer">
+  <div th:replace="fragments/sidebar"> </div>
+
+  <div class="contentContainer">
+    <div th:replace="fragments/searchbar"> </div>
+    <div class="contentTitle">Ajouter des staff à votre tournois</div>
+    <form action="#" th:action="@{/staff/add}" method="post" th:object="${staffList}" class="formContainer">
+      <div class="inputContainer">
+        <span th:if="${!isDiffMail}">S'il vous plait, entrez des mails différents pour chaque staff !</span>
+
+
+      </div>
+      <div class="formContainer">
+        <div th:each="mail, itemStat : *{mails}" class="inputContainer">
+          <b th:text="'Staff ' + ${itemStat.index+1}">Staff: </b>
+          <div class="submitContainer playerFormContainer">
+            <div class="inputContainer">
+              <label for="email" class="inputLabel">Mail</label>
+              <input  required="true" type="email" id = "email" th:field="*{mails[__${itemStat.index}__].mail}"  class="inputTournament"/>
+              <input hidden th:name="|mails[${itemStat.index}].tournamentId|" th:value="${tournamentId}"/>
+            </div>
+
+
+      </div>
+
+      <div class="submitContainer">
+        <button id="sendTeam" class="primaryButton" type="submit">Finaliser</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+</body>
+<div th:replace="fragments/footer"></div>
+

@@ -43,4 +43,8 @@ public class UserTournamentRole implements Serializable {
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name="idUserTournamentRole", nullable = true)
     private List<Notification> notifications = new ArrayList<>();
+
+    public UserTournamentRole(Tournament tournament) {
+        this.tournament = tournament;
+    }
 }

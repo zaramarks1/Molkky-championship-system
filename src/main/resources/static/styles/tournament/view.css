@@ -35,6 +35,11 @@ ul.roundsList {
     display: flex;
     flex-direction: row;
 }
+
+#staffContainer {
+    display: flex;
+    flex-direction: row;
+}
 .teamName {
     background-color: #5B5A58;
     color: white;
