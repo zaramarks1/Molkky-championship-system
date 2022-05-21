@@ -3,7 +3,7 @@
     <div th:replace="fragments/header"></div>
     <link rel="stylesheet" th:href="@{/styles/tournament/view.css}" href="../" />
     <link rel="stylesheet" th:href="@{/styles/tournament/create.css}" href="../" />
-    <title>View Tournoi</title>
+    <title>Votre Tournoi</title>
 </head>
 <body class="bg">
 <div class="pageContainer">
@@ -27,7 +27,7 @@
 
         <div class="partContainer">
             <h2 class="partTitle">Format du tournoi</h2>
-            <p>Le tournoi suit un format classique, à savoir une phase de poules suivie d'un bracket.</p>
+            <p>Le tournoi suit un format classique, à savoir une phase de poule suivie d'un bracket.</p>
             <h3 class="partSubtitle">Rounds</h3>
             <div class="dir">
                 <div>
@@ -133,7 +133,7 @@
                         </form>
                     </span>
                     <span th:if=" ${tournament.isVisible} == true">
-                        <p>Votre tournois est  visible au publique ! Souhaitez-vous débuter le tounois?</p>
+                        <p>Votre tournoi est  visible au public ! Souhaitez-vous débuter le tournoi ?</p>
                         <form action="#" th:action="@{/tournament/publish}" method="post" class="formContainer">
                             <input hidden th:value="${tournament.id}" th:name="tournamentId"/>
                             <button id="startTounament" name = "launch" class="primaryButton" type="submit">Lancer le tournoi</button>

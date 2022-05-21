@@ -16,15 +16,15 @@
         <input class="inputPhase" required id="victoryValue" type="number" min="2" max="3" th:field="*{phases[__${itemStat.index}__].victoryValue}">
     </div>
     <div class="inputContainer">
-        <label class="inputLabel" for="ranking">Tenir compte de la phase précedante</label>
+        <label class="inputLabel" for="ranking">Tenir compte de la phase précedente</label>
         <input class="inputPhase" id="ranking" type="checkbox" th:field="*{phases[__${itemStat.index}__].ranking}">
     </div>
     <div class="inputContainer">
-        <label class="inputLabel" for="topSeeds">Tenir compte têtes de série</label>
+        <label class="inputLabel" for="topSeeds">Tenir compte des têtes de série</label>
         <input class="inputPhase" id="topSeeds" type="checkbox" th:field="*{phases[__${itemStat.index}__].topSeeds}">
     </div>
     <div class="inputContainer">
-        <label class="inputLabel" for="sameClub">Tenir compte affrontement même club</label>
+        <label class="inputLabel" for="sameClub">Tenir compte des affrontements même club</label>
         <input class="inputPhase" id="sameClub" type="checkbox" th:field="*{phases[__${itemStat.index}__].playTeamSameClub}">
     </div>
     <div th:insert="phase/utiles/score"></div>

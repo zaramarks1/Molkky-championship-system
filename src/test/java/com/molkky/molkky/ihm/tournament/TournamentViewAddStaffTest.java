@@ -98,9 +98,6 @@ class TournamentViewAddStaffTest {
         config.getDriver().findElement(new By.ById("password")).sendKeys(passwordAdmin);
         config.getDriver().findElement(new By.ById("connexion")).click();
         Assertions.assertEquals("Accueil", config.getDriver().getTitle());
-        int tournamentId = tournamentRepository.findByName(tournamentName).getId();
-        config.getDriver().get(url + "/tournament/view?tournamentId=" + tournamentId);
-        Assertions.assertEquals("View Tournoi", config.getDriver().getTitle());
     }
 
     @Test
@@ -108,7 +105,7 @@ class TournamentViewAddStaffTest {
         Tournament tournament = tournamentRepository.findByName(tournamentName);
         int tournamentId = tournament.getId();
         config.getDriver().get(url + "/tournament/view?tournamentId=" + tournamentId);
-        Assertions.assertEquals("View Tournoi", config.getDriver().getTitle());
+        Assertions.assertEquals("Votre Tournoi", config.getDriver().getTitle());
         String tournamentNameIHM = config.getDriver().findElement(new By.ById("tournament_name")).getText();
         Assertions.assertEquals(tournament.getName(),tournamentNameIHM);
         String dateLocationIHM = config.getDriver().findElement(new By.ById("date-and-location")).getText();
