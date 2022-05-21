@@ -11,6 +11,7 @@ import com.molkky.molkky.model.AddStaffList;
 import com.molkky.molkky.model.TournamentModel;
 import com.molkky.molkky.model.UserLogged;
 import com.molkky.molkky.repository.TournamentRepository;
+import com.molkky.molkky.service.PhaseService;
 import com.molkky.molkky.service.TournamentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -36,6 +37,9 @@ public class TournamentController extends DefaultAttributes {
 
     @Autowired
     private TournamentService tournamentService;
+
+    @Autowired
+    private PhaseService phaseService;
 
 
     private String allTournament="tournament";
@@ -209,6 +213,8 @@ public class TournamentController extends DefaultAttributes {
         tournament.setStatus(TournamentStatus.INPROGRESS);
         tournamentRepository.save(tournament);
 
+
+        phaseService.generate(tournament.getPhases().get(0).getId().toString());
 
 
         model.addAttribute("tournament_id", tournamentId);
