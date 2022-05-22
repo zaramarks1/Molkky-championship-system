@@ -146,9 +146,9 @@ public class SimpleGameService {
             Team t = teams.get(i);
             String message ;
             if(t.isEliminated()){
-                message = "Ton equipe a été malheuseusement  dequalifié";
+                message = "Ton équipe a malheureuseusement été disqualifiée";
             }else{
-                message = " Felicitations! Ton equipe est qualifié à la prochaine phase";
+                message = " Felicitations! Ton équipe est qualifiée pour la prochaine phase";
             }
 
             notificationService.sendNotificationToList(message, "", t.getUserTournamentRoles());

@@ -154,9 +154,9 @@ public class PoolService {
             Team t = teams.get(i);
             String message ;
             if(t.isEliminated()){
-                message = "Ton equipe a fini " + (i + 1)+ " dans la poule et malheuseusement vous etes dequalifies";
+                message = "Ton équipe a terminé " + (i + 1)+ " ème de sa poule et est malheuseusement éliminée.";
             }else{
-                message = " Felicitations! Ton equipe a fini " + (i + 1)+ " dans la poule et  vous etes dualifies à la prochaine phase";
+                message = "Félicitations! Ton équipe a terminé" + (i + 1)+ " ème dans sa poule. Vous êtes qualifiés pour la prochaine phase.";
             }
 
             notificationService.sendNotificationToList(message, "", t.getUserTournamentRoles());
