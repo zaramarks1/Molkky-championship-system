@@ -53,7 +53,7 @@
                                 <p class="textPlayer" th:unless="${!tournament.getTeams().isEmpty()}">
                                     <span class="textPlayer" th:text="'0 / '+${tournament.getMaxTeam()}*${tournament.getNbPlayersPerTeam()}+' Joueurs'"/></p>
                                 <p class="textInscriptionClosed" th:unless="${tournament.visible}">Incriptions fermées</p>
-                                <p class="textInscriptionOpen" th:if="${tournament.visible}">Incriptions ouvertes</p>
+                                <p class="textInscriptionOpen" th:if="${tournament.visible }">Incriptions ouvertes</p>
                             </a>
                         </li>
                     </ul>

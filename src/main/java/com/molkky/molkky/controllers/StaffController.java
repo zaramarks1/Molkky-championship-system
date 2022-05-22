@@ -42,6 +42,7 @@ public class StaffController {
 
         for(AddStaff s: staff.getMails()){
             User user = new User();
+            user.setEmail(s.getMail());
 
             if(!userRepository.existsUserByEmail(s.getMail())){
                 user.setPassword(createCode(5));
