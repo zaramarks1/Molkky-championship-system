@@ -365,4 +365,37 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/tournament/view?tournamentId=1"));
     }
+
+    @Test
+    void testPhaseControllerView() throws Exception {
+
+
+        Phase phase = new Phase();
+        phase.setId(17888);
+        List<Round> rounds = new ArrayList<>();
+        rounds.add(new Round());
+        phase.setRounds(rounds);
+        Tournament tournoi = new Tournament();
+        tournoi.setIndexPhase(1);
+        phase.setTournament(tournoi);
+
+        when(phaseRepository.findById(17888)).thenReturn(phase);
+
+        mockMvc.perform(get("/phase/view")
+                        .param("id", "17888"))
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("rounds"))
+                .andExpect(model().attributeExists("roundTeams"))
+                .andExpect(model().attributeExists("currentPhase"))
+                .andExpect(model().attributeExists("currentTournament"))
+                .andExpect(view().name("/phase/view"));
+
+        verify(this.phaseRepository, times(1)).findById(anyInt());
+        verify(this.roundService, times(1)).orderTeamsByScoreInRound(any(Round.class), anyInt());
+
+        mockMvc.perform(post("/phase/view")
+                .param("id", "17888"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/phase/view?id=17888"));
+    }
 }

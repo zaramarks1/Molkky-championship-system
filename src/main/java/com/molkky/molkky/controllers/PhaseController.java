@@ -159,7 +159,7 @@ public class PhaseController {
             model.addAttribute("currentTournament", phase.getTournament());
 
 
-        return "phase/view";
+        return "/phase/view";
     }
 
 }
