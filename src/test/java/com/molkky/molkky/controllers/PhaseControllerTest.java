@@ -74,7 +74,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
     private PhaseListModel listModel;
 
     @MockBean
-    private  PhaseModel phase;
+    private PhaseModel phase;
+
+    @MockBean
+    private Phase phaseEntity;
 
     @MockBean
     private RoundRepository roundRepository;
@@ -85,10 +88,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
     @Test
     void testControllerWithoutUser() throws Exception {
-        Phase phase = new Phase();
-        phase.setId(1);
         mockMvc.perform(post("/phase/generate")
-                        .param("id",phase.getId().toString()))
+                        .param("id","1"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/connexion"));
     }
@@ -96,18 +97,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
    @Test
     void testGeneratePhaseControllerWithUser() throws Exception {
         UserLogged userLogged = Mockito.mock(UserLogged.class);
+        Tournament tournament = new Tournament();
+        String id = "1";
 
-       Phase phase = new Phase();
-       phase.setId(1);
-
-
-       Tournament tournament = new Tournament();
-       //tournament.getPhases().add(phase);
-
-       when(this.phaseRepository.findById(phase.getId())).thenReturn(phase);
-       when(phase.getTournament()).thenReturn(tournament);
-       //when(tournament.setIndexPhase(1)).thenReturn(1);
-
+       when(phaseEntity.getId()).thenReturn(1);
+       when(phaseEntity.getTournament()).thenReturn(tournament);
+       when(this.phaseRepository.findById(Integer.valueOf(id))).thenReturn(phaseEntity);
 
         when(tournamentRepository.save(Mockito.any(Tournament.class))).thenAnswer(i -> i.getArguments()[0]);
         when(phaseRepository.save(Mockito.any(Phase.class))).thenAnswer(i -> i.getArguments()[0]);
@@ -120,20 +115,25 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
         this.mockMvc.perform(post("/phase/generate").sessionAttr("user", userLogged)
                         .sessionAttr("user",userLogged)
-                        .param("id","1"))
+                        .param("id",id))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/"))
-                .andExpect(redirectedUrl("/phase/view"));
+                .andExpect(view().name("redirect:/phase/view?id=1"))
+                .andExpect(redirectedUrl("/phase/view?id=1"));
     }
 
     @Test
     void testGeneratePhaseControllerWithWrongRole() throws Exception {
         UserLogged userLogged = Mockito.mock(UserLogged.class);
         when(userLogged.getRole()).thenReturn(UserRole.PLAYER);
+        Tournament tournament = new Tournament();
+        String id = "1";
+
+        when(phaseEntity.getTournament()).thenReturn(tournament);
+        when(this.phaseRepository.findById(Integer.valueOf(id))).thenReturn(phaseEntity);
 
         this.mockMvc.perform(post("/phase/generate").sessionAttr("user", userLogged)
                         .sessionAttr("user",userLogged)
-                        .param("id","1"))
+                        .param("id",id))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/"))
                 .andExpect(redirectedUrl("/"));
