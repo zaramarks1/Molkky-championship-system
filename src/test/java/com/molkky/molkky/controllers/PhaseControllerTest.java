@@ -11,6 +11,7 @@ import com.molkky.molkky.model.phase.PhaseModel;
 import com.molkky.molkky.repository.*;
 import com.molkky.molkky.service.MatchService;
 import com.molkky.molkky.service.PhaseService;
+import com.molkky.molkky.service.RoundService;
 import com.molkky.molkky.service.SetService;
 import org.hibernate.validator.internal.engine.valueextraction.ValueExtractorResolver;
 import org.junit.jupiter.api.Test;
@@ -75,13 +76,19 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
     @MockBean
     private  PhaseModel phase;
 
+    @MockBean
+    private RoundRepository roundRepository;
+
+    @MockBean
+    private RoundService roundService;
+
 
     @Test
     void testControllerWithoutUser() throws Exception {
         Phase phase = new Phase();
         phase.setId(1);
-        mockMvc.perform(get("/phase/generate")
-                        .param("phase_id",phase.getId().toString()))
+        mockMvc.perform(post("/phase/generate")
+                        .param("id",phase.getId().toString()))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/connexion"));
     }
@@ -89,6 +96,18 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
    @Test
     void testGeneratePhaseControllerWithUser() throws Exception {
         UserLogged userLogged = Mockito.mock(UserLogged.class);
+
+       Phase phase = new Phase();
+       phase.setId(1);
+
+
+       Tournament tournament = new Tournament();
+       //tournament.getPhases().add(phase);
+
+       when(this.phaseRepository.findById(phase.getId())).thenReturn(phase);
+       when(phase.getTournament()).thenReturn(tournament);
+       //when(tournament.setIndexPhase(1)).thenReturn(1);
+
 
         when(tournamentRepository.save(Mockito.any(Tournament.class))).thenAnswer(i -> i.getArguments()[0]);
         when(phaseRepository.save(Mockito.any(Phase.class))).thenAnswer(i -> i.getArguments()[0]);
@@ -99,12 +118,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         when(userLogged.getRole()).thenReturn(UserRole.ADM);
         when(phaseService.generate("1")).thenReturn(response);
 
-        this.mockMvc.perform(get("/phase/generate").sessionAttr("user", userLogged)
+        this.mockMvc.perform(post("/phase/generate").sessionAttr("user", userLogged)
                         .sessionAttr("user",userLogged)
-                        .param("phase_id","1"))
+                        .param("id","1"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/"))
-                .andExpect(redirectedUrl("/"));
+                .andExpect(redirectedUrl("/phase/view"));
     }
 
     @Test
@@ -112,9 +131,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         UserLogged userLogged = Mockito.mock(UserLogged.class);
         when(userLogged.getRole()).thenReturn(UserRole.PLAYER);
 
-        this.mockMvc.perform(get("/phase/generate").sessionAttr("user", userLogged)
+        this.mockMvc.perform(post("/phase/generate").sessionAttr("user", userLogged)
                         .sessionAttr("user",userLogged)
-                        .param("phase_id","1"))
+                        .param("id","1"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/"))
                 .andExpect(redirectedUrl("/"));

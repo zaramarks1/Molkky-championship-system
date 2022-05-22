@@ -48,9 +48,10 @@ public class SetService {
         }
         if(Boolean.TRUE.equals(isSetFinished(setEntity, user))){
 
+            Set setSave = setRepository.findById(set.getId());
             if(setEntity.getScore1Orga()==0 && setEntity.getScore2Orga()==0 ){
-                setEntity.setScore1Orga(set.getScore1Team1());
-                setEntity.setScore2Orga(set.getScore2Team1());
+                setEntity.setScore1Orga(setSave.getScore1Team1());
+                setEntity.setScore2Orga(setSave.getScore2Team1());
             }
             setEntity.setFinished(true);
         }
@@ -67,6 +68,12 @@ public class SetService {
             for(Set s: match.getSets()){
                 scoreTeam1 += s.getScore1Orga();
                 scoreTeam2 +=s.getScore2Orga();
+            }
+
+            if(scoreTeam1 >= scoreTeam2){
+                match.setWinner(match.getTeams().get(0));
+            }else{
+                match.setWinner(match.getTeams().get(1));
             }
             match.setScoreTeam1(scoreTeam1);
             match.setScoreTeam2(scoreTeam2);

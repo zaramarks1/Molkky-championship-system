@@ -86,7 +86,7 @@ public class Phase  implements Serializable {
 
 
     @Column(name = "victoryValue")
-    private Integer victoryValue;
+    private Integer victoryValue = 1;
 
     @Column(name = "isFinished")
     private Boolean finished = false;

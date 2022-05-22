@@ -121,6 +121,20 @@
             <p>A définir...</p>
         </div>
 
+        <div class="partContainer"  th:if = "${tournament.getIndexPhase()} !=0">
+            <h2 class="partTitle" th:text = " 'Phase n ' + ${tournament.getIndexPhase()}" >Index de la phase</h2>
+
+            <form action="#" th:action="@{/phase/view}" method="post" class="formContainer">
+                <input hidden th:value="${tournament.phases[__${tournament.getIndexPhase()-1}__].id}" th:name="id"/>
+                <button id="id" name = "visible" class="primaryButton" type="submit">Voir la phase courante</button>
+            </form>
+
+            <form th:if=" ${user != null} and ${tournament.getPhases().size() != (tournament.getIndexPhase())} " action="#" th:action="@{/phase/generate}" method="post" class="formContainer">
+                <input hidden th:value="${tournament.phases[__${tournament.getIndexPhase()}__].id}" th:name="id"/>
+                <button id="idNext" name = "visible" class="primaryButton" type="submit">Passer a la phase suivante</button>
+            </form>
+        </div>
+
         <div th:if=" ${user} != null">
             <div th:if="${#strings.equals(user.role, 'ADM')}">
                 <div class="partContainer" th:if="${#strings.equals(tournament.status, 'AVAILABLE')}">

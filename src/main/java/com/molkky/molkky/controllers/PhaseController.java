@@ -1,29 +1,28 @@
 package com.molkky.molkky.controllers;
 
-import com.molkky.molkky.domain.Match;
-import com.molkky.molkky.domain.Phase;
-import com.molkky.molkky.domain.Round;
-import com.molkky.molkky.domain.Tournament;
+import com.molkky.molkky.domain.*;
 import com.molkky.molkky.domain.rounds.*;
 import com.molkky.molkky.model.UserLogged;
 import com.molkky.molkky.model.phase.PhaseListModel;
 import com.molkky.molkky.model.phase.PhaseModel;
+import com.molkky.molkky.model.phase.PhaseRankingModel;
 import com.molkky.molkky.repository.PhaseRepository;
+import com.molkky.molkky.repository.RoundRepository;
 import com.molkky.molkky.repository.TournamentRepository;
 import com.molkky.molkky.service.PhaseService;
+import com.molkky.molkky.service.RoundService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import type.PhaseType;
 import type.UserRole;
 
 import javax.servlet.http.HttpSession;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("/phase")
@@ -39,14 +38,31 @@ public class PhaseController {
     @Autowired
     PhaseRepository phaseRepository;
 
-    @GetMapping("/generate")
-    public String generate(Model model, HttpSession session, @RequestParam(name = "phase_id", required = true) String id){
+    @Autowired
+    RoundRepository roundRepository;
+
+    @Autowired
+    RoundService roundService;
+
+    @PostMapping("/generate")
+    public String generate(Model model, HttpSession session, @RequestParam(name = "id", required = true) String id){
 
         UserLogged user = (UserLogged) session.getAttribute("user");
 
         if(user == null){
             return "redirect:/connexion";
         }
+
+
+        Phase phase = phaseRepository.findById(Integer.valueOf(id));
+
+        Tournament tournament = phase.getTournament();
+
+        tournament.setIndexPhase(tournament.getIndexPhase()+1);
+
+        tournamentRepository.save(tournament);
+
+
         if(user.getRole().equals(UserRole.ADM) ){
             Map<Round, List<Match>> response = phaseService.generate(id);
 
@@ -54,7 +70,7 @@ public class PhaseController {
         }else{
             return "redirect:/";
         }
-        return "redirect:/";
+        return "redirect:/phase/view?id="+id;
     }
 
     @GetMapping("/choosePhases")
@@ -115,4 +131,35 @@ public class PhaseController {
         t =  tournamentRepository.save(t);
         return "redirect:/tournament/view?tournamentId="+t.getId();
     }
+
+    @PostMapping("/view")
+    public String viewPost( @RequestParam(name= "id") Integer id){
+        return "redirect:/phase/view?id="+id;
+    }
+
+    @GetMapping("/view")
+    public String view(Model model, HttpSession session, @RequestParam(name= "id") Integer id){
+
+        UserLogged user = (UserLogged) session.getAttribute("user");
+
+            Phase phase = phaseRepository.findById(id);
+            List<Round> rounds = phase.getRounds();
+
+            Map<Round,  List<PhaseRankingModel>> roundTeams = new HashMap<>();
+
+            for(Round r : rounds ){
+                List<PhaseRankingModel> teams = roundService.orderTeamsByScoreInRound(r, phase.getVictoryValue());
+                roundTeams.put(r, teams);
+            }
+
+            model.addAttribute("rounds", rounds);
+             model.addAttribute("roundTeams", roundTeams);
+
+            model.addAttribute("currentPhase", phase);
+            model.addAttribute("currentTournament", phase.getTournament());
+
+
+        return "phase/view";
+    }
+
 }

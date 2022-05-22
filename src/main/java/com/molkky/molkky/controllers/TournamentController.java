@@ -3,7 +3,6 @@ package com.molkky.molkky.controllers;
 
 import com.molkky.molkky.controllers.superclass.DefaultAttributes;
 import com.molkky.molkky.domain.Phase;
-import com.molkky.molkky.domain.Team;
 import com.molkky.molkky.domain.Tournament;
 import com.molkky.molkky.domain.rounds.*;
 import com.molkky.molkky.model.AddStaff;
@@ -20,7 +19,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import type.PhaseType;
-import type.PhaseTypeViewModel;
+import com.molkky.molkky.model.PhaseTypeViewModel;
 import type.TournamentStatus;
 import type.UserRole;
 
