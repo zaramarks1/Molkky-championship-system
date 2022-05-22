@@ -93,7 +93,7 @@ import java.util.List;
 
         Assertions.assertEquals("Éditer les informations de la/des phase(s)", config.getDriver().getTitle());
         Assertions.assertTrue(config.getDriver().findElement(new By.ByClassName("contentTitle")).isDisplayed());
-        Assertions.assertEquals("Veuillez editer les différentes informations de la/des phase(s)",config.getDriver().findElement
+        Assertions.assertEquals("Veuillez éditer les différentes informations de la/des phase(s)",config.getDriver().findElement
                 (new By.ByClassName("contentTitle")).getText());
 
         Assertions.assertTrue(config.getDriver().findElement
@@ -176,7 +176,7 @@ import java.util.List;
 
         Assertions.assertEquals("Éditer les informations de la/des phase(s)", config.getDriver().getTitle());
         Assertions.assertTrue(config.getDriver().findElement(new By.ByClassName("contentTitle")).isDisplayed());
-        Assertions.assertEquals("Veuillez editer les différentes informations de la/des phase(s)",config.getDriver().findElement
+        Assertions.assertEquals("Veuillez éditer les différentes informations de la/des phase(s)",config.getDriver().findElement
                 (new By.ByClassName("contentTitle")).getText());
 
         //FINNISH
