@@ -58,7 +58,7 @@
 
         <div class="partContainer">
             <h2 class="partTitle">Bracket</h2>
-            <p>The following image will be replaced by the right planning when the US will be developed and tested.</p>
+            <p>L'image suivante sera remplacée par l'arbre de tournoi lorsque l'User Story correspondante sera développée et testée.</p>
             <img th:src="@{/assets/bracket.png}" class="imgBracket" alt="Tournament Bracket">
         </div>
 
@@ -108,7 +108,7 @@
                                 <label class="inputLabel">Ajout Staff</label>
                                 <input style="margin-bottom: 10px;" class="inputPhase" id="staff-counter" name="nbStaff" th:name="staffCount" type="number" min="1">
                                 <input hidden th:value="${tournament.id}" th:name="tournamentId"/>
-                                <button id="addStaff" class="primaryButton" type="submit">Ajouter Staff</button>
+                                <button id="addStaff" class="primaryButton" type="submit">Ajouter un Staff</button>
                             </div>
                         </form>
                     </div>
@@ -126,12 +126,12 @@
 
             <form action="#" th:action="@{/phase/view}" method="post" class="formContainer">
                 <input hidden th:value="${tournament.phases[__${tournament.getIndexPhase()-1}__].id}" th:name="id"/>
-                <button id="id" name = "visible" class="primaryButton" type="submit">Voir la phase courante</button>
+                <button id="id" name = "visible" class="primaryButton" type="submit">Voir la phase en cours</button>
             </form>
 
             <form th:if=" ${user != null} and ${tournament.getPhases().size() != (tournament.getIndexPhase())} " action="#" th:action="@{/phase/generate}" method="post" class="formContainer">
                 <input hidden th:value="${tournament.phases[__${tournament.getIndexPhase()}__].id}" th:name="id"/>
-                <button id="idNext" name = "visible" class="primaryButton" type="submit">Passer a la phase suivante</button>
+                <button id="idNext" name = "visible" class="primaryButton" type="submit">Passer à la phase suivante</button>
             </form>
         </div>
 
