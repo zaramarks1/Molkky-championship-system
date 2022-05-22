@@ -2,41 +2,34 @@ package com.molkky.molkky.controllers;
 
 import com.molkky.molkky.domain.*;
 import com.molkky.molkky.domain.rounds.Pool;
-import com.molkky.molkky.model.CourtModel;
-import com.molkky.molkky.model.TeamModel;
-import com.molkky.molkky.model.TournamentModel;
 import com.molkky.molkky.model.UserLogged;
 import com.molkky.molkky.model.phase.PhaseListModel;
 import com.molkky.molkky.model.phase.PhaseModel;
 import com.molkky.molkky.repository.*;
-import com.molkky.molkky.service.MatchService;
+import com.molkky.molkky.service.NotificationService;
 import com.molkky.molkky.service.PhaseService;
 import com.molkky.molkky.service.RoundService;
-import com.molkky.molkky.service.SetService;
-import org.hibernate.validator.internal.engine.valueextraction.ValueExtractorResolver;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.web.servlet.MockMvc;
 import type.PhaseType;
-import type.SetTeamIndex;
 import type.TournamentStatus;
 import type.UserRole;
 
-import javax.servlet.http.HttpSession;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(value = PhaseController.class, excludeAutoConfiguration = {SecurityAutoConfiguration.class})
@@ -67,6 +60,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
     @MockBean
     private PhaseService phaseService;
 
+    @MockBean
+    private NotificationService notificationService;
     @MockBean
     private Tournament tournament;
 

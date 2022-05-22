@@ -1,6 +1,10 @@
 package com.molkky.molkky.controllers;
 
-import com.molkky.molkky.domain.*;
+import com.molkky.molkky.controllers.superclass.DefaultAttributes;
+import com.molkky.molkky.domain.Match;
+import com.molkky.molkky.domain.Phase;
+import com.molkky.molkky.domain.Round;
+import com.molkky.molkky.domain.Tournament;
 import com.molkky.molkky.domain.rounds.*;
 import com.molkky.molkky.model.UserLogged;
 import com.molkky.molkky.model.phase.PhaseListModel;
@@ -17,16 +21,18 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import type.PhaseType;
 import type.UserRole;
 
 import javax.servlet.http.HttpSession;
 import java.text.ParseException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/phase")
-public class PhaseController {
+public class PhaseController extends DefaultAttributes {
 
     @Autowired
     PhaseService phaseService;
