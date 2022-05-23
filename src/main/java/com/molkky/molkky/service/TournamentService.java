@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import type.UserRole;
 
+import java.security.SecureRandom;
+
 
 @Service
 public class TournamentService {
@@ -56,6 +58,6 @@ public class TournamentService {
 
 
     public String createCode(int n){
-        return RandomStringUtils.randomAlphabetic(n);
+        return RandomStringUtils.random(n, 0, 0, true, true, null, new SecureRandom());
     }
 }

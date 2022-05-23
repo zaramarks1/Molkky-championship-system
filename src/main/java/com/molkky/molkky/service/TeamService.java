@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import type.UserRole;
 
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -103,6 +104,6 @@ public class TeamService {
     }
 
     public String createCode(int n){
-        return RandomStringUtils.randomAlphabetic(n);
+        return RandomStringUtils.random(n, 0, 0, true, true, null, new SecureRandom());
     }
 }

@@ -3,7 +3,6 @@ package com.molkky.molkky.controllers;
 import com.molkky.molkky.domain.Tournament;
 import com.molkky.molkky.domain.User;
 import com.molkky.molkky.domain.UserTournamentRole;
-
 import com.molkky.molkky.model.AddStaff;
 import com.molkky.molkky.model.AddStaffList;
 import com.molkky.molkky.repository.TournamentRepository;
@@ -17,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import type.UserRole;
 
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -71,6 +71,6 @@ public class StaffController {
     }
 
     public String createCode(int n){
-        return RandomStringUtils.randomAlphabetic(n);
+        return RandomStringUtils.random(n, 0, 0, true, true, null, new SecureRandom());
     }
 }
