@@ -11,8 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import type.UserRole;
 
-import java.nio.charset.StandardCharsets;
-import java.security.SecureRandom;
+import static com.molkky.molkky.utility.StringUtilities.createCode;
 
 
 @Service
@@ -54,13 +53,5 @@ public class TournamentService {
         userTournamentRoleRepository.save(userTournamentRole);
 
         return tournament;
-    }
-
-
-    public String createCode(int n){
-        SecureRandom random = new SecureRandom(); // Compliant for security-sensitive use cases
-        byte[] bytes = new byte[n];
-        random.nextBytes(bytes);
-        return new String(bytes, StandardCharsets.UTF_8);
     }
 }

@@ -15,10 +15,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import type.UserRole;
 
-import java.nio.charset.StandardCharsets;
-import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.molkky.molkky.utility.StringUtilities.createCode;
 
 
 @Controller
@@ -69,10 +69,4 @@ public class StaffController {
     boolean areAllDistinct(AddStaffList staff) {
         return staff.getMails().stream().distinct().count() == staff.getMails().size();
     }
-
-    public String createCode(int n){
-        SecureRandom random = new SecureRandom(); // Compliant for security-sensitive use cases
-        byte[] bytes = new byte[n];
-        random.nextBytes(bytes);
-        return new String(bytes, StandardCharsets.UTF_8);    }
 }

@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import static com.molkky.molkky.utility.StringUtilities.createCode;
 
 @WebMvcTest(value = TournamentService.class, excludeAutoConfiguration = {SecurityAutoConfiguration.class})
 @ExtendWith(MockitoExtension.class)
@@ -57,7 +58,7 @@ class TournamentServiceTest {
 
     @Test
     void testCreateCode() {
-        String code = this.tournamentService.createCode(5);
+        String code = createCode(5);
 
         Assertions.assertEquals(5, code.length());
     }
