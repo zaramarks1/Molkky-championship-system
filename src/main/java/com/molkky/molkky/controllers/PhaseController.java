@@ -37,7 +37,6 @@ public class PhaseController extends DefaultAttributes {
     @Autowired
     PhaseService phaseService;
 
-
     @Autowired
     TournamentRepository tournamentRepository;
 
@@ -146,23 +145,21 @@ public class PhaseController extends DefaultAttributes {
     @GetMapping("/view")
     public String view(Model model, HttpSession session, @RequestParam(name= "id") Integer id){
 
-        UserLogged user = (UserLogged) session.getAttribute("user");
+        Phase phase = phaseRepository.findById(id);
+        List<Round> rounds = phase.getRounds();
 
-            Phase phase = phaseRepository.findById(id);
-            List<Round> rounds = phase.getRounds();
+        Map<Round,  List<PhaseRankingModel>> roundTeams = new HashMap<>();
 
-            Map<Round,  List<PhaseRankingModel>> roundTeams = new HashMap<>();
+        for(Round r : rounds ){
+            List<PhaseRankingModel> teams = roundService.orderTeamsByScoreInRound(r, phase.getVictoryValue());
+            roundTeams.put(r, teams);
+        }
 
-            for(Round r : rounds ){
-                List<PhaseRankingModel> teams = roundService.orderTeamsByScoreInRound(r, phase.getVictoryValue());
-                roundTeams.put(r, teams);
-            }
+        model.addAttribute("rounds", rounds);
+        model.addAttribute("roundTeams", roundTeams);
 
-            model.addAttribute("rounds", rounds);
-             model.addAttribute("roundTeams", roundTeams);
-
-            model.addAttribute("currentPhase", phase);
-            model.addAttribute("currentTournament", phase.getTournament());
+        model.addAttribute("currentPhase", phase);
+        model.addAttribute("currentTournament", phase.getTournament());
 
 
         return "/phase/view";

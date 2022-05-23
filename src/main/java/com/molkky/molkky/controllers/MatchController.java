@@ -49,7 +49,6 @@ public class MatchController extends DefaultAttributes {
     @GetMapping("/matches/match")
     public String match(Model model, HttpSession session, @RequestParam(name = "match_id", required = true) Integer id) {
         UserLogged user = getUser(session);
-        System.out.println("oi");
         if(user == null){
             return "redirect:/connexion";
         }
