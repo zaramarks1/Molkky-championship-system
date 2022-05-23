@@ -76,7 +76,7 @@ class UserChoiceControllerTest {
         mockMvc.perform(post("/user_choice/choiceRole")
                         .sessionAttr("tournament",tournament)
                         .param("roleId", "1"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("/home"));
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/"));
     }
 }
