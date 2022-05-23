@@ -1,6 +1,7 @@
 package com.molkky.molkky.service;
 
 import com.molkky.molkky.MolkkyApplication;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -27,7 +28,8 @@ class EmailSenderServiceTest {
     @Test
     void testMail() throws IOException, InterruptedException {
         if(getCurrentGitBranch().equals("US53DEV_Sacha")){
-            emailSenderService.sendEmail("calembel.molkky@gmail.com", "GPI LESGO", "Fonctionnement de l'envoi de test");
+            Assertions.assertDoesNotThrow(() -> emailSenderService.sendEmail("calembel.molkky@gmail.com", "GPI LESGO", "Fonctionnement de l'envoi de test"));
+
         }
     }
 }
