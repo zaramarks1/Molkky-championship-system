@@ -13,4 +13,6 @@ public class StringUtilities {
         }
         return buff.toString();
     }
+
+    private StringUtilities(){}
 }
