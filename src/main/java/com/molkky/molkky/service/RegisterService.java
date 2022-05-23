@@ -21,9 +21,6 @@ public class RegisterService {
     @Autowired
     private EmailSenderService senderService;
 
-    public List<User> getAllUsers(){
-        return userRepository.findAll();
-    }
 
     public User saveUser(User user){
         userRepository.save(user);
