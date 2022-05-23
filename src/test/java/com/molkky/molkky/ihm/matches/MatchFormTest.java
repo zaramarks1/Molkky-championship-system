@@ -7,7 +7,9 @@ import com.molkky.molkky.repository.*;
 import com.molkky.molkky.service.MatchService;
 import org.apache.commons.lang.RandomStringUtils;
 import org.junit.jupiter.api.*;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.Select;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,8 +23,6 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
-
-import static org.mockito.Mockito.when;
 
 @SpringBootTest(classes = MolkkyApplication.class, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -129,7 +129,7 @@ class MatchFormTest {
     }
 
     @Test
-    void testChangeCourt(){
+    void testChangeCourtOrga(){
 //        given
         Match match = createCompleteMatch();
         User user = createOrgaUser();
@@ -144,6 +144,23 @@ class MatchFormTest {
         match = matchRepository.findById(match.getId());
         Assertions.assertEquals(match.getCourt().getName(), court.getName());
         Assertions.assertEquals(match.getCourt().getId(), court.getId());
+        Assertions.assertTrue(config.getDriver().findElement(By.id("courtFormSubmit")).isDisplayed());
+    }
+
+    @Test
+    void testChangeCourtPlayer(){
+//        given
+        Match match = createCompleteMatch();
+        User user = match.getTeams().get(0).getUserTournamentRoles().get(0).getUser();
+        loginUser(user);
+//        when
+        config.getDriver().get(url + "/matches/match?match_id=" + match.getId());
+//        then
+        WebDriver driver = config.getDriver();
+        By elementId = By.id("courtFormSubmit");
+        Assertions.assertThrows(NoSuchElementException.class, () -> {
+            driver.findElement(elementId);
+        });
     }
 
     @Test

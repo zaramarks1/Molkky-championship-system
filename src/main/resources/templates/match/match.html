@@ -83,7 +83,7 @@
                 </form>
             </div>
 <!--            form for updating the court-->
-            <form method="POST" action="/match/updateMatchCourt" class="courtFormContainer">
+            <form method="POST" action="/match/updateMatchCourt" class="courtFormContainer" th:if="${setTeamIndex.displayValue == 'orga'}">
                 <label for="courtInput">Choix du terrain</label>
                 <input type="number" hidden name="matchId" th:value="${match.id}">
                 <select id="courtInput" name="id">
