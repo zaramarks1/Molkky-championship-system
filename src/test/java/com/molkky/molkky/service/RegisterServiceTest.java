@@ -33,6 +33,5 @@ public class RegisterServiceTest {
         Assertions.assertEquals(u.getSurname(), "test register", "wrong name");
         Assertions.assertNotNull(u, "user not created");
 
-
     }
 }
