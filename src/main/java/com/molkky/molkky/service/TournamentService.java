@@ -7,11 +7,11 @@ import com.molkky.molkky.model.TournamentModel;
 import com.molkky.molkky.repository.TournamentRepository;
 import com.molkky.molkky.repository.UserRepository;
 import com.molkky.molkky.repository.UserTournamentRoleRepository;
-import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import type.UserRole;
 
+import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
 
 
@@ -58,6 +58,9 @@ public class TournamentService {
 
 
     public String createCode(int n){
-        return RandomStringUtils.random(n, 0, 0, true, true, null, new SecureRandom());
+        SecureRandom random = new SecureRandom(); // Compliant for security-sensitive use cases
+        byte[] bytes = new byte[n];
+        random.nextBytes(bytes);
+        return new String(bytes, StandardCharsets.UTF_8);
     }
 }

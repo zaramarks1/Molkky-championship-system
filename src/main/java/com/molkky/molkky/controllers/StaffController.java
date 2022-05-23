@@ -8,7 +8,6 @@ import com.molkky.molkky.model.AddStaffList;
 import com.molkky.molkky.repository.TournamentRepository;
 import com.molkky.molkky.repository.UserRepository;
 import com.molkky.molkky.repository.UserTournamentRoleRepository;
-import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -16,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import type.UserRole;
 
+import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
@@ -71,6 +71,8 @@ public class StaffController {
     }
 
     public String createCode(int n){
-        return RandomStringUtils.random(n, 0, 0, true, true, null, new SecureRandom());
-    }
+        SecureRandom random = new SecureRandom(); // Compliant for security-sensitive use cases
+        byte[] bytes = new byte[n];
+        random.nextBytes(bytes);
+        return new String(bytes, StandardCharsets.UTF_8);    }
 }
