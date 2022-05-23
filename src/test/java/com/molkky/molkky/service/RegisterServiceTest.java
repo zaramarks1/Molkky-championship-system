@@ -14,7 +14,7 @@ import org.springframework.test.annotation.Rollback;
 import javax.transaction.Transactional;
 
 @SpringBootTest(classes = MolkkyApplication.class)
-public class RegisterServiceTest {
+ class RegisterServiceTest {
 
     @Autowired
     RegisterService registerService;
@@ -30,7 +30,7 @@ public class RegisterServiceTest {
 
         u = registerService.saveUser(u);
 
-        Assertions.assertEquals(u.getSurname(), "test register", "wrong name");
+        Assertions.assertEquals( "test register",u.getSurname(), "wrong name");
         Assertions.assertNotNull(u, "user not created");
 
     }

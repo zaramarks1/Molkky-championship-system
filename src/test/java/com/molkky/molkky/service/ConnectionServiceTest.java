@@ -14,7 +14,7 @@ import javax.transaction.Transactional;
 
 @SpringBootTest(classes = MolkkyApplication.class)
 
-public class ConnectionServiceTest {
+ class ConnectionServiceTest {
 
     @Autowired
     ConnexionService connexionService;
