@@ -64,12 +64,6 @@ public class TeamService {
         for(AddPlayerModel player : players){
 
             User user = player.addPlayer();
-           /* TODO user.setTeam(team);
-            String pwd = user.getCode();
-            //emailSenderService.SendEmail(user.getEmail(),"Votre code d'identification au site Molkky","Voici votre code : "+ pwd);
-            PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-            String hashedPassword = passwordEncoder.encode(pwd);
-            user.setCode(hashedPassword);*/
 
             if(!userRepository.existsUserByEmail(user.getEmail())){
                 user.setPassword(createCode(5));
