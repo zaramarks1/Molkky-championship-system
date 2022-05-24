@@ -7,9 +7,7 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.AssertTrue;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-import java.util.Objects;
+import java.util.*;
 
 @Data
 @NoArgsConstructor
@@ -57,6 +55,14 @@ public class TournamentModel {
             this.nbPlayersPerTeam = tournament.getNbPlayersPerTeam();
             this.visible = tournament.isVisible();
         }
+    }
+
+    public static List<TournamentModel> createTournamentModelsFromList(List<Tournament> tournamentList){
+        List<TournamentModel> modelList = new ArrayList<>();
+        for(Tournament tournament: tournamentList){
+           modelList.add(new TournamentModel(tournament));
+        }
+        return modelList;
     }
 
 }
