@@ -31,7 +31,7 @@ class SearchServiceTest {
         Assertions.assertEquals(randomName, found.get(0).getName());
     }
     @Test
-    void searchLessOneLetterTournament() throws InterruptedException {
+    void searchLessOneLetterTournament() {
 //        given
         Tournament tournament = new Tournament();
         String randomName = StringUtilities.createCode(20);
@@ -46,5 +46,20 @@ class SearchServiceTest {
 //        then
         Assertions.assertEquals(1, found.size());
         Assertions.assertEquals(randomName, found.get(0).getName());
+    }
+
+    @Test
+    void searchLimitTest(){
+//        given
+        String randomName = StringUtilities.createCode(40);
+        for(int i=0; i < 20; i++){
+            Tournament tournament = new Tournament();
+            tournament.setName(randomName);
+            tournamentRepository.save(tournament);
+        }
+//        when
+        List<TournamentModel> found = searchService.searchTournaments(randomName);
+//        then
+        Assertions.assertEquals(10, found.size());
     }
 }

@@ -12,7 +12,7 @@ import java.util.List;
 @Transactional
 @Repository
 public interface SearchRepository extends JpaRepository<Tournament, String>, JpaSpecificationExecutor<Tournament> {
-    @Query(value = "SELECT * FROM tournament u WHERE u.name LIKE %?1%",
+    @Query(value = "SELECT * FROM tournament u WHERE u.name LIKE %?1% LIMIT 0,10",
             nativeQuery = true)
     List<Tournament> searchTournamentsByName(String searchTerm);
 }
