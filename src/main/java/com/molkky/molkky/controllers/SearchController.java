@@ -20,8 +20,7 @@ public class SearchController extends DefaultAttributes {
     @Autowired
     private SearchService searchService;
 
-    @GetMapping
-    @RequestMapping("/search")
+    @GetMapping("/search")
     public String searchTournaments(Model model, @RequestParam(name = "term", required = true) String term){
         List<TournamentModel> tournaments = searchService.searchTournaments(term, 5);
         List<UserModel> users = searchService.searchUsers(term, 5);
