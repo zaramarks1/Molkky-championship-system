@@ -1,7 +1,7 @@
 <div class="searchbarContainer">
     <i class="searchbarIconContainer"><img class="searchbarIcon" th:src="@{/assets/search_icon.svg}"/></i>
     <div class="searchbarInputContainer">
-        <input type="text" class="searchbar" id="searchbarInput" onkeydown="getResults()" placeholder="Search"/>
+        <input type="text" class="searchbar" id="searchbarInput" onkeyup="getResults()" placeholder="Search"/>
         <div class="searchAutoresultsContainer" id="searchAutoresults">
 
         </div>
