@@ -8,6 +8,6 @@ function getResults(){
             autoResultsContainer.innerHTML = xhttp.responseText;
         }
     };
-    xhttp.open("GET", "/search/searchTournaments?term=" + input, true);
+    xhttp.open("GET", "/search/search?term=" + input, true);
     xhttp.send();
 }

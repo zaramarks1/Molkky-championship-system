@@ -224,7 +224,7 @@
     display: flex;
     flex-direction: column;
     background: #F5F4F9;
-    padding: 0 25px  ;
+    padding: 10px 25px  ;
 }
 
 .searchResultItemContainer {
@@ -245,4 +245,14 @@
 .searchAutoresultsContainer {
     width: 100%;
     margin-top: 10px;
+}
+
+.searchAutoresultsSectionTitle {
+    font-size: 14px;
+    font-family: 'Inter', serif;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 144%;
+    padding-left: 5px;
+    border-bottom: 1px solid #0000000f;
 }
