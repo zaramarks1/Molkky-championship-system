@@ -1,0 +1,12 @@
+<div class="searchAutoresults">
+    <th:block th:switch="${searchType}">
+        <th:block th:case="${T(type.SearchType).TOURNAMENT}">
+            <div th:each="tournament, iStat: ${tournaments}" class="searchResultItemContainer">
+                <div th:text="${tournament.name}" class="searchResultItemText">
+
+                </div>
+                <img th:src="@{/assets/tournament.svg}" class="searchResultItemIcon" alt="tournament icon"/>
+            </div>
+        </th:block>
+    </th:block>
+</div>
