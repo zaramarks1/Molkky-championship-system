@@ -68,6 +68,25 @@ class SetServiceTest {
     }
 
     @Test
+    void enterSetResultsTestSetFinished() {
+//        given
+        Match match = createCompleteMatch2();
+        Set set = match.getSets().get(0);
+        set.setFinished(true);
+        setRepository.save(set);
+        UserTournamentRole user1 = match.getTeams().get(0).getUserTournamentRoles().get(0);
+//        when
+        set.setScore1Team1(25);
+        set.setScore2Team1(15);
+        setService.enterSetResults(SetService.createSetModel(set), new UserTournamentRoleModel(user1));
+//    then
+//        score not actuall saved to DB because set was finished
+        set = setRepository.findById(set.getId());
+        Assertions.assertEquals(0, set.getScore1Team1());
+        Assertions.assertEquals(0, set.getScore2Team1());
+    }
+
+    @Test
     void enterSetResultsTestTeam2() {
 //        given
         Match match = createCompleteMatch2();
