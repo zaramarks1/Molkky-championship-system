@@ -1,11 +1,11 @@
 <div class="searchAutoresults popup" id="searchbarResults">
     <th:block th:if="${tournaments.size() > 0}">
         <div class="searchAutoresultsSectionTitle popup">Tournois</div>
-        <div th:each="tournament, iStat: ${tournaments}" class="searchResultItemContainer popup">
+        <a th:each="tournament, iStat: ${tournaments}" class="searchResultItemContainer popup" th:href="${'/tournament/view?tournamentId=' + tournament.id}">
             <img th:src="@{/assets/tournament.svg}" class="searchResultItemIcon popup" alt="tournament icon"/>
             <div th:text="${tournament.name}" class="searchResultItemText popup">
             </div>
-        </div>
+        </a>
     </th:block>
     <th:block th:if="${users.size() > 0}">
         <div class="searchAutoresultsSectionTitle popup">Utilisateurs</div>

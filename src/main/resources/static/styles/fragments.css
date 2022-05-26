@@ -239,6 +239,8 @@
     line-height: 144%;
     padding: 8px;
     border-radius: 7px;
+    text-decoration: none!important;
+    color: black;
 }
 
 .searchResultItemContainer:hover{

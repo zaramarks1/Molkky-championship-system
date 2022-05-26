@@ -13,7 +13,7 @@
         <div class="contentTitle">
             <div class="setInline statusCircleGreen"></div>
             <p id="tournament_name" class="setInline" th:text="|${tournament.name}|"></p>
-            <p id="tournament_status" class="setInline" th:text="|(${tournament.status})|"></p>
+            <p id="tournament_status" class="setInline" th:text="|(${tournament.status.getDisplayValue()})|"></p>
         </div>
         <div class="partContainer">
             <h2 class="partTitle">Informations générales</h2>

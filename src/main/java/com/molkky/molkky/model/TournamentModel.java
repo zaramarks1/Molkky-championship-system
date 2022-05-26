@@ -12,6 +12,7 @@ import java.util.*;
 @Data
 @NoArgsConstructor
 public class TournamentModel {
+    private Integer id;
     private String name;
     private String location;
     private Date date;
@@ -44,6 +45,7 @@ public class TournamentModel {
 
     public TournamentModel(Tournament tournament) {
         if(tournament.getId() != null) {
+            this.id = tournament.getId();
             this.name = tournament.getName();
             this.location = tournament.getLocation();
             this.date = tournament.getDate();
