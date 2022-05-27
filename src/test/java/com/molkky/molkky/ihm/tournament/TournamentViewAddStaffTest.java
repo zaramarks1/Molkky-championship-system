@@ -50,11 +50,11 @@ class TournamentViewAddStaffTest {
     private String passwordAdmin = "pwd"+Math.floor(Math.random() * 100000);
     Date tenDaysAgo = Date.from(Instant.now().minus(Duration.ofDays(10)));
     Date oneDayAfter = Date.from(Instant.now().plus(Duration.ofDays(1)));
-    private int minTeam = (int)(Math.random()*3);
+    private int minTeam = Math.max(1,(int)(Math.random()*3));
     private int maxTeam = (int)(Math.random()*8);
 
-    private int nbStaff = (int)(Math.random()*8);
-    private int nbTeam = (int)(Math.random()*5);
+    private int nbStaff = Math.max(1,(int)(Math.random()*8));
+    private int nbTeam = Math.max(1,(int)(Math.random()*5));
     private int nbPhase = (int)(Math.random()*8);
 
 
