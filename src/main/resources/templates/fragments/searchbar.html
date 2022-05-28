@@ -1,6 +1,11 @@
 <div class="searchbarContainer">
     <i class="searchbarIconContainer"><img class="searchbarIcon" th:src="@{/assets/search_icon.svg}"/></i>
-    <input type="text" class="searchbar" placeholder="Search"/>
+    <div class="searchbarInputContainer">
+        <input type="text" class="searchbar" id="searchbarInput" onkeyup="getResults()" placeholder="Search"/>
+        <div class="searchAutoresultsContainer" id="searchAutoresults">
+
+        </div>
+    </div>
     <div class="searchbarButtonContainer">
         <div class="notificationContainer" th:if="${session.user != null}">
             <div class="notificationButton" onclick="toggleNotifications()">
