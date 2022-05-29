@@ -11,28 +11,33 @@
     <div th:replace="fragments/sidebar"></div>
         <div class="contentContainer">
             <div th:replace="fragments/searchbar"></div>
-            <div>
+            <div id="cover">
                 <form method="post" th:action="@{/team/filter}" autocomplete="off" th:object="${teamModel}">
-                <div class="txt_field">
-                    <input id="name" autocomplete="off" type="text" required="required" th:field="*{name}"></p>
-                    <span></span>
-                    <label>Nom</label>
-                </div>
-                <input type="submit" class="primaryButton" value="Filtrer">
+                    <div class="tb">
+                        <div class="td"><input class="inputFilter" type="text" placeholder="Filtrer" required th:field="*{name}"></div>
+                        <div class="td" id="s-cover">
+                            <button class = "filter" type="submit">
+                                <div id="s-circle"></div>
+                                <span></span>
+                            </button>
+                        </div>
+                    </div>
                 </form>
             </div>
             <div class="cardContainer">
             <div th:each="team: ${teams}" class="cardTeam">
                 <div class="teamHeader">
                     <div class="teamName">
-                        <p th:text="${team}"></p>
+                        <p th:text="${team.getName()}"></p>
                     </div>
                 </div>
-                <div class = "teamInfo">
-                    <div class = "playerName">
-                    </div>
-                    <div class = "teamPicture">
-                    </div>
+                <div class="cardContentContainer">
+                    <img class="teamLogo" th:src="@{/assets/teams.svg}" alt="Team icon"/>
+                    <ul class="roundsList">
+                        <th:block th:each="team : ${team.getUserTournamentRoles()}">
+                            <li class="teamMember" th:text="${team.getUser().getForename()}"></li>
+                        </th:block>
+                    </ul>
                 </div>
             </div>
             </div>
@@ -42,3 +47,4 @@
 </body>
 <div th:replace="fragments/footer"></div>
 </html>
+
