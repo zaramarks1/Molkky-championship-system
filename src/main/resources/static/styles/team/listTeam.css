@@ -8,9 +8,6 @@
     align-items: flex-start;
     padding: 16px;
     gap: 5px;
-
-    width: 1147px;
-    height: 735.38px;
     overflow-y: scroll;
 
     /* backgroundgrey */
@@ -171,6 +168,8 @@ ul.roundsList {
 .teamLogo {
     height: 60px;
     width: 60px;
+    margin-right: 12px;
+    margin-bottom: 15px;
 }
 
 .tb {
