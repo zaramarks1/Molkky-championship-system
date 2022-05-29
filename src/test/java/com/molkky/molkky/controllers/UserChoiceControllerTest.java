@@ -1,5 +1,6 @@
 package com.molkky.molkky.controllers;
 
+import com.molkky.molkky.domain.Tournament;
 import com.molkky.molkky.domain.User;
 import com.molkky.molkky.domain.UserTournamentRole;
 import com.molkky.molkky.repository.TournamentRepository;
@@ -60,18 +61,22 @@ class UserChoiceControllerTest {
 
     @Test
     void testUserChoiceControllerChoose() throws Exception {
-
         UserTournamentRole userTournamentRole1 = new UserTournamentRole();
         User userChoice = new User();
         userChoice.setPseudo("TEST");
+
+        Integer id_tournament = 1;
+        Tournament tournament = new Tournament();
+        tournament.setId(id_tournament);
 
         userTournamentRole1.setUser(userChoice);
 
         when(this.userTournamentRoleRepository.findById(anyInt())).thenReturn(userTournamentRole1);
 
         mockMvc.perform(post("/user_choice/choiceRole")
+                        .sessionAttr("tournament",tournament)
                         .param("roleId", "1"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("/home"));
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/"));
     }
 }

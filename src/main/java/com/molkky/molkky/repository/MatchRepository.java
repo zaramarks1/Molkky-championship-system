@@ -21,9 +21,9 @@ public interface MatchRepository extends JpaRepository<Match, String>, JpaSpecif
     List<Match> findMatchesByTeams(Team team);
 
 
-    @Query(value="SELECT DISTINCT(m) FROM Match m JOIN m.round.tournament t WHERE t=:tournament AND m.user=:staff")
+    @Query(value="SELECT DISTINCT(m) FROM Match m JOIN m.round.phase.tournament t WHERE t=:tournament AND m.user=:staff")
     List<Match> findMatchAttributedToStaff(@Param("tournament")Tournament tournament,@Param("staff") User staff);
 
-    @Query(value="SELECT DISTINCT(m) FROM Match m JOIN m.round.tournament t WHERE t=:tournament AND m.finished=:finished AND m.user=:staff")
+    @Query(value="SELECT DISTINCT(m) FROM Match m JOIN m.round.phase.tournament t WHERE t=:tournament AND m.finished=:finished AND m.user=:staff")
     List<Match> findMatchAttributedToStaffAndFinished(@Param("tournament")Tournament tournament,@Param("staff")User staff, @Param("finished")Boolean finished);
 }

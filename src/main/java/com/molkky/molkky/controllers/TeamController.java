@@ -1,5 +1,7 @@
 package com.molkky.molkky.controllers;
 
+import com.molkky.molkky.controllers.superclass.DefaultAttributes;
+import com.molkky.molkky.model.UserLogged;
 import com.molkky.molkky.service.TeamService;
 import type.TournamentStatus;
 import com.molkky.molkky.domain.Team;
@@ -29,7 +31,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/team")
-public class TeamController {
+public class TeamController extends DefaultAttributes {
     private static final Logger logger = LoggerFactory.getLogger(TeamController.class);
 
     @Autowired
@@ -40,9 +42,9 @@ public class TeamController {
     UserRepository userRepository;
     @Autowired
     EmailSenderService emailSenderService;
-
     @Autowired
     TeamService teamService;
+
 
 
 
@@ -50,7 +52,7 @@ public class TeamController {
     public String create(Model model, HttpSession session){
         model.addAttribute("tournaments", tournamentRepository.findByVisibleAndStatus(true, TournamentStatus.AVAILABLE));
         model.addAttribute("team", new CreateTeamModel());
-        User user = (User)session.getAttribute("user");
+        UserLogged user = getUser(session);
         model.addAttribute("user", user);
         return "/team/create";
     }

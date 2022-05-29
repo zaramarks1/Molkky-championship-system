@@ -1,11 +1,9 @@
 package com.molkky.molkky.model;
 
-import com.molkky.molkky.domain.Phase;
 import com.molkky.molkky.domain.Round;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import type.PhaseType;
-
 
 @Data
 @NoArgsConstructor

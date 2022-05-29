@@ -54,12 +54,16 @@ public class Team implements Serializable {
     @Column(name = "eliminated")
     private boolean eliminated;
 
+    @Column(name = "nbPoints")
+    private Integer nbPoints;
+
     public Team(){
         this.shots = new ArrayList<>();
         this.userTournamentRoles = new ArrayList<>();
         this.matchs = new ArrayList<>();
         this.rounds = new ArrayList<>();
         this.eliminated = false;
+        this.nbPoints =0;
 
     }
 

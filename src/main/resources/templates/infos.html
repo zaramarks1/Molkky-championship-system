@@ -28,7 +28,7 @@
                             Votre Equipe : <span id="team" th:text="${user.team.name}" />
                         </div>
                         <br>
-
+                        <!--
                         <div th:if="${#strings.equals(user.role, 'STAFF')}">
                             <div class="contentTitle">Les matchs qui vous sont attribués (en tant que staff)</div>
                             <div th:each="match: ${matchList}">
@@ -53,6 +53,7 @@
                                 <br>
                             </div>
                             </div>
+                            -->
                     </div>
                     <div th:unless="${#session.getAttribute('user') != null}">
                         <h2 style="color:red" >Connectez-vous pour accéder à vos informations</h2>

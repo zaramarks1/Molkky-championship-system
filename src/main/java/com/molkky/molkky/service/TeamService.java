@@ -11,15 +11,14 @@ import com.molkky.molkky.repository.TeamRepository;
 import com.molkky.molkky.repository.TournamentRepository;
 import com.molkky.molkky.repository.UserRepository;
 import com.molkky.molkky.repository.UserTournamentRoleRepository;
-
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import type.UserRole;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.molkky.molkky.utility.StringUtilities.createCode;
 
 
 @Service
@@ -65,12 +64,6 @@ public class TeamService {
         for(AddPlayerModel player : players){
 
             User user = player.addPlayer();
-           /* TODO user.setTeam(team);
-            String pwd = user.getCode();
-            //emailSenderService.SendEmail(user.getEmail(),"Votre code d'identification au site Molkky","Voici votre code : "+ pwd);
-            PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-            String hashedPassword = passwordEncoder.encode(pwd);
-            user.setCode(hashedPassword);*/
 
             if(!userRepository.existsUserByEmail(user.getEmail())){
                 user.setPassword(createCode(5));
@@ -99,30 +92,5 @@ public class TeamService {
 
     boolean areAllDistinct(List<User> users) {
         return users.stream().map(User::getEmail).distinct().count() == users.size();
-    }
-
-    public String createCode(int n){
-        String alphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-                + "0123456789"
-                + "abcdefghijklmnopqrstuvxyz";
-
-        // create StringBuffer size of AlphaNumericString
-        StringBuilder sb = new StringBuilder(n);
-
-        for (int i = 0; i < n; i++) {
-
-            // generate a random number between
-            // 0 to AlphaNumericString variable length
-            int index
-                    = (int)(alphaNumericString.length()
-                    * Math.random());
-
-            // add Character one by one in end of sb
-            sb.append(alphaNumericString
-                    .charAt(index));
-        }
-
-        return sb.toString();
-
     }
 }

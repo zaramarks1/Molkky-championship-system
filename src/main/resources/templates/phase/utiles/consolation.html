@@ -1,0 +1,27 @@
+<html xmlns:th="http://thymeleaf.org" xmlns="http://www.w3.org/1999/html" lang="fr">
+<head>
+    <link rel="stylesheet" th:href="@{/styles/phase/choose.css}" href="../" />
+</head>
+<body>
+    <div class="inputContainer">
+        <label class="inputLabel" th:for="'consolation'+${itemStat.index}">Ajout d'une consolante</label>
+        <input class ="inputPhase" th:id="'consolation'+${itemStat.index}" type="checkbox" th:field="*{phases[__${itemStat.index}__].consolation}">
+    </div>
+    <div hidden class="inputHiddenContainer" th:id="'nbTeamConsolation'+${itemStat.index}">
+        <label class="inputHiddenLabel">Nombre d'équipes qualifiées</label>
+        <input class="inputPhase" name="nbTeamConsolation" type="number" min="1" th:field="*{phases[__${itemStat.index}__].numberConsolationQualify}">
+    </div>
+</body>
+<script th:inline="javascript">
+    document.getElementById("consolation"+[[${itemStat.index}]])
+        .addEventListener("change", function () {
+            if (this.checked) {
+                document.getElementById("nbTeamConsolation"+[[${itemStat.index}]]).hidden = false;
+                document.getElementById("nbTeamConsolation"+[[${itemStat.index}]]).getElementsByTagName("input").required = true;
+            } else {
+                document.getElementById("nbTeamConsolation"+[[${itemStat.index}]]).hidden = true;
+                document.getElementById("nbTeamConsolation"+[[${itemStat.index}]]).getElementsByTagName("input").required = false;
+            }
+        })
+</script>
+</html>
