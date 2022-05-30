@@ -18,6 +18,9 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfi
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
+import org.thymeleaf.exceptions.TemplateAssertionException;
+import type.TournamentStatus;
 
 import java.util.Arrays;
 
@@ -92,5 +95,23 @@ class TournamentControllerTest {
                 .andExpect(view().name("/tournament/view"));
 
         verify(this.tournamentRepository, times(1)).findById(anyInt());
+    }
+
+    @Test
+    void testTournamentControllerDisplayed() throws Exception{
+        Tournament tournoi = new Tournament();
+        tournoi.setNbPlayersPerTeam(2);
+        tournoi.setName("testMockito");
+        tournoi.setStatus(TournamentStatus.valueOf("AVAILABLE"));
+        tournoi.setMaxTeam(8);
+        tournoi.setVisible(true);
+        tournoi.setTeams(Arrays.asList(new Team(), new Team()));
+        mockMvc.perform(get("/tournament/allTournament/"))
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("tournament"))
+                .andExpect(view().name("tournament/allTournament"))
+                .andDo(MockMvcResultHandlers.print());
+                //.andExpect(status().is3xxRedirection());
+        verify(this.tournamentRepository, times(1)).findAll();
     }
 }

@@ -4,122 +4,6 @@
     max-width: 1048px;
 }
 
-.bigBox{
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 16px;
-    gap: 5px;
-    width: 1147px;
-    height: 779.38px;
-    overflow-y: scroll;
-    /* backgroundgrey */
-    background: #F4F4F8;
-    transform: rotate(-0.08deg);
-    /* Inside auto layout */
-    flex: none;
-    order: 1;
-    align-self: stretch;
-    flex-grow: 1;
-}
-
-.boxListe{
-    /* Main */
-    /* Auto layout */
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 16px;
-    gap: 5px;
-
-    width: 1147px;
-    height: 779.38px;
-    overflow-y: scroll;
-    /* backgroundgrey */
-    background: #F4F4F8;
-    transform: rotate(-0.08deg);
-    /* Inside auto layout */
-    flex: none;
-    order: 1;
-    align-self: stretch;
-    flex-grow: 1;
-}
-
-.boxAllUser{
-    /* Auto layout */
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    padding: 0px 40px 10px 0px;
-    gap: 5px;
-    width: 1115px;
-    height: 542.7px;
-    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
-    /* Inside auto layout */
-    flex: none;
-    order: 1;
-    align-self: stretch;
-    flex-grow: 1;
-}
-.boxInOneUser{
-
-}
-
-.nameUser{
-    width: 70px;
-    height: 11px;
-
-    font-family: 'Poppins', serif;
-    font-style: normal;
-    font-weight: 600;
-    font-size: 10px;
-    line-height: 24px;
-    /* or 240% */
-    display: flex;
-    align-items: center;
-    text-align: center;
-    letter-spacing: 0.2px;
-    color: #000000;
-    /* Inside auto layout */
-    flex: none;
-    order: 1;
-    flex-grow: 0;
-}
-.userImage{
-    left: 5px;
-    right: 5px;
-    top: 0px;
-    bottom: 16px;
-    background: #FFFFFF;
-}
-
-.textListUsers{
-    width: 211px;
-    height: 24px;
-
-    font-family: "Poppins", emoji;
-    font-style: normal;
-    font-weight: 600;
-    font-size: 20px;
-    line-height: 24px;
-    /* identical to box height, or 120% */
-    display: flex;
-    align-items: center;
-    letter-spacing: 0.2px;
-
-    color: #000000;
-
-
-    /* Inside auto layout */
-    flex: none;
-    order: 0;
-    flex-grow: 0;
-}
-.boxOneUser{
-
-
-}
-
 .searchbar2 {
     max-width: 1500px;
     flex-grow: 1;
@@ -131,5 +15,71 @@
     font-weight: 100;
     font-size: 15px;
     line-height: 18px;
-    color: #8787A1;
+    color: black;
+}
+
+.cardContainer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.cardUser {
+    box-sizing: border-box;
+
+    /* Auto layout */
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px;
+
+    width: 300px;
+    height: 125px;
+    margin-bottom: 30px;
+
+    background: #F4F4F8;
+    /* secondary */
+
+    border: 1px solid #C4C4C4;
+    box-shadow: 0px 0px 7px 2px rgba(196, 196, 196, 0.25);
+    border-radius: 7px;
+    color: white;
+    /* Inside auto layout */
+
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+}
+
+.userHeader {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: -webkit-fill-available;
+    height: 2em;
+    background: #5B5A58;
+    border-top-left-radius: 7px;
+    border-top-right-radius: 7px;
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+}
+
+.boxImage {
+    width: -webkit-fill-available;
+    height: -webkit-fill-available;
+
+}
+
+.image {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 15px;
+    display: block;
+    height: 70px;
 }

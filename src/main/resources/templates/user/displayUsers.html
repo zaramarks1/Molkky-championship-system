@@ -12,30 +12,25 @@
     <div class="contentContainer">
         <div th:replace="fragments/searchbar"></div>
 
-        <div class="bigBox">
-            <!-- Emplacement pour les filtres-->
-            <div class="searchbar2">
-                <form method="post" th:action="@{/user/searchUser}" th:object="${userDisplay}" >
-                    <label for ="searchUser">Utilisateur: </label>
-                    <input id="searchUser" type="text" th:field="*{pseudo}">
-                    <input id="submitUser" type="submit" value="Search">
-                </form>
-            </div>
+        <!-- Emplacement pour les filtres-->
+        <div class="searchbar2">
+            <form method="post" th:action="@{/user/searchUser}" th:object="${userDisplay}">
+                <label for="searchUser">Utilisateur: </label>
+                <input id="searchUser" type="text" th:field="*{pseudo}">
+                <input id="submitUser" type="submit" value="Search">
+            </form>
+        </div>
 
-            <div class="boxAllUser">
-                <div class="textListUsers">
-                    Liste des joueurs
+
+        <div class="cardContainer">
+            <div th:each="user: ${users}" class="cardUser" th:unless="${user.pseudo == null}">
+                <div class="userHeader">
+                    <a th:text="${user.pseudo}"></a>
                 </div>
-                <ul class="boxOneUser" th:each="user:${users}" th:unless="${user.pseudo == null}">
-                    <li class="boxInOneUser">
-                        <a class="boxInOneUser">
-                            <!--<img class="userImage" th:src="@{/assets/user.svg}"> -->
-                            <span class="nameUser" th:text="${user.pseudo}"/>
-                        </a>
-                    </li>
-                </ul>
+                <div class="boxImage">
+                    <img class="image" th:src="@{/assets/users.svg}">
+                </div>
             </div>
-
         </div>
     </div>
 </div>

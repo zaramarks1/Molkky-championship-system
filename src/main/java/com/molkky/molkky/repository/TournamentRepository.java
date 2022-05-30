@@ -14,5 +14,5 @@ public interface TournamentRepository extends JpaRepository<Tournament, String>,
     Tournament findById(Integer id);
     Tournament findByName(String tournamentName);
     List<Tournament> findByVisibleAndStatus(boolean visible, TournamentStatus status);
-
+    List<Tournament> findByVisible(boolean visible);
 }
