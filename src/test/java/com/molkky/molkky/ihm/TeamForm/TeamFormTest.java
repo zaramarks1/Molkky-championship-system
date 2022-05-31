@@ -53,7 +53,7 @@ class TeamFormTest {
                 (new By.ByClassName("contentTitle")).getText());
         Assertions.assertEquals("Nom de l'équipe",config.getDriver().findElement
                 (new By.ByCssSelector("body > div > div.contentContainer > form > div:nth-child(1) > label")).getText());
-        Assertions.assertEquals("Selectionnez un tournoi",config.getDriver().findElement
+        Assertions.assertEquals("Sélectionnez un tournoi",config.getDriver().findElement
                 (new By.ByCssSelector("body > div > div.contentContainer > form > div:nth-child(2) > label")).getText());
         Assertions.assertEquals("Étape suivante",config.getDriver().findElement(new By.ById("sendTeam")).getText());
     }

@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 @SpringBootTest(classes = MolkkyApplication.class)
-public class KnockoutServiceTest {
+ class KnockoutServiceTest {
 
     @Autowired
     private TournamentRepository tournamentRepository;
@@ -213,6 +213,7 @@ public class KnockoutServiceTest {
         knockout.setNbSets(3);
         knockout.setNbMatch(nbMatch);
         knockout.setTournament(tournament);
+        knockout.setRanking(true);
 
 
         knockout =  phaseRepository.save(knockout);

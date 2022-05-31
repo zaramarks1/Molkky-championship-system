@@ -24,6 +24,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.molkky.molkky.utility.StringUtilities.createCode;
+
 @WebMvcTest(value = TeamService.class, excludeAutoConfiguration = {SecurityAutoConfiguration.class})
 @ExtendWith(MockitoExtension.class)
 class TeamServiceTest {
@@ -187,7 +189,7 @@ class TeamServiceTest {
 
     @Test
     void testCreateCodeLength(){
-        String code = teamService.createCode(10);
+        String code = createCode(10);
         Assertions.assertEquals(10,code.length());
     }
 }

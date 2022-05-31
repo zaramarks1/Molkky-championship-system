@@ -8,6 +8,8 @@ import type.PhaseType;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 @Getter
@@ -54,5 +56,11 @@ public class Round implements  Serializable{
     private Phase phase;
 
 
+    public List<Team> getTeamsByRank(){
+        List<Team> teamsRank = this.getTeams();
+        teamsRank.sort(Comparator.comparing(Team::getNbWins));
+        Collections.reverse(teamsRank);
+        return teamsRank;
+    }
 
 }

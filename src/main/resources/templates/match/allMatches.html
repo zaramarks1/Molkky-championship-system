@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <div th:replace="fragments/header"></div>
     <title>Affichage des Matchs</title>
-    <link rel="stylesheet" th:href="@{/styles/tournament/alltournament.css}" href="./"/>
+    <link rel="stylesheet" th:href="@{/styles/tournament/allTournament.css}" href="./"/>
 </head>
 <body class="bg">
 <div class="pageContainer">
@@ -49,12 +49,10 @@
                         <li id="listMatches" class="boxInOneCard">
                             <a class="boxInOneCard" th:href="@{'/matches/match?match_id='+${match.getId()}}">
                                 <span id="idMatchList" class="idCard" th:text="'ID du match :' + ${match.getId()}"/>
-                                <span class="courtCard" th:text=" 'Emplacement : '+${match.getCourt().getName()}"/>
+                                <span th:if=" ${match.getCourt()} != null" class="courtCard" th:text=" 'Emplacement : '+${match.getCourt().getName()}"/>
                                 <span class="teamCard" th:text="${match.getTeams().get(0).getName()} + ' contre ' + ${match.getTeams().get(1).getName()}"/>
-                                <span class="nbSetCard" th:text="'Nombres de sets : '+ ${match.getNbSets()}"/>
-                            </a>
-                            <a class="boxInOneCard" th:if="${incorrectSet!= null}">
-                                <span class="setCard" th:text="'Set concerne:' + ${incorrectSet.get(iStat.index)}"/>
+                                <span class="nbSetCard" th:text="'Nombres de sets : '+ ${match.getRound().getPhase().getNbSets()}"/>
+                                <span th:if="${incorrectSet!= null}" class="setCard" th:text="'Set concerné: ' + ${incorrectSet.get(iStat.index)}"/>
                             </a>
                         </li>
                     </ul>

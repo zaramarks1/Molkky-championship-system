@@ -7,6 +7,9 @@ import com.molkky.molkky.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class UserService {
     @Autowired
@@ -21,6 +24,14 @@ public class UserService {
         userModel.setClub(user.getClub());
         userModel.setEmail(user.getEmail());
         return userModel;
+    }
+
+    public static List<UserModel> createUserModelList(List<User> users){
+        List<UserModel> models = new ArrayList<>();
+        for(User user: users){
+            models.add(createUserModel(user));
+        }
+        return models;
     }
 
     public static UserModel createUserModelFromUserLogged(UserLogged userLogged){

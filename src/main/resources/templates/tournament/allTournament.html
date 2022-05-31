@@ -11,7 +11,14 @@
     <div th:replace="fragments/sidebar"></div>
     <div class="contentContainer">
         <div th:replace="fragments/searchbar"></div>
-
+        <div class="submitContainer">
+                <form  action="#" th:action="@{/tournament/allTournament}" method="post" class="formContainer">
+                    <input id="valider" type="submit" class="primaryButton" value="Créer tournoi">
+                </form>
+                <form action="#" method="post" th:action="@{/tournament/inscription}" class="formContainer">
+                    <input id="inscription" type="submit" class="primaryButton" value="Inscription à un tournoi">
+                </form>
+        </div>
         <div class="main">
             <!-- Emplacement pour les filtres-->
             <div class="boxTournamentList">
@@ -34,12 +41,10 @@
                         </li>
                     </ul>
                 </div>
-
-
                 <div class="boxAllCard">
                     <ul class="boxOneCard" th:each="tournament:${tournament}">
                         <li class="boxInOneCard">
-                            <a class="boxInOneCard" th:href="@{'/tournament/'+${tournament.id}+'/view'}">
+                            <a class="boxInOneCard" th:href="@{'/tournament/view?tournamentId='+${tournament.id}}">
                                 <span class="nameCard" th:text="${tournament.name}"/>
                                 <span class="dateCard" th:text="${tournament.date}"/>
                                 <span class="nbCard" th:text="${tournament.nbPlayersPerTeam}+' joueurs par équipes'"/>
@@ -48,18 +53,12 @@
                                 <p class="textPlayer" th:unless="${!tournament.getTeams().isEmpty()}">
                                     <span class="textPlayer" th:text="'0 / '+${tournament.getMaxTeam()}*${tournament.getNbPlayersPerTeam()}+' Joueurs'"/></p>
                                 <p class="textInscriptionClosed" th:unless="${tournament.visible}">Incriptions fermées</p>
-                                <p class="textInscriptionOpen" th:if="${tournament.visible}">Incriptions ouvertes</p>
+                                <p class="textInscriptionOpen" th:if="${tournament.visible }">Incriptions ouvertes</p>
                             </a>
                         </li>
                     </ul>
                 </div>
             </div>
-
-
-
-            <form action="#" th:action="@{/tournament/allTournament}" method="post" class="formContainer">
-                <input id="valider" type="submit" class="primaryButton" value="Créer tournoi">
-            </form>
         </div>
     </div>
 </div>

@@ -465,3 +465,10 @@
     flex-grow: 0;
     margin: 0px 0px;
 }
+
+.submitContainer {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}

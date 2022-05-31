@@ -1,9 +1,11 @@
 package com.molkky.molkky.service;
 
+import com.molkky.molkky.domain.Match;
 import com.molkky.molkky.domain.Set;
 import com.molkky.molkky.model.SetModel;
 import com.molkky.molkky.model.UserModel;
 import com.molkky.molkky.model.UserTournamentRoleModel;
+import com.molkky.molkky.repository.MatchRepository;
 import com.molkky.molkky.repository.SetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,7 +19,8 @@ import java.util.Objects;
 public class SetService {
     @Autowired
     private SetRepository setRepository;
-
+    @Autowired
+    private MatchRepository matchRepository;
     @Autowired
     private MatchService matchService;
 
@@ -43,8 +46,48 @@ public class SetService {
                 setEntity.setScore1Orga(set.getScore1Orga());
                 setEntity.setScore2Orga(set.getScore2Orga());
         }
-        setEntity.setFinished(isSetFinished(setEntity, user));
-        setRepository.save(setEntity);
+        if(Boolean.TRUE.equals(isSetFinished(setEntity, user))){
+
+            Set setSave = setRepository.findById(set.getId());
+            if(setEntity.getScore1Orga()==0 && setEntity.getScore2Orga()==0 ){
+                setEntity.setScore1Orga(setSave.getScore1Team1());
+                setEntity.setScore2Orga(setSave.getScore2Team1());
+            }
+            setEntity.setFinished(true);
+        }
+
+        setEntity = setRepository.save(setEntity);
+
+        Match match = setEntity.getMatch();
+
+        if(Boolean.TRUE.equals(matchService.isMatchFinished(match))){
+            match.setFinished(true);
+            int scoreTeam1 =0;
+            int scoreTeam2=0;
+
+            for(Set s: match.getSets()){
+                scoreTeam1 += s.getScore1Orga();
+                scoreTeam2 +=s.getScore2Orga();
+            }
+
+            if(scoreTeam1 >= scoreTeam2){
+                match.setWinner(match.getTeams().get(0));
+            }else{
+                match.setWinner(match.getTeams().get(1));
+            }
+            match.setScoreTeam1(scoreTeam1);
+            match.setScoreTeam2(scoreTeam2);
+
+            match = matchRepository.save(match);
+
+            matchService.validateMatch(match);
+        }
+
+
+
+
+
+
     }
 
     public Boolean isUserInSet(SetModel setModel, UserModel user){
@@ -61,6 +104,7 @@ public class SetService {
         setModel.setScore2Team2(set.getScore2Team2());
         setModel.setScore1Orga(set.getScore1Orga());
         setModel.setScore2Orga(set.getScore2Orga());
+        setModel.setFinished(set.getFinished());
         return setModel;
     }
 
@@ -91,6 +135,9 @@ public class SetService {
             notificationService.sendNotificationToList("Les scores rentrés par les deux équipes sont différents. Veuillez inscrire le score final.","/matches/match?match_id="+set.getMatch().getId(),userTournamentRoleService.getTournamentStaffFromUser(user));
             return false;
         }
+
         return set.getScore1Team1() == 50 || set.getScore2Team1() == 50;
     }
+
+
 }

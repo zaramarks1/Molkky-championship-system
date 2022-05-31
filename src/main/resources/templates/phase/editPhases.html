@@ -9,7 +9,7 @@
         <div th:replace="fragments/sidebar"> </div>
         <div class="contentContainer">
         <div th:replace="fragments/searchbar"> </div>
-        <div class="contentTitle">Veuillez editer les différentes informations de la/des phase(s)</div>
+        <div class="contentTitle">Veuillez éditer les différentes informations de la/des phase(s)</div>
         <br>
         <form class="formContainer" method="post" th:action="@{/phase/editPhases}" th:object="${listPhase}">
             <div th:each="phase, itemStat : *{phases}">
@@ -39,7 +39,6 @@
             </div>
             <div class="submitContainer">
                 <button id="sendPhases" class="primaryButton" type="submit">Enregistrer Phase(s)</button>
-                <button id="cancelPhases" class="secondaryButton" type="submit">Annuler</button>
             </div>
         </form>
         </div>

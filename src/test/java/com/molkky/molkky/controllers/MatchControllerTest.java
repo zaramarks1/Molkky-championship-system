@@ -2,14 +2,8 @@ package com.molkky.molkky.controllers;
 
 import com.molkky.molkky.domain.*;
 import com.molkky.molkky.model.*;
-import com.molkky.molkky.repository.MatchRepository;
-import com.molkky.molkky.repository.TeamRepository;
-import com.molkky.molkky.repository.UserRepository;
-import com.molkky.molkky.repository.UserTournamentRoleRepository;
-import com.molkky.molkky.service.MatchService;
-import com.molkky.molkky.service.NotificationService;
-import com.molkky.molkky.service.SetService;
-import com.molkky.molkky.service.UserService;
+import com.molkky.molkky.repository.*;
+import com.molkky.molkky.service.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
@@ -18,20 +12,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.web.servlet.MockMvc;
 import type.SetTeamIndex;
 import type.UserRole;
 
-import javax.servlet.http.HttpSession;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(value = MatchController.class, excludeAutoConfiguration = {SecurityAutoConfiguration.class})
@@ -48,7 +40,11 @@ class MatchControllerTest {
     @MockBean
     private MatchService matchService;
     @MockBean
+    private CourtRepository courtRepository;
+    @MockBean
     private UserRepository userRepository;
+    @MockBean
+    private CourtService courtService;
     @MockBean
     private TeamRepository teamRepository;
     @MockBean
@@ -67,11 +63,11 @@ class MatchControllerTest {
 
     @Test
     void testControllerWithUser() throws Exception {
-//        given
         UserLogged userLogged = Mockito.mock(UserLogged.class);
-        userLogged.setTournamentRoleId(1);
-        HttpSession session = new MockHttpSession(null, "user");
-        session.setAttribute("user", userLogged);
+        Tournament t = new Tournament();
+        t.setId(1);
+        when(userLogged.getTournamentRoleId()).thenReturn(1);
+        when(userLogged.getTournament()).thenReturn(t);
         Match match = createMatch();
         when(matchRepository.findById(1)).thenReturn(match);
 
@@ -82,19 +78,48 @@ class MatchControllerTest {
         when(userTournamentRoleRepository.findById(anyInt())).thenReturn(userTournamentRole);
 
         when(matchService.getUserTeamIndex(any(MatchModel.class), any(UserTournamentRoleModel.class))).thenReturn(SetTeamIndex.TEAM1);
-//        when
-//        then
-        this.mockMvc.perform(get("/matches/match?match_id=1").sessionAttr("user", userLogged))
+
+        this.mockMvc.perform(get("/matches/match?match_id=1").sessionAttr("user", userLogged)
+                        .sessionAttr("user",userLogged))
                 .andExpect(status().isOk())
                 .andExpect(model().attribute("match", MatchService.getMatchModelFromEntity(match)))
                 .andExpect(model().attribute("teams", TeamModel.createTeamModels(match.getTeams())))
-                .andExpect(model().attribute("court", new CourtModel(match.getCourt())))
+                //.andExpect(model().attribute("court", new CourtModel(match.getCourt())))
                 .andExpect(model().attribute("tournament", new TournamentModel(match.getRound().getPhase().getTournament())))
                 .andExpect(model().attribute("sets", SetService.createSetModels(match.getSets())))
                 .andExpect(model().attribute("setTeamIndex", SetTeamIndex.TEAM1))
                 .andExpect(model().attribute("user", userLogged))
                 .andExpect(view().name("/match/match"));
 
+    }
+
+    @Test
+    void updateMatchCourtTest() throws Exception {
+//        given
+        UserLogged userLogged = Mockito.mock(UserLogged.class);
+        userLogged.setRole(UserRole.STAFF);
+        userLogged.setTournamentRoleId(1);
+        when(userLogged.getRole()).thenReturn(UserRole.STAFF);
+        UserTournamentRole userTournamentRole = Mockito.mock(UserTournamentRole.class);
+        userTournamentRole.setId(1);
+        userTournamentRole.setRole(UserRole.STAFF);
+        userTournamentRole.setIsRegistered(true);
+        when(userTournamentRoleRepository.findById(anyInt())).thenReturn(userTournamentRole);
+        Match match = createMatch();
+        when(matchRepository.findById(1)).thenReturn(match);
+        match.setId(1);
+        Court newCourt = new Court(true, "New court Test");
+        newCourt.setId(800);
+//        when
+
+//        then
+        this.mockMvc.perform(post("/match/updateMatchCourt")
+                        .sessionAttr("user", userLogged)
+                        .param("id", newCourt.getId().toString())
+                        .param("matchId", match.getId().toString())
+                )
+                .andExpect(status().is3xxRedirection());
+        verify(matchService, times(1)).setCourt(any(MatchModel.class), any(CourtModel.class));
     }
 
     Match createMatch() {

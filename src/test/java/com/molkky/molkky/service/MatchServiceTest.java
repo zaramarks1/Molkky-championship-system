@@ -1,9 +1,11 @@
 package com.molkky.molkky.service;
 
-import com.google.j2objc.annotations.AutoreleasePool;
 import com.molkky.molkky.domain.*;
+import com.molkky.molkky.domain.*;
+import com.molkky.molkky.domain.Set;
 import com.molkky.molkky.domain.rounds.Pool;
 import com.molkky.molkky.domain.rounds.SimpleGame;
+import com.molkky.molkky.model.CourtModel;
 import com.molkky.molkky.model.MatchModel;
 import com.molkky.molkky.model.UserTournamentRoleModel;
 import com.molkky.molkky.repository.*;
@@ -11,12 +13,11 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
+import type.PhaseType;
 import type.SetTeamIndex;
 import type.TournamentStatus;
 import type.UserRole;
 
-import javax.transaction.Transactional;
 import java.util.*;
 
 @SpringBootTest
@@ -26,9 +27,15 @@ class MatchServiceTest {
     @Autowired
     private MatchService matchService;
     @Autowired
+    private CourtRepository courtRepository;
+    @Autowired
     private TeamRepository teamRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private SetRepository setRepository;
+    @Autowired
+    private SetService setService;
     @Autowired
     private UserTournamentRoleRepository userTournamentRoleRepository;
 
@@ -164,76 +171,66 @@ class MatchServiceTest {
         Assertions.assertFalse(matchService.isUserInMatch(MatchService.getMatchModelFromEntity(match), UserService.createUserModel(user2)));
     }
 
+    
     @Test
-    @Rollback(false)
-    @Transactional
-    void validateMatchSimpleGame(){
+    void isMatchFinished(){
+//        given
+        Match match = createCompleteMatch2();
+        UserTournamentRole user1 = match.getTeams().get(0).getUserTournamentRoles().get(0);
+        UserTournamentRole user2 = match.getTeams().get(1).getUserTournamentRoles().get(0);
+        User user3 = userRepository.save(new User());
+        //Set set = match.getSets().get(0);
+//      when sets are finished
+        for (Set set : match.getSets()){
+            set = setRepository.findById(set.getId());
+            set.setScore1Team1(50);
+            set.setScore2Team1(20);
+            set.setScore1Team2(50);
+            set.setScore2Team2(20);
+            setService.enterSetResults(SetService.createSetModel(set), new UserTournamentRoleModel(user1));
+            setService.enterSetResults(SetService.createSetModel(set), new UserTournamentRoleModel(user2));
+            set = setRepository.findById(set.getId());
+            Assertions.assertEquals(true, set.getFinished());
+        }
 
+//        then
+        match = matchRepository.findById(match.getId());
+        Assertions.assertEquals(true, match.getFinished());
+        Assertions.assertEquals(50,match.getScoreTeam1(),"Le score de l'equipe 1 n'est pas a jour");
+        Assertions.assertEquals(20,match.getScoreTeam2(),"Le score de l'equipe 2 n'est pas a jour");
+    }
+
+    @Test
+    void setCourtTest(){
+//        given
+        Match match = matchRepository.save(new Match());
+        Court court = courtRepository.save(new Court(true, "testCourt"));
+        MatchModel matchModel = MatchService.getMatchModelFromEntity(match);
+        CourtModel courtModel = new CourtModel(court);
+//        when
+        matchService.setCourt(matchModel, courtModel);
+        match = matchRepository.findById(match.getId());
+//        then
+        Assertions.assertEquals(court.getId(), match.getCourt().getId());
+    }
+
+    Match createCompleteMatch2(){
         Tournament tournament = createTournament();
 
-        tournament = createSimpleGame(tournament, 1);
+        tournament = createPool(tournament);
 
-        insertTeam(tournament, 8);
-
+        insertTeam(tournament, 2);
         Map<Round, List<Match>> results =  phaseService.generate(tournament.getPhases().get(0).getId().toString());
 
         tournament = tournamentRepository.findById(tournament.getId());
 
-        for (Round r: tournament.getPhases().get(0).getRounds()){
-            r.getMatches().get(0).setFinished(true);
-            r.getMatches().get(0).setWinner(r.getMatches().get(0).getTeams().get(0));
-            matchRepository.save(r.getMatches().get(0));
-            matchService.validateMatch(r.getMatches().get(0));
-        }
-
-        List<Team> teams = teamRepository.findByTournamentAndEliminated(tournament,false);
-
-        Assertions.assertEquals(8, tournament.getTeams().size(), "there should be 8 teams");
-        Assertions.assertEquals(4, teams.size(), "there should be 4 teams remaining");
-
+        return  tournament.getPhases().get(0).getRounds().get(0).getMatches().get(0);
     }
 
-    @Test
-    @Rollback(false)
-    @Transactional
-    void validateMatchPool(){
-
-        Tournament tournament = createTournament();
-
-        tournament = createPool(tournament, 1);
-
-        insertTeam(tournament, 6);
-
-        Map<Round, List<Match>> results =  phaseService.generate(tournament.getPhases().get(0).getId().toString());
-
-        tournament = tournamentRepository.findById(tournament.getId());
-
-        List<Round> rounds = new ArrayList<>(tournament.getPhases().get(0).getRounds());
-        //List<Round> rounds = tournament.getPhases().get(0).getRounds();
-        for (Round r: rounds){
-           for(Match m : r.getMatches()){
-               Random rand = new Random();
-               m.setFinished(true);
-               m.setWinner(m.getTeams().get(0));
-               m.setScoreTeam1(50);
-               m.setScoreTeam2(rand.nextInt(49));
-               matchRepository.save(m);
-               matchService.validateMatch(m);
-           }
-
-
-        }
-        List<Team> teams = teamRepository.findByTournamentAndEliminated(tournament,false);
-
-        Assertions.assertEquals(6, tournament.getTeams().size(), "there should be 6 teams");
-        Assertions.assertEquals(4, teams.size(), "there should be 4 teams remaining");
-        Assertions.assertEquals(1, teams.get(0).getUserTournamentRoles().get(0).getNotifications().size(), "each player must have one notification");
-
-    }
 
     Tournament createTournament(){
         Tournament tournament = new Tournament(
-                "tournament test",
+                "tournament test pool service",
                 "location",
                 new Date(),
                 new Date(),
@@ -250,33 +247,35 @@ class MatchServiceTest {
         return tournamentRepository.save(tournament);
 
     }
-    Tournament createPool(Tournament tournament, int nbPhase){
-        Pool pool = new Pool();
 
-        pool.setNbSets(1);
-        pool.setVictoryValue(2);
-        pool.setNbPhase(nbPhase);
-        pool.setNbPools(2);
-        pool.setNbTeamsQualified(4);
-        pool.setSeedingSystem(true);
-
-        pool.setTournament(tournament);
-        pool =  phaseRepository.save(pool);
-
-        tournament.getPhases().add(pool);
-        return tournamentRepository.save(tournament);
-    }
-
-    Tournament createSimpleGame(Tournament tournament, int nbPhase){
+    Tournament createSimpleGame(Tournament tournament, int nbPhase, boolean ranking, boolean seedingSystem){
         SimpleGame simpleGame = new SimpleGame();
-        simpleGame.setNbSets(3);
+        simpleGame.setNbSets(1);
         simpleGame.setTournament(tournament);
         simpleGame.setNbPhase(nbPhase);
+        simpleGame.setRanking(ranking);
+        simpleGame.setSeedingSystem(seedingSystem);
 
         simpleGame =  phaseRepository.save(simpleGame);
 
         tournament.getPhases().add(simpleGame);
 
+        return tournamentRepository.save(tournament);
+    }
+
+    Tournament createPool(Tournament tournament){
+        Pool pool = new Pool();
+
+        pool.setNbSets(1);
+        pool.setVictoryValue(2);
+        pool.setNbPhase(1);
+        pool.setNbPools(1);
+        pool.setNbTeamsQualified(1);
+
+        pool.setTournament(tournament);
+        pool =  phaseRepository.save(pool);
+
+        tournament.getPhases().add(pool);
         return tournamentRepository.save(tournament);
     }
 

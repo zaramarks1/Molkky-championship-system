@@ -17,7 +17,7 @@
                 </div>
 
                 <div class="inputContainer">
-                    <label for="tournament" class="inputLabel">Selectionnez un tournoi</label>
+                    <label for="tournament" class="inputLabel">Sélectionnez un tournoi</label>
                     <select class="inputLabel" id="tournament" th:field="*{tournament}" >
                         <option value="0">Option de choix</option>
                         <option th:each="tournament : ${tournaments}" th:value="${tournament.id}" th:text="${tournament.name}" class="inputTournament" >
@@ -27,7 +27,7 @@
 
                 <div class="submitContainer">
                     <button id="sendTeam" class="primaryButton" type="submit">Étape suivante</button>
-                    <button id="cancelTeam" class="secondaryButton" type="submit">Annuler</button>
+                    <button id="cancelTeam" class="secondaryButton" type="button" onclick=window.location.href='/'>Annuler</button>
                 </div>
             </form>
         </div>
