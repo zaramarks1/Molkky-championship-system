@@ -13,9 +13,10 @@
         <i class="searchbarIconContainerMobile">
             <img class="searchbarIcon" th:src="@{/assets/search_icon.svg}"/>
         </i>
-        <input type="text" class="searchbarMobile" placeholder="Search"/>
+        <input onkeyup="getResults()" id="searchbarInput" type="text" class="searchbarMobile" placeholder="Search"/>
         <i class="searchbarIconContainerMobile">
             <img class="searchbarIcon" th:src="@{/assets/cross.svg}"/>
         </i>
     </div>
+    <div class="searchAutoresultsContainerMobile" id="searchAutoresults"></div>
 </div>
