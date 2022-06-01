@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.molkky.molkky.domain.Team;
 import com.molkky.molkky.domain.Tournament;
 import com.molkky.molkky.model.TournamentModel;
+import com.molkky.molkky.repository.TeamRepository;
 import com.molkky.molkky.repository.TournamentRepository;
 import com.molkky.molkky.repository.UserRepository;
 import com.molkky.molkky.repository.UserTournamentRoleRepository;
@@ -21,6 +22,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.lang.reflect.Executable;
 import java.util.Arrays;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -56,8 +58,12 @@ class TournamentControllerTest {
     @MockBean
     private UserRepository userRepository;
 
+    @MockBean
+    private TeamRepository teamRepository;
+
     @Autowired
     private ObjectMapper objectMapper;
+
 
     @Mock
     private Tournament tournament;
@@ -140,5 +146,19 @@ class TournamentControllerTest {
         mockMvc.perform(get("/tournament/tournamentOnGoing"))
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(view().name("/tournament/tournamentOnGoing"));
+    }
+
+    @Test
+    void testTournamentValidatePresence() throws Exception{
+        Team team = new Team();
+        team.setId(1);
+        Tournament tournoi = new Tournament();
+        tournoi.setId(1);
+        tournoi.setTeams(Arrays.asList(team));
+        when(this.teamRepository.findById(1)).thenReturn(team);
+        mockMvc.perform(post("/tournament/validatePresence")
+                .param("tournamentId", tournoi.getId().toString())
+                .param("teamId",team.getId().toString()))
+                .andExpect(view().name("redirect:/tournament/view?tournamentId="+tournoi.getId()));
     }
 }

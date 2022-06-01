@@ -217,7 +217,6 @@ public class TournamentController extends DefaultAttributes {
         tournament.setStatus(TournamentStatus.INPROGRESS);
         tournament.setIndexPhase(1);
         tournamentRepository.save(tournament);
-
         phaseService.generate(tournament.getPhases().get(0).getId().toString());
 
         model.addAttribute("tournament_id", tournamentId);
