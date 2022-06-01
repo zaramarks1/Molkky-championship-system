@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.molkky.molkky.domain.Team;
 import com.molkky.molkky.domain.Tournament;
 import com.molkky.molkky.model.TournamentModel;
+import com.molkky.molkky.repository.TeamRepository;
 import com.molkky.molkky.repository.TournamentRepository;
 import com.molkky.molkky.repository.UserRepository;
 import com.molkky.molkky.repository.UserTournamentRoleRepository;
@@ -24,6 +25,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.thymeleaf.exceptions.TemplateAssertionException;
 import type.TournamentStatus;
 
+import java.lang.reflect.Executable;
 import java.util.Arrays;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -59,8 +61,12 @@ class TournamentControllerTest {
     @MockBean
     private UserRepository userRepository;
 
+    @MockBean
+    private TeamRepository teamRepository;
+
     @Autowired
     private ObjectMapper objectMapper;
+
 
     @Mock
     private Tournament tournament;
@@ -146,20 +152,16 @@ class TournamentControllerTest {
     }
 
     @Test
-    void testTournamentControllerDisplayed() throws Exception{
+    void testTournamentValidatePresence() throws Exception{
+        Team team = new Team();
+        team.setId(1);
         Tournament tournoi = new Tournament();
-        tournoi.setNbPlayersPerTeam(2);
-        tournoi.setName("testMockito");
-        tournoi.setStatus(TournamentStatus.valueOf("AVAILABLE"));
-        tournoi.setMaxTeam(8);
-        tournoi.setVisible(true);
-        tournoi.setTeams(Arrays.asList(new Team(), new Team()));
-        mockMvc.perform(get("/tournament/allTournament/"))
-                .andExpect(status().isOk())
-                .andExpect(model().attributeExists("tournament"))
-                .andExpect(view().name("/tournament/allTournament"))
-                .andDo(MockMvcResultHandlers.print());
-                //.andExpect(status().is3xxRedirection());
-        verify(this.tournamentRepository, times(1)).findAll();
+        tournoi.setId(1);
+        tournoi.setTeams(Arrays.asList(team));
+        when(this.teamRepository.findById(1)).thenReturn(team);
+        mockMvc.perform(post("/tournament/validatePresence")
+                .param("tournamentId", tournoi.getId().toString())
+                .param("teamId",team.getId().toString()))
+                .andExpect(view().name("redirect:/tournament/view?tournamentId="+tournoi.getId()));
     }
 }
