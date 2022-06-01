@@ -1,0 +1,23 @@
+<!DOCTYPE>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html" lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <div th:replace="fragments/header"></div>
+    <title>Affichage des équipes</title>
+    <link rel="stylesheet" th:href="@{/styles/user/user.css}" href="./"/>
+</head>
+<body class="bg">
+<div class="pageContainer">
+    <div th:replace="fragments/sidebar"></div>
+    <div class="contentContainer">
+        <div th:replace="fragments/searchbar"></div>
+
+        <!-- Emplacement pour les informations d'un user-->
+        <h1>Page d'information d'un user</h1>
+        <div>
+        </div>
+    </div>
+</div>
+</body>
+<div th:replace="fragments/footer"></div>
+</html>

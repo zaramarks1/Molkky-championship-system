@@ -28,7 +28,7 @@
             <div th:each="team: ${teams}" class="cardTeam">
                 <div class="teamHeader">
                     <div class="teamName">
-                        <p th:text="${team.getName()}"></p>
+                        <a th:text="${team.getName()}" th:href="@{'/team/view?teamId='+${team.id}}"></a>
                     </div>
                 </div>
                 <div class="cardContentContainer">

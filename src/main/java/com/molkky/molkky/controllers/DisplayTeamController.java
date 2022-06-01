@@ -2,15 +2,13 @@ package com.molkky.molkky.controllers;
 
 import com.molkky.molkky.domain.Team;
 
+import com.molkky.molkky.domain.User;
 import com.molkky.molkky.model.TeamFilterModel;
 import com.molkky.molkky.repository.TeamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 
@@ -40,6 +38,13 @@ public class DisplayTeamController {
         return new ModelAndView("/team/displayTeams");
     }
 
+    @GetMapping("/view")
+    public String teamView(Model model, @RequestParam(value = "teamId")String teamId){
+        Team team = teamRepository.findById(Integer.valueOf(teamId));
+        model.addAttribute("pseudo", team.getName());
+        model.addAttribute("teamId", teamId);
+        return "/team/displayDetailsTeam";
+    }
 }
 
 

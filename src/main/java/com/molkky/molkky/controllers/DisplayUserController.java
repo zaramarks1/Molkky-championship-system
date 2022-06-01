@@ -1,14 +1,13 @@
 package com.molkky.molkky.controllers;
 
+import com.molkky.molkky.domain.User;
 import com.molkky.molkky.model.UserDisplayModel;
 import com.molkky.molkky.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/user")
@@ -31,6 +30,14 @@ public class DisplayUserController {
             model.addAttribute("users", userRepository.findUsersByPseudo(user.getPseudo()));
         }
         return "/user/displayUsers";
+    }
+
+    @GetMapping("/view")
+    public String userView(Model model, @RequestParam(value = "userId")String userId){
+        User user = userRepository.findById(Integer.valueOf(userId));
+        model.addAttribute("pseudo", user.getPseudo());
+        model.addAttribute("userId", userId);
+        return "/user/displayDetailsUser";
     }
 }
 

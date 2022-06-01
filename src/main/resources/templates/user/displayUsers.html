@@ -23,12 +23,12 @@
 
 
         <div class="cardContainer">
-            <div th:each="user: ${users}" class="cardUser" th:unless="${user.pseudo == null}">
+            <div th:each="user: ${users}" class="cardUser" th:unless="${user.pseudo == null}" >
                 <div class="userHeader">
-                    <a th:text="${user.pseudo}"></a>
+                    <a th:text="${user.pseudo}" th:href="@{'/user/view?userId='+${user.id}}"></a>
                 </div>
                 <div class="boxImage">
-                    <img class="image" th:src="@{/assets/users.svg}">
+                    <img class="image" th:src="@{/assets/users.svg}" th:href="@{'/user/view?userId='+${user.id}}">
                 </div>
             </div>
         </div>
