@@ -157,7 +157,7 @@ class TournamentControllerTest {
         mockMvc.perform(get("/tournament/allTournament/"))
                 .andExpect(status().isOk())
                 .andExpect(model().attributeExists("tournament"))
-                .andExpect(view().name("tournament/allTournament"))
+                .andExpect(view().name("/tournament/allTournament"))
                 .andDo(MockMvcResultHandlers.print());
                 //.andExpect(status().is3xxRedirection());
         verify(this.tournamentRepository, times(1)).findAll();
