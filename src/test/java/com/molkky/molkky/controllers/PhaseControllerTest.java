@@ -254,6 +254,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         when(phase.getPhaseType()).thenReturn(PhaseType.FINNISH);
         when(phase.getHourPhaseStart()).thenReturn("");
         when(phase.getTimePhase()).thenReturn("");
+        //when(phase.setNbPhase(1)).
+        //when(phase.getNbSets()).thenReturn(1);
 
         mockMvc.perform(post("/phase/editPhases")
                 .flashAttr("form",listModel))
@@ -290,6 +292,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
                         .flashAttr("form",listModel))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/tournament/view?tournamentId=1"));
+
+        verify(listModel,times(4)).getPhases();
+        verify(phase,times(2)).getTournament();
+        verify(phase,times(1)).getPhaseType();
+        verify(phase,times(1)).getHourPhaseStart();
+        verify(phase,times(1)).getTimePhase();
+        verify(tournamentRepository,times(1)).findById(1);
+        verify(tournamentRepository,times(1)).save(Mockito.any(Tournament.class));
     }
 
     @Test
@@ -313,6 +323,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
                         .flashAttr("form",listModel))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/tournament/view?tournamentId=1"));
+
+        verify(listModel,times(4)).getPhases();
+        verify(phase,times(2)).getTournament();
+        verify(phase,times(1)).getPhaseType();
+        verify(phase,times(1)).getHourPhaseStart();
+        verify(phase,times(1)).getTimePhase();
+        verify(tournamentRepository,times(1)).findById(1);
+        verify(tournamentRepository,times(1)).save(Mockito.any(Tournament.class));
     }
 
     @Test
@@ -336,6 +354,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
                         .flashAttr("form",listModel))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/tournament/view?tournamentId=1"));
+
+        verify(listModel,times(4)).getPhases();
+        verify(phase,times(2)).getTournament();
+        verify(phase,times(1)).getPhaseType();
+        verify(phase,times(1)).getHourPhaseStart();
+        verify(phase,times(1)).getTimePhase();
+        verify(tournamentRepository,times(1)).findById(1);
+        verify(tournamentRepository,times(1)).save(Mockito.any(Tournament.class));
     }
 
     @Test
@@ -359,6 +385,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
                         .flashAttr("form",listModel))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/tournament/view?tournamentId=1"));
+
+        verify(listModel,times(4)).getPhases();
+        verify(phase,times(2)).getTournament();
+        verify(phase,times(1)).getPhaseType();
+        verify(phase,times(1)).getHourPhaseStart();
+        verify(phase,times(1)).getTimePhase();
+        verify(tournamentRepository,times(1)).findById(1);
+        verify(tournamentRepository,times(1)).save(Mockito.any(Tournament.class));
     }
 
     @Test

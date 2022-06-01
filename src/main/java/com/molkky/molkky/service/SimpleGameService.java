@@ -54,7 +54,6 @@ public class SimpleGameService {
 
             List<Team> teamsUpdated = new ArrayList<>();
 
-
                 for (int i = 0; i < teams.size()-1; i = i + 2) {
                     List<Match> matches = new ArrayList<>();
                     Team team1 = teams.get(i);
