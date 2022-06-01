@@ -40,10 +40,8 @@ public class TournamentController extends DefaultAttributes {
     @Autowired
     private PhaseService phaseService;
 
-
     private String allTournament="tournament";
     private String redirectionAll = "/tournament/allTournament";
-
 
     @GetMapping("/allTournament")
     public String tournamentForm(Model model) {
