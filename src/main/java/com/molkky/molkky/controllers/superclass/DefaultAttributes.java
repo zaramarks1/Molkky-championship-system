@@ -24,6 +24,11 @@ public class DefaultAttributes {
     private NotificationService notificationService;
     @Autowired
     private UserTournamentRoleRepository userTournamentRoleRepository;
+    @ModelAttribute("mobile")
+    public Boolean getMobile(Device device, Model model) {
+        model.addAttribute("mobile", device.isMobile());
+        return device.isMobile();
+    }
 
     @ModelAttribute("user")
     public UserLogged getUser(HttpSession session) {
@@ -32,10 +37,6 @@ public class DefaultAttributes {
         return userLogged;
     }
 
-    @ModelAttribute("mobile")
-    public Boolean getMobile(Device device) {
-        return device.isMobile();
-    }
     @ModelAttribute("unreadCount")
     public Integer getUnreadCount(HttpSession session, Model model) {
         UserLogged userLogged = model.getAttribute("user") == null ? (UserLogged) session.getAttribute("user") : (UserLogged) model.getAttribute("user");
