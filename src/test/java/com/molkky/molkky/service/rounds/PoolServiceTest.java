@@ -5,6 +5,7 @@ import com.molkky.molkky.domain.*;
 import com.molkky.molkky.domain.rounds.Pool;
 import com.molkky.molkky.domain.rounds.SimpleGame;
 import com.molkky.molkky.repository.*;
+import com.molkky.molkky.service.MatchService;
 import com.molkky.molkky.service.PhaseService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -16,9 +17,7 @@ import type.TournamentStatus;
 import type.UserRole;
 
 import javax.transaction.Transactional;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @SpringBootTest(classes = MolkkyApplication.class)
  class PoolServiceTest {
@@ -41,6 +40,11 @@ import java.util.Map;
     @Autowired
     private PhaseService phaseService;
 
+    @Autowired
+    private MatchRepository matchRepository;
+    @Autowired
+    private MatchService matchService;
+
 
     @Test
     @Rollback(false)
@@ -49,7 +53,7 @@ import java.util.Map;
 
         Tournament tournament = createTournament();
 
-        tournament = createPool(tournament, 1);
+        tournament = createPool(tournament, 1, 2, 4 ,false, false);
 
         insertTeam(tournament, 8);
 
@@ -91,7 +95,7 @@ import java.util.Map;
 
         Tournament tournament = createTournament();
 
-        tournament = createPool(tournament, 1);
+        tournament = createPool(tournament, 1, 2, 4, false, false);
 
         insertTeam(tournament, 9);
 
@@ -121,8 +125,6 @@ import java.util.Map;
                 " There should be 1 round per team ");
         Assertions.assertEquals(2, results.size(), " There should be 2 rounds of pool ");
 
-        int i =0;
-
 
     }
 
@@ -133,8 +135,8 @@ import java.util.Map;
 
         Tournament tournament = createTournament();
 
-        tournament = createPool(tournament, 1);
-        tournament = createPool(tournament, 2);
+        tournament = createPool(tournament, 1, 2, 4, false, false);
+        tournament = createPool(tournament, 2, 2, 4 ,false, false);
 
         insertTeam(tournament, 9);
 
@@ -168,7 +170,7 @@ import java.util.Map;
         Assertions.assertEquals(1, tournament.getTeams().get(0).getRounds().size(),
                 " There should be 1 round for team 1");
         Assertions.assertEquals(2, tournament.getTeams().get(1).getRounds().size(),
-                " There should be 2 rounds per team ");
+                " There should be 2 rounds per team 2");
 
         Assertions.assertEquals(5, tournament.getPhases().get(0).getRounds().get(0).getTeams().size()
                 , " There should be 5 teams ");
@@ -187,10 +189,56 @@ import java.util.Map;
 
     }
 
+    @Test
+    @Rollback(false)
+    @Transactional
+    void validateMatchPool(){
+
+        Tournament tournament = createTournament();
+
+        tournament = createPool(tournament, 1, 2, 4, true, true);
+
+        insertTeam(tournament, 6);
+
+        Map<Round, List<Match>> results =  phaseService.generate(tournament.getPhases().get(0).getId().toString());
+
+        tournament = tournamentRepository.findById(tournament.getId());
+
+        List<Round> rounds = new ArrayList<>(tournament.getPhases().get(0).getRounds());
+        for (Round r: rounds){
+            for(Match m : r.getMatches()){
+                Random rand = new Random();
+                m.setFinished(true);
+                m.setWinner(m.getTeams().get(0));
+                m.setScoreTeam1(50);
+                m.setScoreTeam2(rand.nextInt(49));
+                matchRepository.save(m);
+                matchService.validateMatch(m);
+            }
+
+
+        }
+        List<Team> teams = teamRepository.findByTournamentAndEliminated(tournament,false);
+
+        Assertions.assertEquals(6, tournament.getTeams().size(), "there should be 6 teams");
+
+        Assertions.assertEquals(4, teams.size(), "there should be 4 teams remaining");
+
+        Assertions.assertTrue( tournament.getTeams().get(4).isEliminated(), "TEAM 5 should be eliminated");
+        Assertions.assertTrue( tournament.getTeams().get(5).isEliminated(), "TEAM 6 should be eliminated");
+
+        Assertions.assertEquals(100, tournament.getTeams().get(0).getNbPoints(), "team 1 should have 100 points");
+        Assertions.assertEquals(100, tournament.getTeams().get(1).getNbPoints(), "team 2 should have 100 points");
+
+        Assertions.assertEquals(1, teams.get(0).getUserTournamentRoles().get(0).getNotifications().size(), "each player must have one notification");
+
+    }
+
+
 
     Tournament createTournament(){
         Tournament tournament = new Tournament(
-                "tournament test",
+                "tournament test pool service",
                 "location",
                 new Date(),
                 new Date(),
@@ -207,14 +255,16 @@ import java.util.Map;
         return tournamentRepository.save(tournament);
 
     }
-    Tournament createPool(Tournament tournament, int nbPhase){
+    Tournament createPool(Tournament tournament, int nbPhase, int nbPool, int nbTeamsQualified , boolean ranking, boolean seedingSystem){
         Pool pool = new Pool();
 
         pool.setNbSets(1);
         pool.setVictoryValue(2);
         pool.setNbPhase(nbPhase);
-        pool.setNbPools(2);
-        pool.setNbTeamsQualified(4);
+        pool.setNbPools(nbPool);
+        pool.setNbTeamsQualified(nbTeamsQualified);
+        pool.setSeedingSystem(seedingSystem);
+        pool.setRanking(ranking);
 
         pool.setTournament(tournament);
         pool =  phaseRepository.save(pool);

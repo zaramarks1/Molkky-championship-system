@@ -20,6 +20,6 @@ public class UserTournamentRoleService {
 
     public List<UserTournamentRole> getTournamentStaffFromUser(UserTournamentRoleModel userTournamentRoleModel){
         UserTournamentRole user = getUserTournamentRoleFromModel(userTournamentRoleModel);
-        return userTournamentRoleRepository.findUserTournamentRoleByRoleAndAndTournament(UserRole.STAFF, user.getTournament());
+        return userTournamentRoleRepository.findUserTournamentRoleByRoleAndTournament(UserRole.STAFF, user.getTournament());
     }
 }

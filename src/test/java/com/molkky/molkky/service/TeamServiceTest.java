@@ -24,6 +24,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.molkky.molkky.utility.StringUtilities.createCode;
+
 @WebMvcTest(value = TeamService.class, excludeAutoConfiguration = {SecurityAutoConfiguration.class})
 @ExtendWith(MockitoExtension.class)
 class TeamServiceTest {
@@ -62,7 +64,7 @@ class TeamServiceTest {
         Tournament tournament = new Tournament();
         tournament.setId(idTournament);
 
-        Mockito.when(teamModel.getTournament()).thenReturn(1);
+        Mockito.when(teamModel.getTournament()).thenReturn(idTournament);
         Mockito.when(tournamentRepository.findById(idTournament)).thenReturn(tournament);
         Mockito.when(teamModel.getName()).thenReturn(teamName);
         Mockito.when(teamRepository.save(Mockito.any(Team.class))).thenAnswer(i -> i.getArguments()[0]);
@@ -187,7 +189,7 @@ class TeamServiceTest {
 
     @Test
     void testCreateCodeLength(){
-        String code = teamService.createCode(10);
+        String code = createCode(10);
         Assertions.assertEquals(10,code.length());
     }
 }

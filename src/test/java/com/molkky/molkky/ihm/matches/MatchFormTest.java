@@ -6,9 +6,11 @@ import com.molkky.molkky.domain.*;
 import com.molkky.molkky.repository.*;
 import com.molkky.molkky.service.MatchService;
 import org.apache.commons.lang.RandomStringUtils;
-import org.checkerframework.checker.units.qual.A;
 import org.junit.jupiter.api.*;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.Select;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -81,7 +83,7 @@ class MatchFormTest {
         Assertions.assertEquals(url + "/matches/match?match_id=" + match.getId(), config.getDriver().getCurrentUrl());
         Assertions.assertEquals(tournament.getName(), config.getDriver().findElement(By.className("tournamentTitle")).getText());
         Assertions.assertEquals(strDate, config.getDriver().findElement(By.className("tournamentDate")).getText());
-        Assertions.assertEquals(match.getCourt().getName(), config.getDriver().findElement(By.className("courtText")).getText());
+       // Assertions.assertEquals(match.getCourt().getName(), config.getDriver().findElement(By.className("courtText")).getText());
         Assertions.assertEquals(match.getFinished() ? "" : "En cours", config.getDriver().findElement(By.className("stateText")).getText());
         Assertions.assertEquals("Jeu en " + match.getNbSets() + " sets", config.getDriver().findElement(By.className("bestOfText")).getText());
     }
@@ -127,11 +129,47 @@ class MatchFormTest {
     }
 
     @Test
+    void testChangeCourtOrga(){
+//        given
+        Match match = createCompleteMatch();
+        User user = createOrgaUser();
+        loginUser(user);
+        Court court = courtRepository.save(new Court(true, RandomStringUtils.randomAlphabetic(10)));
+//        when
+        config.getDriver().get(url + "/matches/match?match_id=" + match.getId());
+        Select courtSelect = new Select(config.getDriver().findElement(By.id("courtInput")));
+        courtSelect.selectByVisibleText(court.getName());
+        config.getDriver().findElement(By.id("courtFormSubmit")).click();
+//        then
+        match = matchRepository.findById(match.getId());
+        Assertions.assertEquals(match.getCourt().getName(), court.getName());
+        Assertions.assertEquals(match.getCourt().getId(), court.getId());
+        Assertions.assertTrue(config.getDriver().findElement(By.id("courtFormSubmit")).isDisplayed());
+    }
+
+    @Test
+    void testChangeCourtPlayer(){
+//        given
+        Match match = createCompleteMatch();
+        User user = match.getTeams().get(0).getUserTournamentRoles().get(0).getUser();
+        loginUser(user);
+//        when
+        config.getDriver().get(url + "/matches/match?match_id=" + match.getId());
+//        then
+        WebDriver driver = config.getDriver();
+        By elementId = By.id("courtFormSubmit");
+        Assertions.assertThrows(NoSuchElementException.class, () -> {
+            driver.findElement(elementId);
+        });
+    }
+
+    @Test
     void testInsertScoreTeamOrga() {
 //        given
         Match match = createCompleteMatch();
         User user = createOrgaUser();
         loginUser(user);
+
         config.getDriver().get(url + "/matches/match?match_id=" + match.getId());
         int score1 = new Random().nextInt(50);
         int score2 = new Random().nextInt(50);
@@ -206,7 +244,7 @@ class MatchFormTest {
         set1.setTeams(List.of(team1, team2));
         setRepository.save(set1);
 
-        match.setCourt(courtRepository.save(new Court(true, "court")));
+        match.setCourt(courtRepository.save(new Court(true, RandomStringUtils.randomAlphabetic(10))));
         match.setSets(List.of(set1));
         match.setTeams(Arrays.asList(team1, team2));
         match.setNbSets(1);

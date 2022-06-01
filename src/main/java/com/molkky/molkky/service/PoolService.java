@@ -1,18 +1,14 @@
 package com.molkky.molkky.service;
 
-import com.molkky.molkky.domain.Match;
-import com.molkky.molkky.domain.Round;
-import com.molkky.molkky.domain.Team;
+import com.molkky.molkky.domain.*;
 import com.molkky.molkky.domain.rounds.Pool;
+import com.molkky.molkky.model.phase.PhaseRankingModel;
 import com.molkky.molkky.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import type.PhaseType;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.*;
 
 @Service
@@ -33,17 +29,34 @@ public class PoolService {
     @Autowired
     PhaseRepository phaseRepository;
 
+    @Autowired
+    NotificationRepository notificationRepository;
+
+    @Autowired
+    UserTournamentRoleRepository userTournamentRoleRepository;
+
+    @Autowired
+    NotificationService notificationService;
+
+    @Autowired
+    RoundService roundService;
+
+
     public Map<Round, List<Match>> generateRounds(Pool pool){
-        Map<Round, List<Match>> results = new HashMap();
+        Map<Round, List<Match>> results = new HashMap<>();
 
         List<Team> teamsOld = pool.getTournament().getTeams();
-        List<Team> teams = new ArrayList<>();
+        List<Team> teams;
         int nbPool = pool.getNbPools();
-        if(Boolean.FALSE.equals(pool.getRanking()) || pool.getNbPhase() == 1) {
 
-             teams = teamsOld.stream()
-                    .filter(team -> !team.isEliminated())
-                    .collect(Collectors.toList());
+        teams = teamsOld.stream()
+                .filter(team -> !team.isEliminated())
+                .collect(Collectors.toList());
+
+        if(Boolean.TRUE.equals(pool.getRanking()) ) {
+            teams.sort(Comparator
+                    .comparing(Team :: getNbPoints)
+                    .reversed());
         }
 
             List<Round> rounds = new ArrayList<>();
@@ -93,7 +106,7 @@ public class PoolService {
 
                   }
               }
-               r.getMatches().addAll(matches);
+               r.getMatches().addAll(roundService.createSetsFromMatch(matches));
 
             }
 
@@ -106,7 +119,48 @@ public class PoolService {
         return results;
     }
 
-    public void roundsWithRanking(Pool pool){
-         pool.getNbPhase();
+    void validateRound(Round round){
+
+        Pool pool = (Pool) round.getPhase();
+
+        int victoryValue = pool.getVictoryValue();
+        int nbNextRound = pool.getNbTeamsQualified()/pool.getNbPools();
+        List<Team> teams = new ArrayList<>();
+
+        List<PhaseRankingModel>  scoresList =  roundService.orderTeamsByScoreInRound(round, victoryValue);
+
+        for(int i=0;i<scoresList.size();i++) {
+            Team team = scoresList.get(i).getTeam();
+            if(Boolean.TRUE.equals(pool.getSeedingSystem())){
+                team.setNbPoints(team.getNbPoints() + scoresList.get(i).getTotalPoints());
+            }
+            teams.add(team);
+            if (i > nbNextRound - 1) {
+                teams.get(i).setEliminated(true);
+            }
+        }
+
+        teams = teamRepository.saveAll(teams);
+
+        generateNotificationAfterRound(teams);
+
+
+    }
+
+
+    void generateNotificationAfterRound(List<Team> teams){
+
+        for(int i=0;i<teams.size();i++) {
+            Team t = teams.get(i);
+            String message ;
+            if(t.isEliminated()){
+                message = "Ton équipe a terminé " + (i + 1)+ " ème de sa poule et est malheuseusement éliminée.";
+            }else{
+                message = "Félicitations! Ton équipe a terminé" + (i + 1)+ " ème dans sa poule. Vous êtes qualifiés pour la prochaine phase.";
+            }
+
+            notificationService.sendNotificationToList(message, "", t.getUserTournamentRoles());
+
+        }
     }
 }

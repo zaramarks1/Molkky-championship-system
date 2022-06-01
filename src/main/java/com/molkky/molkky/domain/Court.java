@@ -20,17 +20,17 @@ public class Court implements Serializable {
     @Column(name = "id")
     private Integer id;
 
-    @Column(name = "isAvailable")
-    private boolean isAvailable;
+    @Column(name = "available")
+    private boolean available;
 
     @Column(name = "name")
     private String name;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "court")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "court")
     private List<Match> matches = new ArrayList<>();
 
     public Court(boolean isAvailable, String name) {
-        this.isAvailable = isAvailable;
+        this.available = isAvailable;
         this.name = name;
     }
 }

@@ -11,7 +11,14 @@
     <div th:replace="fragments/sidebar"></div>
     <div class="contentContainer">
         <div th:replace="fragments/searchbar"></div>
-
+        <div class="submitContainer">
+                <form  action="#" th:action="@{/tournament/allTournament}" method="post" class="formContainer">
+                    <input id="valider" type="submit" class="primaryButton" value="Créer tournoi">
+                </form>
+                <form action="#" method="post" th:action="@{/tournament/inscription}" class="formContainer">
+                    <input id="inscription" type="submit" class="primaryButton" value="Inscription à un tournoi">
+                </form>
+        </div>
         <div class="main">
             <!-- Emplacement pour les filtres-->
             <div class="boxTournamentList">
@@ -47,7 +54,7 @@
                                     <span class="textPlayer" th:text="${tournament.getTeams().size()}*${tournament.nbPlayersPerTeam}+' / '+${tournament.getMaxTeam()}*${tournament.getNbPlayersPerTeam()}+' Joueurs'"/></p>
                                 <p class="textPlayer" th:unless="${!tournament.getTeams().isEmpty()}">
                                     <span class="textPlayer" th:text="'0 / '+${tournament.getMaxTeam()}*${tournament.getNbPlayersPerTeam()}+' Joueurs'"/></p>
-                                <p class="textInscriptionClosed" th:unless="${tournament.visible} ">Incriptions fermées</p>
+                                <p class="textInscriptionClosed" th:unless="${tournament.visible}">Incriptions fermées</p>
                                 <p class="textInscriptionOpen" th:if="${tournament.visible}">Incriptions ouvertes</p>
                             </a>
                         </li>

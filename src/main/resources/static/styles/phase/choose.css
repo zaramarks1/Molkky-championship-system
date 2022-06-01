@@ -1,0 +1,72 @@
+.submitContainer {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.inputContainer {
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: start;
+}
+
+.inputHiddenContainer {
+    margin-top: 15px;
+    flex-direction: column;
+    align-items: start;
+    justify-content: start;
+}
+
+.formContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+}
+
+.inputPhase {
+    width: 460px;
+    height: 48px;
+    border-radius: 4px;
+    border: 0;
+    background-color: #F8FAFC;
+    padding: 10px;
+    box-shadow: 0 0 7px #C4C4C4;
+}
+
+.inputPhase[type="checkbox"] {
+    outline: #6D41F3 auto 2px;
+    width: 18px;
+    height: 18px;
+    box-shadow: none;
+}
+
+.inputPhase::placeholder {
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 144%;
+}
+
+.inputLabel {
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 150%;
+    letter-spacing: 0.01em;
+}
+
+.inputHiddenLabel {
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 150%;
+    letter-spacing: 0.01em;
+    margin-right: 5px;
+}

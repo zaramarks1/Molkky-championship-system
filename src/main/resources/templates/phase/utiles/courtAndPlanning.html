@@ -1,0 +1,65 @@
+<html xmlns:th="http://thymeleaf.org" xmlns="http://www.w3.org/1999/html" lang="fr">
+<head>
+    <link rel="stylesheet" th:href="@{/styles/phase/choose.css}" href="../" />
+</head>
+<body>
+    <div class="inputContainer">
+        <label class="inputLabel" th:for="'affectTerrains'+${itemStat.index}">Affectations terrains</label>
+        <input class="inputPhase" th:id="'affectTerrains'+${itemStat.index}" type="checkbox" th:field="*{phases[__${itemStat.index}__].terrainAffectation}">
+    </div>
+    <div hidden class="inputHiddenContainer" th:id="'nbTerrains'+${itemStat.index}">
+        <label class="inputHiddenLabel">Nombre de terrains disponibles</label>
+        <input class="inputPhase" name ="nbTerrains" th:type="number" th:min="1" th:field="*{phases[__${itemStat.index}__].nbCourts}">
+    </div>
+    <div hidden class="inputHiddenContainer" th:id="'startCourt'+${itemStat.index}">
+        <label class="inputHiddenLabel">Terrain de départ</label>
+        <input class="inputPhase" name="startCourt" type="number" min="1" th:field="*{phases[__${itemStat.index}__].numStartCourt}">
+    </div>
+    <div class="inputContainer">
+        <label class="inputLabel" th:for="'managePlanning'+${itemStat.index}">Gestion du planning</label>
+        <input class="inputPhase" th:id="'managePlanning'+${itemStat.index}" type="checkbox" th:field="*{phases[__${itemStat.index}__].managePlanning}">
+    </div>
+    <div hidden class="inputHiddenContainer" th:id="'hourPhaseStart'+${itemStat.index}">
+        <label class="inputHiddenLabel">Heure de début de la phase</label>
+        <input class="inputPhase" name="hourPhaseStart" type="time" th:field="*{phases[__${itemStat.index}__].hourPhaseStart}">
+    </div>
+    <div hidden class="inputHiddenContainer" th:id="'timePhase'+${itemStat.index}">
+        <label class="inputHiddenLabel">Temps maximum de la durée de la phase</label>
+        <input class="inputPhase" name="timePhase" type="time" th:field="*{phases[__${itemStat.index}__].timePhase}">
+    </div>
+</body>
+<script th:inline="javascript">
+    document.getElementById("affectTerrains"+[[${itemStat.index}]])
+        .addEventListener("change",function(){
+            if(this.checked){
+                document.getElementById("nbTerrains"+[[${itemStat.index}]]).hidden = false;
+                document.getElementById("nbTerrains"+[[${itemStat.index}]]).getElementsByTagName("input").required = true;
+                document.getElementById("startCourt"+[[${itemStat.index}]]).hidden = false;
+                document.getElementById("startCourt"+[[${itemStat.index}]]).getElementsByTagName("input").required = true;
+            }
+            else{
+                document.getElementById("nbTerrains"+[[${itemStat.index}]]).hidden = true;
+                document.getElementById("nbTerrains"+[[${itemStat.index}]]).getElementsByTagName("input").required = true;
+                document.getElementById("startCourt"+[[${itemStat.index}]]).hidden = true;
+                document.getElementById("startCourt"+[[${itemStat.index}]]).getElementsByTagName("input").required = true;
+            }
+        })
+</script>
+<script th:inline="javascript">
+    document.getElementById("managePlanning"+[[${itemStat.index}]])
+        .addEventListener("change",function(){
+            if(this.checked){
+                document.getElementById("hourPhaseStart"+[[${itemStat.index}]]).hidden = false;
+                document.getElementById("hourPhaseStart"+[[${itemStat.index}]]).getElementsByTagName("input").required = true;
+                document.getElementById("timePhase"+[[${itemStat.index}]]).hidden = false;
+                document.getElementById("startCourt"+[[${itemStat.index}]]).getElementsByTagName("input").required = true;
+            }
+            else{
+                document.getElementById("hourPhaseStart"+[[${itemStat.index}]]).hidden = true;
+                document.getElementById("hourPhaseStart"+[[${itemStat.index}]]).getElementsByTagName("input").required = false;
+                document.getElementById("timePhase"+[[${itemStat.index}]]).hidden = true;
+                document.getElementById("timePhase"+[[${itemStat.index}]]).getElementsByTagName("input").required = false;
+            }
+        })
+</script>
+</html>

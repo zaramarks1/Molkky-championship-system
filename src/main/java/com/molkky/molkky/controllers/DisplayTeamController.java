@@ -23,7 +23,7 @@ public class DisplayTeamController {
 
     @GetMapping("/displayTeams")
     public String displayTeams(Model model) {
-        model.addAttribute("teams", teamRepository.findTeamsName());
+        model.addAttribute("teams", teamRepository.findAll());
         TeamFilterModel teamModel = new TeamFilterModel();
         model.addAttribute("teamModel", teamModel);
         Team team = new Team();
@@ -33,7 +33,7 @@ public class DisplayTeamController {
 
     @PostMapping("/filter")
     public ModelAndView connexionUser(@ModelAttribute("teamModel")TeamFilterModel team2, Model model){
-        if(teamRepository.existsTeamByName(team2.getName())) {
+        if(teamRepository.existsTeamByName(team2.getName())){
             model.addAttribute("teams", teamRepository.findTeamByName(team2.getName()));
             return new ModelAndView("/team/displayTeams");
         }

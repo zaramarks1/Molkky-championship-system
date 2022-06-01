@@ -48,6 +48,14 @@ class TeamFormTest {
         Assertions.assertTrue(config.getDriver().findElement(new By.ById("nom")).isDisplayed());
         Assertions.assertTrue(config.getDriver().findElement(new By.ById("tournament")).isDisplayed());
         Assertions.assertTrue(config.getDriver().findElement(new By.ById("sendTeam")).isDisplayed());
+
+        Assertions.assertEquals("Créer une équipe",config.getDriver().findElement
+                (new By.ByClassName("contentTitle")).getText());
+        Assertions.assertEquals("Nom de l'équipe",config.getDriver().findElement
+                (new By.ByCssSelector("body > div > div.contentContainer > form > div:nth-child(1) > label")).getText());
+        Assertions.assertEquals("Sélectionnez un tournoi",config.getDriver().findElement
+                (new By.ByCssSelector("body > div > div.contentContainer > form > div:nth-child(2) > label")).getText());
+        Assertions.assertEquals("Étape suivante",config.getDriver().findElement(new By.ById("sendTeam")).getText());
     }
 
     @Test
