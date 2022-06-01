@@ -118,7 +118,7 @@ public class SimpleGameService {
         return results;
     }
 
-    void validateRound(Round round){
+   public void validateRound(Round round){
 
 
         List<PhaseRankingModel>  scoresList =  roundService.orderTeamsByScoreInRound(round, 1);
@@ -156,7 +156,7 @@ public class SimpleGameService {
 
     }
 
-    void generateNotificationAfterRound(List<Team> teams){
+    public void generateNotificationAfterRound(List<Team> teams){
 
         for(int i=0;i<teams.size();i++) {
             Team t = teams.get(i);

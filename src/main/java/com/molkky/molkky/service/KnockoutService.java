@@ -129,9 +129,9 @@ public class KnockoutService {
             Team t = teams.get(i);
             String message ;
             if(t.isEliminated()){
-                message = "Ton équipe a malheureuseusement été disqualifiée";
+                message = "Ton équipe a malheureuseusement été disqualifiée dans la phase de tableau éliminatoire";
             }else{
-                message = " Felicitations! Ton équipe est qualifiée pour la prochaine phase";
+                message = " Felicitations! Ton équipe est qualifiée pour la prochaine phase de tableau éliminatoire";
             }
 
             notificationService.sendNotificationToList(message, "", t.getUserTournamentRoles());
