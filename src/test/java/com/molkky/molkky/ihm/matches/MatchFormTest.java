@@ -66,7 +66,7 @@ class MatchFormTest {
 //        when
         config.getDriver().get(url + "/matches/match?match_id=" + match.getId());
 //        then
-        Assertions.assertEquals(url + "/connexion", config.getDriver().getCurrentUrl());
+        Assertions.assertEquals(url + "/connexion", config.getDriver().getCurrentUrl().split("\\?")[0]);
     }
 
     @Test
