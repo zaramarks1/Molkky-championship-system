@@ -25,29 +25,6 @@ public class DefaultAttributes {
     @Autowired
     private UserTournamentRoleRepository userTournamentRoleRepository;
 
-    @Bean
-    public DeviceResolverHandlerInterceptor
-    deviceResolverHandlerInterceptor() {
-        return new DeviceResolverHandlerInterceptor();
-    }
-
-    @Bean
-    public DeviceHandlerMethodArgumentResolver
-    deviceHandlerMethodArgumentResolver() {
-        return new DeviceHandlerMethodArgumentResolver();
-    }
-
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(deviceResolverHandlerInterceptor());
-    }
-
-    @Override
-    public void addArgumentResolvers(
-            List<HandlerMethodArgumentResolver> argumentResolvers) {
-        argumentResolvers.add(deviceHandlerMethodArgumentResolver());
-    }
-
     @ModelAttribute("user")
     public UserLogged getUser(HttpSession session) {
         UserLogged userLogged = session.getAttribute("user") != null ? (UserLogged) session.getAttribute("user") : null;
