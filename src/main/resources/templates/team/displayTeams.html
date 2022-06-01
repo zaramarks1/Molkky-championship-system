@@ -1,0 +1,53 @@
+<!DOCTYPE>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html" lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <div th:replace="fragments/header"></div>
+    <title>Affichage des équipes</title>
+    <link rel="stylesheet" th:href="@{/styles/team/listTeam.css}" href="./"/>
+</head>
+<body class="bg">
+<div class="pageContainer">
+    <div th:replace="fragments/sidebar"></div>
+        <div class="contentContainer">
+            <div th:replace="fragments/searchbar"></div>
+            <div id="cover">
+                <form method="post" th:action="@{/team/filter}" autocomplete="off" th:object="${teamModel}">
+                    <div class="tb">
+                        <div class="td"><input class="inputFilter" type="text" placeholder="Filtrer" required th:field="*{name}"></div>
+                        <div class="td" id="s-cover">
+                            <button class = "filter" type="submit">
+                                <div id="s-circle"></div>
+                                <span></span>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="cardContainer">
+            <div th:each="team: ${teams}" class="cardTeam">
+                <div class="teamHeader">
+                    <div class="teamName">
+                        <p th:text="${team.getName()}"></p>
+                    </div>
+                </div>
+                <div class="cardContentContainer">
+                    <img class="teamLogo" th:src="@{/assets/teams.svg}" alt="Team icon"/>
+                    <ul class="roundsList">
+                        <th:block th:if="${team.getUserTournamentRoles().isEmpty()}">
+                            <li class="teamMember">Vide</li>
+                        </th:block>
+                        <th:block th:each="team : ${team.getUserTournamentRoles()}">
+                            <li class="teamMember" th:text="${team.getUser().getForename()}"></li>
+                        </th:block>
+                    </ul>
+                </div>
+            </div>
+            </div>
+
+        </div>
+    </div>
+</body>
+<div th:replace="fragments/footer"></div>
+</html>
+
