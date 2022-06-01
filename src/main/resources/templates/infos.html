@@ -60,12 +60,12 @@
                         <br>
                         <br>
                         Changer votre mot de passe
-                        <form method="post" th:action="@{/changePassword}" autocomplete="off">
+                        <form id = "changePassword" method="post" th:action="@{/changePassword}" autocomplete="off">
                             <div>
-                                <input class="inputFilter" type="password" required="required" th:name="pwd1" placeholder="Nouveau mot de passe" >
-                                <input class="inputFilter" type="password" required="required" th:name="pwd2" placeholder="Confirmation mot de passe" >
+                                <input class="inputFilter" type="password" required="required" th:name="pwd1" id = "pwd1" placeholder="Nouveau mot de passe" >
+                                <input class="inputFilter" type="password" required="required" th:name="pwd2"  id = "pwd2" placeholder="Confirmation mot de passe" >
                             </div>
-                            <button class = "filter" type="submit">Changer votre mot de passe
+                            <button class = "filter" onclick = "changePwd()" type="submit">Changer votre mot de passe
                             </button>
                         </form>
 
@@ -80,5 +80,21 @@
     </div>
 </div>
 </body>
+<script th:inline = "javascript">
+
+    function changePwd(){
+        var pwd1 = document.getElementById("pwd1").value
+        var pwd2 = document.getElementById("pwd2").value
+
+        if(pwd1 === pwd2){
+            alert("Votre mot des passe a été bien changé")
+            $("#changePassword").submit();
+        }else{
+            alert("Les mot des passes doivent le même!")
+        }
+
+    }
+    
+</script>
 <div th:replace="fragments/footer"></div>
 </html>
