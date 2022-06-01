@@ -179,10 +179,23 @@
     justify-content: start;
 }
 
+@media only screen and (max-width: 1000px) {
+    .socialsContainer {
+        flex-direction: row;
+        justify-content: space-around;
+    }
+}
+
 .socialsIcon {
     margin: 27px;
     width: 40px;
     height: 40px;
+}
+
+@media only screen and (max-width: 1000px) {
+    .socialsIcon {
+        margin: 0;
+    }
 }
 
 .notificationListContainer {
@@ -272,7 +285,6 @@
     height: 120px;
     display: flex;
     flex-direction: column;
-    padding: 15px;
     align-items: center;
     justify-content: space-between;
 }
