@@ -77,7 +77,7 @@ class TournamentControllerTest {
                         .param("cutOffDate", "2020-03-01")
                         .flashAttr("tournament", new TournamentModel()))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/phase/choosePhases?tournamentId=5"));
+                .andExpect(view().name("redirect:/phase/choosePhases?tournamentId=5"));
         ;
         verify(tournamentService, times(1)).create(any(TournamentModel.class));
     }
@@ -124,13 +124,11 @@ class TournamentControllerTest {
 
         mockMvc.perform(post("/tournament/allTournament"))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/tournament/create?unreadCount=0"))
                 .andExpect(view().name("redirect:/tournament/create"));
 
         mockMvc.perform(post("/tournament/inscription"))
                 .andDo(print())
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/team/create?unreadCount=0"))
                 .andExpect(view().name("redirect:/team/create"));
 
     }

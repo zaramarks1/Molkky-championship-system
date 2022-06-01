@@ -33,8 +33,7 @@ import java.util.List;
 
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(value = SetController.class, excludeAutoConfiguration = {SecurityAutoConfiguration.class})
 @ExtendWith(MockitoExtension.class)
@@ -95,7 +94,7 @@ class SetControllerTest {
 //        when
         mockMvc.perform(post("/sets/updateSet").sessionAttr("user", userLogged))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/matches/match?match_id=1"));
+                .andExpect(view().name("redirect:/matches/match?match_id=1"));
 //        then
         verify(setService, times(1)).enterSetResults(any(SetModel.class), any(UserTournamentRoleModel.class));
     }
@@ -126,7 +125,7 @@ class SetControllerTest {
 //        when
         mockMvc.perform(post("/sets/updateSet").sessionAttr("user", userLogged))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/matches/match?match_id=1"));
+                .andExpect(view().name("redirect:/matches/match?match_id=1"));
 //        then
         verify(setService, times(1)).enterSetResults(any(SetModel.class), any(UserTournamentRoleModel.class));
     }
@@ -155,7 +154,7 @@ class SetControllerTest {
 //        when
         mockMvc.perform(post("/sets/updateSet").sessionAttr("user", userLogged))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/matches/match?match_id=1"));
+                .andExpect(view().name("redirect:/matches/match?match_id=1"));
 //        then
         verify(setService, times(1)).enterSetResults(any(SetModel.class), any(UserTournamentRoleModel.class));
     }
