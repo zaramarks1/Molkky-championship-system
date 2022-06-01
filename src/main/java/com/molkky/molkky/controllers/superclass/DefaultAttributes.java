@@ -7,6 +7,7 @@ import com.molkky.molkky.service.NotificationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mobile.device.Device;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -23,6 +24,29 @@ public class DefaultAttributes {
     private NotificationService notificationService;
     @Autowired
     private UserTournamentRoleRepository userTournamentRoleRepository;
+
+    @Bean
+    public DeviceResolverHandlerInterceptor
+    deviceResolverHandlerInterceptor() {
+        return new DeviceResolverHandlerInterceptor();
+    }
+
+    @Bean
+    public DeviceHandlerMethodArgumentResolver
+    deviceHandlerMethodArgumentResolver() {
+        return new DeviceHandlerMethodArgumentResolver();
+    }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(deviceResolverHandlerInterceptor());
+    }
+
+    @Override
+    public void addArgumentResolvers(
+            List<HandlerMethodArgumentResolver> argumentResolvers) {
+        argumentResolvers.add(deviceHandlerMethodArgumentResolver());
+    }
 
     @ModelAttribute("user")
     public UserLogged getUser(HttpSession session) {
@@ -48,5 +72,10 @@ public class DefaultAttributes {
         UserLogged userLogged = session.getAttribute("user") != null ? (UserLogged) session.getAttribute("user") : null;
         if(userLogged == null) return new ArrayList<>();
         return notificationService.getNotificationModels(userTournamentRoleRepository.findById(userLogged.getTournamentRoleId()));
+    }
+
+    @ModelAttribute("mobile")
+    public Boolean getMobile(Device device) {
+        return device.isMobile();
     }
 }
