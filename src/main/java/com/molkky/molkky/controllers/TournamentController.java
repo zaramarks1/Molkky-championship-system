@@ -3,15 +3,18 @@ package com.molkky.molkky.controllers;
 
 import com.molkky.molkky.controllers.superclass.DefaultAttributes;
 import com.molkky.molkky.domain.Phase;
+import com.molkky.molkky.domain.Team;
 import com.molkky.molkky.domain.Tournament;
 import com.molkky.molkky.domain.rounds.*;
 import com.molkky.molkky.model.AddStaff;
 import com.molkky.molkky.model.AddStaffList;
 import com.molkky.molkky.model.TournamentModel;
 import com.molkky.molkky.model.UserLogged;
+import com.molkky.molkky.repository.TeamRepository;
 import com.molkky.molkky.repository.TournamentRepository;
 import com.molkky.molkky.service.PhaseService;
 import com.molkky.molkky.service.TournamentService;
+import com.sun.jdi.IntegerValue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -39,6 +42,9 @@ public class TournamentController extends DefaultAttributes {
 
     @Autowired
     private PhaseService phaseService;
+
+    @Autowired
+    private TeamRepository teamRepository;
 
 
     private String allTournament="tournament";
@@ -220,6 +226,15 @@ public class TournamentController extends DefaultAttributes {
 
         return "redirect:/tournament/view?tournamentId=" + tournamentId;
 
+    }
+
+    @PostMapping("/validatePresence")
+    public String validatePresence (Model model, @RequestParam(name = "tournamentId")String tournamentId,
+                                    @RequestParam(name= "teamId")String teamId){
+        //Tournament tournament = tournamentRepository.findById(Integer.valueOf(tournamentId));
+        Team team = teamRepository.findById(Integer.valueOf(teamId));
+        team.setPresent(true);
+        return "redirect:/tournament/view?tournamentId=" + tournamentId;
     }
 
 }
