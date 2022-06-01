@@ -1,15 +1,8 @@
-.main {
+.allTournamentContainer {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     padding: 16px;
-
-    position: static;
-    width: 1147px;
-    height: 969.67px;
-    left: 0.19px;
-    top: 131.66px;
-    overflow-y: scroll;
 
     /* backgroundgrey */
     background: #F4F4F8;
@@ -17,10 +10,8 @@
 
     /* Inside auto layout */
     flex: none;
-    order: 1;
     align-self: stretch;
     flex-grow: 1;
-    margin: 0px 0px;
 }
 
 .boxTournamentList {
@@ -32,18 +23,7 @@
     align-items: flex-start;
     padding: 10px 40px 10px 0px;
 
-    position: static;
-    width: 1115px;
-    height: 634.03px;
-    left: 16.92px;
-    top: 320.47px;
 
-
-    /* Inside auto layout */
-    flex: none;
-    order: 2;
-    align-self: stretch;
-    flex-grow: 1;
     margin: 10px 0px;
 }
 
@@ -172,80 +152,29 @@
     flex-direction: row;
     align-items: center;
     padding: 0px;
-
-    position: static;
-    width: 802px;
-    height: 76px;
-    left: 0px;
-    top: 78px;
-
-
-    /* Inside auto layout */
-    flex: none;
-    order: 1;
-    flex-grow: 0;
-    margin: 5px 0px;
 }
 
 .boxState {
     /* Auto layout */
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 10px;
-
-    position: static;
-    width: 179.33px;
-    height: 76px;
-    left: 0px;
-    top: 0px;
-
-
-    /* Inside auto layout */
-    flex: none;
-    order: 0;
-    align-self: stretch;
-    flex-grow: 1;
-    margin: 0px 32px;
 }
 
 .boxListe {
     display: flex;
     flex-direction: row;
     align-items: center;
-    padding: 18px;
-    position: static;
-    width: 224px;
-    height: 63px;
-    left: 0px;
-    top: 10px;
-    flex: none;
-    order: 0;
-    flex-grow: 0;
     margin: 5px 0px;
 }
 
 .ListTournament {
-    position: static;
-    width: 180px;
-    height: 24px;
-    left: 26px;
-    top: 19.5px;
     font-style: normal;
     font-weight: 600;
     font-size: 20px;
     line-height: 24px;
-    /* identical to box height, or 120% */
     display: flex;
     align-items: center;
     letter-spacing: 0.2px;
     color: #212136;
-    /* Inside auto layout */
-    flex: none;
-    order: 1;
-    flex-grow: 0;
-    margin: 0px 5px;
 }
 
 .rectangle {
@@ -266,32 +195,15 @@
 
 .boxAllCard {
     /* Tournois cartes */
-
-    /* Auto layout */
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    padding: 5px;
-    position: static;
-    width: 1085px;
-    /*height: 574px;*/
-    left: 0px;
-    top: 159px;
-
-
-    /* Inside auto layout */
-    flex: none;
-    order: 2;
-    flex-grow: 0;
     margin: 5px 0px;
 }
 
 .boxOneCard {
-    position: static;
-    width: 1075px;
+    width: 100%;
     height: 100px;
-    left: 5px;
-    top: 5px;
     background-color: #8C69F4;
     box-shadow: 0 2px 10px #8C69F4;
     /* Inside auto layout */
