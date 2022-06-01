@@ -45,8 +45,6 @@ public class KnockoutService {
         List<Team> teamsOld = knockout.getTournament().getTeams();
         List<Team> teams;
 
-        //int nbMatch = knockout.getNbMatch();
-
         teams = teamsOld.stream()
                 .filter(team -> !team.isEliminated())
                 .collect(Collectors.toList());
@@ -80,29 +78,6 @@ public class KnockoutService {
             team1.getRounds().add(round);
             team2.getRounds().add(round);
 
-            if((teams.size()-1 == i+2) && teams.size()%2 !=0){
-                Team team3 = teams.get(teams.size()-1);
-
-                Match match2 = new Match();
-                match2.setRound(round);
-                match2.setTeams(List.of(team1, team3));
-
-                matches.add(match2);
-
-                Match match3 = new Match();
-                match3.setRound(round);
-                match3.setTeams(List.of(team2, team3));
-                matches.add(match3);
-
-                team1.getMatchs().add(match2);
-                team2.getMatchs().add(match3);
-
-                team3.getMatchs().addAll(List.of(match2, match3));
-
-                teamsUpdated.add(team3);
-
-            }
-
             teamsUpdated.add(team1);
             teamsUpdated.add(team2);
 
@@ -123,15 +98,23 @@ public class KnockoutService {
 
         List<PhaseRankingModel>  scoresList =  roundService.orderTeamsByScoreInRound(round, 2);
 
-        scoresList.get(1).getTeam().setEliminated(true);
+        int nbEliminated = scoresList.size()/2;
+
+        for(int i = nbEliminated; i < scoresList.size();i++){
+            scoresList.get(i).getTeam().setEliminated(true);
+        }
 
         List<Team> teams = new ArrayList<>();
-        teams.add(scoresList.get(0).getTeam());
-        teams.add(scoresList.get(1).getTeam());
 
-        if(Boolean.TRUE.equals(round.getPhase().getSeedingSystem())){
-            teams.get(0).setNbPoints(teams.get(0).getNbPoints() + round.getMatches().get(0).getScoreTeam1());
-            teams.get(1).setNbPoints(teams.get(1).getNbPoints() + round.getMatches().get(0).getScoreTeam2());
+        if(Boolean.TRUE.equals(round.getPhase().getSeedingSystem())) {
+            for (PhaseRankingModel p : scoresList) {
+                Team team = p.getTeam();
+
+                team.setNbPoints(team.getNbPoints() + p.getTotalPoints());
+
+                teams.add(team);
+
+            }
         }
 
         teams = teamRepository.saveAll(teams);

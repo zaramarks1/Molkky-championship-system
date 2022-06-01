@@ -68,9 +68,7 @@ public class PhaseController extends DefaultAttributes {
 
         Tournament tournament = phase.getTournament();
 
-        if(phase instanceof Knockout){
-
-        }else{
+        if(!(phase  instanceof Knockout)){
             tournament.setIndexPhase(tournament.getIndexPhase()+1);
             tournamentRepository.save(tournament);
         }
