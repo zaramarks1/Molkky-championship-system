@@ -17,12 +17,11 @@ public class ScheduleController {
 
     //@Scheduled(cron = "[Seconds] [Minutes] [Hours] [Day of month] [Month] [Day of week] [Year]")
 
-    @Scheduled(cron = "0 19 16 * * ?")
+    @Scheduled(cron = "0 20 17 * * ?")
     public void scheduleFixedDelayTask() throws Exception {
         tournamentService.isMinimumTeamsBeforeDate();
         tournamentService.registerClosedForTournament();
 
         System.out.println("Fixed delay task - " + LocalDateTime.now().toString());
-        System.out.println("OK SCHEDULE");
     }
 }

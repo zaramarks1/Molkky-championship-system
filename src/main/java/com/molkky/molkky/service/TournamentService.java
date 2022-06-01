@@ -30,6 +30,7 @@ public class TournamentService {
     @Autowired
     UserTournamentRoleRepository userTournamentRoleRepository;
 
+    private final Date currentDate = new Date();
 
     public Tournament create(TournamentModel tournamentModel) {
         Tournament tournament = new Tournament(tournamentModel);
@@ -61,7 +62,6 @@ public class TournamentService {
 
     // Fonction qui test si le nombre d'équipes inscrites après la date limite d'inscription est suffisant. Sinon, delete le tournament
     public boolean isMinimumTeamsBeforeDate() {
-        Date currentDate = new Date();
         List<Tournament> tournaments = tournamentRepository.findAll();
         boolean condition = true;
 
@@ -78,7 +78,6 @@ public class TournamentService {
     }
 
     public void registerClosedForTournament() {
-        Date currentDate = new Date();
         List<Tournament> tournaments = tournamentRepository.findAll();
         boolean condition = true;
 
@@ -86,12 +85,23 @@ public class TournamentService {
             {
                 if (tournament.getStatus() == TournamentStatus.AVAILABLE) {
                     if (new Date().after(tournament.getCutOffDate()) || tournament.getMaxTeam() == tournament.getTeams().size()) {
-                        tournament.setVisible(false);
+                        tournament.setRegisterAvailable(false);
                         tournamentRepository.save(tournament);
 
                         System.out.println(tournament.getName() + "CLOSED");
                     }
                 }
+            }
+        }
+    }
+
+    // Lance le tournoi si la date de ce dernier est celle du jour
+    public void defineMatchInProgress(){
+        List<Tournament> tournaments = tournamentRepository.findAll();
+
+        for (Tournament tournament : tournaments) {
+            if(currentDate.after(tournament.getDate())){
+                tournament.setStatus(TournamentStatus.INPROGRESS);
             }
         }
     }

@@ -48,6 +48,7 @@ class TournamentEntityTest {
                 1,
                 2,
                 true,
+                true,
                 2,
                 3,
                 2
@@ -69,6 +70,7 @@ class TournamentEntityTest {
                 1,
                 2,
                 true,
+                true,
                 2,
                 3,
                 2
@@ -88,6 +90,7 @@ class TournamentEntityTest {
                 new Date(),
                 1,
                 2,
+                true,
                 true,
                 2,
                 3,
@@ -116,6 +119,7 @@ class TournamentEntityTest {
                 new Date(),
                 1,
                 2,
+                true,
                 true,
                 2,
                 3,
