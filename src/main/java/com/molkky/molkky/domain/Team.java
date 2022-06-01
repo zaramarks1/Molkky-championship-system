@@ -57,7 +57,7 @@ public class Team implements Serializable {
     @Column(name = "nbPoints")
     private Integer nbPoints;
 
-    @Column(name = "present",columnDefinition = "boolean default false")
+    @Column(name = "present",columnDefinition = "boolean default true")
     private boolean present;
 
     public Team(){

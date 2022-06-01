@@ -14,7 +14,6 @@ import com.molkky.molkky.repository.TeamRepository;
 import com.molkky.molkky.repository.TournamentRepository;
 import com.molkky.molkky.service.PhaseService;
 import com.molkky.molkky.service.TournamentService;
-import com.sun.jdi.IntegerValue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -49,6 +48,7 @@ public class TournamentController extends DefaultAttributes {
 
     private String allTournament="tournament";
     private String redirectionAll = "/tournament/allTournament";
+    private String redirectViewId = "redirect:/tournament/view?tournamentId=";
 
 
     @GetMapping("/allTournament")
@@ -205,7 +205,7 @@ public class TournamentController extends DefaultAttributes {
 
         model.addAttribute("tournament_id", tournamentId);
 
-        return "redirect:/tournament/view?tournamentId=" + tournamentId;
+        return (redirectViewId + tournamentId);
 
     }
 
@@ -218,23 +218,19 @@ public class TournamentController extends DefaultAttributes {
         tournament.setIndexPhase(1);
         tournamentRepository.save(tournament);
 
-
         phaseService.generate(tournament.getPhases().get(0).getId().toString());
 
-
         model.addAttribute("tournament_id", tournamentId);
-
-        return "redirect:/tournament/view?tournamentId=" + tournamentId;
+        return (redirectViewId + tournamentId);
 
     }
 
     @PostMapping("/validatePresence")
-    public String validatePresence (Model model, @RequestParam(name = "tournamentId")String tournamentId,
-                                    @RequestParam(name= "teamId")String teamId){
-        //Tournament tournament = tournamentRepository.findById(Integer.valueOf(tournamentId));
-        Team team = teamRepository.findById(Integer.valueOf(teamId));
-        team.setPresent(true);
-        return "redirect:/tournament/view?tournamentId=" + tournamentId;
+    public String validatePresence (Model model, @RequestParam(name = "tournamentId")String tournamentId, @RequestParam(name = "teamId")int teamId) {
+        Team team = teamRepository.findById(teamId);
+        team.setPresent(false);
+        teamRepository.save(team);
+        return (redirectViewId + tournamentId);
     }
 
 }

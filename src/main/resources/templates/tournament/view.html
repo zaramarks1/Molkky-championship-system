@@ -91,24 +91,24 @@
             </div>
         </div>
 
-
-        <th:block th:each="user : ${tournament.getUserTournamentRoles()}">
-            <div class="teamCard" th:if="${#strings.equals(user.getRole(), 'STAFF')}">
+        <div th:if="${session.user != null} and (${#strings.equals(session.user.role, 'STAFF')})">
                 <div class="partContainer">
                     <form action="#" th:action="@{/tournament/validatePresence}" method="post" class="formContainer">
                         <h2 class="partTitle">Vérifier la présence des équipes</h2>
                         <div class="inputContainer">
                             <label class="inputLabel">Supprimer les équipes qui ne sont pas présentes : </label>
                             <input hidden th:value="${tournament.id}" th:name="tournamentId"/>
-                            <select style="margin-bottom: 10px;" class="inputPhase">
-                                <option th:each="teams : ${tournament.getTeams()}" th:text="${teams.name}"  th:value="${teams.id}" th:name="teamId"></option>
+                            <select style="margin-bottom: 10px;" class="inputPhase" th:name="teamId">
+                                <option th:each="team : ${tournament.getTeams()}" th:text="${team.name}"
+                                       th:value="${team.id}" ></option>
                             </select>
-                            <button id="validatePresenceButton" class="primaryButton" type="submit">Supprimer les équipes</button>
+                            <button id="validatePresenceButton" class="primaryButton" type="submit">Supprimer les
+                                équipes
+                            </button>
                         </div>
                     </form>
                 </div>
-            </div>
-        </th:block>
+        </div>
 
 
         <div class="partContainer">
@@ -171,19 +171,19 @@
                 <div class="partContainer" th:if="${#strings.equals(tournament.status, 'AVAILABLE')}">
                     <h2 class="partTitle">Visible</h2>
                     <span th:if=" ${tournament.isVisible} == false">
-                        <p>Votre tournois n'est pas encore visible au publique</p>
-                        <form action="#" th:action="@{/tournament/setVisible}" method="post" class="formContainer">
-                            <input hidden th:value="${tournament.id}" th:name="tournamentId"/>
-                            <button id="isValid" name="visible" class="primaryButton" type="submit">Rendre public le tournoi</button>
-                        </form>
-                    </span>
+                       <p>Votre tournois n'est pas encore visible au publique</p>
+                       <form action="#" th:action="@{/tournament/setVisible}" method="post" class="formContainer">
+                           <input hidden th:value="${tournament.id}" th:name="tournamentId"/>
+                           <button id="isValid" name="visible" class="primaryButton" type="submit">Rendre public le tournoi</button>
+                       </form>
+                   </span>
                     <span th:if=" ${tournament.isVisible} == true">
-                        <p>Votre tournoi est  visible au public ! Souhaitez-vous débuter le tournoi ?</p>
-                        <form action="#" th:action="@{/tournament/publish}" method="post" class="formContainer">
-                            <input hidden th:value="${tournament.id}" th:name="tournamentId"/>
-                            <button id="startTounament" name="launch" class="primaryButton" type="submit">Lancer le tournoi</button>
-                        </form>
-                    </span>
+                       <p>Votre tournoi est  visible au public ! Souhaitez-vous débuter le tournoi ?</p>
+                       <form action="#" th:action="@{/tournament/publish}" method="post" class="formContainer">
+                           <input hidden th:value="${tournament.id}" th:name="tournamentId"/>
+                           <button id="startTounament" name="launch" class="primaryButton" type="submit">Lancer le tournoi</button>
+                       </form>
+                   </span>
                 </div>
             </div>
 
