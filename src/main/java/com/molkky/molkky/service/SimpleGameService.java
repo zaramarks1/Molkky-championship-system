@@ -121,19 +121,36 @@ public class SimpleGameService {
     void validateRound(Round round){
 
 
-        List<PhaseRankingModel>  scoresList =  roundService.orderTeamsByScoreInRound(round, 2);
-        scoresList.get(1).getTeam().setEliminated(true);
-
+        List<PhaseRankingModel>  scoresList =  roundService.orderTeamsByScoreInRound(round, 1);
         List<Team> teams = new ArrayList<>();
-        teams.add(scoresList.get(0).getTeam());
-        teams.add(scoresList.get(1).getTeam());
+
+        if(round.getTeams().size()>=2){
+            scoresList.get(1).getTeam().setEliminated(true);
+
+            teams.add(scoresList.get(0).getTeam());
+            teams.add(scoresList.get(1).getTeam());
 
             if(Boolean.TRUE.equals(round.getPhase().getSeedingSystem())){
-                    teams.get(0).setNbPoints(teams.get(0).getNbPoints() + round.getMatches().get(0).getScoreTeam1());
-                    teams.get(1).setNbPoints(teams.get(1).getNbPoints() + round.getMatches().get(0).getScoreTeam2());
+                teams.get(0).setNbPoints(teams.get(0).getNbPoints() + round.getMatches().get(0).getScoreTeam1());
+                teams.get(1).setNbPoints(teams.get(1).getNbPoints() + round.getMatches().get(0).getScoreTeam2());
             }
+        }
+        if (round.getTeams().size()>=3){
+            scoresList.get(2).getTeam().setEliminated(true);
+            teams.add(scoresList.get(1).getTeam());
 
-          teams = teamRepository.saveAll(teams);
+            if(Boolean.TRUE.equals(round.getPhase().getSeedingSystem())){
+                teams.get(0).setNbPoints(teams.get(0).getNbPoints() + round.getMatches().get(1).getScoreTeam1());
+                teams.get(2).setNbPoints(teams.get(2).getNbPoints() + round.getMatches().get(1).getScoreTeam2());
+
+                teams.get(1).setNbPoints(teams.get(1).getNbPoints() + round.getMatches().get(2).getScoreTeam1());
+                teams.get(2).setNbPoints(teams.get(2).getNbPoints() + round.getMatches().get(2).getScoreTeam2());
+
+            }
+        }
+
+
+        teams = teamRepository.saveAll(teams);
 
         generateNotificationAfterRound(teams);
 
