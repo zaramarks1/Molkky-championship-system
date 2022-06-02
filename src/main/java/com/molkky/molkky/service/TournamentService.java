@@ -60,7 +60,7 @@ public class TournamentService {
         return tournament;
     }
 
-    // Fonction qui test si le nombre d'équipes inscrites après la date limite d'inscription est suffisant. Sinon, delete le tournament
+    // Fonction qui test si le nombre d'équipes inscrites après la date limite d'inscription est suffisant. Sinon, ferme le tournament
     public boolean isMinimumTeamsBeforeDate() {
         List<Tournament> tournaments = tournamentRepository.findAll();
         boolean condition = true;
@@ -69,13 +69,14 @@ public class TournamentService {
             if (currentDate.after(tournament.getCutOffDate())) {
                 condition = tournament.getTeams().size() >= tournament.getMinTeam();
                 if (!condition) {
-                    tournamentRepository.delete(tournament);
+                    tournament.setStatus(TournamentStatus.CLOSED);
                 }
             }
         }
         return condition;
     }
 
+    // Test quand les inscriptions du tournoi doivent être fermées
     public void registerClosedForTournament() {
         List<Tournament> tournaments = tournamentRepository.findAll();
 
