@@ -357,6 +357,9 @@ input.searchbarMobile:focus {
 }
 
 .sidebarContainer {
+}
+
+.sidebarContainerMobile {
     display: none;
 }
 
