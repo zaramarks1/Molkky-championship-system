@@ -65,9 +65,7 @@ class InfosControllerTest {
                         .param("pwd1", "test")
                                 .param("pwd2","test"))
                 .andExpect(view().name("redirect:/infos"));
-
+        mockMvc.perform(post("/cancelRegisteration").sessionAttr("user", user))
+                .andExpect(view().name("redirect:/connexion"));
     }
-
-
-
 }

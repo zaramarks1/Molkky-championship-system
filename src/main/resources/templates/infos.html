@@ -68,6 +68,12 @@
                             <button class = "filter" onclick = "changePwd()" type="submit">Changer votre mot de passe
                             </button>
                         </form>
+                        <br>
+                        <br>
+                        <form onsubmit="return confirm('Voulez vous réellement vous désinscrire ? Si oui, vous serez déconnecté');" method="post" th:action="@{/cancelRegisteration}" autocomplete="off">
+                            <button class = "filter"  type="submit">Se désinscrire du tournoi <span th:text="${user.tournament.name}" /> en tant que <span th:text="${user.role}" />
+                            </button>
+                        </form>
 
                     </div>
                     <div th:unless="${#session.getAttribute('user') != null}">
@@ -90,9 +96,8 @@
             alert("Votre mot des passe a été bien changé")
             $("#changePassword").submit();
         }else{
-            alert("Les mot des passes doivent le même!")
+            alert("Les mot des passes doivent être les mêmes!")
         }
-
     }
     
 </script>

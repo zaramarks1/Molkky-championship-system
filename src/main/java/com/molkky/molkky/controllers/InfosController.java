@@ -2,8 +2,10 @@ package com.molkky.molkky.controllers;
 
 import com.molkky.molkky.controllers.superclass.DefaultAttributes;
 import com.molkky.molkky.domain.User;
+import com.molkky.molkky.domain.UserTournamentRole;
 import com.molkky.molkky.model.UserLogged;
 import com.molkky.molkky.repository.UserRepository;
+import com.molkky.molkky.repository.UserTournamentRoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 
 @Controller
@@ -19,8 +22,12 @@ public class InfosController extends DefaultAttributes {
 
     String redirect = "redirect:/infos";
 
+
+
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    UserTournamentRoleRepository userTournamentRoleRepository;
     @GetMapping("/infos")
     public String index(Model model, HttpSession session){
         return "infos";
@@ -69,6 +76,15 @@ public class InfosController extends DefaultAttributes {
             session.setAttribute("user", user);
         }
         return redirect;
+    }
+
+    @PostMapping("/cancelRegisteration")
+    public String deleteRegisteration(Model model,HttpSession session){
+        UserLogged user = getUser(session);
+        User userDB = userRepository.findById(user.getId());
+        List<UserTournamentRole> userTournamentRoleDB = userTournamentRoleRepository.findUserTournamentRoleByTournamentAndUserAndRole(user.getTournament(),userDB, user.getRole());
+        userTournamentRoleRepository.deleteAll(userTournamentRoleDB);
+        return "redirect:/connexion";
     }
 
 
