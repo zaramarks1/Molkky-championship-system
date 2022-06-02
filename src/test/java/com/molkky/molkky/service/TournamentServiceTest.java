@@ -3,11 +3,9 @@ package com.molkky.molkky.service;
 import com.molkky.molkky.domain.Team;
 import com.molkky.molkky.domain.Tournament;
 import com.molkky.molkky.domain.User;
-import com.molkky.molkky.domain.UserTournamentRole;
 import com.molkky.molkky.model.TournamentModel;
 import com.molkky.molkky.repository.TournamentRepository;
 import com.molkky.molkky.repository.UserRepository;
-import com.molkky.molkky.repository.UserTournamentRoleRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -42,19 +40,10 @@ class TournamentServiceTest {
     private TournamentModel tournamentModel;
 
     @MockBean
-    private UserTournamentRole userTournamentRole;
-
-    @MockBean
     private TournamentRepository tournamentRepository;
 
     @MockBean
     private UserRepository userRepository;
-
-    @MockBean
-    private UserTournamentRoleRepository userTournamentRoleRepository;
-
-    @MockBean
-    private Tournament tournament;
 
     @MockBean
     private User user;
@@ -124,8 +113,6 @@ class TournamentServiceTest {
         //Parsing the given String to Date object
         Date cutOffDate = formatter.parse(cutOffDate_string);
         Date date = formatter.parse(date_string);
-
-        Date currentDate = tournamentService.currentDate;
 
         tournament1.setCutOffDate(date);
         tournament1.setCutOffDate(cutOffDate);
