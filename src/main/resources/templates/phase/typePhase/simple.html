@@ -7,6 +7,12 @@
         <label class="inputLabel" for="sets">Nombre de manches</label>
         <input class="inputPhase" required id="sets" type="number" min="1" th:field="*{phases[__${itemStat.index}__].nbSets}">
     </div>
+
+    <div class="inputContainer">
+        <label class="inputLabel" for="numberQualifyTeam">Nombre d'équipes qualifiées</label>
+        <input class="inputPhase"  id="numberQualifyTeam" type="number" min="1" th:field="*{phases[__${itemStat.index}__].nbTeamsQualified}">
+    </div>
+
     <div class="inputContainer">
         <label class="inputLabel" for="ranking">Tenir compte de la phase précedente</label>
         <input class="inputPhase" id="ranking" type="checkbox" th:field="*{phases[__${itemStat.index}__].ranking}">
@@ -15,7 +21,6 @@
         <label class="inputLabel" for="topSeeds">Tenir compte des têtes de série</label>
         <input class="inputPhase" id="topSeeds" type="checkbox" th:field="*{phases[__${itemStat.index}__].topSeeds}">
     </div>
-
 
     <div th:insert="phase/utiles/score"></div>
     <div class="inputContainer">

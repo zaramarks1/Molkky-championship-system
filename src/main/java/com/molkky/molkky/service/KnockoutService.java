@@ -121,6 +121,8 @@ public class KnockoutService {
 
         generateNotificationAfterRound(teams);
 
+        roundService.isPhaseOver(round.getPhase());
+
     }
 
     void generateNotificationAfterRound(List<Team> teams){

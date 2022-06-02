@@ -1,18 +1,23 @@
 package com.molkky.molkky.service;
 
-import com.molkky.molkky.domain.Match;
-import com.molkky.molkky.domain.Round;
+import com.molkky.molkky.domain.*;
 import com.molkky.molkky.domain.Set;
-import com.molkky.molkky.domain.Team;
+import com.molkky.molkky.domain.rounds.Knockout;
 import com.molkky.molkky.model.phase.PhaseRankingModel;
+import com.molkky.molkky.repository.PhaseRepository;
 import com.molkky.molkky.repository.TeamRepository;
+import org.apache.xpath.operations.Bool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class RoundService {
+
+    @Autowired
+    PhaseRepository phaseRepository;
 
     @Autowired
     TeamRepository teamRepository;
@@ -72,6 +77,21 @@ public class RoundService {
 
     }
 
+    public List<PhaseRankingModel> orderTeamsByScoreInPhase(Phase phase, int victoryValue){
+        List<PhaseRankingModel> scoresList = new ArrayList<>();
+        for(Round round : phase.getRounds()){
+            scoresList.addAll(orderTeamsByScoreInRound( round, victoryValue));
+        }
+
+        scoresList.sort(Comparator
+                .comparing(PhaseRankingModel::getValues)
+                .thenComparing(PhaseRankingModel::getTotalPoints)
+                .reversed());
+
+        return scoresList;
+    }
+
+
     public List<Match> createSetsFromMatch(List<Match> matches){
         int nbSets = matches.get(0).getRound().getPhase().getNbSets();
         List<Match> results  = new ArrayList<>();
@@ -89,4 +109,30 @@ public class RoundService {
         }
         return results;
     }
+
+    public boolean isPhaseOver(Phase phase){
+
+        for(Round r: phase.getRounds()){
+
+            if(Boolean.FALSE.equals(r.getFinished())) return false;
+        }
+
+        if(!(phase instanceof Knockout)){
+            phase.setFinished(true);
+            phaseRepository.save(phase);
+            return true;
+        }else {
+            List<Team> teams = phase.getTournament().getTeams().stream()
+                    .filter(team -> !team.isEliminated())
+                    .collect(Collectors.toList());
+            if(teams.size() == 1) {
+                phase.setFinished(true);
+                phaseRepository.save(phase);
+                return true;
+
+            }else return false;
+        }
+
+    }
+
 }
