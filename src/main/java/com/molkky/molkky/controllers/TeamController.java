@@ -106,4 +106,5 @@ public class TeamController extends DefaultAttributes {
     boolean areAllDistinct(List<User> users) {
         return users.stream().map(User::getEmail).distinct().count() == users.size();
     }
+
 }

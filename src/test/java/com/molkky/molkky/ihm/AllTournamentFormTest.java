@@ -78,6 +78,7 @@ class AllTournamentFormTest {
         Assertions.assertTrue(config.getDriver().findElement(new By.ById("valider")).isDisplayed());
     }
 
+
     @Test
     void testAllAttributesDisplayed() {
         config.getDriver().get(url+"/tournament/allTournament");

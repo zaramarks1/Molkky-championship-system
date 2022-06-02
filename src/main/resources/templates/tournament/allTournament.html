@@ -41,10 +41,12 @@
                         </li>
                     </ul>
                 </div>
+
+
                 <div class="boxAllCard">
                     <ul class="boxOneCard" th:each="tournament:${tournament}">
                         <li class="boxInOneCard">
-                            <a class="boxInOneCard" th:href="@{'/tournament/view?tournamentId='+${tournament.id}}">
+                            <a class="boxInOneCard" th:href="@{'/tournament/'+${tournament.id}+'/view'}">
                                 <span class="nameCard" th:text="${tournament.name}"/>
                                 <span class="dateCard" th:text="${tournament.date}"/>
                                 <span class="nbCard" th:text="${tournament.nbPlayersPerTeam}+' joueurs par équipes'"/>
@@ -52,8 +54,8 @@
                                     <span class="textPlayer" th:text="${tournament.getTeams().size()}*${tournament.nbPlayersPerTeam}+' / '+${tournament.getMaxTeam()}*${tournament.getNbPlayersPerTeam()}+' Joueurs'"/></p>
                                 <p class="textPlayer" th:unless="${!tournament.getTeams().isEmpty()}">
                                     <span class="textPlayer" th:text="'0 / '+${tournament.getMaxTeam()}*${tournament.getNbPlayersPerTeam()}+' Joueurs'"/></p>
-                                <p class="textInscriptionClosed" th:unless="${tournament.registerAvailable}">Incriptions fermées</p>
-                                <p class="textInscriptionOpen" th:if="${tournament.registerAvailable }">Incriptions ouvertes</p>
+                                <p class="textInscriptionClosed" th:unless="${tournament.visible}">Incriptions fermées</p>
+                                <p class="textInscriptionOpen" th:if="${tournament.visible}">Incriptions ouvertes</p>
                             </a>
                         </li>
                     </ul>

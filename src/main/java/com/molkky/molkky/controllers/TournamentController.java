@@ -3,12 +3,14 @@ package com.molkky.molkky.controllers;
 
 import com.molkky.molkky.controllers.superclass.DefaultAttributes;
 import com.molkky.molkky.domain.Phase;
+import com.molkky.molkky.domain.Team;
 import com.molkky.molkky.domain.Tournament;
 import com.molkky.molkky.domain.rounds.*;
 import com.molkky.molkky.model.AddStaff;
 import com.molkky.molkky.model.AddStaffList;
 import com.molkky.molkky.model.TournamentModel;
 import com.molkky.molkky.model.UserLogged;
+import com.molkky.molkky.repository.TeamRepository;
 import com.molkky.molkky.repository.TournamentRepository;
 import com.molkky.molkky.service.PhaseService;
 import com.molkky.molkky.service.TournamentService;
@@ -40,8 +42,14 @@ public class TournamentController extends DefaultAttributes {
     @Autowired
     private PhaseService phaseService;
 
+    @Autowired
+    private TeamRepository teamRepository;
+
+
     private String allTournament="tournament";
     private String redirectionAll = "/tournament/allTournament";
+    private String redirectViewId = "redirect:/tournament/view?tournamentId=";
+
 
     @GetMapping("/allTournament")
     public String tournamentForm(Model model) {
@@ -197,7 +205,7 @@ public class TournamentController extends DefaultAttributes {
 
         model.addAttribute("tournament_id", tournamentId);
 
-        return "redirect:/tournament/view?tournamentId=" + tournamentId;
+        return (redirectViewId + tournamentId);
 
     }
 
@@ -209,15 +217,19 @@ public class TournamentController extends DefaultAttributes {
         tournament.setStatus(TournamentStatus.INPROGRESS);
         tournament.setIndexPhase(1);
         tournamentRepository.save(tournament);
-
-
         phaseService.generate(tournament.getPhases().get(0).getId().toString());
 
-
         model.addAttribute("tournament_id", tournamentId);
+        return (redirectViewId + tournamentId);
 
-        return "redirect:/tournament/view?tournamentId=" + tournamentId;
+    }
 
+    @PostMapping("/validatePresence")
+    public String validatePresence (Model model, @RequestParam(name = "tournamentId")String tournamentId, @RequestParam(name = "teamId")int teamId) {
+        Team team = teamRepository.findById(teamId);
+        team.setPresent(false);
+        teamRepository.save(team);
+        return (redirectViewId + tournamentId);
     }
 
 }
