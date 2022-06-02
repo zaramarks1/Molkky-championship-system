@@ -1,6 +1,7 @@
 package com.molkky.molkky.controllers;
 
 
+import com.molkky.molkky.repository.UserRepository;
 import com.molkky.molkky.repository.UserTournamentRoleRepository;
 import com.molkky.molkky.service.NotificationService;
 import org.junit.jupiter.api.Test;
@@ -25,6 +26,8 @@ class InfosControllerTest {
     @MockBean
     private NotificationService notificationService;
     @MockBean
+    private UserRepository userRepository;
+    @MockBean
     private UserTournamentRoleRepository userTournamentRoleRepository;
 
     @Autowired
@@ -36,4 +39,5 @@ class InfosControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name("infos"));
     }
+
 }
