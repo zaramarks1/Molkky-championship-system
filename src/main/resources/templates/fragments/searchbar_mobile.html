@@ -9,7 +9,8 @@
         </a>
 
         <!--        icon login-->
-        <div>e</div>
+        <img th:if="${session.user != null}" onclick="window.location.href='/connexion'" class="searchbarIconMobile searchbarIconMobileNotLogged" th:src="@{/assets/logoff.svg}"/>
+        <img th:unless="${session.user != null}" class="searchbarIconMobile searchbarIconMobileLogged" th:src="@{/assets/profile_icon.svg}" onclick="window.location.href='/connexion'"/>
     </div>
     <div class="searchbarInputContainerMobile">
         <i class="searchbarIconContainerMobile">
