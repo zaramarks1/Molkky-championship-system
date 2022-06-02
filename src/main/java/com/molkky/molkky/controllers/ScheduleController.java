@@ -16,7 +16,7 @@ public class ScheduleController {
     private TournamentService tournamentService;
 
     //@Scheduled(cron = "[Seconds] [Minutes] [Hours] [Day of month] [Month] [Day of week] [Year]")
-
+    // Tous les jours à 1h
     @Scheduled(cron = "0 0 1 * * ?")
     public void scheduleFixedDelayTask() throws Exception {
         tournamentService.isMinimumTeamsBeforeDate();
