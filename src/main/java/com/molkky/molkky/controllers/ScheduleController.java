@@ -17,7 +17,7 @@ public class ScheduleController {
 
     //@Scheduled(cron = "[Seconds] [Minutes] [Hours] [Day of month] [Month] [Day of week] [Year]")
 
-    @Scheduled(cron = "0 20 17 * * ?")
+    @Scheduled(cron = "0 0 1 * * ?")
     public void scheduleFixedDelayTask() throws Exception {
         tournamentService.isMinimumTeamsBeforeDate();
         tournamentService.registerClosedForTournament();

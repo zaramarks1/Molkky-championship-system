@@ -30,7 +30,7 @@ public class TournamentService {
     @Autowired
     UserTournamentRoleRepository userTournamentRoleRepository;
 
-    private final Date currentDate = new Date();
+    public final Date currentDate = new Date();
 
     public Tournament create(TournamentModel tournamentModel) {
         Tournament tournament = new Tournament(tournamentModel);
@@ -70,7 +70,6 @@ public class TournamentService {
                 condition = tournament.getTeams().size() >= tournament.getMinTeam();
                 if (!condition) {
                     tournamentRepository.delete(tournament);
-                    System.out.println(tournament.getName() + "DELETED");
                 }
             }
         }
@@ -79,7 +78,6 @@ public class TournamentService {
 
     public void registerClosedForTournament() {
         List<Tournament> tournaments = tournamentRepository.findAll();
-        boolean condition = true;
 
         for (Tournament tournament : tournaments) {
             {
@@ -87,8 +85,6 @@ public class TournamentService {
                     if (new Date().after(tournament.getCutOffDate()) || tournament.getMaxTeam() == tournament.getTeams().size()) {
                         tournament.setRegisterAvailable(false);
                         tournamentRepository.save(tournament);
-
-                        System.out.println(tournament.getName() + "CLOSED");
                     }
                 }
             }
@@ -96,13 +92,13 @@ public class TournamentService {
     }
 
     // Lance le tournoi si la date de ce dernier est celle du jour
-    public void defineMatchInProgress(){
-        List<Tournament> tournaments = tournamentRepository.findAll();
-
-        for (Tournament tournament : tournaments) {
-            if(currentDate.after(tournament.getDate())){
-                tournament.setStatus(TournamentStatus.INPROGRESS);
-            }
-        }
-    }
+//    public void defineMatchInProgress(){
+//        List<Tournament> tournaments = tournamentRepository.findAll();
+//
+//        for (Tournament tournament : tournaments) {
+//            if(currentDate.after(tournament.getDate())){
+//                tournament.setStatus(TournamentStatus.INPROGRESS);
+//            }
+//        }
+//    }
 }
