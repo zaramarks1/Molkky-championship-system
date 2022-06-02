@@ -12,10 +12,10 @@
     <div class="contentContainer">
         <div th:replace="fragments/searchbar"></div>
         <div class="submitContainer">
-            <form action="#" th:action="@{/tournament/allTournament}" method="post" class="formContainer">
+            <form action="#" th:action="@{/tournament/allTournament}" method="post" class="tournamentFormContainer">
                 <input id="valider" type="submit" class="primaryButton" value="Créer tournoi">
             </form>
-            <form action="#" method="post" th:action="@{/tournament/inscription}" class="formContainer">
+            <form action="#" method="post" th:action="@{/tournament/inscription}" class="tournamentFormContainer">
                 <input id="inscription" type="submit" class="primaryButton" value="Inscription à un tournoi">
             </form>
         </div>
@@ -28,39 +28,31 @@
 
 
             <div class="allButton">
-                <ul class="ButtonTournament nav nav-pills nav-fill">
-                    <li class="boxState nav-item">
-                        <a id="open" class="textButton nav-link " aria-current="page" href="/tournament/TournamentOpen">Ouverts</a>
-                    </li>
-                    <li class="boxState nav-item">
-                        <a id="closed" class="textButton nav-link" href="/tournament/TournamentClose">Fermés</a>
-                    </li>
-                    <li class="boxState nav-item">
-                        <a id="inProgress" class="textButton nav-link" href="/tournament/TournamentInProgress">En
-                            cours</a>
-                    </li>
-                </ul>
+                <a id="open" class="textButton" aria-current="page" href="/tournament/TournamentOpen">Ouverts</a>
+                <a id="closed" class="textButton" href="/tournament/TournamentClose">Fermés</a>
+                <a id="inProgress" class="textButton" href="/tournament/TournamentInProgress">En
+                    cours</a>
             </div>
 
 
             <div class="boxAllCard">
-                <div class="boxOneCard" th:each="tournament:${tournament}">
-                    <div class="boxInOneCard" th:href="@{'/tournament/'+${tournament.id}+'/view'}">
-                        <span class="nameCard" th:text="${tournament.name}"/>
-                        <span class="dateCard" th:text="${tournament.date}"/>
-                        <span class="nbCard" th:text="${tournament.nbPlayersPerTeam}+' joueurs par équipes'"/>
-                        <p class="textPlayer" th:if="${!tournament.getTeams().isEmpty()}">
+                <th:block th:each="tournament:${tournament}">
+                    <a class="boxOneCard"  th:href="@{'/tournament/view?tournamentId='+${tournament.id}}">
+                        <span class="insideText tournamentTitleInside" th:text="${tournament.name}"/>
+                        <span class="insideText" th:text="${tournament.date}"/>
+                        <span class="insideText" th:text="${tournament.nbPlayersPerTeam}+' joueurs par équipes'"/>
+                        <p class="insideText" th:if="${!tournament.getTeams().isEmpty()}">
                             <span class="textPlayer"
                                   th:text="${tournament.getTeams().size()}*${tournament.nbPlayersPerTeam}+' / '+${tournament.getMaxTeam()}*${tournament.getNbPlayersPerTeam()}+' Joueurs'"/>
                         </p>
-                        <p class="textPlayer" th:unless="${!tournament.getTeams().isEmpty()}">
+                        <p class="insideText" th:unless="${!tournament.getTeams().isEmpty()}">
                             <span class="textPlayer"
                                   th:text="'0 / '+${tournament.getMaxTeam()}*${tournament.getNbPlayersPerTeam()}+' Joueurs'"/>
                         </p>
-                        <p class="textInscriptionClosed" th:unless="${tournament.visible}">Incriptions fermées</p>
-                        <p class="textInscriptionOpen" th:if="${tournament.visible}">Incriptions ouvertes</p>
-                    </div>
-                </div>
+                        <p class="insideText textInscriptionClosed" th:unless="${tournament.visible}">Incriptions fermées</p>
+                        <p class="insideText textInscriptionOpen" th:if="${tournament.visible}">Incriptions ouvertes</p>
+                    </a>
+                </th:block>
             </div>
         </div>
     </div>
