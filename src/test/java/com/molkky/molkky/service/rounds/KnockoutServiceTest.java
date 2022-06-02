@@ -185,7 +185,6 @@ import java.util.*;
 
         Assertions.assertEquals(1, teams.size()," There should be one team remaining");
 
-        tournamentRepository.delete(tournament);
 
     }
 
