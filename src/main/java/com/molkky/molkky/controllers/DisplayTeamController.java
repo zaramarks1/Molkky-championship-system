@@ -33,7 +33,7 @@ public class DisplayTeamController {
 
     @PostMapping("/filter")
     public ModelAndView connexionUser(@ModelAttribute("teamModel")TeamFilterModel team2, Model model){
-        if(teamRepository.existsTeamByName(team2.getName())){
+        if(Boolean.TRUE.equals(teamRepository.existsTeamByName(team2.getName()))){
             model.addAttribute("teams", teamRepository.findTeamByName(team2.getName()));
             return new ModelAndView("/team/displayTeams");
         }
