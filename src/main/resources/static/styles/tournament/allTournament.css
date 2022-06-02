@@ -34,7 +34,6 @@
 
     position: static;
     width: 1115px;
-    height: 634.03px;
     left: 16.92px;
     top: 320.47px;
 
@@ -137,6 +136,7 @@
     order: 0;
     flex-grow: 0;
     margin: 16px 0px;
+    justify-content: center;
 }
 
 .textButtonSelectionned {
@@ -214,7 +214,6 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    padding: 18px;
     position: static;
     width: 224px;
     height: 63px;
@@ -272,9 +271,9 @@
     flex-direction: column;
     align-items: flex-start;
     padding: 5px;
+    padding-top: 15px;
     position: static;
     width: 1085px;
-    /*height: 574px;*/
     left: 0px;
     top: 159px;
 
@@ -293,14 +292,16 @@
     left: 5px;
     top: 5px;
     background-color: #8C69F4;
-    box-shadow: 0 2px 10px #8C69F4;
-    /* Inside auto layout */
+    box-shadow: 0 2px 10px #8c69f4;
     flex: none;
+    display: flex;
     order: 0;
     flex-grow: 0;
     margin: 16px 0px;
     border-radius: 8px;
-    color:white;
+    color: white;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .boxOneCard:hover {
@@ -324,7 +325,7 @@
     top: 19.65px;
     color:white;
     font-weight: 600;
-    font-size: 16px;
+    font-size: 1.4rem;
 }
 
 
@@ -332,7 +333,7 @@
     /* Le Mölkky d’Or */
 
     position: static;
-    width: 265px;
+    width: 250px;
     height: 60px;
     left: 0px;
     top: 0px;
@@ -375,6 +376,8 @@
     order: 1;
     flex-grow: 0;
     margin: 0px 0px;
+    justify-content: center;
+
 }
 
 .nbCard {
@@ -424,6 +427,7 @@
     order: 4;
     flex-grow: 0;
     margin: 0px 0px;
+    justify-content: flex-end;
 }
 .textInscriptionClosed{
     position: static;
@@ -433,17 +437,16 @@
     top: 0px;
     font-style: normal;
     line-height: 24px;
-    /* or 150% */
     display: flex;
     align-items: center;
     text-align: center;
     letter-spacing: 0.2px;
     color: orange;
-    /* Inside auto layout */
     flex: none;
     order: 4;
     flex-grow: 0;
     margin: 0px 0px;
+    justify-content: flex-end;
 }
 .textPlayer{
     position: static;
@@ -464,6 +467,8 @@
     order: 2;
     flex-grow: 0;
     margin: 0px 0px;
+    justify-content: center;
+
 }
 
 .submitContainer {
@@ -471,4 +476,5 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+    padding-left: 16px;
 }

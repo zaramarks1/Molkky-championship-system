@@ -29,7 +29,9 @@
 }
 
 .sidebarContainer {
-    width: 19%;
+    width: 20%;
+    min-width: 250px;
+    max-width: 250px;
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -37,7 +39,7 @@
     align-items: center;
     font-family: "Inter", sans-serif;
     font-weight: 600;
-    font-size: 15px;
+    font-size: 1.4rem;
     line-height: 18px;
 }
 
@@ -67,6 +69,14 @@
     cursor: pointer;
     margin-top: 7px;
     margin-bottom: 7px;
+}
+.sidebarButton:hover{
+    background-color: #dcd4fa;
+    transition : background-color ease-in-out 0.2s;
+}
+
+.sidebarButton:active{
+    background-color: #C6B5F7;
 }
 
 .sidebarIcon {
@@ -100,7 +110,7 @@
     border-width: 0;
     padding: 0 50px;
     font-weight: 600;
-    font-size: 15px;
+    font-size: 1.4rem;
     line-height: 18px;
     color: #8787A1;
 }
@@ -178,6 +188,15 @@
     margin: 27px;
     width: 40px;
     height: 40px;
+    filter : grayscale(1);
+    opacity: 70%;
+}
+
+.socialsIcon:hover{
+
+    filter: grayscale(0);
+    opacity: 100%;
+    transition:filter,opacity ease-in-out .2s;
 }
 
 .notificationListContainer {
@@ -203,7 +222,7 @@
     font-family: 'Inter', serif;
     font-style: normal;
     font-weight: 600;
-    font-size: 15px;
+    font-size: 1.4rem;
     color: black;
     cursor: pointer;
     padding: 10px;

@@ -1,9 +1,18 @@
+:root {
+    font-size : 62.5%
+}
 .bg {
     background-color: #F5F4F9;
 }
 
 .bgButton {
     background-color: #E7E3F9;
+}
+
+.bgButton:hover{
+    background-color: #E7E3F9;
+    opacity: 100%;
+    transition:background-color,opacity ease-in-out .2s;
 }
 
 .textPrimary {
@@ -34,7 +43,7 @@
     margin-top: 25px;
     font-style: normal;
     font-weight: 600;
-    font-size: 16px;
+    font-size: 1.4rem;
     line-height: 22px;
     text-align: justify;
 }
