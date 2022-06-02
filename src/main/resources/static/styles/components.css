@@ -20,6 +20,12 @@
     transition-timing-function: ease-in-out;
 }
 
+@media only screen and (max-width: 1000px) {
+    .primaryButton {
+        width: 100%;
+    }
+}
+
 .primaryButton:hover {
     background-color: #6D41F3;
     box-shadow: 0 3px 7px #8C69F4;

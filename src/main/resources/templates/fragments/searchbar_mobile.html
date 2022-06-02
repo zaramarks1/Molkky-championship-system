@@ -1,0 +1,24 @@
+<div class="searchbarContainerMobile">
+    <div class="searchbarUpperContainerMobile">
+<!--        hamburger icon-->
+        <img class="hamburgerIcon" th:src="@{/assets/menu-icon.svg}" alt="menu icon"/>
+
+        <!--        molkky logo-->
+        <a href="/" style="text-decoration: none;">
+            <img th:src="@{/assets/Molkky_logo.png}" alt="logo" class="searchbarLogo"/>
+        </a>
+
+        <!--        icon login-->
+        <div>e</div>
+    </div>
+    <div class="searchbarInputContainerMobile">
+        <i class="searchbarIconContainerMobile">
+            <img class="searchbarIcon" th:src="@{/assets/search_icon.svg}"/>
+        </i>
+        <input onkeyup="getResults()" id="searchbarInput" type="text" class="searchbarMobile" placeholder="Search"/>
+        <i class="searchbarIconContainerMobile">
+            <img class="searchbarIcon" th:src="@{/assets/cross.svg}"/>
+        </i>
+    </div>
+    <div class="searchAutoresultsContainerMobile" id="searchAutoresults"></div>
+</div>
