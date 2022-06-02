@@ -17,7 +17,7 @@
             <div class="matchContainer">
                 <div class="columnContainer">
                     <div class="teamContainer">
-                        <div class="teamImage">
+                        <div th:unless="${mobile}" class="teamImage">
 
                         </div>
                         <div class="teamName" th:text="${teams[0].name}">
@@ -26,7 +26,7 @@
                     </div>
                 </div>
                 <div class="columnContainer">
-                    <div th:if=" ${court} != null" class="courtText" th:text="${court.name}">
+                    <div th:if="${court} != null" class="courtText" th:text="${court.name}">
                         Court placeholder
                     </div>
                     <div class="bestOfText" th:text="'Jeu en ' + ${sets.size} + ' sets'">
@@ -43,41 +43,46 @@
                 </div>
                 <div class="columnContainer">
                     <div class="teamContainer">
-                        <div class="teamImage">
+                        <div th:unless="${mobile}" class="teamImage">
 
                         </div>
                         <div class="teamName"  th:text="${teams[1].name}">
-                            Nom de l'équipe'
+                            Nom de l'équipe
                         </div>
                     </div>
                 </div>
-                <div class="columnContainer"></div>
+                <div th:unless="${mobile}" class="columnContainer"></div>
             </div>
             <div class="setsContainer">
                 <form method="POST" class="setListContainer" th:each="set, iStat: ${sets}" action="/sets/updateSet">
-                    <div class="setContainer" th:switch="${setTeamIndex.displayValue}">
-                        <input type="hidden" name="id" th:value="${set.id}"/>
-                        <div class="setText" th:text="'SET ' + ${iStat.index}">
-                            SET X
-                        </div>
-                        <input th:disabled="${match.finished == true} and ${set.finished == true}" pattern="[0-9]{2}" th:case="team1" min="0" max="50" class="setInput" type="number" th:name="score1Team1" value="0" th:value="${set.score1Team1}"/>
-                        <input th:disabled="${match.finished == true} and ${set.finished == true}" pattern="[0-9]{2}" th:case="team2" min="0" max="50" class="setInput" type="number" th:name="score1Team2" value="0" th:value="${set.score1Team2}"/>
-                        <input th:disabled="${match.finished == true} and ${set.finished == true}" pattern="[0-9]{2}" th:case="orga" min="0" max="50" class="setInput" type="number" th:name="score1Orga" value="0" th:value="${set.score1Orga}"/>
+                    <div th:if="${mobile}" class="setTextOneQuarter" th:text="'SET ' + ${iStat.index + 1}">
+                        SET X
                     </div>
-                    <div class="separatorContainer">
-                        <div class="separator">
+                    <div class="twoQuartersContainer">
+                        <div class="setContainer" th:switch="${setTeamIndex.displayValue}">
+                            <input type="hidden" name="id" th:value="${set.id}"/>
+                            <div th:unless="${mobile}" class="setText" th:text="'SET ' + ${iStat.index + 1}">
+                                SET X
+                            </div>
+                            <input th:disabled="${match.finished == true} and ${set.finished == true}" pattern="[0-9]{2}" th:case="team1" min="0" max="50" class="setInput" type="number" th:name="score1Team1" value="0" th:value="${set.score1Team1}"/>
+                            <input th:disabled="${match.finished == true} and ${set.finished == true}" pattern="[0-9]{2}" th:case="team2" min="0" max="50" class="setInput" type="number" th:name="score1Team2" value="0" th:value="${set.score1Team2}"/>
+                            <input th:disabled="${match.finished == true} and ${set.finished == true}" pattern="[0-9]{2}" th:case="orga" min="0" max="50" class="setInput" type="number" th:name="score1Orga" value="0" th:value="${set.score1Orga}"/>
+                        </div>
+                        <div class="separatorContainer">
+                            <div class="separator">
 
+                            </div>
+                        </div>
+                        <div class="setContainer" th:switch="${setTeamIndex.displayValue}">
+                            <div th:unless="${mobile}" class="setText" th:text="'SET ' + ${iStat.index + 1}">
+                                SET X
+                            </div>
+                            <input th:disabled="${match.finished == true} and ${set.finished == true}" th:case="team1" pattern="[0-9]{2}" min="0" max="50" class="setInput" type="number" th:name="score2Team1" value="0" th:value="${set.score2Team1}"/>
+                            <input th:disabled="${match.finished == true} and ${set.finished == true}" th:case="team2" pattern="[0-9]{2}" min="0" max="50"  class="setInput" type="number" th:name="score2Team2" value="0" th:value="${set.score2Team2}"/>
+                            <input th:disabled="${match.finished == true} and ${set.finished == true}" th:case="orga" pattern="[0-9]{2}" min="0" max="50" class="setInput" type="number" th:name="score2Orga" value="0" th:value="${set.score2Orga}"/>
                         </div>
                     </div>
-                    <div class="setContainer" th:switch="${setTeamIndex.displayValue}">
-                        <div class="setText" th:text="'SET ' + ${iStat.index}">
-                            SET X
-                        </div>
-                        <input th:disabled="${match.finished == true} and ${set.finished == true}" th:case="team1" pattern="[0-9]{2}" min="0" max="50" class="setInput" type="number" th:name="score2Team1" value="0" th:value="${set.score2Team1}"/>
-                        <input th:disabled="${match.finished == true} and ${set.finished == true}" th:case="team2" pattern="[0-9]{2}" min="0" max="50"  class="setInput" type="number" th:name="score2Team2" value="0" th:value="${set.score2Team2}"/>
-                        <input th:disabled="${match.finished == true} and ${set.finished == true}" th:case="orga" pattern="[0-9]{2}" min="0" max="50" class="setInput" type="number" th:name="score2Orga" value="0" th:value="${set.score2Orga}"/>
-                    </div>
-                    <div class="setContainer" >
+                    <div class="submitContainer" >
                         <input th:if="${match.finished == false} and ${set.finished == false}" type="submit" class="primaryButton" th:id="'submitSet' + ${iStat.index}"/>
                     </div>
                 </form>
