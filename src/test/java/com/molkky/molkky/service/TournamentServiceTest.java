@@ -6,6 +6,7 @@ import com.molkky.molkky.domain.User;
 import com.molkky.molkky.model.TournamentModel;
 import com.molkky.molkky.repository.TournamentRepository;
 import com.molkky.molkky.repository.UserRepository;
+import com.molkky.molkky.repository.UserTournamentRoleRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -44,6 +45,9 @@ class TournamentServiceTest {
 
     @MockBean
     private UserRepository userRepository;
+
+    @MockBean
+    private UserTournamentRoleRepository userTournamentRoleRepository;
 
     @MockBean
     private User user;
