@@ -223,8 +223,9 @@ public class TournamentController extends DefaultAttributes {
 
     @GetMapping("/results")
     public String results (Model model, @RequestParam(name="tournamentId") String tournamentId){
-
         Tournament tournament = tournamentRepository.findById(Integer.valueOf(tournamentId));
+        model.addAttribute("tournamentStatus", tournament.getStatus().toString());
+
         List<Team> teamsWinner = tournamentService.getWinners(tournament);
         List<User> players = new ArrayList<>();
 
@@ -238,7 +239,6 @@ public class TournamentController extends DefaultAttributes {
             }
         }
         model.addAttribute("players", players);
-        System.out.println("TAILLE LISTE JOUEURS GAGNANTS :" + players.size());
 
         return "/tournament/results";
     }
