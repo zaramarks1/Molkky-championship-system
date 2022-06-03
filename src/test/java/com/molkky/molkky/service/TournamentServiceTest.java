@@ -126,6 +126,8 @@ class TournamentServiceTest {
         Mockito.when(tournamentRepository.findAll()).thenReturn(tournaments);
 
         tournamentService.isMinimumTeamsBeforeDate();
+
+        Assertions.assertEquals(TournamentStatus.CLOSED, tournament1.getStatus());
     }
 
     @Test
@@ -143,10 +145,16 @@ class TournamentServiceTest {
         tournament1.setCutOffDate(date);
         tournament1.setCutOffDate(cutOffDate);
         tournament1.setStatus(TournamentStatus.AVAILABLE);
+        tournament1.setName("tournoi");
 
         Mockito.when(tournamentRepository.findAll()).thenReturn(tournaments);
+        Mockito.when(tournamentRepository.findByName("tournoi")).thenReturn(tournament1);
 
         tournamentService.registerClosedForTournament();
+
+        Mockito.verify(tournamentRepository, Mockito.times(1)).save(tournament1);
+
+        Assertions.assertFalse(tournamentRepository.findByName("tournoi").isRegisterAvailable());
     }
 }
 
