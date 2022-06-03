@@ -12,7 +12,6 @@ public class HomeController extends DefaultAttributes {
 
     @GetMapping("/")
     public String index(Model model, HttpSession session){
-        System.out.println(model.getAttribute("mobile"));
         return "/home";
     }
 
