@@ -11,19 +11,14 @@
     <div th:replace="fragments/sidebar"></div>
         <div class="contentContainer">
             <div th:replace="fragments/searchbar"></div>
-            <div id="cover">
-                <form method="post" th:action="@{/team/filter}" autocomplete="off" th:object="${teamModel}">
-                    <div class="tb">
-                        <div class="td"><input class="inputFilter" type="text" placeholder="Filtrer" required th:field="*{name}"></div>
-                        <div class="td" id="s-cover">
-                            <button class = "filter" type="submit">
-                                <div id="s-circle"></div>
-                                <span></span>
-                            </button>
-                        </div>
-                    </div>
-                </form>
-            </div>
+            <form method="post" th:action="@{/team/filter}" id="cover" autocomplete="off" th:object="${teamModel}">
+                <input class="inputFilter" type="text" placeholder="Filtrer" required th:field="*{name}">
+                <button class = "filter" type="submit">
+                    <i class="searchIconFilter">
+                        <img class="searchbarIcon" th:src="@{/assets/search_icon.svg}"/>
+                    </i>
+                </button>
+            </form>
             <div class="cardContainer">
             <div th:each="team: ${teams}" class="cardTeam">
                 <div class="teamHeader">

@@ -1,6 +1,5 @@
 package com.molkky.molkky.controllers;
 
-import com.molkky.molkky.controllers.superclass.DefaultAttributes;
 import com.molkky.molkky.domain.User;
 import com.molkky.molkky.domain.UserTournamentRole;
 import com.molkky.molkky.model.TeamModel;
@@ -9,6 +8,7 @@ import com.molkky.molkky.model.UserLogged;
 import com.molkky.molkky.repository.UserRepository;
 import com.molkky.molkky.repository.UserTournamentRoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mobile.device.Device;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,7 +21,7 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
-public class ConnexionController extends DefaultAttributes {
+public class ConnexionController {
 
     @Autowired
     private UserRepository userRepository;
@@ -32,7 +32,7 @@ public class ConnexionController extends DefaultAttributes {
     private static final String CHANGE_PAGE_CONNECTION = "redirect:/connexion";
 
     @GetMapping("/connexion")
-    public String home(Model  model,HttpSession session){
+    public String home(Model  model, HttpSession session, Device device){
         session.invalidate();
         User user = new User();
         model.addAttribute("user" ,user);
@@ -40,6 +40,7 @@ public class ConnexionController extends DefaultAttributes {
         UserConnectionModel userConnectionModel = new UserConnectionModel();
 
         model.addAttribute("userConnection", userConnectionModel);
+        model.addAttribute("mobile", device.isMobile());
         return "/connexion";
     }
 
