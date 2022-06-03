@@ -1,5 +1,6 @@
 package com.molkky.molkky.controllers;
 
+import com.molkky.molkky.controllers.superclass.DefaultAttributes;
 import com.molkky.molkky.domain.Team;
 
 import com.molkky.molkky.model.TeamFilterModel;
@@ -17,7 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/team")
-public class DisplayTeamController {
+public class DisplayTeamController extends DefaultAttributes {
     @Autowired
     TeamRepository teamRepository;
 
