@@ -1,5 +1,6 @@
 package com.molkky.molkky.controllers;
 
+import com.molkky.molkky.controllers.superclass.DefaultAttributes;
 import com.molkky.molkky.domain.User;
 import com.molkky.molkky.domain.UserTournamentRole;
 import com.molkky.molkky.model.TeamModel;
@@ -20,7 +21,7 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
-public class ConnexionController {
+public class ConnexionController extends DefaultAttributes {
 
     @Autowired
     private UserRepository userRepository;

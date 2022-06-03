@@ -12,6 +12,17 @@ body{
     overflow: hidden;
 }
 
+.connexionLogoContainer {
+    text-align: center;
+    margin: 7vh 0;
+}
+
+.connexionLogo {
+    filter: brightness(0);
+    height: 118px;
+    object-fit: scale-down;
+}
+
 .connexionContainer{
     position: absolute;
     padding: 35px;
@@ -29,7 +40,7 @@ body{
     .connexionContainer {
         width: 100vw;
         height: 100vh;
-        justify-content: center;
+        justify-content: start;
         display: flex;
         flex-direction: column;
         border-radius: 0px;
