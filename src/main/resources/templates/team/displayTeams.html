@@ -11,8 +11,8 @@
     <div th:replace="fragments/sidebar"></div>
         <div class="contentContainer">
             <div th:replace="fragments/searchbar"></div>
-            <form method="post" th:action="@{/team/filter}" id="cover" autocomplete="off" th:object="${teamModel}">
-                <input class="inputFilter" type="text" placeholder="Filtrer" required th:field="*{name}">
+            <form method="get" th:action="@{/team/displayTeams}" id="cover" autocomplete="off" th:object="${teamModel}">
+                <input name="filter" class="inputFilter" type="text" placeholder="Filtrer">
                 <button class = "filter" type="submit">
                     <i class="searchIconFilter">
                         <img class="searchbarIcon" th:src="@{/assets/search_icon.svg}"/>
