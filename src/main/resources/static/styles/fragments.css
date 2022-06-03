@@ -57,8 +57,20 @@
     line-height: 18px;
     position: absolute;
     background-color: white;
-    z-index: 1;
+    z-index: 2;
     transition: 0.2s;
+}
+
+.bgSidebarOpen{
+    display: none;
+    background-color: black;
+    opacity: 20%;
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 1;
 }
 
 .closebtn{
@@ -354,6 +366,7 @@
 .hamburgerIcon {
     width: 24px;
     height: 24px;
+    filter:grayscale(1);
 }
 
 .searchbarMobile {
@@ -382,6 +395,7 @@ input.searchbarMobile:focus {
 
 .searchbarIconContainerMobile {
     padding: 18px;
+    filter: grayscale(1);
 }
 
 .searchAutoresultsMobile {
