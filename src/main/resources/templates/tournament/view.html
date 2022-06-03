@@ -28,7 +28,6 @@
             <p id="nbTeam" th:text="|Il y a actuellement ${nbTeam} équipes inscrites à ce tournoi.|"></p>
             <p id="current-phase" th:text="|La phase courante est la phase n°${tournament.indexPhase}.|"></p>
         </div>
-
         <div class="partContainer">
             <h2 class="partTitle">Format du tournoi</h2>
             <p>Le tournoi suit un format classique, à savoir une phase de poule suivie d'un bracket.</p>
@@ -60,14 +59,12 @@
                 </div>
             </div>
         </div>
-
         <div class="partContainer">
             <h2 class="partTitle">Bracket</h2>
             <p>L'image suivante sera remplacée par l'arbre de tournoi lorsque l'User Story correspondante sera
                 développée et testée.</p>
             <img th:src="@{/assets/bracket.png}" class="imgBracket" alt="Tournament Bracket">
         </div>
-
         <div class="partContainer">
             <h2 class="partTitle">Participants</h2>
             <div id="participantContainer">
@@ -90,7 +87,6 @@
                 </th:block>
             </div>
         </div>
-
         <div th:if="${session.user != null} and (${#strings.equals(session.user.role, 'STAFF')})">
                 <div class="partContainer">
                     <form action="#" th:action="@{/tournament/validatePresence}" method="post" class="formContainer">
@@ -109,8 +105,6 @@
                     </form>
                 </div>
         </div>
-
-
         <div class="partContainer">
             <h2 class="partTitle">Staff</h2>
             <div id="staffContainer">
@@ -126,7 +120,6 @@
                     </div>
                 </th:block>
             </div>
-
             <div th:if=" ${user} != null">
                 <div th:if="${#strings.equals(user.role, 'ADM')}">
                     <div class="partContainer">
@@ -144,12 +137,10 @@
                 </div>
             </div>
         </div>
-
         <div class="partContainer">
             <h2 class="partTitle">Règles</h2>
             <p>A définir...</p>
         </div>
-
         <div class="partContainer" th:if="${tournament.getIndexPhase()} !=0">
             <h2 class="partTitle" th:text=" 'Phase n ' + ${tournament.getIndexPhase()}">Index de la phase</h2>
 
@@ -165,7 +156,6 @@
                 </button>
             </form>
         </div>
-
         <div th:if=" ${user} != null">
             <div th:if="${#strings.equals(user.role, 'ADM')}">
                 <div class="partContainer" th:if="${#strings.equals(tournament.status, 'AVAILABLE')}">
