@@ -28,6 +28,18 @@
     filter: brightness(0);
 }
 
+.footerText {
+    font-size: 15px;
+    text-align: center;
+    color: black;
+}
+
+@media only screen and (max-width: 1000px) {
+    .footerLogo {
+        height: 60px;
+    }
+}
+
 .sidebarContainer {
     width: 20%;
     min-width: 250px;
@@ -384,6 +396,19 @@ input.searchbarMobile:focus {
     padding: 18px;
 }
 
+.searchbarIconMobile {
+    width: 24px;
+    height: 24px;
+}
+
+.searchbarIconMobileNotLogged {
+
+}
+
+.searchbarIconMobileLogged {
+
+}
+
 .searchAutoresultsMobile {
     border-radius: 7px;
     filter: drop-shadow(0px 0px 7px rgba(196, 196, 196, 0.7));
@@ -397,3 +422,4 @@ input.searchbarMobile:focus {
     width: inherit;
     margin-top: 10px;
 }
+
