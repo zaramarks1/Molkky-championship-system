@@ -5,8 +5,7 @@
     <meta charset="UTF-8">
     <title>Page de connexion</title>
     <link rel="stylesheet" th:href="@{/styles/connexion/connexion.css}" href="./" />
-    <link rel="stylesheet" th:href="@{/styles/fragments.css}" href="./" />
-    <link rel="stylesheet" th:href="@{/styles/components.css}" href="./" />
+    <div th:replace="fragments/header"></div>
 
 </head>
 <body>
@@ -17,7 +16,7 @@
         </a>
     </div>
 </div>
-<div class="center">
+<div class="connexionContainer">
     <h1>Connexion</h1>
     <form method="post" th:action="@{/connexion}" autocomplete="off" th:object="${userConnection}">
         <div class="txt_field">
