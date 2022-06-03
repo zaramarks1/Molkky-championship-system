@@ -43,6 +43,29 @@
     line-height: 18px;
 }
 
+.sidebarContainerMobile {
+    width: 250px;
+    height: 100%;
+    display: flex;
+    left: -250px;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    font-family: "Inter", sans-serif;
+    font-weight: 600;
+    font-size: 1.4rem;
+    line-height: 18px;
+    position: absolute;
+    background-color: white;
+    z-index: 1;
+    transition: 0.2s;
+}
+
+.closebtn{
+    width: -webkit-fill-available;
+    text-align: right;
+}
+
 .sidebarLogo {
     filter: brightness(0);
     height: 118px;
@@ -356,12 +379,6 @@ input.searchbarMobile:focus {
     object-fit: scale-down;
 }
 
-.sidebarContainer {
-}
-
-.sidebarContainerMobile {
-    display: none;
-}
 
 .searchbarIconContainerMobile {
     padding: 18px;

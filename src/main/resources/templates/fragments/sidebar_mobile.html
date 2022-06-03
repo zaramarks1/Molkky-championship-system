@@ -1,9 +1,11 @@
 <div class="sidebarContainerMobile">
-    <a href="/" style="text-decoration: none;">
-        <img th:src="@{/assets/Molkky_logo.png}" alt="logo" class="sidebarLogo"/>
-    </a>
+
     <!--    navigation-->
-    <div class="sidebarButtons">
+    <div class="sidebarButtons" id="sidebarButtonsNav">
+        <a href="javascript:void(0)" class="closebtn" id="closeNavCross" >
+            <img class="hamburgerIcon" onclick="closeNav()" th:src="@{/assets/cross.svg}" alt="hamburger cross close menu icon"/>
+            <!-- <img class="hamburgerIcon" th:src="@{/assets/cross.svg}" alt="hamburger close menu icon"/> -->
+        </a>
         <a href="/" style="text-decoration: none;">
             <div th:class="'sidebarButton '+${#httpServletRequest.requestURI.equals('/') ? 'bgButton textPrimary' : ''}">
                 <img th:class="'sidebarIcon '+${#httpServletRequest.requestURI.equals('/') ? 'sidebarIcon' : 'sidebarIconInactive'}" th:src="@{/assets/home.svg}" alt="Home icon"/>

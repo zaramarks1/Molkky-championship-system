@@ -1,7 +1,11 @@
 <div class="searchbarContainerMobile">
     <div class="searchbarUpperContainerMobile">
 <!--        hamburger icon-->
-        <img class="hamburgerIcon" th:src="@{/assets/menu-icon.svg}" alt="menu icon"/>
+        <div class="navSideBarMobile">
+            <a style="font-size:30px;cursor:pointer" onclick="openNav()">
+               <img class="hamburgerIcon" th:src="@{/assets/menu-icon.svg}" alt="hamburger open menu icon"/>
+            </a>
+        </div>
 
         <!--        molkky logo-->
         <a href="/" style="text-decoration: none;">
