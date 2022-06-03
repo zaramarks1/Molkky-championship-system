@@ -168,7 +168,9 @@
 }
 
 .searchbarIcon {
-    width: 25px;
+    width: 24px;
+    height: 24px;
+    filter: grayscale(1);
 }
 
 .searchbarIconContainer {
@@ -378,7 +380,6 @@
 .hamburgerIcon {
     width: 24px;
     height: 24px;
-    filter:grayscale(1);
 }
 
 .searchbarMobile {
@@ -407,12 +408,12 @@ input.searchbarMobile:focus {
 
 .searchbarIconContainerMobile {
     padding: 18px;
-    filter: grayscale(1);
 }
 
 .searchbarIconMobile {
     width: 24px;
     height: 24px;
+
 }
 
 .searchbarIconMobileNotLogged {
