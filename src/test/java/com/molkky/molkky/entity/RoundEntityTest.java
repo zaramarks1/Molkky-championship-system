@@ -1,12 +1,11 @@
 package com.molkky.molkky.entity;
 
+import com.molkky.molkky.MolkkyApplication;
 import com.molkky.molkky.domain.*;
 import com.molkky.molkky.domain.rounds.Pool;
 import com.molkky.molkky.domain.rounds.SimpleGame;
 import com.molkky.molkky.repository.*;
 import com.molkky.molkky.service.PhaseService;
-import type.PhaseType;
-import com.molkky.molkky.MolkkyApplication;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +15,9 @@ import type.TournamentStatus;
 import type.UserRole;
 
 import javax.transaction.Transactional;
-import java.util.*;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 @SpringBootTest(classes = MolkkyApplication.class)
 class RoundEntityTest {
@@ -110,6 +111,7 @@ class RoundEntityTest {
                 new Date(),
                 1,
                 8,
+                true,
                 true,
                 2,
                 3,
