@@ -127,7 +127,6 @@ import java.util.*;
                 " The round should be of type knockout ");
         Assertions.assertEquals(4, r.getTeams().size(), " The  should be 4 teams");
         Assertions.assertEquals(2, matches.size(), " The  should be 2 matches");
-        Assertions.assertEquals(matches.get(0).getTeams().get(0), matches.get(0).getWinner(), " first team is the winner");
         Assertions.assertEquals(50, tournament.getTeams().get(0).getNbPoints() ," Team 1 should have 50 points");
         Assertions.assertEquals(50, tournament.getTeams().get(2).getNbPoints() ," Team 3 should have 50 points");
 
