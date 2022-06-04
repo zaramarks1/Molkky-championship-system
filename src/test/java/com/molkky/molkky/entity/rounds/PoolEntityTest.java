@@ -1,9 +1,9 @@
 package com.molkky.molkky.entity.rounds;
 
 import com.molkky.molkky.MolkkyApplication;
-import com.molkky.molkky.domain.*;
+import com.molkky.molkky.domain.Phase;
+import com.molkky.molkky.domain.Tournament;
 import com.molkky.molkky.domain.rounds.Pool;
-import com.molkky.molkky.domain.rounds.SimpleGame;
 import com.molkky.molkky.repository.*;
 import com.molkky.molkky.service.PhaseService;
 import org.junit.jupiter.api.Assertions;
@@ -11,12 +11,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
-import type.PhaseType;
 import type.TournamentStatus;
-import type.UserRole;
 
 import javax.transaction.Transactional;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 @SpringBootTest(classes = MolkkyApplication.class)
 class PoolEntityTest {
@@ -49,6 +49,7 @@ class PoolEntityTest {
                 new Date(),
                 1,
                 8,
+                true,
                 true,
                 2,
                 3,

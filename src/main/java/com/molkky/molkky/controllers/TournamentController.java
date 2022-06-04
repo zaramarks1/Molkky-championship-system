@@ -113,8 +113,6 @@ public class TournamentController extends DefaultAttributes {
 
     @GetMapping("/view")
     public String tournamentViewPostLaunch(Model model,@RequestParam(value = "tournamentId", required = false) String tournamentId,  HttpSession session){
-
-
         Tournament tournament = tournamentRepository.findById(Integer.valueOf(tournamentId));
 
         //USER FROM SESSION
@@ -221,7 +219,6 @@ public class TournamentController extends DefaultAttributes {
 
         model.addAttribute("tournament_id", tournamentId);
         return (redirectViewId + tournamentId);
-
     }
 
     @PostMapping("/validatePresence")
@@ -230,6 +227,14 @@ public class TournamentController extends DefaultAttributes {
         team.setPresent(false);
         teamRepository.save(team);
         return (redirectViewId + tournamentId);
+    }
+
+    @GetMapping("/results")
+    public String tournamentResults (Model model, @RequestParam(name="tournamentId") String tournamentId){
+
+
+
+        return "/tournament/results";
     }
 
 }
