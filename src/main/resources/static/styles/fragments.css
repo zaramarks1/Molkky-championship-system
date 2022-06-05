@@ -169,6 +169,7 @@
 
 .searchbarIcon {
     width: 25px;
+    filter : grayscale(1);
 }
 
 .searchbarIconContainer {
