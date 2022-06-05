@@ -150,7 +150,6 @@ public class SetService {
                 new TimerTask() {
                     @Override
                     public void run() {
-                        System.out.println("notif envoyé");
                         notificationService.sendNotification("Veuillez entrer le score du match en cours",URLMATCH+set.getMatch().getId(),user);
                     }
                 },
