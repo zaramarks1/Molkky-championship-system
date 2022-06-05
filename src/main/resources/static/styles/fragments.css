@@ -379,7 +379,6 @@
 .hamburgerIcon {
     width: 24px;
     height: 24px;
-    filter:grayscale(1);
 }
 
 .searchbarMobile {
@@ -408,7 +407,6 @@ input.searchbarMobile:focus {
 
 .searchbarIconContainerMobile {
     padding: 18px;
-    filter: grayscale(1);
 }
 
 .searchbarIconMobile {
