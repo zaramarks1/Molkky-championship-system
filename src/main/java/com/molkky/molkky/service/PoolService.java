@@ -45,21 +45,11 @@ public class PoolService {
     public Map<Round, List<Match>> generateRounds(Pool pool){
         Map<Round, List<Match>> results = new HashMap<>();
 
-        List<Team> teamsOld = pool.getTournament().getTeams();
-        List<Team> teams;
         int nbPool = pool.getNbPools();
 
-        teams = teamsOld.stream()
-                .filter(team -> !team.isEliminated())
-                .collect(Collectors.toList());
+        List<Team> teams = roundService.getTeamsSorted(pool);
 
-        if(Boolean.TRUE.equals(pool.getRanking()) ) {
-            teams.sort(Comparator
-                    .comparing(Team :: getNbPoints)
-                    .reversed());
-        }
-
-            List<Round> rounds = new ArrayList<>();
+        List<Round> rounds = new ArrayList<>();
 
             for(int i =1; i <= nbPool;i++){
                 Round round = new Round();

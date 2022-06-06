@@ -38,19 +38,7 @@ public class SimpleGameService {
         Map<Round, List<Match>> generateRounds(SimpleGame simpleGame) {
             Map<Round, List<Match>> results = new HashMap<>();
 
-            List<Team> teamsOld = simpleGame.getTournament().getTeams();
-            List<Team> teams;
-
-            teams = teamsOld.stream()
-                    .filter(team -> !team.isEliminated())
-                    .collect(Collectors.toList());
-
-            if(Boolean.TRUE.equals(simpleGame.getRanking()) ) {
-                teams.sort(Comparator
-                        .comparing(Team :: getNbPoints)
-                        .reversed());
-            }
-
+            List<Team> teams = roundService.getTeamsSorted(simpleGame);
 
             List<Team> teamsUpdated = new ArrayList<>();
 

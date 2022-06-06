@@ -6,7 +6,6 @@ import com.molkky.molkky.domain.rounds.Knockout;
 import com.molkky.molkky.model.phase.PhaseRankingModel;
 import com.molkky.molkky.repository.PhaseRepository;
 import com.molkky.molkky.repository.TeamRepository;
-import org.apache.xpath.operations.Bool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -133,6 +132,25 @@ public class RoundService {
             }else return false;
         }
 
+    }
+
+    List<Team> getTeamsSorted(Phase phase){
+
+
+        List<Team> teamsOld = phase.getTournament().getTeams();
+        List<Team> teams;
+
+        teams = teamsOld.stream()
+                .filter(team -> !team.isEliminated())
+                .collect(Collectors.toList());
+
+        if(Boolean.TRUE.equals(phase.getRanking()) ) {
+            teams.sort(Comparator
+                    .comparing(Team :: getNbPoints)
+                    .reversed());
+        }
+
+        return teams;
     }
 
 }
