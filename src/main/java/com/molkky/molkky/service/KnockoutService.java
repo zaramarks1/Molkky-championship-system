@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 import type.PhaseType;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 public class KnockoutService {
@@ -56,21 +55,7 @@ public class KnockoutService {
             Team team1 = teams.get(i);
             Team team2 = teams.get(i+1);
 
-            Match match = new Match();
-            match.setRound(round);
-            match.setTeams(List.of(team1, team2));
-            matches.add(match);
-
-            team1.getMatchs().add(match);
-            team2.getMatchs().add(match);
-
-            team1.getRounds().add(round);
-            team2.getRounds().add(round);
-
-            teamsUpdated.add(team1);
-            teamsUpdated.add(team2);
-
-            round.getMatches().addAll(roundService.createSetsFromMatch(matches));
+            roundService.createMatchSimpleAndKnockout(teamsUpdated, matches, team1, team2, round, roundService);
         }
 
         knockout.getRounds().add(round);
@@ -116,12 +101,11 @@ public class KnockoutService {
 
     void generateNotificationAfterRound(List<Team> teams){
 
-        for(int i=0;i<teams.size();i++) {
-            Team t = teams.get(i);
-            String message ;
-            if(t.isEliminated()){
+        for (Team t : teams) {
+            String message;
+            if (t.isEliminated()) {
                 message = "Ton équipe a malheureuseusement été disqualifiée dans la phase de tableau éliminatoire";
-            }else{
+            } else {
                 message = " Felicitations! Ton équipe est qualifiée pour la prochaine phase de tableau éliminatoire";
             }
 

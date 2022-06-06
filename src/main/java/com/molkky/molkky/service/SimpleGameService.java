@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import type.PhaseType;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 public class SimpleGameService {
@@ -52,22 +51,7 @@ public class SimpleGameService {
                     round.setType(PhaseType.SIMPLEGAME);
                     round.setTeams(List.of(team1, team2));
 
-                    Match match = new Match();
-                    match.setRound(round);
-                    match.setTeams(List.of(team1, team2));
-                    matches.add(match);
-
-
-                    team1.getMatchs().add(match);
-                    team2.getMatchs().add(match);
-
-                    team1.getRounds().add(round);
-                    team2.getRounds().add(round);
-
-                    teamsUpdated.add(team1);
-                    teamsUpdated.add(team2);
-
-                    round.getMatches().addAll(roundService.createSetsFromMatch(matches));
+                    roundService.createMatchSimpleAndKnockout(teamsUpdated, matches, team1, team2, round, roundService);
                     simpleGame.getRounds().add(round);
 
             }
@@ -83,7 +67,9 @@ public class SimpleGameService {
         return results;
     }
 
-   public void validateRound(Round round){
+
+
+    public void validateRound(Round round){
 
         List<Team> teams = round.getTeams();
 

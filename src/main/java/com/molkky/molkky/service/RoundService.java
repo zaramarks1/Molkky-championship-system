@@ -153,4 +153,23 @@ public class RoundService {
         return teams;
     }
 
+    public  void createMatchSimpleAndKnockout(List<Team> teamsUpdated, List<Match> matches, Team team1, Team team2, Round round, RoundService roundService) {
+        Match match = new Match();
+        match.setRound(round);
+        match.setTeams(List.of(team1, team2));
+        matches.add(match);
+
+
+        team1.getMatchs().add(match);
+        team2.getMatchs().add(match);
+
+        team1.getRounds().add(round);
+        team2.getRounds().add(round);
+
+        teamsUpdated.add(team1);
+        teamsUpdated.add(team2);
+
+        round.getMatches().addAll(roundService.createSetsFromMatch(matches));
+    }
+
 }
