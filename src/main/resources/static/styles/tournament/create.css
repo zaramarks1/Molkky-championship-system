@@ -99,6 +99,7 @@ select.inputTournament {
 
 .multiSlider {
     height: 28px;
+    position: relative;
 }
 .multiSlider input[type=range] {
     position: absolute;
@@ -111,6 +112,13 @@ select.inputTournament {
 }
 .multiSlider input[type=range]:nth-child(2)::-webkit-slider-thumb::before {
     background-color: grey;
+}
+
+@media only screen and (max-width: 1000px) {
+    .multiSlider input[type=range]  {
+        width: 100%;
+        padding: 0;
+    }
 }
 
 .multiSlider input[type=range] {
