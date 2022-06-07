@@ -69,6 +69,4 @@ public class Team implements Serializable {
         this.nbPoints =0;
         this.present = true;
     }
-
-
 }

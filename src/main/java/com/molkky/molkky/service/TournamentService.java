@@ -1,5 +1,6 @@
 package com.molkky.molkky.service;
 
+import com.molkky.molkky.domain.Team;
 import com.molkky.molkky.domain.Tournament;
 import com.molkky.molkky.domain.User;
 import com.molkky.molkky.domain.UserTournamentRole;
@@ -14,6 +15,7 @@ import type.UserRole;
 
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.molkky.molkky.utility.StringUtilities.createCode;
 
@@ -90,6 +92,14 @@ public class TournamentService {
                 }
             }
         }
+    }
+
+    // Récupère le gagnant du tournoi
+    // Format return list car possibilité qu'il y ait plusieurs gagnants pas écartée pour le moment
+    public List<Team> getWinners(Tournament tournament){
+        return tournament.getTeams().stream().filter(
+                    team -> !team.isEliminated()
+                ).collect(Collectors.toList());
     }
 
     // EN ATTENTE

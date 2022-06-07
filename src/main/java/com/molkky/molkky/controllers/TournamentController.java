@@ -2,14 +2,9 @@ package com.molkky.molkky.controllers;
 
 
 import com.molkky.molkky.controllers.superclass.DefaultAttributes;
-import com.molkky.molkky.domain.Phase;
-import com.molkky.molkky.domain.Team;
-import com.molkky.molkky.domain.Tournament;
+import com.molkky.molkky.domain.*;
 import com.molkky.molkky.domain.rounds.*;
-import com.molkky.molkky.model.AddStaff;
-import com.molkky.molkky.model.AddStaffList;
-import com.molkky.molkky.model.TournamentModel;
-import com.molkky.molkky.model.UserLogged;
+import com.molkky.molkky.model.*;
 import com.molkky.molkky.repository.TeamRepository;
 import com.molkky.molkky.repository.TournamentRepository;
 import com.molkky.molkky.service.PhaseService;
@@ -21,7 +16,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import type.PhaseType;
-import com.molkky.molkky.model.PhaseTypeViewModel;
 import type.TournamentStatus;
 import type.UserRole;
 
@@ -45,11 +39,9 @@ public class TournamentController extends DefaultAttributes {
     @Autowired
     private TeamRepository teamRepository;
 
-
     private String allTournament="tournament";
     private String redirectionAll = "/tournament/allTournament";
     private String redirectViewId = "redirect:/tournament/view?tournamentId=";
-
 
     @GetMapping("/allTournament")
     public String tournamentForm(Model model) {
@@ -84,7 +76,6 @@ public class TournamentController extends DefaultAttributes {
 
     @PostMapping("/inscription")
     public ModelAndView goToInscription(ModelMap model){return new ModelAndView("redirect:/team/create",model);}
-
 
     @PostMapping ("/currentTournament")
     public String currentTournament() {
@@ -219,6 +210,7 @@ public class TournamentController extends DefaultAttributes {
 
         model.addAttribute("tournament_id", tournamentId);
         return (redirectViewId + tournamentId);
+
     }
 
     @PostMapping("/validatePresence")
@@ -230,9 +222,23 @@ public class TournamentController extends DefaultAttributes {
     }
 
     @GetMapping("/results")
-    public String tournamentResults (Model model, @RequestParam(name="tournamentId") String tournamentId){
+    public String results (Model model, @RequestParam(name="tournamentId") String tournamentId){
+        Tournament tournament = tournamentRepository.findById(Integer.valueOf(tournamentId));
+        model.addAttribute("tournamentStatus", tournament.getStatus().toString());
 
+        List<Team> teamsWinner = tournamentService.getWinners(tournament);
+        List<User> players = new ArrayList<>();
 
+        model.addAttribute("winners", teamsWinner);
+
+        for (int i=0;i<teamsWinner.size();i++){
+            List<UserTournamentRole> usersTournamentRole = teamsWinner.get(i).getUserTournamentRoles();
+            for (int j=0;j<usersTournamentRole.size();j++){
+                User user = usersTournamentRole.get(j).getUser();
+                players.add(user);
+            }
+        }
+        model.addAttribute("players", players);
 
         return "/tournament/results";
     }

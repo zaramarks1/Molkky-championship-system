@@ -156,5 +156,18 @@ class TournamentServiceTest {
 
         Assertions.assertFalse(tournamentRepository.findByName("tournoi").isRegisterAvailable());
     }
+
+    @Test
+    void getWinnersTest() throws Exception{
+        Tournament tournament = new Tournament();
+        Team team = new Team();
+        team.setEliminated(false);
+        List<Team> teams = new ArrayList<>();
+        teams.add(team);
+        tournament.setTeams(teams);
+
+        List<Team> teamResult = tournamentService.getWinners(tournament);
+        Assertions.assertEquals(teams, teamResult, "Winners are not correct");
+    }
 }
 
