@@ -3,6 +3,7 @@ package com.molkky.molkky.ihm.matches;
 import com.molkky.molkky.MolkkyApplication;
 import com.molkky.molkky.SeleniumConfig;
 import com.molkky.molkky.domain.*;
+import com.molkky.molkky.domain.Set;
 import com.molkky.molkky.repository.*;
 import com.molkky.molkky.service.MatchService;
 import org.apache.commons.lang.RandomStringUtils;
@@ -16,15 +17,13 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
+import type.PhaseType;
 import type.UserRole;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
@@ -220,6 +219,48 @@ class MatchFormTest {
         Assertions.assertEquals(url+"/matches/match?match_id=" + match.getId(),config.getDriver().getCurrentUrl());
     }
 
+    @Test
+    void testNotifificationNotDisplayMatchOver() throws InterruptedException {
+
+        Match match = createCompleteMatch();
+        loginUser(match.getTeams().get(0).getUserTournamentRoles().get(0).getUser());
+        config.getDriver().get(url + "/matches/match?match_id=" + match.getId());
+        int score1 = 50;
+        int score2 = 25;
+//        when
+        config.getDriver().findElement(By.name("score1Team1")).clear();
+        config.getDriver().findElement(By.name("score1Team1")).sendKeys(Integer.toString(score1));
+        config.getDriver().findElement(By.name("score2Team1")).clear();
+        config.getDriver().findElement(By.name("score2Team1")).sendKeys(Integer.toString(score2));
+        config.getDriver().findElement(By.id("submitSet0")).click();
+
+        count.await(6,TimeUnit.SECONDS);
+
+        config.getDriver().get(url + "/");
+        config.getDriver().findElement(By.id("notLogged")).click();
+        loginUser(match.getTeams().get(1).getUserTournamentRoles().get(0).getUser());
+
+        config.getDriver().findElement(new By.ById("unreadCount")).click();
+        WebElement notification = config.getDriver().findElement(new By.ById("notificationList")).findElements(new By.ByTagName("div")).get(0);
+        notification.click();
+
+        config.getDriver().findElement(By.name("score1Team2")).clear();
+        config.getDriver().findElement(By.name("score1Team2")).sendKeys(Integer.toString(score1));
+        config.getDriver().findElement(By.name("score2Team2")).clear();
+        config.getDriver().findElement(By.name("score2Team2")).sendKeys(Integer.toString(score2));
+        config.getDriver().findElement(By.id("submitSet0")).click();
+
+        count.await(6,TimeUnit.SECONDS);
+
+        Assertions.assertEquals("1",config.getDriver().findElement(new By.ById("unreadCount")).getText());
+
+        config.getDriver().get(url + "/");
+        config.getDriver().findElement(By.id("notLogged")).click();
+        loginUser(match.getTeams().get(0).getUserTournamentRoles().get(0).getUser());
+
+        Assertions.assertEquals("1",config.getDriver().findElement(new By.ById("unreadCount")).getText());
+    }
+
     void loginUser(User user) {
         config.getDriver().get(url + "/connexion");
         config.getDriver().findElement(new By.ById("email")).sendKeys(user.getEmail());
@@ -293,6 +334,8 @@ class MatchFormTest {
         Phase phase = new Phase();
         round.setTournament(tournament);
         round.setPhase(phase);
+        round.setTeams(Arrays.asList(team1, team2));
+        round.setType(PhaseType.SIMPLEGAME);
         phase.setTournament(tournament);
         phase.setRounds(List.of(round));
 
