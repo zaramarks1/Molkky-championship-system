@@ -67,7 +67,7 @@
     font-weight: 600;
     font-size: 1.4rem;
     line-height: 18px;
-    position: absolute;
+    position: fixed;
     background-color: white;
     z-index: 2;
     transition: 0.2s;
@@ -79,7 +79,7 @@
     opacity: 20%;
     width: 100vw;
     height: 100vh;
-    position: absolute;
+    position: fixed;
     left: 0;
     top: 0;
     z-index: 1;
