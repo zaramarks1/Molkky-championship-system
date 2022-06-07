@@ -1,5 +1,6 @@
 package com.molkky.molkky.controllers;
 
+import com.molkky.molkky.controllers.superclass.DefaultAttributes;
 import com.molkky.molkky.model.UserDisplayModel;
 import com.molkky.molkky.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/user")
-public class DisplayUserController {
+public class DisplayUserController extends DefaultAttributes {
 
     @Autowired
     UserRepository userRepository;
