@@ -99,7 +99,7 @@
     /* Auto layout */
     display: flex;
     flex-direction: row;
-    align-items: center;
+    align-items: start;
     padding: 0px;
 }
 
