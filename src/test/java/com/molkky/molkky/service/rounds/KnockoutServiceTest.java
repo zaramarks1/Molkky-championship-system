@@ -127,6 +127,62 @@ import java.util.*;
                 " The round should be of type knockout ");
         Assertions.assertEquals(4, r.getTeams().size(), " The  should be 4 teams");
         Assertions.assertEquals(2, matches.size(), " The  should be 2 matches");
+        Assertions.assertEquals(50, tournament.getTeams().get(0).getNbPoints() ," Team 1 should have 50 points");
+        Assertions.assertEquals(50, tournament.getTeams().get(2).getNbPoints() ," Team 3 should have 50 points");
+
+
+
+    }
+
+    @Test
+    @Rollback(false)
+    @Transactional
+    void testInsertTournamentWithKnockoutEnd() {
+
+        Tournament tournament = createTournament();
+
+        tournament = createKnockout(tournament, 1, 1);
+
+        insertTeam(tournament, 4);
+
+        Map<Round, List<Match>> results =  phaseService.generate(tournament.getPhases().get(0).getId().toString());
+
+        tournament = tournamentRepository.findById(tournament.getId());
+
+        Round round= tournament.getPhases().get(0).getRounds().get(0);
+
+            for(Match m : round.getMatches()){
+                m.setFinished(true);
+                m.setWinner(m.getTeams().get(0));
+                m.setScoreTeam1(50);
+                m.setScoreTeam2(0);
+                matchRepository.save(m);
+                matchService.validateMatch(m);
+            }
+
+        tournament = tournamentRepository.findById(tournament.getId());
+
+        Map<Round, List<Match>> results2 =  phaseService.generate(tournament.getPhases().get(0).getId().toString());
+
+        Round round2= tournament.getPhases().get(0).getRounds().get(1);
+
+        for(Match m : round2.getMatches()){
+            m.setFinished(true);
+            m.setWinner(m.getTeams().get(0));
+            m.setScoreTeam1(50);
+            m.setScoreTeam2(0);
+            matchRepository.save(m);
+            matchService.validateMatch(m);
+        }
+
+        tournament = tournamentRepository.findById(tournament.getId());
+
+        Assertions.assertTrue(tournament.getPhases().get(0).getFinished(), "Phase should be finished");
+        Assertions.assertEquals(100, tournament.getTeams().get(0).getNbPoints() ," Team 1 should have 100 points");
+
+        List<Team> teams = teamRepository.findByTournamentAndEliminated(tournament,false);
+
+        Assertions.assertEquals(1, teams.size()," There should be one team remaining");
 
 
     }
@@ -160,6 +216,7 @@ import java.util.*;
         knockout.setNbMatch(nbMatch);
         knockout.setTournament(tournament);
         knockout.setRanking(true);
+        knockout.setSeedingSystem(true);
 
 
         knockout =  phaseRepository.save(knockout);
