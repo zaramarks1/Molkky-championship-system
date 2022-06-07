@@ -29,10 +29,10 @@ public class Tournament implements Serializable {
     private String location;
 
     @Column(name = "date")
-    private Date date;
+    private Date date = new Date();
 
     @Column(name = "cutOffDate")
-    private Date cutOffDate;
+    private Date cutOffDate = new Date();
 
     @Column(name = "minTeam")
     private Integer minTeam;
