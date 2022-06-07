@@ -42,18 +42,7 @@ public class KnockoutService {
     Map<Round, List<Match>> generateRounds(Knockout knockout) {
         Map<Round, List<Match>> results = new HashMap<>();
 
-        List<Team> teamsOld = knockout.getTournament().getTeams();
-        List<Team> teams;
-
-        teams = teamsOld.stream()
-                .filter(team -> !team.isEliminated())
-                .collect(Collectors.toList());
-
-        if(Boolean.TRUE.equals(knockout.getRanking()) ) {
-            teams.sort(Comparator
-                    .comparing(Team :: getNbPoints)
-                    .reversed());
-        }
+        List<Team> teams = roundService.getTeamsSorted(knockout);
 
         List<Team> teamsUpdated = new ArrayList<>();
 
@@ -120,6 +109,8 @@ public class KnockoutService {
         teams = teamRepository.saveAll(teams);
 
         generateNotificationAfterRound(teams);
+
+        roundService.isPhaseOver(round.getPhase());
 
     }
 

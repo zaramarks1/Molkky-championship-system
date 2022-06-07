@@ -16,6 +16,7 @@ public class SimpleGame extends Phase {
 
     public SimpleGame(PhaseModel simpleModel, Tournament tournament) {
         this.setStatus(PhaseStatus.NOTSTARTED);
+        this.setNbTeamsQualified(simpleModel.getNbTeamsQualified());
         this.setNbSets(simpleModel.getNbSets());
         this.setRanking(simpleModel.getRanking());
         this.setTopSeeds(simpleModel.getTopSeeds());
