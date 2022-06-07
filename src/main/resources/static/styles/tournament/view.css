@@ -19,6 +19,15 @@ p{
     line-height: 22px;
     text-align: justify;
 }
+
+.sidebarButton p {
+    font-weight: 600;
+    font-size : 14px;
+    text-align: left;
+    margin-left: 17px;
+    bottom: -0.46%;
+    line-height: inherit;
+}
 .partTitle {
     font-weight: bold;
 }
