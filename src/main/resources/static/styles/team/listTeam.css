@@ -87,14 +87,6 @@
     flex-grow: 1;
 }
 
-p{
-    font-family: 'Inter', sans-serif;
-    font-style: normal;
-    font-weight: 600;
-    font-size: 16px;
-    line-height: 22px;
-    text-align: justify;
-}
 .partTitle {
     font-weight: bold;
 }
@@ -167,6 +159,10 @@ ul.roundsList {
 .filter {
     color: #8787A1;
     background-color: transparent;
+    border-width: 2px;
+    border-style: inset;
+    border-color: transparent;
+    border-image: initial;
 }
 
 #cover {
@@ -186,19 +182,13 @@ ul.roundsList {
     }
 }
 
-
-input{
-    border-width: 2px;
-    border-style: inset;
-    border-color: transparent;
-    border-image: initial;
-}
-
-button{
-    border-width: 2px;
-    border-style: inset;
-    border-color: transparent;
-    border-image: initial;
+.teamMember {
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 22px;
+    text-align: justify;
 }
 
 .searchIconFilter {
