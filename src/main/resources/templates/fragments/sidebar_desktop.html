@@ -34,14 +34,14 @@
             </a>
         </div>
         <a href="/team/displayTeams" style="text-decoration: none;">
-            <div th:class="'sidebarButton '+${#httpServletRequest.requestURI.startsWith('/teams') ? 'bgButton textPrimary' : ''}">
-                <img th:class="'sidebarIcon '+${#httpServletRequest.requestURI.startsWith('/teams') ? 'sidebarIcon' : 'sidebarIconInactive'}" th:src="@{/assets/teams.svg}" alt="Team icon"/>
+            <div th:class="'sidebarButton '+${#httpServletRequest.requestURI.startsWith('/team') ? 'bgButton textPrimary' : ''}">
+                <img th:class="'sidebarIcon '+${#httpServletRequest.requestURI.startsWith('/team') ? 'sidebarIcon' : 'sidebarIconInactive'}" th:src="@{/assets/teams.svg}" alt="Team icon"/>
                 <p id="teams_sidebar" class="sidebarButtonContent">Équipes</p>
             </div>
         </a>
         <a href="/user/displayUsers" style="text-decoration: none;">
-            <div th:class="'sidebarButton '+${#httpServletRequest.requestURI.startsWith('/users') ? 'bgButton textPrimary' : ''}">
-                <img th:class="'sidebarIcon '+${#httpServletRequest.requestURI.startsWith('/users') ? 'sidebarIcon' : 'sidebarIconInactive'}" th:src="@{/assets/users.svg}" alt="User icon"/>
+            <div th:class="'sidebarButton '+${#httpServletRequest.requestURI.startsWith('/user') ? 'bgButton textPrimary' : ''}">
+                <img th:class="'sidebarIcon '+${#httpServletRequest.requestURI.startsWith('/user') ? 'sidebarIcon' : 'sidebarIconInactive'}" th:src="@{/assets/users.svg}" alt="User icon"/>
                 <p id="users_sidebar" class="sidebarButtonContent">Utilisateurs</p>
             </div>
         </a>
