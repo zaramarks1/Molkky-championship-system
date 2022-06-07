@@ -142,12 +142,19 @@
     margin: 0px 5px;
 }
 
+@media only screen and (max-width: 1000px) {
+    .primaryButton {
+        padding-inline: 10px!important;
+    }
+}
+
 .boxAllCard {
     /* Tournois cartes */
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     margin: 5px 0px;
+    width: 100%;
 }
 
 .boxOneCard {

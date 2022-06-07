@@ -38,6 +38,13 @@
     letter-spacing: 0.2px;
 }
 
+#tournament_name{
+    font-weight: 700;
+    font-size: 26px;
+    line-height: 24px;
+    letter-spacing: 0.2px;
+}
+
 .contentText {
     font-family: 'Inter', sans-serif;
     margin-top: 25px;

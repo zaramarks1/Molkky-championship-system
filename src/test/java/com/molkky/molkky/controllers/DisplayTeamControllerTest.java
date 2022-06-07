@@ -4,6 +4,8 @@ package com.molkky.molkky.controllers;
 import com.molkky.molkky.domain.Team;
 import com.molkky.molkky.repository.TeamRepository;
 import com.molkky.molkky.repository.UserRepository;
+import com.molkky.molkky.repository.UserTournamentRoleRepository;
+import com.molkky.molkky.service.NotificationService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
@@ -29,6 +31,10 @@ class DisplayTeamControllerTest {
     @MockBean
     private TeamRepository teamRepository;
     @MockBean
+    private NotificationService notificationService;
+    @MockBean
+    private UserTournamentRoleRepository userTournamentRoleRepository;
+    @MockBean
     private UserRepository userRepository;
 
     @Test
@@ -36,7 +42,6 @@ class DisplayTeamControllerTest {
         mockMvc.perform(get("/team/displayTeams/"))
                 .andExpect(status().isOk())
                 .andExpect(model().attributeExists("teamModel"))
-                .andExpect(model().attributeExists("team"))
                 .andExpect(model().attributeExists("teams"))
                 .andExpect(view().name("team/displayTeams"));
         Team team = new Team();

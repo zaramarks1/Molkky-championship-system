@@ -17,6 +17,9 @@
     </div>
 </div>
 <div class="connexionContainer">
+    <a href="/" style="text-decoration: none;" th:if="${mobile}" class="connexionLogoContainer">
+        <img th:src="@{/assets/Molkky_logo.png}" alt="logo" class="connexionLogo"/>
+    </a>
     <h1>Connexion</h1>
     <form method="post" th:action="@{/connexion}" autocomplete="off" th:object="${userConnection}">
         <div class="txt_field">
