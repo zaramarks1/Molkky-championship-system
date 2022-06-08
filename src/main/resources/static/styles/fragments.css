@@ -177,6 +177,12 @@
     position: absolute;
 }
 
+@media only screen and (max-width: 400px) {
+    .searchbarIconContainerMobile {
+        padding: 18px 10px;
+    }
+}
+
 .searchbarButtonContainer {
     display: flex;
     flex-direction: row;
