@@ -14,7 +14,7 @@ public class AddPlayerModel {
 
     private String surname;
     private String forename;
-    private String club;
+    private String club = "";
     private String mail;
     private Integer teamId;
 
