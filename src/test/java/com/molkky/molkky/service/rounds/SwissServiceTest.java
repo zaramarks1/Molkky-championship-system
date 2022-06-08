@@ -74,6 +74,15 @@ import java.util.*;
 
         Assertions.assertEquals(1, results.size(), " There should be 4 rounds of swiss ");
 
+        for(Match m : tournament.getPhases().get(0).getRounds().get(0).getMatches()){
+            Random rand = new Random();
+            m.setFinished(true);
+            m.setWinner(m.getTeams().get(0));
+            m.setScoreTeam1(50);
+            m.setScoreTeam2(rand.nextInt(49));
+            matchRepository.save(m);
+            matchService.validateMatch(m);
+        }
         tournament = tournamentRepository.findById(tournament.getId());
 
         SwissPool swissPool = (SwissPool) tournament.getPhases().get(0);
@@ -88,6 +97,8 @@ import java.util.*;
             Assertions.assertEquals(4, entry.getValue().size(), " The  should be 4 match");
 
         }
+
+
 
         Map<Round, List<Match>> results2 =  phaseService.generate(tournament.getPhases().get(0).getId().toString());
 
@@ -112,19 +123,15 @@ import java.util.*;
         tournament = tournamentRepository.findById(tournament.getId());
 
 
-        List<Round> rounds = new ArrayList<>(tournament.getPhases().get(0).getRounds());
-        for (Round r: rounds){
-            for(Match m : r.getMatches()){
-                Random rand = new Random();
-                m.setFinished(true);
-                m.setWinner(m.getTeams().get(0));
-                m.setScoreTeam1(50);
-                m.setScoreTeam2(rand.nextInt(49));
-                matchRepository.save(m);
-                matchService.validateMatch(m);
-            }
+        for(Match m : tournament.getPhases().get(0).getRounds().get(0).getMatches()){
+            Random rand = new Random();
+            m.setFinished(true);
+            m.setWinner(m.getTeams().get(0));
+            m.setScoreTeam1(50);
+            m.setScoreTeam2(rand.nextInt(49));
+            matchRepository.save(m);
+            matchService.validateMatch(m);
         }
-
         Map<Round, List<Match>> results2 =  phaseService.generate(tournament.getPhases().get(0).getId().toString());
 
 

@@ -151,7 +151,8 @@ public class RoundService {
 
             }else return false;
         }else if (phase instanceof SwissPool){
-            if(((SwissPool) phase).getIndexSubRound().equals(((SwissPool) phase).getNbSubRounds())){
+            SwissPool s = (SwissPool) phase;
+            if(Objects.equals(s.getIndexSubRound(), s.getNbSubRounds())){
                 phase.setFinished(true);
                 phaseRepository.save(phase);
                 return true;
