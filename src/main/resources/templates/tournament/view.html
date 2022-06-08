@@ -68,7 +68,6 @@
         <div class="partContainer">
             <h2 class="partTitle">Participants</h2>
             <div id="participantContainer">
-
                 <th:block th:each="team : ${tournament.getTeams()}">
                     <div class="teamCard">
                         <h3 class="teamNameEliminated" th:if="${team.eliminated == true}"
@@ -76,7 +75,7 @@
                         <h3 class="teamName" th:if="${team.eliminated == false}" th:text="${team.getName()}"></h3>
                         <div class="cardContentContainer">
                             <p class="teamLogo"></p>
-                            <p class="" th:text="'Présence confirmé:'+${team.present}"></p>
+                            <p class="" th:text="${team.present == true ? 'Présence confirmée' : 'Présence non confirmée'}"></p>
                             <ul class="roundsList">
                                 <th:block th:each="team : ${team.getUserTournamentRoles()}">
                                     <li class="teamMember" th:text="${team.getUser().getForename()}"></li>
@@ -88,22 +87,22 @@
             </div>
         </div>
         <div th:if="${session.user != null} and (${#strings.equals(session.user.role, 'STAFF')})">
-                <div class="partContainer">
-                    <form action="#" th:action="@{/tournament/validatePresence}" method="post" class="formContainer">
-                        <h2 class="partTitle">Vérifier la présence des équipes</h2>
-                        <div class="inputContainer">
-                            <label class="inputLabel">Supprimer les équipes qui ne sont pas présentes : </label>
-                            <input hidden th:value="${tournament.id}" th:name="tournamentId"/>
-                            <select style="margin-bottom: 10px;" class="inputPhase" th:name="teamId">
-                                <option th:each="team : ${tournament.getTeams()}" th:text="${team.name}"
-                                       th:value="${team.id}" ></option>
-                            </select>
-                            <button id="validatePresenceButton" class="primaryButton" type="submit">Supprimer les
-                                équipes
-                            </button>
-                        </div>
-                    </form>
-                </div>
+            <div class="partContainer">
+                <form action="#" th:action="@{/tournament/validatePresence}" method="post" class="formContainer">
+                    <h2 class="partTitle">Vérifier la présence des équipes</h2>
+                    <div class="inputContainer">
+                        <label class="inputLabel">Supprimer les équipes qui ne sont pas présentes : </label>
+                        <input hidden th:value="${tournament.id}" th:name="tournamentId"/>
+                        <select style="margin-bottom: 10px;" class="inputPhase" th:name="teamId">
+                            <option th:each="team : ${tournament.getTeams()}" th:text="${team.name}"
+                                    th:value="${team.id}"></option>
+                        </select>
+                        <button id="validatePresenceButton" class="primaryButton" type="submit">Supprimer les
+                            équipes
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
         <div class="partContainer">
             <h2 class="partTitle">Staff</h2>
@@ -151,17 +150,23 @@
 
 
             <form th:if=" ${user != null} and ${tournament.getPhases().size() != (tournament.getIndexPhase())}
-            and ${phasesType[__${tournament.getIndexPhase()-1}__].getPhaseType() != ${T(type.PhaseType).KNOCKOUT}} " action="#" th:action="@{/phase/generate}" method="post" class="formContainer">
-                 <input hidden th:value="${tournament.phases[__${tournament.getIndexPhase()}__].id}" th:name="id"/>
-                <button id="idNext" name = "visible" class="primaryButton" type="submit">Passer à la phase suivante</button>
+            and ${phasesType[__${tournament.getIndexPhase()-1}__].getPhaseType() != ${T(type.PhaseType).KNOCKOUT}} "
+                  action="#" th:action="@{/phase/generate}" method="post" class="formContainer">
+                <input hidden th:value="${tournament.phases[__${tournament.getIndexPhase()}__].id}" th:name="id"/>
+                <button id="idNext" name="visible" class="primaryButton" type="submit">Passer à la phase suivante
+                </button>
 
             </form>
 
-            <form th:if=" ${user != null} and ${#strings.equals(phasesType[__${tournament.getIndexPhase()-1}__].getPhaseType(),'KNOCKOUT') }" action="#" th:action="@{/phase/generate}" method="post" class="formContainer">
-                 <input hidden th:value="${tournament.phases[__${tournament.getIndexPhase()-1}__].id}" th:name="id"/>
+            <form th:if=" ${user != null} and ${#strings.equals(phasesType[__${tournament.getIndexPhase()-1}__].getPhaseType(),'KNOCKOUT') }"
+                  action="#" th:action="@{/phase/generate}" method="post" class="formContainer">
+                <input hidden th:value="${tournament.phases[__${tournament.getIndexPhase()-1}__].id}" th:name="id"/>
                 <label class="inputLabel">Nombre des manches dans la prochaine étape du tableau éliminatoire</label>
-                <input  style="margin-bottom: 10px;" name="nbSet"  class="inputPhase" th:name="nbSet" type="number" min="1" >
-                <button id="idNextKnockout" name = "visible" class="primaryButton" type="submit">Passer à la etape suivante</button>
+                <input style="margin-bottom: 10px;" name="nbSet" class="inputPhase" th:name="nbSet" type="number"
+                       min="1">
+                <button id="idNextKnockout" name="visible" class="primaryButton" type="submit">Passer à la etape
+                    suivante
+                </button>
             </form>
 
         </div>

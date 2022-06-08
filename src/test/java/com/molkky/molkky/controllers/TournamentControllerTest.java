@@ -3,6 +3,8 @@ package com.molkky.molkky.controllers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.molkky.molkky.domain.Team;
 import com.molkky.molkky.domain.Tournament;
+import com.molkky.molkky.domain.User;
+import com.molkky.molkky.domain.UserTournamentRole;
 import com.molkky.molkky.model.TournamentModel;
 import com.molkky.molkky.repository.TeamRepository;
 import com.molkky.molkky.repository.TournamentRepository;
@@ -21,12 +23,11 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfi
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
-import org.thymeleaf.exceptions.TemplateAssertionException;
 import type.TournamentStatus;
 
-import java.lang.reflect.Executable;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -139,7 +140,37 @@ class TournamentControllerTest {
                 .andDo(print())
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/team/create"));
+    }
 
+    @Test
+    void testResults() throws Exception {
+        Tournament tournament = new Tournament();
+        tournament.setId(289989);
+        tournament.setNbPlayersPerTeam(1);
+        tournament.setFinished(true);
+        Team team = new Team();
+        team.setEliminated(false);
+        User user = new User();
+        user.setForename("Paco");
+        user.setSurname("Bousson");
+        UserTournamentRole userTournamentRole = new UserTournamentRole();
+        List<UserTournamentRole> users = new ArrayList<>();
+        users.add(userTournamentRole);
+        List<Team> teams = new ArrayList<>();
+        teams.add(team);
+
+        userTournamentRole.setUser(user);
+        team.setUserTournamentRoles(users);
+        tournament.setTeams(teams);
+        tournament.setStatus(TournamentStatus.CLOSED);
+
+        Mockito.when(tournamentRepository.findById(Mockito.anyInt())).thenReturn(tournament);
+        Mockito.when(tournamentService.getWinners(tournament)).thenReturn(teams);
+
+        mockMvc.perform(get("/tournament/results")
+                .param("tournamentId", "289989"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("/tournament/results"));
     }
 
     @Test

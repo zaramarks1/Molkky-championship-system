@@ -37,6 +37,12 @@
     box-shadow: 0 0 7px #c4c4c4;
 }
 
+@media only screen and (max-width: 1000px) {
+    .inputPhase {
+        width: 100%;
+    }
+}
+
 .inputPhase[type="checkbox"] {
     outline: #6D41F3 auto 2px;
     width: 18px;
