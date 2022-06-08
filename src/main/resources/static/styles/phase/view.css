@@ -3,7 +3,6 @@
 }
 
 .cardRound {
-    color:#8C69F4;
     width: 100%;
     height: min-content;
     display: flex;
@@ -55,9 +54,63 @@ table{
     border-collapse: collapse;
 }
 
+.mainTable{
+    width: 100%;
+}
+
+.mainTableHeader{
+    margin: 10px;
+    text-align: center;
+    width:90%
+}
+
+.mainTableAllTeams{
+    text-align: center;
+}
+.matchFinished{
+    color : green;
+    font-size: 14px;
+    font-weight: 800;
+}
+.teamNameMatches{
+    background-color: forestgreen;
+    color: white;
+    font-weight: bold;
+    margin: 0;
+    padding: 5px 5px;
+    border-top-right-radius: 7px;
+    border-top-left-radius: 7px;
+    text-transform: uppercase;
+    text-align: center;
+}
+.matchNotFinished{
+    color : red;
+    font-size: 14px;
+    font-weight: 800;
+}
+
+.teamName{
+    background-color: #8787A1
+}
+
+.matchCard{
+    width: 100%
+}
+
+.matchCardHeader{
+    margin: 10px;
+    text-align: center;
+    width:90%
+}
+
+.teamsScores{
+    text-align: center;
+}
+
+
 th,td {
     border-bottom:solid;
-    border-color: rgba(140, 105, 244, 0.37);
+    border-color: rgba(0, 0, 0, 0.1);
     border-width: 1px;
     padding: 10px;
 }
