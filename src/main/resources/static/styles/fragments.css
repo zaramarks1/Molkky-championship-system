@@ -29,7 +29,7 @@
 }
 
 .footerText {
-    font-size: 15px;
+    font-size: 14px;
     text-align: center;
     color: black;
 }
@@ -51,7 +51,7 @@
     align-items: center;
     font-family: "Inter", sans-serif;
     font-weight: 600;
-    font-size: 1.4rem;
+    font-size: 14px;
     line-height: 18px;
 }
 
@@ -65,7 +65,7 @@
     align-items: center;
     font-family: "Inter", sans-serif;
     font-weight: 600;
-    font-size: 1.4rem;
+    font-size: 14px;
     line-height: 18px;
     position: fixed;
     background-color: white;
@@ -162,7 +162,7 @@
     border-radius: 7px;
     border-width: 0;
     font-weight: 600;
-    font-size: 1.4rem;
+    font-size: 14px;
     line-height: 18px;
     color: #8787A1;
 }
@@ -289,7 +289,7 @@
     font-family: 'Inter', serif;
     font-style: normal;
     font-weight: 600;
-    font-size: 1.4rem;
+    font-size: 14px;
     color: black;
     cursor: pointer;
     padding: 10px;

@@ -20,7 +20,7 @@
       </div>
       <div class="formContainer">
         <div th:each="mail, itemStat : *{mails}" class="inputContainer">
-          <b th:text="'Staff ' + ${itemStat.index+1}">Staff: </b>
+          <div class="partTitle" th:text="'Staff ' + ${itemStat.index+1}">Staff: </div>
           <div class="submitContainer playerFormContainer">
             <div class="inputContainer">
               <label for="email" class="inputLabel">Mail</label>

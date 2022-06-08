@@ -14,6 +14,13 @@
     }
 }
 
+.partTitle {
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+    margin-bottom: 10px;
+}
+
 .inputTournament[type="checkbox"] {
     outline: #6D41F3 auto 2px;
     width: 18px;
