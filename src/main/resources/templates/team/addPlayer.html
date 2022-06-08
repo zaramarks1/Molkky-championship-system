@@ -12,28 +12,23 @@
     <div class="contentContainer">
         <div th:replace="fragments/searchbar"> </div>
         <div class="contentTitle">Ajouter un joueur à l'équipe</div>
-        <b value = "${team.name}"></b>
         <form action="#" th:action="@{/team/addPlayer}" method="post" th:object="${form}" class="formContainer">
            <!-- <div class="inputContainer">
                 <label for="nom" class="inputLabel">Player Name</label>
                 <input id ="nom" name="nom" type="text"  class="inputTournament" placeholder="Name"/>
             </div>-->
 
-            <div class="inputContainer">
-                <label  class="inputLabel" value = "${team.name}" ></label>
-                <a th:text="'Equipe ' + ${team.name}"></a>
-
+            <div class="teamName" th:text="'Equipe ' + ${team.name}">
             </div>
 
-            <div class="inputContainer">
+            <div class="inputContainer" th:if="${!isDiffMail}">
                 <span th:if="${!isDiffMail}">S'il vous plait, entrez des mails différents pour chaque joueur !</span>
-
             </div>
 
 
             <div class="formContainer">
                 <div th:each="player, itemStat : *{players}" class="inputContainer">
-                    <b th:text="'Joueur ' + ${itemStat.index+1}">Joueur: </b>
+                    <div class="playerIndex" th:text="'Joueur ' + ${itemStat.index+1}">Joueur: </div>
                     <div class="submitContainer playerFormContainer">
                         <div class="inputContainer">
                             <label  for="forename" class="inputLabel">Prénom</label>
