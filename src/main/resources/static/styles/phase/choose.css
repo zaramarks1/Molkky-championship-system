@@ -34,7 +34,7 @@
     border: 0;
     background-color: #F8FAFC;
     padding: 10px;
-    box-shadow: 0 0 7px #C4C4C4;
+    box-shadow: 0 0 7px #c4c4c4;
 }
 
 .inputPhase[type="checkbox"] {
