@@ -75,7 +75,7 @@
                         <h3 class="teamName" th:if="${team.eliminated == false}" th:text="${team.getName()}"></h3>
                         <div class="cardContentContainer">
                             <p class="teamLogo"></p>
-                            <p class="" th:text="'Présence confirmé:'+${team.present}"></p>
+                            <p class="" th:text="${team.present == true ? 'Présence confirmée' : 'Présence non confirmée'}"></p>
                             <ul class="roundsList">
                                 <th:block th:each="team : ${team.getUserTournamentRoles()}">
                                     <li class="teamMember" th:text="${team.getUser().getForename()}"></li>
