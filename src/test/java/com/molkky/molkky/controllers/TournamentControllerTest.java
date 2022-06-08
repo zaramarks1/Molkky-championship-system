@@ -3,7 +3,10 @@ package com.molkky.molkky.controllers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.molkky.molkky.domain.Team;
 import com.molkky.molkky.domain.Tournament;
+import com.molkky.molkky.domain.User;
+import com.molkky.molkky.domain.UserTournamentRole;
 import com.molkky.molkky.model.TournamentModel;
+import com.molkky.molkky.repository.TeamRepository;
 import com.molkky.molkky.repository.TournamentRepository;
 import com.molkky.molkky.repository.UserRepository;
 import com.molkky.molkky.repository.UserTournamentRoleRepository;
@@ -20,8 +23,11 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfi
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
+import type.TournamentStatus;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -56,8 +62,12 @@ class TournamentControllerTest {
     @MockBean
     private UserRepository userRepository;
 
+    @MockBean
+    private TeamRepository teamRepository;
+
     @Autowired
     private ObjectMapper objectMapper;
+
 
     @Mock
     private Tournament tournament;
@@ -77,7 +87,7 @@ class TournamentControllerTest {
                         .param("cutOffDate", "2020-03-01")
                         .flashAttr("tournament", new TournamentModel()))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/phase/choosePhases?tournamentId=5"));
+                .andExpect(view().name("redirect:/phase/choosePhases?tournamentId=5"));
         ;
         verify(tournamentService, times(1)).create(any(TournamentModel.class));
     }
@@ -124,15 +134,43 @@ class TournamentControllerTest {
 
         mockMvc.perform(post("/tournament/allTournament"))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/tournament/create?unreadCount=0"))
                 .andExpect(view().name("redirect:/tournament/create"));
 
         mockMvc.perform(post("/tournament/inscription"))
                 .andDo(print())
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/team/create?unreadCount=0"))
                 .andExpect(view().name("redirect:/team/create"));
+    }
 
+    @Test
+    void testResults() throws Exception {
+        Tournament tournament = new Tournament();
+        tournament.setId(289989);
+        tournament.setNbPlayersPerTeam(1);
+        tournament.setFinished(true);
+        Team team = new Team();
+        team.setEliminated(false);
+        User user = new User();
+        user.setForename("Paco");
+        user.setSurname("Bousson");
+        UserTournamentRole userTournamentRole = new UserTournamentRole();
+        List<UserTournamentRole> users = new ArrayList<>();
+        users.add(userTournamentRole);
+        List<Team> teams = new ArrayList<>();
+        teams.add(team);
+
+        userTournamentRole.setUser(user);
+        team.setUserTournamentRoles(users);
+        tournament.setTeams(teams);
+        tournament.setStatus(TournamentStatus.CLOSED);
+
+        Mockito.when(tournamentRepository.findById(Mockito.anyInt())).thenReturn(tournament);
+        Mockito.when(tournamentService.getWinners(tournament)).thenReturn(teams);
+
+        mockMvc.perform(get("/tournament/results")
+                .param("tournamentId", "289989"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("/tournament/results"));
     }
 
     @Test
@@ -140,5 +178,19 @@ class TournamentControllerTest {
         mockMvc.perform(get("/tournament/tournamentOnGoing"))
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(view().name("/tournament/tournamentOnGoing"));
+    }
+
+    @Test
+    void testTournamentValidatePresence() throws Exception{
+        Team team = new Team();
+        team.setId(1);
+        Tournament tournoi = new Tournament();
+        tournoi.setId(1);
+        tournoi.setTeams(Arrays.asList(team));
+        when(this.teamRepository.findById(1)).thenReturn(team);
+        mockMvc.perform(post("/tournament/validatePresence")
+                .param("tournamentId", tournoi.getId().toString())
+                .param("teamId",team.getId().toString()))
+                .andExpect(view().name("redirect:/tournament/view?tournamentId="+tournoi.getId()));
     }
 }

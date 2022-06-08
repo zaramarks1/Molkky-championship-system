@@ -50,7 +50,7 @@ public class PhaseController extends DefaultAttributes {
     RoundService roundService;
 
     @PostMapping("/generate")
-    public String generate(Model model, HttpSession session, @RequestParam(name = "id", required = true) String id){
+    public String generate(Model model, HttpSession session, @RequestParam(name = "id", required = true) String id,  @RequestParam(name = "nbSet", required = false) String nbSet){
 
         UserLogged user = (UserLogged) session.getAttribute("user");
 
@@ -61,12 +61,17 @@ public class PhaseController extends DefaultAttributes {
 
         Phase phase = phaseRepository.findById(Integer.valueOf(id));
 
+        if(nbSet != null){
+            phase.setNbSets(Integer.valueOf(nbSet));
+            phaseRepository.save(phase);
+        }
+
         Tournament tournament = phase.getTournament();
 
-        tournament.setIndexPhase(tournament.getIndexPhase()+1);
-
-        tournamentRepository.save(tournament);
-
+        if(!(phase instanceof Knockout)){
+            tournament.setIndexPhase(tournament.getIndexPhase()+1);
+            tournamentRepository.save(tournament);
+        }
 
         if(user.getRole().equals(UserRole.ADM) ){
             Map<Round, List<Match>> response = phaseService.generate(id);

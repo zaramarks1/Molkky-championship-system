@@ -1,0 +1,41 @@
+<!DOCTYPE>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html" lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <div th:replace="fragments/header"></div>
+    <title>Affichage des utilisateurs</title>
+    <link rel="stylesheet" th:href="@{/styles/user/user.css}" href="./"/>
+    <link rel="stylesheet" th:href="@{/styles/team/listTeam.css}" href="./"/>
+</head>
+<body class="bg">
+<div class="pageContainer">
+    <div th:replace="fragments/sidebar"></div>
+    <div class="contentContainer">
+        <div th:replace="fragments/searchbar"></div>
+
+        <!-- Emplacement pour les filtres-->
+        <form method="get" th:action="@{/user/displayUsers}" id="cover">
+            <input name="filter" class="inputFilter" type="text" placeholder="Filtrer">
+            <button class = "filter" type="submit">
+                <i class="searchIconFilter">
+                    <img class="searchbarIcon" th:src="@{/assets/search_icon.svg}"/>
+                </i>
+            </button>
+        </form>
+
+
+        <div class="cardContainer">
+            <div th:each="user: ${users}" class="cardUser" th:unless="${user.pseudo == null}">
+                <div class="userHeader">
+                    <a th:text="${user.pseudo}"></a>
+                </div>
+                <div class="boxImage">
+                    <img class="image" th:src="@{/assets/users.svg}">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<div th:replace="fragments/footer"></div>
+</html>

@@ -2,13 +2,10 @@ package com.molkky.molkky.controllers;
 
 
 import com.molkky.molkky.controllers.superclass.DefaultAttributes;
-import com.molkky.molkky.domain.Phase;
-import com.molkky.molkky.domain.Tournament;
+import com.molkky.molkky.domain.*;
 import com.molkky.molkky.domain.rounds.*;
-import com.molkky.molkky.model.AddStaff;
-import com.molkky.molkky.model.AddStaffList;
-import com.molkky.molkky.model.TournamentModel;
-import com.molkky.molkky.model.UserLogged;
+import com.molkky.molkky.model.*;
+import com.molkky.molkky.repository.TeamRepository;
 import com.molkky.molkky.repository.TournamentRepository;
 import com.molkky.molkky.service.PhaseService;
 import com.molkky.molkky.service.TournamentService;
@@ -19,7 +16,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import type.PhaseType;
-import com.molkky.molkky.model.PhaseTypeViewModel;
 import type.TournamentStatus;
 import type.UserRole;
 
@@ -40,10 +36,12 @@ public class TournamentController extends DefaultAttributes {
     @Autowired
     private PhaseService phaseService;
 
+    @Autowired
+    private TeamRepository teamRepository;
 
     private String allTournament="tournament";
     private String redirectionAll = "/tournament/allTournament";
-
+    private String redirectViewId = "redirect:/tournament/view?tournamentId=";
 
     @GetMapping("/allTournament")
     public String tournamentForm(Model model) {
@@ -79,7 +77,6 @@ public class TournamentController extends DefaultAttributes {
     @PostMapping("/inscription")
     public ModelAndView goToInscription(ModelMap model){return new ModelAndView("redirect:/team/create",model);}
 
-
     @PostMapping ("/currentTournament")
     public String currentTournament() {
         return "/";
@@ -107,8 +104,6 @@ public class TournamentController extends DefaultAttributes {
 
     @GetMapping("/view")
     public String tournamentViewPostLaunch(Model model,@RequestParam(value = "tournamentId", required = false) String tournamentId,  HttpSession session){
-
-
         Tournament tournament = tournamentRepository.findById(Integer.valueOf(tournamentId));
 
         //USER FROM SESSION
@@ -199,7 +194,7 @@ public class TournamentController extends DefaultAttributes {
 
         model.addAttribute("tournament_id", tournamentId);
 
-        return "redirect:/tournament/view?tournamentId=" + tournamentId;
+        return (redirectViewId + tournamentId);
 
     }
 
@@ -211,15 +206,46 @@ public class TournamentController extends DefaultAttributes {
         tournament.setStatus(TournamentStatus.INPROGRESS);
         tournament.setIndexPhase(1);
         tournamentRepository.save(tournament);
-
-
         phaseService.generate(tournament.getPhases().get(0).getId().toString());
 
-
         model.addAttribute("tournament_id", tournamentId);
+        return (redirectViewId + tournamentId);
 
-        return "redirect:/tournament/view?tournamentId=" + tournamentId;
+    }
 
+    @PostMapping("/validatePresence")
+    public String validatePresence (Model model, @RequestParam(name = "tournamentId")String tournamentId, @RequestParam(name = "teamId")int teamId) {
+        Team team = teamRepository.findById(teamId);
+        team.setPresent(false);
+        teamRepository.save(team);
+        return (redirectViewId + tournamentId);
+    }
+
+    @GetMapping("/results")
+    public String results (Model model, @RequestParam(name="tournamentId") String tournamentId){
+        Tournament tournament = tournamentRepository.findById(Integer.valueOf(tournamentId));
+        model.addAttribute("tournamentStatus", tournament.getStatus().toString());
+
+        List<Team> teamsWinner = tournamentService.getWinners(tournament);
+        List<User> players = new ArrayList<>();
+
+        model.addAttribute("winners", teamsWinner);
+
+        for (int i=0;i<teamsWinner.size();i++){
+            List<UserTournamentRole> usersTournamentRole = teamsWinner.get(i).getUserTournamentRoles();
+            for (int j=0;j<usersTournamentRole.size();j++){
+                User user = usersTournamentRole.get(j).getUser();
+                players.add(user);
+            }
+        }
+        model.addAttribute("players", players);
+
+        return "/tournament/results";
+    }
+
+    @PostMapping("/results")
+    public String resultsPost( @RequestParam(name= "tournamentId") Integer tournamentId){
+        return "redirect:/tournament/results?tournamentId="+tournamentId;
     }
 
 }

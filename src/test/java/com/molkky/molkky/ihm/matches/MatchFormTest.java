@@ -70,7 +70,7 @@ class MatchFormTest {
 //        when
         config.getDriver().get(url + "/matches/match?match_id=" + match.getId());
 //        then
-        Assertions.assertEquals(url + "/connexion", config.getDriver().getCurrentUrl());
+        Assertions.assertEquals(url + "/connexion", config.getDriver().getCurrentUrl().split("\\?")[0]);
     }
 
     @Test
@@ -108,6 +108,26 @@ class MatchFormTest {
         config.getDriver().findElement(By.id("submitSet0")).click();
         config.getDriver().get(url + "/matches/match?match_id=" + match.getId());
 //        then
+        Assertions.assertEquals(Integer.toString(score1), config.getDriver().findElement(By.name("score1Team1")).getAttribute("value"));
+        Assertions.assertEquals(Integer.toString(score2), config.getDriver().findElement(By.name("score2Team1")).getAttribute("value"));
+    }
+
+    @Test
+    void testInsertScoreTeam1WrongScore() {
+//        given
+        Match match = createCompleteMatch();
+        loginUser(match.getTeams().get(0).getUserTournamentRoles().get(0).getUser());
+        config.getDriver().get(url + "/matches/match?match_id=" + match.getId());
+        int score1 = -10;
+        int score2 = 70;
+//        when
+        config.getDriver().findElement(By.name("score1Team1")).clear();
+        config.getDriver().findElement(By.name("score1Team1")).sendKeys(Integer.toString(score1));
+        config.getDriver().findElement(By.name("score2Team1")).clear();
+        config.getDriver().findElement(By.name("score2Team1")).sendKeys(Integer.toString(score2));
+        config.getDriver().findElement(By.id("submitSet0")).click();
+//        then
+//        score stays the same because nothing was sent
         Assertions.assertEquals(Integer.toString(score1), config.getDriver().findElement(By.name("score1Team1")).getAttribute("value"));
         Assertions.assertEquals(Integer.toString(score2), config.getDriver().findElement(By.name("score2Team1")).getAttribute("value"));
     }

@@ -1,4 +1,4 @@
-<div class="searchAutoresults popup" id="searchbarResults">
+<div th:class="${(mobile ? 'searchAutoresultsMobile' : 'searchAutoresults') + ' popup'}" id="searchbarResults">
     <th:block th:if="${tournaments.size() > 0}">
         <div class="searchAutoresultsSectionTitle popup">Tournois</div>
         <a th:each="tournament, iStat: ${tournaments}" class="searchResultItemContainer popup" th:href="${'/tournament/view?tournamentId=' + tournament.id}">

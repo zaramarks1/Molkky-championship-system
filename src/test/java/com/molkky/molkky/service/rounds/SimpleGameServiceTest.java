@@ -53,7 +53,7 @@ import java.util.Map;
 
         Tournament tournament = createTournament();
 
-        tournament = createSimpleGame(tournament, 1, false, false);
+        tournament = createSimpleGame(tournament, 1, false, false, 4);
 
         insertTeam(tournament, 8);
 
@@ -83,44 +83,6 @@ import java.util.Map;
 
     }
 
-    @Test
-    @Rollback(false)
-    @Transactional
-    void testInsertTournamentWithSimpleGameRoundWith9Teams() {
-
-        Tournament tournament = createTournament();
-
-        tournament = createSimpleGame(tournament, 1, false, false);
-
-        insertTeam(tournament, 9);
-
-        Map<Round, List<Match>> results =  phaseService.generate(tournament.getPhases().get(0).getId().toString());
-
-        tournament = tournamentRepository.findById(tournament.getId());
-
-        Assertions.assertEquals(1, tournament.getPhases().size(), "Tournament should have 1 phase");
-        Assertions.assertEquals(true, tournament.getPhases().get(0) instanceof SimpleGame,
-                " It should be a instance of a simple game");
-
-        Assertions.assertEquals(4, tournament.getPhases().get(0).getRounds().size(),
-                " there should be 4 rounds in the phase");
-
-        Assertions.assertEquals(9, tournament.getTeams().size(), " There should be 9 teams ");
-        Assertions.assertEquals(1, tournament.getTeams().get(0).getUserTournamentRoles().size(),
-                " There should be 1 player per team ");
-
-        Assertions.assertEquals(4, results.size(), " There should be 4 rounds of simple game ");
-
-        Assertions.assertEquals(1, tournament.getPhases().get(0).getRounds().get(0).getMatches().size(),
-                " there should be 1 match in the first round");
-        Assertions.assertEquals(3, tournament.getPhases().get(0).getRounds().get(3).getMatches().size(),
-                " there should be 3 matches in the last");
-
-        Assertions.assertEquals(2, tournament.getTeams().get(6).getMatchs().size(), " There should be 2 matches for team 7 ");
-        Assertions.assertEquals(2, tournament.getTeams().get(7).getMatchs().size(), " There should be 2 matches for team 8 ");
-        Assertions.assertEquals(2, tournament.getTeams().get(8).getMatchs().size(), " There should be 2 matches for team 9 ");
-
-    }
 
     @Test
     @Rollback(false)
@@ -129,7 +91,7 @@ import java.util.Map;
 
         Tournament tournament = createTournament();
 
-        tournament = createSimpleGame(tournament, 1, true, true);
+        tournament = createSimpleGame(tournament, 1, true, true, 4);
 
         insertTeam(tournament, 8);
 
@@ -149,6 +111,10 @@ import java.util.Map;
         Assertions.assertEquals(8, tournament.getTeams().size(), "there should be 8 teams");
         Assertions.assertEquals(4, teams.size(), "there should be 4 teams remaining");
 
+        tournament = tournamentRepository.findById(tournament.getId());
+
+        Assertions.assertTrue(tournament.getPhases().get(0).getFinished(), "phase should be finished");
+
     }
 
     Tournament createTournament(){
@@ -160,6 +126,7 @@ import java.util.Map;
                 1,
                 8,
                 true,
+                true,
                 2,
                 3,
                 2
@@ -170,13 +137,14 @@ import java.util.Map;
         return tournamentRepository.save(tournament);
 
     }
-    Tournament createSimpleGame(Tournament tournament, int nbPhase, boolean ranking, boolean seedingSystem){
+    Tournament createSimpleGame(Tournament tournament, int nbPhase, boolean ranking, boolean seedingSystem, int nbQualifies){
         SimpleGame simpleGame = new SimpleGame();
         simpleGame.setNbSets(3);
         simpleGame.setTournament(tournament);
         simpleGame.setNbPhase(nbPhase);
         simpleGame.setRanking(ranking);
         simpleGame.setSeedingSystem(seedingSystem);
+        simpleGame.setNbTeamsQualified(nbQualifies);
 
         simpleGame =  phaseRepository.save(simpleGame);
 

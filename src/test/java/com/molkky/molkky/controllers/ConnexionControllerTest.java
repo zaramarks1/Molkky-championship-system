@@ -119,12 +119,9 @@ class ConnexionControllerTest {
     void testConnexionControllerWithoutAdminOrStaff() throws Exception{
         User user = new User();
         when(this.userRepository.findUserByEmailAndPassword("test72@sfr.fr", "testMDP")).thenReturn(user);
-
         List<UserTournamentRole> adminOrStaff = new ArrayList<>();
-
         when(this.userRepository.existsUserByEmailAndPassword(any(), any())).thenReturn(true);
         when(this.userTournamentRoleRepository.findUserAdminStaff(user)).thenReturn(adminOrStaff);
-
         mockMvc.perform(post("/connexion/")
                         .param("email", "test72@sfr.fr")
                         .param("password", "testMDP")

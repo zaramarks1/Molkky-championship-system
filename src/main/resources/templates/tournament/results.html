@@ -1,0 +1,32 @@
+<html xmlns:th="http://thymeleaf.org" xmlns="http://www.w3.org/1999/html" xmlns:form="http://www.w3.org/1999/xhtml"
+      lang="fr">
+<head>
+    <div th:replace="fragments/header"></div>
+    <link rel="stylesheet" th:href="@{/styles/tournament/results.css}" href="../"/>
+    <title>Résultat de votre tournoi</title>
+</head>
+<body class="bg">
+<div class="pageContainer">
+    <div th:replace="fragments/sidebar"></div>
+    <div class="contentContainer">
+        <div th:replace="fragments/searchbar"></div>
+        <div class="partContainer">
+            <h2 class="partTitle">Vainqueur du tournoi</h2>
+            <div id="eachWinner" th:each="winner: ${winners}" th:if="${winners.size() > 0}">
+                <p id="winner" th:text="${winner.getName()}"></p>
+                <div class="teamImage">
+
+                </div>
+                <div th:each="player: ${players}">
+                    <p id="namePlayer" th:text="${player.getForename()} + ' ' + ${player.getSurname()}"></p>
+                </div>
+            </div>
+            <div th:unless="${winners.size() > 0}">
+                Pas de vainqueur pour ce tournoi.
+            </div>
+        </div>
+    </div>
+</div>
+<div th:replace="fragments/footer"></div>
+</body>
+</html>

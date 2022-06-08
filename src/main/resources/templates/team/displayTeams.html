@@ -1,0 +1,48 @@
+<!DOCTYPE>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html" lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <div th:replace="fragments/header"></div>
+    <title>Affichage des équipes</title>
+    <link rel="stylesheet" th:href="@{/styles/team/listTeam.css}" href="./"/>
+</head>
+<body class="bg">
+<div class="pageContainer">
+    <div th:replace="fragments/sidebar"></div>
+        <div class="contentContainer">
+            <div th:replace="fragments/searchbar"></div>
+            <form method="get" th:action="@{/team/displayTeams}" id="cover" autocomplete="off">
+                <input name="filter" class="inputFilter" type="text" placeholder="Filtrer">
+                <button class = "filter" type="submit">
+                    <i class="searchIconFilter">
+                        <img class="searchbarIcon" th:src="@{/assets/search_icon.svg}"/>
+                    </i>
+                </button>
+            </form>
+            <div class="cardContainer">
+            <div th:each="team: ${teams}" class="cardTeam">
+                <div class="teamHeader">
+                    <div class="teamName">
+                        <p th:text="${team.getName()}"></p>
+                    </div>
+                </div>
+                <div class="cardContentContainer">
+                    <img class="teamLogo" th:src="@{/assets/teams.svg}" alt="Team icon"/>
+                    <ul class="roundsList">
+                        <th:block th:if="${team.getUserTournamentRoles().isEmpty()}">
+                            <li class="teamMember">Vide</li>
+                        </th:block>
+                        <th:block th:each="team : ${team.getUserTournamentRoles()}">
+                            <li class="teamMember" th:text="${team.getUser().getForename()}"></li>
+                        </th:block>
+                    </ul>
+                </div>
+            </div>
+            </div>
+
+        </div>
+    </div>
+</body>
+<div th:replace="fragments/footer"></div>
+</html>
+
