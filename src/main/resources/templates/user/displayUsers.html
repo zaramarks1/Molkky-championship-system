@@ -23,14 +23,18 @@
 
 
         <div class="cardContainer">
-            <div th:each="user: ${users}" class="cardUser" th:unless="${user.pseudo == null}" >
-                <div class="userHeader">
-                    <a th:text="${user.pseudo}" th:href="@{'/user/view?userId='+${user.id}}"></a>
-                </div>
-                <div class="boxImage">
-                    <img class="image" th:src="@{/assets/users.svg}" th:href="@{'/user/view?userId='+${user.id}}">
-                </div>
-            </div>
+            <ul th:each="user: ${users}" class="cardUser" th:unless="${user.pseudo == null}">
+                <li class="clickCard">
+                    <a th:href="@{'/user/view?userId='+${user.id}}">
+                        <div class="userHeader">
+                            <p class="textCard" th:text="${user.pseudo}"></p>
+                        </div>
+                        <div class="boxImage">
+                            <img class="image" th:src="@{/assets/users.svg}">
+                        </div>
+                    </a>
+                </li>
+            </ul>
         </div>
     </div>
 </div>

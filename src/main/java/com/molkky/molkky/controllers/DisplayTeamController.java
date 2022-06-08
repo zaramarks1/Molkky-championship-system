@@ -1,8 +1,6 @@
 package com.molkky.molkky.controllers;
 
 import com.molkky.molkky.domain.Team;
-
-import com.molkky.molkky.domain.User;
 import com.molkky.molkky.model.TeamFilterModel;
 import com.molkky.molkky.repository.TeamRepository;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -68,6 +68,7 @@
     flex: none;
     order: 0;
     flex-grow: 0;
+
 }
 
 .boxImage {
@@ -82,4 +83,14 @@
     margin-top: 15px;
     display: block;
     height: 70px;
+}
+
+.clickCard{
+    width: -webkit-fill-available;
+    height: -webkit-fill-available;
+    text-decoration: none;
+}
+
+.textCard{
+    text-decoration: none;
 }

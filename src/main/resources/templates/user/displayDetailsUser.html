@@ -13,9 +13,25 @@
         <div th:replace="fragments/searchbar"></div>
 
         <!-- Emplacement pour les informations d'un user-->
-        <h1>Page d'information d'un user</h1>
-        <div>
+        <div class="contentTitle">
+            Informations de l'utlisateur <span id="userPseudo" th:text="${pseudo}"/>
+            <div class="contentText">
+                Email de l'utilisateur : <span id="userMail" th:text="${email}"/> <br> <br>
+                Club de l'utilisateur : <span id="userClub" th:text="${club}"/> <br> <br>
+                Nom de l'utilisateur : <span id="userNom" th:text="${nom}"/> <br> <br>
+                Prénom de l'utilisateur : <span id="userPrenom" th:text="${prenom}"/> <br> <br>
+            </div>
         </div>
+
+        <div class="contentTitle">
+            Liste des tournois de l'utilisateur <span id="userPseudo2" th:text="${pseudo}"/>
+            <div class="contentText" th:each="tournament: ${tournament}">
+                Nom du tournoi : <span id="nomTournament" th:text="${tournament.name}"/> <br> <br>
+                Date du tournoi  <span id="dateTournament" th:text="${tournament.date}"/> <br> <br>
+            </div>
+        </div>
+
+
     </div>
 </div>
 </body>
