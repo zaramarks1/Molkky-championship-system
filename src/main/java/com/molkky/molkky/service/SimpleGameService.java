@@ -73,36 +73,23 @@ public class SimpleGameService {
 
       List<PhaseRankingModel>  scoresList =  roundService.orderTeamsByScoreInPhase(round.getPhase(), 1);
         roundService.seedingSystem(round, scoresList);
-        phaseOver(round, scoresList);
 
-    }
-
-    public void  phaseOver(Round round, List<PhaseRankingModel>  scoresList){
-        SimpleGame simpleGame = (SimpleGame) round.getPhase();
-        List<Team> teams = new ArrayList<>();
-
-        if(Boolean.TRUE.equals(roundService.isPhaseOver(simpleGame))){
-
-            int nbEliminated = scoresList.size() - simpleGame.getNbTeamsQualified();
-
-            for(int i = 0; i < scoresList.size();i++){
-                if (i >= nbEliminated) scoresList.get(i).getTeam().setEliminated(true);
-                teams.add(scoresList.get(i).getTeam());
-            }
-            teamRepository.saveAll(teams);
-            generateNotificationAfterRound(teams);
+        if(roundService.isPhaseOver(round.getPhase(), scoresList)){
+            generateNotificationAfterRound(scoresList);
         }
+
     }
 
-    public void generateNotificationAfterRound(List<Team> teams){
 
-        for(int i=0;i<teams.size();i++) {
-            Team t = teams.get(i);
+    public void generateNotificationAfterRound(List<PhaseRankingModel>  scoresList){
+
+        for(int i=0;i<scoresList.size();i++) {
+            Team t = scoresList.get(i).getTeam();
             String message ;
             if(t.isEliminated()){
-                message = "Ton équipe a malheureuseusement été disqualifiée";
+                message = "Ton équipe a fini "+(i+1)+" et malheureuseusement été disqualifiée pendant la phase partie simple";
             }else{
-                message = " Felicitations! Ton équipe est qualifiée pour la prochaine phase";
+                message = " Félicitations! Ton équipe a fini "+(i+1)+" et est qualifiée pour la prochaine phase";
             }
 
             notificationService.sendNotificationToList(message, "", t.getUserTournamentRoles());

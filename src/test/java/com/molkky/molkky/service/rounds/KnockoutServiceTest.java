@@ -190,6 +190,8 @@ import java.util.*;
             }
 
         tournament = tournamentRepository.findById(tournament.getId());
+        Assertions.assertTrue(round.getFinished(), "round should be finished");
+
 
         Map<Round, List<Match>> results2 =  phaseService.generate(tournament.getPhases().get(0).getId().toString());
 
@@ -207,6 +209,8 @@ import java.util.*;
         tournament = tournamentRepository.findById(tournament.getId());
 
         Assertions.assertTrue(tournament.getPhases().get(0).getFinished(), "Phase should be finished");
+        Assertions.assertTrue(round2.getFinished(), "round should be finished");
+
         Assertions.assertEquals(100, tournament.getTeams().get(0).getNbPoints() ," Team 1 should have 100 points");
 
         List<Team> teams = teamRepository.findByTournamentAndEliminated(tournament,false);

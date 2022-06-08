@@ -55,7 +55,7 @@ import java.util.*;
 
         Tournament tournament = createTournament();
 
-        tournament = createSwiss(tournament, 1, 1);
+        tournament = createSwiss(tournament, 1, 1, 6);
 
         insertTeam(tournament, 8);
 
@@ -102,7 +102,7 @@ import java.util.*;
 
         Map<Round, List<Match>> results2 =  phaseService.generate(tournament.getPhases().get(0).getId().toString());
 
-        Assertions.assertNull(results2, "results 2 ne doit pas exister");
+        Assertions.assertEquals(new HashMap<>(),results2, "results 2 ne doit pas exister");
     }
 
 
@@ -114,7 +114,7 @@ import java.util.*;
 
         Tournament tournament = createTournament();
 
-        tournament = createSwiss(tournament, 1, 3);
+        tournament = createSwiss(tournament, 1, 3, 2);
 
         insertTeam(tournament, 4);
 
@@ -164,10 +164,6 @@ import java.util.*;
 
         // Assertions.assertEquals(List.of(tournament.getTeams().get(0), tournament.getTeams().get(1)), matches.get(0).getTeams(), " TEAM 1 AND TEAM 3 should be playing");
 
-
-
-
-
     }
 
 
@@ -193,13 +189,14 @@ import java.util.*;
         return tournamentRepository.save(tournament);
 
     }
-    Tournament createSwiss(Tournament tournament, int nbPhase, int nbMatch){
+    Tournament createSwiss(Tournament tournament, int nbPhase, int nbMatch, int nbQualified){
 
         SwissPool swissPool = new SwissPool();
         swissPool.setNbPhase(nbPhase);
         swissPool.setNbSets(3);
         swissPool.setNbSubRounds(nbMatch);
         swissPool.setTournament(tournament);
+        swissPool.setNbTeamsQualified(nbQualified);
         swissPool.setRanking(true);
         swissPool.setSeedingSystem(true);
 

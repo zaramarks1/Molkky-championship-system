@@ -55,7 +55,7 @@ public class KnockoutService {
 
         generateNotificationAfterRound(teams);
 
-        roundService.isPhaseOver(round.getPhase());
+        roundService.isPhaseOver(round.getPhase(), scoresList);
 
     }
 

@@ -12,6 +12,7 @@ import com.molkky.molkky.repository.UserTournamentRoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -46,17 +47,24 @@ public class SwissService {
            swissPool = swissPoolRepository.save(swissPool);
            return roundService.generateRoundKnockoutAndSwiss(swissPool);
        }else {
-           return null;
+           return new HashMap<>();
        }
 
     }
 
     void validateRound(Round round){
-        List<PhaseRankingModel>  scoresList =  roundService.orderTeamsByScoreInPhase( round.getPhase(), round.getPhase().getVictoryValue());
+
+        SwissPool phase = (SwissPool) round.getPhase();
+        List<PhaseRankingModel>  scoresList =  roundService.orderTeamsByScoreInPhase( phase, phase.getVictoryValue());
 
         List<Team> teams = roundService.seedingSystem(round, scoresList);
+
+        if(roundService.isPhaseOver(round.getPhase(), scoresList)){
+            generateNotificationAfterPhaseSwiss(scoresList);
+        }
+
         generateNotificationAfterRoundSwiss(teams);
-        roundService.isPhaseOver(round.getPhase());
+
 
     }
 
@@ -68,5 +76,21 @@ public class SwissService {
 
         }
     }
+    public void generateNotificationAfterPhaseSwiss(List<PhaseRankingModel>  scoresList){
+
+        for(int i=0;i<scoresList.size();i++) {
+            Team t = scoresList.get(i).getTeam();
+            String message ;
+            if(t.isEliminated()){
+                message = "Ton équipe a fini "+(i+1)+" et malheureuseusement été disqualifiée pendant la phase de poule swiss";
+            }else{
+                message = " Félicitations! Ton équipe a fini "+(i+1)+" et est qualifiée pour la prochaine phase";
+            }
+
+            notificationService.sendNotificationToList(message, "", t.getUserTournamentRoles());
+
+        }
+    }
+
 
 }

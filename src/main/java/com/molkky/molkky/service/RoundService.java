@@ -3,6 +3,7 @@ package com.molkky.molkky.service;
 import com.molkky.molkky.domain.*;
 import com.molkky.molkky.domain.Set;
 import com.molkky.molkky.domain.rounds.Knockout;
+import com.molkky.molkky.domain.rounds.SimpleGame;
 import com.molkky.molkky.domain.rounds.SwissPool;
 import com.molkky.molkky.model.phase.PhaseRankingModel;
 import com.molkky.molkky.repository.PhaseRepository;
@@ -85,8 +86,6 @@ public class RoundService {
         }
 
         if(phase instanceof SwissPool){
-            scoresList.sort(Comparator
-                    .comparing(PhaseRankingModel::getTeam, Comparator.comparing(Team :: getId)));
 
             Map<Team, PhaseRankingModel> map = new HashMap<>();
             for(PhaseRankingModel p : scoresList){
@@ -110,9 +109,7 @@ public class RoundService {
             return scoresList;
         }
 
-
     }
-
 
     public List<Match> createSetsFromMatch(List<Match> matches){
         int nbSets = matches.get(0).getRound().getPhase().getNbSets();
@@ -132,39 +129,7 @@ public class RoundService {
         return results;
     }
 
-    public boolean isPhaseOver(Phase phase){
 
-        for(Round r: phase.getRounds()){
-
-            if(Boolean.FALSE.equals(r.getFinished())) return false;
-        }
-
-
-        if (phase instanceof Knockout){
-            List<Team> teams = phase.getTournament().getTeams().stream()
-                    .filter(team -> !team.isEliminated())
-                    .collect(Collectors.toList());
-            if(teams.size() == 1) {
-                phase.setFinished(true);
-                phaseRepository.save(phase);
-                return true;
-
-            }else return false;
-        }else if (phase instanceof SwissPool){
-            SwissPool s = (SwissPool) phase;
-            if(Objects.equals(s.getIndexSubRound(), s.getNbSubRounds())){
-                phase.setFinished(true);
-                phaseRepository.save(phase);
-                return true;
-            }else return false;
-
-        }else{
-            phase.setFinished(true);
-            phaseRepository.save(phase);
-            return true;
-        }
-
-    }
 
     List<Team> getTeamsSorted(Phase phase){
 
@@ -215,6 +180,8 @@ public class RoundService {
 
         Round round = new Round();
         if (phase instanceof Knockout) {
+
+            phase.setNbTeamsQualified(teams.size()/2);
             round.setPhase(phase);
             round.setType(PhaseType.KNOCKOUT);
 
@@ -270,6 +237,63 @@ public class RoundService {
 
             return teamRepository.saveAll(teams);
         }
+
+    public boolean isPhaseOver(Phase phase, List<PhaseRankingModel>  scoresList){
+
+        for(Round r: phase.getRounds()){
+
+            if(Boolean.FALSE.equals(r.getFinished())) return false;
+        }
+
+
+        if (phase instanceof Knockout){
+            List<Team> teams = phase.getTournament().getTeams().stream()
+                    .filter(team -> !team.isEliminated())
+                    .collect(Collectors.toList());
+            if(teams.size() == 1) {
+                //phaseOverAction(phase, scoresList );
+                phase.setFinished(true);
+                phaseRepository.save(phase);
+                return true;
+
+            }else return false;
+        }else if (phase instanceof SwissPool) {
+            SwissPool s = (SwissPool) phase;
+            if (Objects.equals(s.getIndexSubRound(), s.getNbSubRounds())) {
+                phaseOverAction(phase, scoresList);
+                phase.setFinished(true);
+                phaseRepository.save(phase);
+                return true;
+            } else return false;
+            }else if (phase instanceof SimpleGame){
+                phaseOverAction(phase, scoresList);
+                phase.setFinished(true);
+                phaseRepository.save(phase);
+                return true;
+
+        }else{
+            phase.setFinished(true);
+            phaseRepository.save(phase);
+            return true;
+        }
+
+    }
+
+    public void  phaseOverAction(Phase phase, List<PhaseRankingModel>  scoresList){
+
+        List<Team> teams = new ArrayList<>();
+        int nbEliminated = phase.getNbTeamsQualified();
+
+        for(int i = nbEliminated; i < scoresList.size();i++){
+            scoresList.get(i).getTeam().setEliminated(true);
+        }
+            teamRepository.saveAll(teams);
+
+    }
+
+
+
+
 
     }
 

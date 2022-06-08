@@ -134,7 +134,7 @@ public class PoolService {
 
         generateNotificationAfterRound(teams);
 
-        roundService.isPhaseOver(pool);
+        roundService.isPhaseOver(pool, scoresList);
 
     }
 

@@ -16,9 +16,7 @@ import type.TournamentStatus;
 import type.UserRole;
 
 import javax.transaction.Transactional;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @SpringBootTest(classes = MolkkyApplication.class)
  class SimpleGameServiceTest {
@@ -53,7 +51,7 @@ import java.util.Map;
 
         Tournament tournament = createTournament();
 
-        tournament = createSimpleGame(tournament, 1, false, false, 4);
+        tournament = createSimpleGame(tournament, 1, false, false, 1);
 
         insertTeam(tournament, 8);
 
@@ -80,13 +78,26 @@ import java.util.Map;
             Assertions.assertEquals(1, entry.getValue().size(), " The  should be one match");
 
         }
+        List<Round> rounds = new ArrayList<>(tournament.getPhases().get(0).getRounds());
+        for (Round r: rounds){
+            for(Match m : r.getMatches()){
+                Random rand = new Random();
+                m.setFinished(true);
+                m.setWinner(m.getTeams().get(1));
+                m.setScoreTeam2(50);
+                m.setScoreTeam1(rand.nextInt(49));
+                matchRepository.save(m);
+                matchService.validateMatch(m);
+            }
 
-        for (Round r: tournament.getPhases().get(0).getRounds()){
-            r.getMatches().get(0).setFinished(true);
-            r.getMatches().get(0).setWinner(r.getMatches().get(0).getTeams().get(0));
-            matchRepository.save(r.getMatches().get(0));
-            matchService.validateMatch(r.getMatches().get(0));
         }
+
+        tournament = tournamentRepository.findById(tournament.getId());
+        Assertions.assertTrue( tournament.getPhases().get(0).getFinished(), " The  phase should be finished");
+        Assertions.assertTrue( tournament.getTeams().get(0).isEliminated(), " team 1 should be eliminated");
+        Assertions.assertTrue( tournament.getTeams().get(2).isEliminated(), " team 3 should be eliminated");
+        Assertions.assertFalse( tournament.getTeams().get(1).isEliminated(), " team 2 should not be eliminated");
+
 
     }
 
