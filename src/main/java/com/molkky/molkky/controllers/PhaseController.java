@@ -148,9 +148,6 @@ public class PhaseController extends DefaultAttributes {
         return "redirect:/phase/view?id="+id;
     }
 
-
-
-
     @GetMapping("/view")
     public String view(Model model, HttpSession session, @RequestParam(name= "id") Integer id){
 

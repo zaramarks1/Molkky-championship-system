@@ -6,6 +6,7 @@
     align-items: center;
     justify-content: space-between;
 }
+
 .cardTeam{
     box-sizing: border-box;
 
@@ -33,6 +34,12 @@
     flex: none;
     order: 0;
     flex-grow: 0;
+}
+
+@media only screen and (max-width: 600px) {
+    .cardTeam {
+        width: 100%;
+    }
 }
 
 .teamHeader{
@@ -80,14 +87,6 @@
     flex-grow: 1;
 }
 
-p{
-    font-family: 'Inter', sans-serif;
-    font-style: normal;
-    font-weight: 600;
-    font-size: 16px;
-    line-height: 22px;
-    text-align: justify;
-}
 .partTitle {
     font-weight: bold;
 }
@@ -160,40 +159,45 @@ ul.roundsList {
 .filter {
     color: #8787A1;
     background-color: transparent;
+    border-width: 2px;
+    border-style: inset;
+    border-color: transparent;
+    border-image: initial;
 }
 
 #cover {
-    width: 1000px;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 5px;
     background-color: #E7E7ED;
-    border-radius: 20px;
-    transform: scale(0.6);
-}
-input{
-    border-width: 2px;
-    border-style: inset;
-    border-color: transparent;
-    border-image: initial;
+    border-radius: 7px;
+    padding: 10px;
+    max-width: 350px;
+    margin-bottom: 25px;
 }
 
-button{
-    border-width: 2px;
-    border-style: inset;
-    border-color: transparent;
-    border-image: initial;
+@media only screen and (max-width: 600px) {
+    #cover {
+        max-width: none;
+    }
 }
 
-form {
-    height: 96px;
+.teamMember {
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 22px;
+    text-align: justify;
+}
+
+.searchIconFilter {
+    filter: grayscale(1);
 }
 
 .inputFilter {
     width: 100%;
-    height: 96px;
-    font-size: 60px;
+    font-size: 20px;
     line-height: 1;
 }
 .inputFilter:focus, textarea:focus, select:focus{
@@ -204,89 +208,8 @@ form {
     color: #8787A1;
 }
 
-#s-cover {
-    width: 1px;
-    padding-left: 35px;
-}
-
 .filter {
     position: relative;
     display: block;
-    width: 84px;
-    height: 96px;
     cursor: pointer;
-}
-
-#s-circle {
-    position: relative;
-    top: -8px;
-    left: 0;
-    width: 43px;
-    height: 43px;
-    margin-top: 0;
-    border-width: 15px;
-    border: 15px solid #8787A1;
-    background-color: transparent;
-    border-radius: 50%;
-    transition: 0.5s ease all;
-}
-
-button span {
-    position: absolute;
-    top: 68px;
-    left: 43px;
-    display: block;
-    width: 45px;
-    height: 15px;
-    background-color: transparent;
-    border-radius: 10px;
-    transform: rotateZ(52deg);
-    transition: 0.5s ease all;
-}
-
-button span:before,
-button span:after {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    width: 45px;
-    height: 15px;
-    background-color: #8787A1;
-    border-radius: 10px;
-    transform: rotateZ(0);
-    transition: 0.5s ease all;
-}
-
-#s-cover:hover #s-circle {
-    top: -1px;
-    width: 67px;
-    height: 15px;
-    border-width: 0;
-    background-color: #8787A1;
-    border-radius: 20px;
-}
-
-#s-cover:hover span {
-    top: 50%;
-    left: 56px;
-    width: 25px;
-    margin-top: -9px;
-    transform: rotateZ(0);
-}
-
-#s-cover:hover button span:before {
-    bottom: 11px;
-    transform: rotateZ(52deg);
-}
-
-#s-cover:hover button span:after {
-    bottom: -11px;
-    transform: rotateZ(-52deg);
-}
-#s-cover:hover button span:before,
-#s-cover:hover button span:after {
-    right: -6px;
-    width: 40px;
-    background-color: #8787A1;
 }

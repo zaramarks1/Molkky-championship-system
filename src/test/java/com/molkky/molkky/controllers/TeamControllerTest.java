@@ -118,7 +118,6 @@ class TeamControllerTest {
                         .flashAttr("form",addPlayerlistModel))
                 .andDo(print())
                 .andExpect(view().name("redirect:/team/create"))
-                .andExpect(redirectedUrl("/team/create?unreadCount=0"))
                 .andExpect(status().is3xxRedirection());
 
         Mockito.verify(addPlayerlistModel,Mockito.times(1)).getPlayers();
