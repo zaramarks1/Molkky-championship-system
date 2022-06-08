@@ -290,3 +290,7 @@ button span:after {
     width: 40px;
     background-color: #8787A1;
 }
+.clickableCard{
+    list-style-type: none;
+    cursor: pointer;
+}

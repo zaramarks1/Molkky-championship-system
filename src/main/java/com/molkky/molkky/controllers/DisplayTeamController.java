@@ -39,8 +39,7 @@ public class DisplayTeamController {
     @GetMapping("/view")
     public String teamView(Model model, @RequestParam(value = "teamId")String teamId){
         Team team = teamRepository.findById(Integer.valueOf(teamId));
-        model.addAttribute("pseudo", team.getName());
-        model.addAttribute("teamId", teamId);
+        model.addAttribute("team", team);
         return "/team/displayDetailsTeam";
     }
 }
