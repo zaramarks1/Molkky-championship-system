@@ -251,7 +251,6 @@ public class RoundService {
                     .filter(team -> !team.isEliminated())
                     .collect(Collectors.toList());
             if(teams.size() == 1) {
-                //phaseOverAction(phase, scoresList );
                 phase.setFinished(true);
                 phaseRepository.save(phase);
                 return true;
