@@ -61,8 +61,7 @@
         </div>
         <div class="partContainer">
             <h2 class="partTitle">Bracket</h2>
-            <p>L'image suivante sera remplacée par l'arbre de tournoi lorsque l'User Story correspondante sera
-                développée et testée.</p>
+            <p th:if="${#strings.equals(tournament.status, 'AVAILABLE')}">Le bracket sera affiché quand le tournoi aura débuté.</p>
             <img th:src="@{/assets/bracket.png}" class="imgBracket" alt="Tournament Bracket">
         </div>
         <div class="partContainer">
