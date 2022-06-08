@@ -22,18 +22,17 @@
 
               <div class="partContainer">
                 <h2 class="partTitle"  th:text="${mapEntry.key.type} " >type </h2>
-                <strong style="color: green" th:if = "${mapEntry.key.finished == true}" th:text=" 'Status :TERMINÉ'"></strong>
-                <strong style="color: red" th:if = "${mapEntry.key.finished == false}" th:text="' Status :PAS TERMINÉ'"></strong>
+                <div class="matchFinished" th:if = "${mapEntry.key.finished == true}" th:text=" 'Statut: Terminé'"></div>
+                <div class="matchNotFinished" th:if = "${mapEntry.key.finished == false}" th:text="' Statut: En cours'"></div>
                   <div>
-                    <table style="width: 100%">
-                      <tr style="color:#8C69F4; margin: 10px; text-align: center; width:90%">
+                    <table class ="mainTable">
+                      <tr class="mainTableHeader">
                         <th>Classement</th>
                         <th>Nom d'équipe</th>
                         <th>Nombre de victoires</th>
                         <th>Nombre de points </th>
                       </tr>
-                      <tr  th:each="teams, iStat: ${mapEntry.value}"
-                           style="text-align: center;">
+                      <tr class="mainTableAllTeams" th:each="teams, iStat: ${mapEntry.value}">
                         <td th:text="${iStat.index+1}"></td>
                         <td th:text="${teams.team.name}"></td>
                         <td th:text="${teams.values}"></td>
@@ -41,22 +40,22 @@
                       </tr>
                     </table>
                   </div>
-                <h2 class="partTitle">Matches</h2>
+                <h2 class="partTitle">Matchs</h2>
                 <div id="participantContainer">
                   <th:block th:each="match : ${mapEntry.key.getMatches()}">
                     <div class="teamCard">
-                      <h3 style="background-color: #8787A1" class="teamName"  th:text="${match.teams[0].name} + ' x '+ ${match.teams[1].name}"></h3>
+                      <h3 style="" class="teamNameMatches"  th:text="${match.teams[0].name} + ' x '+ ${match.teams[1].name}"></h3>
                       <div class="cardContentContainer">
-                        <table style="width: 100%">
-                          <tr style="color:#8C69F4; margin: 10px; text-align: center; width:90%">
+                        <table class ="matchCard">
+                          <tr class ="matchCardHeader">
                             <th>Nom d'équipe</th>
                             <th>Nombre de points </th>
                           </tr>
-                          <tr style="text-align: center;">
+                          <tr class="teamsScores">
                             <td th:text="${match.teams[0].name}"></td>
                             <td th:text="${match.getScoreTeam1()}"></td>
                           </tr>
-                          <tr style="text-align: center;">
+                          <tr class ="teamsScores">
                             <td th:text="${match.teams[1].name}"></td>
                             <td th:text="${match.getScoreTeam2()}"></td>
                           </tr>

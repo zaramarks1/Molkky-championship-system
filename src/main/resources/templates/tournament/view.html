@@ -150,7 +150,7 @@
 
 
             <form th:if=" ${user != null} and ${tournament.getPhases().size() != (tournament.getIndexPhase())}
-            and ${phasesType[__${tournament.getIndexPhase()-1}__].getPhaseType() != ${T(type.PhaseType).KNOCKOUT}} "
+            and ${phasesType[__${tournament.getIndexPhase()-1}__].getPhaseType() != ${(type.PhaseType).KNOCKOUT}} "
                   action="#" th:action="@{/phase/generate}" method="post" class="formContainer">
                 <input hidden th:value="${tournament.phases[__${tournament.getIndexPhase()}__].id}" th:name="id"/>
                 <button id="idNext" name="visible" class="primaryButton" type="submit">Passer à la phase suivante
