@@ -213,7 +213,9 @@
     flex-direction: row;
     align-items: center;
     justify-content: start;
-    width: -webkit-fill-available;
+    width: -moz-available;          /* WebKit-based browsers will ignore this. */
+    width: -webkit-fill-available;  /* Mozilla-based browsers will ignore this. */
+    width: fill-available;
 }
 
 @media only screen and (max-width: 1000px) {
