@@ -205,6 +205,7 @@ public class TournamentController extends DefaultAttributes {
 
         tournament.setStatus(TournamentStatus.INPROGRESS);
         tournament.setIndexPhase(1);
+        tournament.setRegisterAvailable(false);
         tournamentRepository.save(tournament);
         phaseService.generate(tournament.getPhases().get(0).getId().toString());
 
@@ -241,6 +242,11 @@ public class TournamentController extends DefaultAttributes {
         model.addAttribute("players", players);
 
         return "/tournament/results";
+    }
+
+    @PostMapping("/results")
+    public String resultsPost( @RequestParam(name= "tournamentId") Integer tournamentId){
+        return "redirect:/tournament/results?tournamentId="+tournamentId;
     }
 
 }

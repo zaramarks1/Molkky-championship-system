@@ -78,17 +78,40 @@ public class RoundService {
     }
 
     public List<PhaseRankingModel> orderTeamsByScoreInPhase(Phase phase, int victoryValue){
+        System.out.println("PHASE");
         List<PhaseRankingModel> scoresList = new ArrayList<>();
+
         for(Round round : phase.getRounds()){
             scoresList.addAll(orderTeamsByScoreInRound( round, victoryValue));
         }
 
-        scoresList.sort(Comparator
-                .comparing(PhaseRankingModel::getValues)
-                .thenComparing(PhaseRankingModel::getTotalPoints)
-                .reversed());
+        if(phase instanceof SwissPool){
+            scoresList.sort(Comparator
+                    .comparing(PhaseRankingModel::getTeam, Comparator.comparing(Team :: getId)));
 
-        return scoresList;
+            Map<Team, PhaseRankingModel> map = new HashMap<>();
+            for(PhaseRankingModel p : scoresList){
+                map.merge(p.getTeam(), p, (oldValue, newValue) -> new PhaseRankingModel(p.getTeam(),
+                        oldValue.getTotalPoints() + newValue.getTotalPoints(),
+                        oldValue.getValues() + newValue.getValues()));
+            }
+
+            List<PhaseRankingModel> scoresListNew = new ArrayList<>(map.values());
+            scoresListNew.sort(Comparator
+                    .comparing(PhaseRankingModel::getValues)
+                    .thenComparing(PhaseRankingModel::getTotalPoints)
+                    .reversed());
+
+            return scoresListNew;
+        }else{
+            scoresList.sort(Comparator
+                    .comparing(PhaseRankingModel::getValues)
+                    .thenComparing(PhaseRankingModel::getTotalPoints)
+                    .reversed());
+            return scoresList;
+        }
+
+
     }
 
 

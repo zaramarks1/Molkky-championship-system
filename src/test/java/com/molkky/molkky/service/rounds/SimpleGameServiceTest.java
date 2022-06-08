@@ -81,6 +81,13 @@ import java.util.Map;
 
         }
 
+        for (Round r: tournament.getPhases().get(0).getRounds()){
+            r.getMatches().get(0).setFinished(true);
+            r.getMatches().get(0).setWinner(r.getMatches().get(0).getTeams().get(0));
+            matchRepository.save(r.getMatches().get(0));
+            matchService.validateMatch(r.getMatches().get(0));
+        }
+
     }
 
 
@@ -133,7 +140,8 @@ import java.util.Map;
         );
         tournament.setNbPlayersPerTeam(1);
         tournament.setVisible(true);
-        tournament.setStatus(TournamentStatus.AVAILABLE);
+        tournament.setStatus(TournamentStatus.INPROGRESS);
+        tournament.setIndexPhase(1);
         return tournamentRepository.save(tournament);
 
     }

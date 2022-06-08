@@ -3,6 +3,7 @@ package com.molkky.molkky.service;
 import com.molkky.molkky.domain.Match;
 import com.molkky.molkky.domain.Phase;
 import com.molkky.molkky.domain.Round;
+import com.molkky.molkky.domain.Tournament;
 import com.molkky.molkky.domain.rounds.Knockout;
 import com.molkky.molkky.domain.rounds.Pool;
 import com.molkky.molkky.domain.rounds.SimpleGame;
@@ -36,12 +37,13 @@ public class PhaseService {
         Map<Round, List<Match>> results = new HashMap<>();
         Phase phase = phaseRepository.findById(Integer.valueOf(id));
 
+        //Tournament tournament = phase.getTournament();
         if (phase instanceof Pool){
+            //tournamentRepository.save(tournament);
             Pool pool = (Pool) phase;
             results = poolService.generateRounds(pool);
         }else if(phase instanceof SimpleGame){
             SimpleGame simpleGame = (SimpleGame) phase;
-
             results = simpleGameService.generateRounds(simpleGame);
         }else if( phase instanceof Knockout){
             Knockout knockout = (Knockout) phase;

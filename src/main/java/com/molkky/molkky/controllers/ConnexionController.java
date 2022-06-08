@@ -8,6 +8,7 @@ import com.molkky.molkky.model.UserLogged;
 import com.molkky.molkky.repository.UserRepository;
 import com.molkky.molkky.repository.UserTournamentRoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mobile.device.Device;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,7 +32,7 @@ public class ConnexionController {
     private static final String CHANGE_PAGE_CONNECTION = "redirect:/connexion";
 
     @GetMapping("/connexion")
-    public String home(Model  model,HttpSession session){
+    public String home(Model  model, HttpSession session, Device device){
         session.invalidate();
         User user = new User();
         model.addAttribute("user" ,user);
@@ -39,6 +40,7 @@ public class ConnexionController {
         UserConnectionModel userConnectionModel = new UserConnectionModel();
 
         model.addAttribute("userConnection", userConnectionModel);
+        model.addAttribute("mobile", device.isMobile());
         return "/connexion";
     }
 

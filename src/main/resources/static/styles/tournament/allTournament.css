@@ -1,15 +1,8 @@
-.main {
+.allTournamentContainer {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     padding: 16px;
-
-    position: static;
-    width: 1147px;
-    height: 969.67px;
-    left: 0.19px;
-    top: 131.66px;
-    overflow-y: scroll;
 
     /* backgroundgrey */
     background: #F4F4F8;
@@ -17,10 +10,8 @@
 
     /* Inside auto layout */
     flex: none;
-    order: 1;
     align-self: stretch;
     flex-grow: 1;
-    margin: 0px 0px;
 }
 
 .boxTournamentList {
@@ -30,60 +21,7 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    padding: 10px 40px 10px 0px;
-
-    position: static;
-    width: 1115px;
-    height: 634.03px;
-    left: 16.92px;
-    top: 320.47px;
-
-
-    /* Inside auto layout */
-    flex: none;
-    order: 2;
-    align-self: stretch;
-    flex-grow: 1;
     margin: 10px 0px;
-}
-
-.ButtonTournament {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    position: static;
-    width: 15px;
-    height: 60px;
-    left: 495.3px;
-    top: 0px;
-    font-style: normal;
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 24px;
-    /* or 171% */
-    display: flex;
-    align-items: center;
-    text-align: center;
-    letter-spacing: 0.2px;
-
-    color: #000000;
-
-
-    /* Inside auto layout */
-    flex: none;
-    order: 2;
-    flex-grow: 0;
-    margin: 0px 0px;
-    padding: 0px;
-    position: static;
-    width: 802px;
-    height: 76px;
-    left: 0px;
-    top: 78px;
-    flex: none;
-    order: 1;
-    flex-grow: 0;
-    margin: 5px 0px;
 }
 
 .rectangleButton {
@@ -120,23 +58,14 @@
 }
 
 .textButton {
-    position: static;
-    width: 158px;
-    height: 24px;
-    left: 45.67px;
-    top: 15.5px;
     font-style: normal;
     font-weight: 600;
     font-size: 20px;
     line-height: 24px;
-    display: flex;
-    align-items: center;
     letter-spacing: 0.2px;
     color: #212136;
-    flex: none;
-    order: 0;
-    flex-grow: 0;
-    margin: 16px 0px;
+    margin-right: 10px;
+    text-decoration: none;
 }
 
 .textButtonSelectionned {
@@ -170,82 +99,31 @@
     /* Auto layout */
     display: flex;
     flex-direction: row;
-    align-items: center;
+    align-items: start;
     padding: 0px;
-
-    position: static;
-    width: 802px;
-    height: 76px;
-    left: 0px;
-    top: 78px;
-
-
-    /* Inside auto layout */
-    flex: none;
-    order: 1;
-    flex-grow: 0;
-    margin: 5px 0px;
 }
 
 .boxState {
     /* Auto layout */
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 10px;
-
-    position: static;
-    width: 179.33px;
-    height: 76px;
-    left: 0px;
-    top: 0px;
-
-
-    /* Inside auto layout */
-    flex: none;
-    order: 0;
-    align-self: stretch;
-    flex-grow: 1;
-    margin: 0px 32px;
 }
 
 .boxListe {
     display: flex;
     flex-direction: row;
     align-items: center;
-    padding: 18px;
-    position: static;
-    width: 224px;
-    height: 63px;
-    left: 0px;
-    top: 10px;
-    flex: none;
-    order: 0;
-    flex-grow: 0;
     margin: 5px 0px;
 }
 
 .ListTournament {
-    position: static;
-    width: 180px;
-    height: 24px;
-    left: 26px;
-    top: 19.5px;
     font-style: normal;
     font-weight: 600;
     font-size: 20px;
     line-height: 24px;
-    /* identical to box height, or 120% */
     display: flex;
     align-items: center;
     letter-spacing: 0.2px;
     color: #212136;
-    /* Inside auto layout */
-    flex: none;
-    order: 1;
-    flex-grow: 0;
-    margin: 0px 5px;
 }
 
 .rectangle {
@@ -264,34 +142,23 @@
     margin: 0px 5px;
 }
 
+@media only screen and (max-width: 1000px) {
+    .primaryButton {
+        padding-inline: 10px!important;
+    }
+}
+
 .boxAllCard {
     /* Tournois cartes */
-
-    /* Auto layout */
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    padding: 5px;
-    position: static;
-    width: 1085px;
-    /*height: 574px;*/
-    left: 0px;
-    top: 159px;
-
-
-    /* Inside auto layout */
-    flex: none;
-    order: 2;
-    flex-grow: 0;
     margin: 5px 0px;
+    width: 100%;
 }
 
 .boxOneCard {
-    position: static;
-    width: 1075px;
-    height: 100px;
-    left: 5px;
-    top: 5px;
+    width: 100%;
     background-color: #8C69F4;
     box-shadow: 0 2px 10px #8C69F4;
     /* Inside auto layout */
@@ -301,6 +168,22 @@
     margin: 16px 0px;
     border-radius: 8px;
     color:white;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 16px;
+    overflow-wrap: anywhere;
+    min-height: 75px;
+}
+
+@media only screen and (max-width: 1000px) {
+    .boxOneCard {
+        flex-direction: column;
+        align-items: flex-start;
+    }
 }
 
 .boxOneCard:hover {
@@ -308,167 +191,35 @@
     box-shadow: 0 3px 7px #8C69F4;
 }
 
-.boxInOneCard {
-    /* Frame 3639 */
-
-    /* Auto layout */
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0px;
-    text-decoration: none;
-    width: 1037px;
-    height: 60px;
-    left: 20.92px;
-    top: 19.65px;
-    color:white;
-    font-weight: 600;
-    font-size: 16px;
+.tournamentTitleInside {
+    font-weight: bold;
+    font-size: 20px;
 }
 
-
-.nameCard {
-    /* Le Mölkky d’Or */
-
-    position: static;
-    width: 265px;
-    height: 60px;
-    left: 0px;
-    top: 0px;
-    font-style: normal;
-    line-height: 24px;
-    /* or 150% */
-    display: flex;
-    align-items: center;
-    letter-spacing: 0.2px;
-
-
-
-    /* Inside auto layout */
-    flex: none;
-    order: 0;
-    flex-grow: 0;
-    margin: 0px 0px;
-}
-
-.dateCard {
-    /* 13 avril 2022 */
-
-    position: static;
-    width: 219px;
-    height: 60px;
-    left: 270.65px;
-    top: 0px;
-    font-style: normal;
-    line-height: 24px;
-    /* or 171% */
-    display: flex;
-    align-items: center;
-    text-align: center;
-    letter-spacing: 0.2px;
-
-
-
-    /* Inside auto layout */
-    flex: none;
-    order: 1;
-    flex-grow: 0;
-    margin: 0px 0px;
-}
-
-.nbCard {
-    position: static;
-    width: 148px;
-    height: 60px;
-    left: 675.95px;
-    top: 0px;
-    font-style: normal;
-    line-height: 24px;
-    /* or 171% */
-    display: flex;
-    align-items: center;
-    text-align: center;
-    letter-spacing: 0.2px;
-
-
-
-    /* Inside auto layout */
-    flex: none;
-    order: 2;
-    flex-grow: 0;
-    margin: 0px 0px;
+.insideText {
+    margin: 10px 10px;
+    flex: 1 1 0px;
 }
 
 .textInscriptionOpen{
-    /* Inscriptions ouvertes */
-
-    position: static;
-    width: 207.4px;
-    height: 60px;
-    left: 829.6px;
-    top: 0px;
-    font-style: normal;
-    line-height: 24px;
-    /* or 150% */
-    display: flex;
-    align-items: center;
-    text-align: center;
-    letter-spacing: 0.2px;
-
     color: #77CD61;
-
-
-    /* Inside auto layout */
-    flex: none;
-    order: 4;
-    flex-grow: 0;
-    margin: 0px 0px;
 }
 .textInscriptionClosed{
-    position: static;
-    width: 207.4px;
-    height: 60px;
-    left: 829.6px;
-    top: 0px;
-    font-style: normal;
-    line-height: 24px;
-    /* or 150% */
-    display: flex;
-    align-items: center;
-    text-align: center;
-    letter-spacing: 0.2px;
     color: orange;
-    /* Inside auto layout */
-    flex: none;
-    order: 4;
-    flex-grow: 0;
-    margin: 0px 0px;
-}
-.textPlayer{
-    position: static;
-    width: 175px;
-    height: 60px;
-    left: 485.3px;
-    top: 0px;
-
-    font-style: normal;
-    line-height: 24px;
-    /* or 171% */
-    display: flex;
-    align-items: center;
-    text-align: left;
-    letter-spacing: 0.2px;
-    /* Inside auto layout */
-    flex: none;
-    order: 2;
-    flex-grow: 0;
-    margin: 0px 0px;
 }
 
 .submitContainer {
-    margin-top: 30px;
     display: flex;
     flex-direction: row;
     align-items: center;
+    justify-content: start;
+    width: -webkit-fill-available;
 }
+
+@media only screen and (max-width: 1000px) {
+    .submitContainer {
+        justify-content: space-between;
+    }
+}
+
+.tournamentFormContainer

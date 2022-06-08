@@ -87,6 +87,21 @@ import java.util.*;
 
         }
 
+        tournament = tournamentRepository.findById(tournament.getId());
+
+        List<Round> rounds = new ArrayList<>(tournament.getPhases().get(0).getRounds());
+        for (Round r: rounds){
+            for(Match m : r.getMatches()){
+                Random rand = new Random();
+                m.setFinished(true);
+                m.setWinner(m.getTeams().get(0));
+                m.setScoreTeam1(50);
+                m.setScoreTeam2(rand.nextInt(49));
+                matchRepository.save(m);
+                matchService.validateMatch(m);
+            }
+        }
+
     }
 
 
@@ -136,6 +151,15 @@ import java.util.*;
         Assertions.assertEquals(50, tournament.getTeams().get(2).getNbPoints() ," Team 3 should have 50 points");
 
 
+        for(Match m : tournament.getPhases().get(0).getRounds().get(1).getMatches()){
+            Random rand = new Random();
+            m.setFinished(true);
+            m.setWinner(m.getTeams().get(0));
+            m.setScoreTeam1(50);
+            m.setScoreTeam2(rand.nextInt(49));
+            matchRepository.save(m);
+            matchService.validateMatch(m);
+        }
 
     }
 
@@ -209,7 +233,8 @@ import java.util.*;
         );
         tournament.setNbPlayersPerTeam(1);
         tournament.setVisible(true);
-        tournament.setStatus(TournamentStatus.AVAILABLE);
+        tournament.setStatus(TournamentStatus.INPROGRESS);
+        tournament.setIndexPhase(1);
         return tournamentRepository.save(tournament);
 
     }

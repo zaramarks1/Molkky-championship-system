@@ -1,19 +1,17 @@
 package com.molkky.molkky.service;
 
-import com.molkky.molkky.domain.Match;
+import com.molkky.molkky.domain.*;
 import com.molkky.molkky.domain.Set;
 import com.molkky.molkky.model.SetModel;
 import com.molkky.molkky.model.UserModel;
 import com.molkky.molkky.model.UserTournamentRoleModel;
 import com.molkky.molkky.repository.MatchRepository;
 import com.molkky.molkky.repository.SetRepository;
+import com.molkky.molkky.repository.UserTournamentRoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import type.SetTeamIndex;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Service
 public class SetService {
@@ -29,6 +27,13 @@ public class SetService {
 
     @Autowired
     private UserTournamentRoleService userTournamentRoleService;
+
+    @Autowired
+    private UserTournamentRoleRepository userTournamentRoleRepository;
+
+    private Timer timer = new Timer();
+
+    static final String URLMATCH = "/matches/match?match_id=";
 
     public void enterSetResults(SetModel set, UserTournamentRoleModel user){
         Set setEntity = getSetFromModel(set);
@@ -83,11 +88,11 @@ public class SetService {
             matchService.validateMatch(match);
         }
 
-
-
-
-
-
+        if(Boolean.FALSE.equals(isSetFinished(setEntity,user))){
+            Team oppositeTeam = matchService.getOppositeTeam(MatchService.getMatchModelFromEntity(setEntity.getMatch()), user);
+            UserTournamentRole userRole = userTournamentRoleRepository.findByTeamAndTournament(oppositeTeam,oppositeTeam.getTournament());
+            this.timerNotificationEnterScore(userRole,setEntity);
+        }
     }
 
     public Boolean isUserInSet(SetModel setModel, UserModel user){
@@ -128,16 +133,26 @@ public class SetService {
             return false;
         }
         if ((!Objects.equals(set.getScore1Team1(), set.getScore1Team2()))){
-            notificationService.sendNotificationToList("Les scores rentrés par les deux équipes sont différents. Veuillez inscrire le score final.","/matches/match?match_id="+set.getMatch().getId(),userTournamentRoleService.getTournamentStaffFromUser(user));
+            notificationService.sendNotificationToList("Les scores rentrés par les deux équipes sont différents. Veuillez inscrire le score final.",URLMATCH+set.getMatch().getId(),userTournamentRoleService.getTournamentStaffFromUser(user));
             return false;
         }
         if ((!Objects.equals(set.getScore2Team1(), set.getScore2Team2()))){
-            notificationService.sendNotificationToList("Les scores rentrés par les deux équipes sont différents. Veuillez inscrire le score final.","/matches/match?match_id="+set.getMatch().getId(),userTournamentRoleService.getTournamentStaffFromUser(user));
+            notificationService.sendNotificationToList("Les scores rentrés par les deux équipes sont différents. Veuillez inscrire le score final.",URLMATCH+set.getMatch().getId(),userTournamentRoleService.getTournamentStaffFromUser(user));
             return false;
         }
 
         return set.getScore1Team1() == 50 || set.getScore2Team1() == 50;
     }
 
-
+    public void timerNotificationEnterScore(UserTournamentRole user,Set set){
+        timer.schedule(
+                new TimerTask() {
+                    @Override
+                    public void run() {
+                        notificationService.sendNotification("Veuillez entrer le score du match en cours",URLMATCH+set.getMatch().getId(),user);
+                    }
+                },
+                5000
+        );
+    }
 }

@@ -127,6 +127,7 @@ import java.util.*;
 
         Map<Round, List<Match>> results2 =  phaseService.generate(tournament.getPhases().get(0).getId().toString());
 
+
         tournament = tournamentRepository.findById(tournament.getId());
 
         Round r = tournament.getPhases().get(0).getRounds().get(1);
@@ -144,6 +145,15 @@ import java.util.*;
         Assertions.assertEquals(2, swissPool.getIndexSubRound(), " Index 2");
         Assertions.assertEquals(3, swissPool.getNbSubRounds(), " Quantite de sub rounds :  3");
 
+        for(Match m : tournament.getPhases().get(0).getRounds().get(1).getMatches()){
+            Random rand = new Random();
+            m.setFinished(true);
+            m.setWinner(m.getTeams().get(0));
+            m.setScoreTeam1(50);
+            m.setScoreTeam2(rand.nextInt(49));
+            matchRepository.save(m);
+            matchService.validateMatch(m);
+        }
 
         // Assertions.assertEquals(List.of(tournament.getTeams().get(0), tournament.getTeams().get(1)), matches.get(0).getTeams(), " TEAM 1 AND TEAM 3 should be playing");
 
@@ -171,7 +181,8 @@ import java.util.*;
         );
         tournament.setNbPlayersPerTeam(1);
         tournament.setVisible(true);
-        tournament.setStatus(TournamentStatus.AVAILABLE);
+        tournament.setStatus(TournamentStatus.INPROGRESS);
+        tournament.setIndexPhase(1);
         return tournamentRepository.save(tournament);
 
     }

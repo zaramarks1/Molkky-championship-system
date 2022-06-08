@@ -53,7 +53,7 @@ public class SwissService {
     }
 
     void validateRound(Round round){
-        List<PhaseRankingModel>  scoresList =  roundService.orderTeamsByScoreInRound(round, round.getPhase().getVictoryValue());
+        List<PhaseRankingModel>  scoresList =  roundService.orderTeamsByScoreInPhase( round.getPhase(), round.getPhase().getVictoryValue());
 
         List<Team> teams = roundService.seedingSystem(round, scoresList);
         generateNotificationAfterRoundSwiss(teams);

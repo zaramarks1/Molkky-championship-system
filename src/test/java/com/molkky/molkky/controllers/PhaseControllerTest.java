@@ -86,7 +86,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         mockMvc.perform(post("/phase/generate")
                         .param("id","1"))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/connexion"));
+                .andExpect(view().name("redirect:/connexion"));
     }
 
    @Test
@@ -112,8 +112,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
                         .sessionAttr("user",userLogged)
                         .param("id",id))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/phase/view?id=1"))
-                .andExpect(redirectedUrl("/phase/view?id=1"));
+                .andExpect(view().name("redirect:/phase/view?id=1"));
     }
 
     @Test
@@ -130,8 +129,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
                         .sessionAttr("user",userLogged)
                         .param("id",id))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/"))
-                .andExpect(redirectedUrl("/"));
+                .andExpect(view().name("redirect:/"));
     }
 
     Map<Round, List<Match>> createRounds(){
@@ -426,6 +424,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         mockMvc.perform(post("/phase/view")
                 .param("id", "17888"))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/phase/view?id=17888"));
+                .andExpect(view().name("redirect:/phase/view?id=17888"));
     }
 }
