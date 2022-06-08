@@ -58,8 +58,9 @@ public class PhaseController extends DefaultAttributes {
             return "redirect:/connexion";
         }
 
-
         Phase phase = phaseRepository.findById(Integer.valueOf(id));
+
+        if(Boolean.TRUE.equals(phase.getFinished())) return "redirect:/tournament/view?tournamentId="+phase.getTournament().getId();
 
         if(nbSet != null){
             phase.setNbSets(Integer.valueOf(nbSet));
@@ -68,7 +69,7 @@ public class PhaseController extends DefaultAttributes {
 
         Tournament tournament = phase.getTournament();
 
-        if(!(phase instanceof Knockout)){
+        if(!(phase instanceof Knockout) && !(phase instanceof  SwissPool)){
             tournament.setIndexPhase(tournament.getIndexPhase()+1);
             tournamentRepository.save(tournament);
         }

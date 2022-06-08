@@ -50,6 +50,9 @@ public class MatchService {
     @Autowired
     private KnockoutService knockoutService;
 
+    @Autowired
+    private SwissService swissService;
+
     public SetTeamIndex getUserTeamIndex(MatchModel match, UserTournamentRoleModel user) {
         Match matchEntity = getMatchFromModel(match);
 
@@ -145,7 +148,7 @@ public class MatchService {
                     knockoutService.validateRound(round);
                     break;
                 case SWISSPOOL:
-
+                    swissService.validateRound(round);
                     break;
                 case SIMPLEGAME:
                     simpleGameService.validateRound(round);

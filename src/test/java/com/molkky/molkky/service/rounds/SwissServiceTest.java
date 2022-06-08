@@ -3,11 +3,11 @@ package com.molkky.molkky.service.rounds;
 import com.molkky.molkky.MolkkyApplication;
 import com.molkky.molkky.domain.*;
 import com.molkky.molkky.domain.rounds.Knockout;
-import com.molkky.molkky.domain.rounds.Pool;
-import com.molkky.molkky.domain.rounds.SimpleGame;
+import com.molkky.molkky.domain.rounds.SwissPool;
 import com.molkky.molkky.repository.*;
 import com.molkky.molkky.service.MatchService;
 import com.molkky.molkky.service.PhaseService;
+import com.molkky.molkky.service.SwissService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,8 @@ import javax.transaction.Transactional;
 import java.util.*;
 
 @SpringBootTest(classes = MolkkyApplication.class)
- class KnockoutServiceTest {
+
+ class SwissServiceTest {
 
     @Autowired
     private TournamentRepository tournamentRepository;
@@ -50,19 +51,19 @@ import java.util.*;
     @Test
     @Rollback(false)
     @Transactional
-    void testInsertTournamentWithKnockoutRound() {
+    void testInsertTournamentWithSwissRound() {
 
         Tournament tournament = createTournament();
 
-        tournament = createKnockout(tournament, 1);
+        tournament = createSwiss(tournament, 1, 1);
 
         insertTeam(tournament, 8);
 
         Map<Round, List<Match>> results =  phaseService.generate(tournament.getPhases().get(0).getId().toString());
 
         Assertions.assertEquals(1, tournament.getPhases().size(), "Tournament should have 1 phase");
-        Assertions.assertEquals(true, tournament.getPhases().get(0) instanceof Knockout,
-                " It should be a instance of a simple game");
+        Assertions.assertEquals(true, tournament.getPhases().get(0) instanceof SwissPool,
+                " It should be a instance of a swiss");
 
         Assertions.assertEquals(1, tournament.getPhases().get(0).getRounds().size(),
                 " there should be 1 round in the phase");
@@ -71,22 +72,26 @@ import java.util.*;
         Assertions.assertEquals(1, tournament.getTeams().get(0).getUserTournamentRoles().size(),
                 " There should be 1 player per team ");
 
-        Assertions.assertEquals(1, tournament.getTeams().get(0).getMatchs().size(),
-                " There should be 1 match per team");
+        Assertions.assertEquals(1, results.size(), " There should be 4 rounds of swiss ");
 
+        tournament = tournamentRepository.findById(tournament.getId());
 
-
-        Assertions.assertEquals(1, results.size(), " There should be 1 rounds of knockout ");
+        SwissPool swissPool = (SwissPool) tournament.getPhases().get(0);
+        Assertions.assertEquals(1, swissPool.getIndexSubRound(), " Index 1");
+        Assertions.assertEquals(1, swissPool.getNbSubRounds(), " Quantite de sub rounds :  1");
 
         for(Map.Entry<Round, List<Match>> entry : results.entrySet()){
 
-            Assertions.assertEquals(PhaseType.KNOCKOUT, entry.getKey().getType(),
-                    " The round should be of type knockout ");
-            Assertions.assertEquals(8, entry.getKey().getTeams().size(), " The  should be 2 teams");
-            Assertions.assertEquals(4, entry.getValue().size(), " The  should be one match");
+            Assertions.assertEquals(PhaseType.SWISSPOOL, entry.getKey().getType(),
+                    " The round should be of type swiss ");
+            Assertions.assertEquals(8, entry.getKey().getTeams().size(), " The  should be 8 teams");
+            Assertions.assertEquals(4, entry.getValue().size(), " The  should be 4 match");
 
         }
 
+        Map<Round, List<Match>> results2 =  phaseService.generate(tournament.getPhases().get(0).getId().toString());
+
+        Assertions.assertNull(results2, "results 2 ne doit pas exister");
     }
 
 
@@ -94,13 +99,13 @@ import java.util.*;
     @Test
     @Rollback(false)
     @Transactional
-    void testInsertTournamentWithKnockout2Rounds() {
+    void testInsertTournamentWithSwiss2Rounds() {
 
         Tournament tournament = createTournament();
 
-        tournament = createKnockout(tournament, 1);
+        tournament = createSwiss(tournament, 1, 3);
 
-        insertTeam(tournament, 8);
+        insertTeam(tournament, 4);
 
         Map<Round, List<Match>> results =  phaseService.generate(tournament.getPhases().get(0).getId().toString());
 
@@ -128,69 +133,26 @@ import java.util.*;
 
         List<Match> matches = results2.get(r);
 
-        Assertions.assertEquals(PhaseType.KNOCKOUT, r.getType(),
-                " The round should be of type knockout ");
+        Assertions.assertEquals(PhaseType.SWISSPOOL, r.getType(),
+                " The round should be of type swiss ");
         Assertions.assertEquals(4, r.getTeams().size(), " The  should be 4 teams");
         Assertions.assertEquals(2, matches.size(), " The  should be 2 matches");
         Assertions.assertEquals(50, tournament.getTeams().get(0).getNbPoints() ," Team 1 should have 50 points");
         Assertions.assertEquals(50, tournament.getTeams().get(2).getNbPoints() ," Team 3 should have 50 points");
 
+        SwissPool swissPool = (SwissPool) tournament.getPhases().get(0);
+        Assertions.assertEquals(2, swissPool.getIndexSubRound(), " Index 2");
+        Assertions.assertEquals(3, swissPool.getNbSubRounds(), " Quantite de sub rounds :  3");
 
 
-    }
+        // Assertions.assertEquals(List.of(tournament.getTeams().get(0), tournament.getTeams().get(1)), matches.get(0).getTeams(), " TEAM 1 AND TEAM 3 should be playing");
 
-    @Test
-    @Rollback(false)
-    @Transactional
-    void testInsertTournamentWithKnockoutEnd() {
 
-        Tournament tournament = createTournament();
 
-        tournament = createKnockout(tournament, 1);
-
-        insertTeam(tournament, 4);
-
-        Map<Round, List<Match>> results =  phaseService.generate(tournament.getPhases().get(0).getId().toString());
-
-        tournament = tournamentRepository.findById(tournament.getId());
-
-        Round round= tournament.getPhases().get(0).getRounds().get(0);
-
-            for(Match m : round.getMatches()){
-                m.setFinished(true);
-                m.setWinner(m.getTeams().get(0));
-                m.setScoreTeam1(50);
-                m.setScoreTeam2(0);
-                matchRepository.save(m);
-                matchService.validateMatch(m);
-            }
-
-        tournament = tournamentRepository.findById(tournament.getId());
-
-        Map<Round, List<Match>> results2 =  phaseService.generate(tournament.getPhases().get(0).getId().toString());
-
-        Round round2= tournament.getPhases().get(0).getRounds().get(1);
-
-        for(Match m : round2.getMatches()){
-            m.setFinished(true);
-            m.setWinner(m.getTeams().get(0));
-            m.setScoreTeam1(50);
-            m.setScoreTeam2(0);
-            matchRepository.save(m);
-            matchService.validateMatch(m);
-        }
-
-        tournament = tournamentRepository.findById(tournament.getId());
-
-        Assertions.assertTrue(tournament.getPhases().get(0).getFinished(), "Phase should be finished");
-        Assertions.assertEquals(100, tournament.getTeams().get(0).getNbPoints() ," Team 1 should have 100 points");
-
-        List<Team> teams = teamRepository.findByTournamentAndEliminated(tournament,false);
-
-        Assertions.assertEquals(1, teams.size()," There should be one team remaining");
 
 
     }
+
 
 
     Tournament createTournament(){
@@ -213,19 +175,19 @@ import java.util.*;
         return tournamentRepository.save(tournament);
 
     }
-    Tournament createKnockout(Tournament tournament, int nbPhase){
+    Tournament createSwiss(Tournament tournament, int nbPhase, int nbMatch){
 
-        Knockout knockout = new Knockout();
-        knockout.setNbPhase(nbPhase);
-        knockout.setNbSets(3);
-        knockout.setTournament(tournament);
-        knockout.setRanking(true);
-        knockout.setSeedingSystem(true);
+        SwissPool swissPool = new SwissPool();
+        swissPool.setNbPhase(nbPhase);
+        swissPool.setNbSets(3);
+        swissPool.setNbSubRounds(nbMatch);
+        swissPool.setTournament(tournament);
+        swissPool.setRanking(true);
+        swissPool.setSeedingSystem(true);
 
+        swissPool =  phaseRepository.save(swissPool);
 
-        knockout =  phaseRepository.save(knockout);
-
-        tournament.getPhases().add(knockout);
+        tournament.getPhases().add(swissPool);
 
         return tournamentRepository.save(tournament);
     }

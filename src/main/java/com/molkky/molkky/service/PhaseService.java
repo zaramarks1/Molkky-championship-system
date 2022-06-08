@@ -6,6 +6,7 @@ import com.molkky.molkky.domain.Round;
 import com.molkky.molkky.domain.rounds.Knockout;
 import com.molkky.molkky.domain.rounds.Pool;
 import com.molkky.molkky.domain.rounds.SimpleGame;
+import com.molkky.molkky.domain.rounds.SwissPool;
 import com.molkky.molkky.repository.PhaseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,9 @@ public class PhaseService {
     @Autowired
     KnockoutService knockoutService;
 
+    @Autowired
+    SwissService swissService;
+
     public Map<Round, List<Match>> generate(String id){
 
         Map<Round, List<Match>> results = new HashMap<>();
@@ -42,6 +46,9 @@ public class PhaseService {
         }else if( phase instanceof Knockout){
             Knockout knockout = (Knockout) phase;
             results = knockoutService.generateRounds(knockout);
+        }else if (phase instanceof SwissPool){
+            SwissPool swissPool = (SwissPool) phase;
+            results = swissService.generateRounds(swissPool);
         }
 
         return results ;

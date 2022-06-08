@@ -3,11 +3,13 @@ package com.molkky.molkky.service;
 import com.molkky.molkky.domain.*;
 import com.molkky.molkky.domain.Set;
 import com.molkky.molkky.domain.rounds.Knockout;
+import com.molkky.molkky.domain.rounds.SwissPool;
 import com.molkky.molkky.model.phase.PhaseRankingModel;
 import com.molkky.molkky.repository.PhaseRepository;
 import com.molkky.molkky.repository.TeamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import type.PhaseType;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -64,7 +66,6 @@ public class RoundService {
 
             scoresList.add(phaseRankingModel);
 
-
         }
 
         scoresList.sort(Comparator
@@ -116,11 +117,8 @@ public class RoundService {
             if(Boolean.FALSE.equals(r.getFinished())) return false;
         }
 
-        if(!(phase instanceof Knockout)){
-            phase.setFinished(true);
-            phaseRepository.save(phase);
-            return true;
-        }else {
+
+        if (phase instanceof Knockout){
             List<Team> teams = phase.getTournament().getTeams().stream()
                     .filter(team -> !team.isEliminated())
                     .collect(Collectors.toList());
@@ -130,6 +128,17 @@ public class RoundService {
                 return true;
 
             }else return false;
+        }else if (phase instanceof SwissPool){
+            if(((SwissPool) phase).getIndexSubRound() == ((SwissPool) phase).getNbSubRounds()){
+                phase.setFinished(true);
+                phaseRepository.save(phase);
+                return true;
+            }else return false;
+
+        }else{
+            phase.setFinished(true);
+            phaseRepository.save(phase);
+            return true;
         }
 
     }
@@ -153,7 +162,7 @@ public class RoundService {
         return teams;
     }
 
-    public  void createMatchSimpleAndKnockout(List<Team> teamsUpdated, Team team1, Team team2, Round round) {
+    public  void createMatchSimpleAndKnockoutAndSwiss(List<Team> teamsUpdated, Team team1, Team team2, Round round) {
         Match match = new Match();
         match.setRound(round);
         match.setTeams(List.of(team1, team2));
@@ -170,7 +179,75 @@ public class RoundService {
 
         round.getMatches().addAll(this.createSetsFromMatch(List.of(match)));
     }
+    
+    
+    public Map<Round, List<Match>> generateRoundKnockoutAndSwiss(Phase phase) {
+
+        Map<Round, List<Match>> results = new HashMap<>();
+
+        List<Team> teams = this.getTeamsSorted(phase);
 
 
+        List<Team> teamsUpdated = new ArrayList<>();
 
-}
+        Round round = new Round();
+        if (phase instanceof Knockout) {
+            round.setPhase(phase);
+            round.setType(PhaseType.KNOCKOUT);
+
+        } else if (phase instanceof SwissPool) {
+            round.setPhase(phase);
+            round.setType(PhaseType.SWISSPOOL);
+
+            int indexSubRound = ((SwissPool) phase).getIndexSubRound();
+            if (indexSubRound != 1) {
+                List<PhaseRankingModel> ranking = this.orderTeamsByScoreInRound(phase.getRounds().get(indexSubRound - 2), phase.getVictoryValue());
+
+                teams = new ArrayList<>();
+
+                for (PhaseRankingModel p : ranking) {
+                    teams.add(p.getTeam());
+                }
+            }
+        }
+            round.setTeams(teams);
+
+
+            for (int i = 0; i < teams.size() - 1; i = i + 2) {
+                Team team1 = teams.get(i);
+                Team team2 = teams.get(i + 1);
+
+                this.createMatchSimpleAndKnockoutAndSwiss(teamsUpdated, team1, team2, round);
+            }
+
+            phase.getRounds().add(round);
+            phase = phaseRepository.save(phase);
+            teamRepository.saveAll(teamsUpdated);
+
+            for (Round r : phase.getRounds()) {
+                results.put(r, r.getMatches());
+            }
+
+            return results;
+        }
+
+        List<Team> seedingSystem(Round round, List<PhaseRankingModel>  scoresList){
+
+            List<Team> teams = new ArrayList<>();
+
+                for (PhaseRankingModel p : scoresList) {
+                    Team team = p.getTeam();
+
+                    if(Boolean.TRUE.equals(round.getPhase().getSeedingSystem())) {
+                        team.setNbPoints(team.getNbPoints() + p.getTotalPoints());
+                    }
+
+                    teams.add(team);
+                }
+
+            return teamRepository.saveAll(teams);
+        }
+
+    }
+
+

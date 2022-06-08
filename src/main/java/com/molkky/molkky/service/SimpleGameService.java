@@ -50,7 +50,7 @@ public class SimpleGameService {
                     round.setType(PhaseType.SIMPLEGAME);
                     round.setTeams(List.of(team1, team2));
 
-                    roundService.createMatchSimpleAndKnockout(teamsUpdated,  team1, team2, round);
+                    roundService.createMatchSimpleAndKnockoutAndSwiss(teamsUpdated,  team1, team2, round);
                     simpleGame.getRounds().add(round);
             }
 
@@ -69,25 +69,18 @@ public class SimpleGameService {
 
     public void validateRound(Round round){
 
-        List<Team> teams = round.getTeams();
-
-            if(Boolean.TRUE.equals(round.getPhase().getSeedingSystem())){
-                teams.get(0).setNbPoints(teams.get(0).getNbPoints() + round.getMatches().get(0).getScoreTeam1());
-                teams.get(1).setNbPoints(teams.get(1).getNbPoints() + round.getMatches().get(0).getScoreTeam2());
-
-                teamRepository.saveAll(teams);
-            }
-
-      phaseOver(round);
+      List<PhaseRankingModel>  scoresList =  roundService.orderTeamsByScoreInPhase(round.getPhase(), 1);
+        roundService.seedingSystem(round, scoresList);
+        phaseOver(round, scoresList);
 
     }
 
-    public void  phaseOver(Round round){
+    public void  phaseOver(Round round, List<PhaseRankingModel>  scoresList){
         SimpleGame simpleGame = (SimpleGame) round.getPhase();
         List<Team> teams = new ArrayList<>();
 
         if(Boolean.TRUE.equals(roundService.isPhaseOver(simpleGame))){
-            List<PhaseRankingModel>  scoresList =  roundService.orderTeamsByScoreInPhase(simpleGame, 1);
+
             int nbEliminated = scoresList.size() - simpleGame.getNbTeamsQualified();
 
             for(int i = 0; i < scoresList.size();i++){

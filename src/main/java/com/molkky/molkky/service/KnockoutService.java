@@ -12,7 +12,6 @@ import com.molkky.molkky.repository.RoundRepository;
 import com.molkky.molkky.repository.TeamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import type.PhaseType;
 
 import java.util.*;
 
@@ -39,32 +38,7 @@ public class KnockoutService {
 
 
     Map<Round, List<Match>> generateRounds(Knockout knockout) {
-        Map<Round, List<Match>> results = new HashMap<>();
-
-        List<Team> teams = roundService.getTeamsSorted(knockout);
-
-        List<Team> teamsUpdated = new ArrayList<>();
-
-        Round round = new Round();
-        round.setPhase(knockout);
-        round.setType(PhaseType.KNOCKOUT);
-        round.setTeams(teams);
-
-        for (int i = 0; i < teams.size()-1; i = i + 2) {
-            Team team1 = teams.get(i);
-            Team team2 = teams.get(i+1);
-
-            roundService.createMatchSimpleAndKnockout(teamsUpdated,team1, team2, round);
-        }
-
-        knockout.getRounds().add(round);
-        knockout= phaseRepository.save(knockout);
-        teamRepository.saveAll(teamsUpdated);
-
-        for(Round r : knockout.getRounds()){
-            results.put(r, r.getMatches());
-        }
-        return results;
+        return roundService.generateRoundKnockoutAndSwiss(knockout);
     }
 
     void validateRound(Round round){
@@ -77,20 +51,7 @@ public class KnockoutService {
             scoresList.get(i).getTeam().setEliminated(true);
         }
 
-        List<Team> teams = new ArrayList<>();
-
-        if(Boolean.TRUE.equals(round.getPhase().getSeedingSystem())) {
-            for (PhaseRankingModel p : scoresList) {
-                Team team = p.getTeam();
-
-                team.setNbPoints(team.getNbPoints() + p.getTotalPoints());
-
-                teams.add(team);
-
-            }
-        }
-
-        teams = teamRepository.saveAll(teams);
+        List<Team> teams =roundService.seedingSystem(round, scoresList);
 
         generateNotificationAfterRound(teams);
 
