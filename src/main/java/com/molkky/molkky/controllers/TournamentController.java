@@ -243,6 +243,11 @@ public class TournamentController extends DefaultAttributes {
         return "/tournament/results";
     }
 
+    @PostMapping("/results")
+    public String resultsPost( @RequestParam(name= "tournamentId") Integer tournamentId){
+        return "redirect:/tournament/results?tournamentId="+tournamentId;
+    }
+
 }
 
 
