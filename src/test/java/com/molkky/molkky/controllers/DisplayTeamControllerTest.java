@@ -8,6 +8,7 @@ import com.molkky.molkky.repository.UserTournamentRoleRepository;
 import com.molkky.molkky.service.NotificationService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,28 +40,24 @@ class DisplayTeamControllerTest {
 
     @Test
     void testGetTeams() throws Exception{
-        mockMvc.perform(get("/team/displayTeams/"))
-                .andExpect(status().isOk())
-                .andExpect(model().attributeExists("teamModel"))
-                .andExpect(model().attributeExists("teams"))
-                .andExpect(view().name("team/displayTeams"));
         Team team = new Team();
         List<Team> teams= new ArrayList();
         teams.add(team);
         String name = "testEquipe";
         team.setName(name);
         //Mockito.when(Team.class.getName()).thenReturn(name);
-        Mockito.when(teamRepository.existsTeamByName(Mockito.any())).thenReturn(true);
-        Mockito.when(teamRepository.findTeamByName(Mockito.any())).thenReturn(teams);
-        mockMvc.perform(post("/team/filter"))
+        Mockito.when(teamRepository.findAll()).thenReturn(teams);
+        Mockito.when(teamRepository.searchTeamsByName(Mockito.any(), Mockito.anyInt())).thenReturn(teams);
+        mockMvc.perform(get("/team/displayTeams"))
                 .andExpect(status().isOk())
                 .andExpect(model().attributeExists("teams"))
-                .andExpect(view().name("/team/displayTeams"));
-        Mockito.when(teamRepository.existsTeamByName(Mockito.any())).thenReturn(false);
-        mockMvc.perform(post("/team/filter"))
+                .andExpect(view().name("team/displayTeams"));
+        Mockito.verify(teamRepository, Mockito.times(1)).findAll();
+        mockMvc.perform(get("/team/displayTeams?filter='bruh'"))
                 .andExpect(status().isOk())
-                .andExpect(model().attributeDoesNotExist("teams"))
-                .andExpect(view().name("/team/displayTeams"));
+                .andExpect(model().attributeExists("teams"))
+                .andExpect(view().name("team/displayTeams"));
+        Mockito.verify(teamRepository, Mockito.times(1)).searchTeamsByName(Mockito.any(), Mockito.anyInt());
 
     }
 

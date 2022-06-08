@@ -28,9 +28,10 @@
 
 
             <div class="allButton">
-                <a id="open" class="textButton" aria-current="page" href="/tournament/TournamentOpen">Ouverts</a>
-                <a id="closed" class="textButton" href="/tournament/TournamentClose">Fermés</a>
-                <a id="inProgress" class="textButton" href="/tournament/TournamentInProgress">En
+                <a id="all" th:class="'tab '+${#httpServletRequest.requestURI.equals('/tournament/allTournament') ? 'tabSelected' : ''}" aria-current="page" href="/tournament/allTournament">Tous</a>
+                <a id="open" th:class="'tab '+${#httpServletRequest.requestURI.equals('/tournament/TournamentOpen') ? 'tabSelected' : ''}" aria-current="page" href="/tournament/TournamentOpen">Ouverts</a>
+                <a id="closed" th:class="'tab '+${#httpServletRequest.requestURI.equals('/tournament/TournamentClose') ? 'tabSelected' : ''}" href="/tournament/TournamentClose">Fermés</a>
+                <a id="inProgress" th:class="'tab '+${#httpServletRequest.requestURI.equals('/tournament/TournamentInProgress') ? 'tabSelected' : ''}" href="/tournament/TournamentInProgress">En
                     cours</a>
             </div>
 

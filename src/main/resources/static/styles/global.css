@@ -88,3 +88,19 @@ body {
     justify-content: space-between;
     min-height: 100vh;
 }
+
+.tab {
+    font-family: "Inter", sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 24px;
+    text-decoration: none;
+    padding: 10px 15px;
+    color: black;
+}
+
+.tabSelected {
+    border-bottom: 5px solid #8C69F4;
+    color: #8C69F4;
+}
