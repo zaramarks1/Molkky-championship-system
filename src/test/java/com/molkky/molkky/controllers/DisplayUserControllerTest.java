@@ -48,12 +48,12 @@ private MockMvc mockMvc;
         Mockito.when(userRepository.searchUsersByName(Mockito.any(), Mockito.anyInt())).thenReturn(users);
         mockMvc.perform(get("/user/displayUsers"))
                 .andExpect(status().isOk())
-                .andExpect(model().attributeExists("teams"))
+                .andExpect(model().attributeExists("users"))
                 .andExpect(view().name("user/displayUsers"));
         Mockito.verify(userRepository, Mockito.times(1)).findAll();
         mockMvc.perform(get("/user/displayUsers?filter='bruh'"))
                 .andExpect(status().isOk())
-                .andExpect(model().attributeExists("teams"))
+                .andExpect(model().attributeExists("users"))
                 .andExpect(view().name("user/displayUsers"));
         Mockito.verify(userRepository, Mockito.times(1)).searchUsersByName(Mockito.any(), Mockito.anyInt());
     }
