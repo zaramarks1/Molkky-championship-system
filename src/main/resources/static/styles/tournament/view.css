@@ -2,17 +2,31 @@
     width: 95%;
     height: auto;
     border-radius: 7px;
-    background-color: white;
-    padding: 10px 20px;
-    margin: 10px 0;
+    margin-bottom: 25px;
 }
+
+@media only screen and (max-width: 1000px) {
+    .partContainer {
+        width: auto;
+    }
+}
+
 p{
     font-family: 'Inter', sans-serif;
     font-style: normal;
-    font-weight: 600;
+    font-weight: 400;
     font-size: 16px;
     line-height: 22px;
     text-align: justify;
+}
+
+.sidebarButton p {
+    font-weight: 600;
+    font-size : 14px;
+    text-align: left;
+    margin-left: 17px;
+    bottom: -0.46%;
+    line-height: inherit;
 }
 .partTitle {
     font-weight: bold;

@@ -4,6 +4,8 @@ import com.molkky.molkky.domain.Team;
 import com.molkky.molkky.domain.User;
 import com.molkky.molkky.repository.TeamRepository;
 import com.molkky.molkky.repository.UserRepository;
+import com.molkky.molkky.repository.UserTournamentRoleRepository;
+import com.molkky.molkky.service.NotificationService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
@@ -28,29 +30,31 @@ private MockMvc mockMvc;
     @MockBean
     private TeamRepository teamRepository;
     @MockBean
+    private NotificationService notificationService;
+    @MockBean
+    private UserTournamentRoleRepository userTournamentRoleRepository;
+    @MockBean
     private UserRepository userRepository;
 
     @Test
     void testGetUsers() throws Exception{
-        mockMvc.perform(get("/user/displayUsers/"))
-                .andExpect(status().isOk())
-                .andExpect(model().attributeExists("users"))
-                .andExpect(model().attributeExists("userDisplay"))
-                .andExpect(view().name("user/displayUsers"));
         User user = new User();
-        List<User> users= new ArrayList();
+        List<User> users = new ArrayList();
         users.add(user);
-        String pseudo = "testUser";
-        user.setPseudo(pseudo);
-        Mockito.when(userRepository.existsUserByPseudo(Mockito.any())).thenReturn(true);
-        Mockito.when(userRepository.findUsersByPseudo(Mockito.any())).thenReturn(users);
-        mockMvc.perform(post("/user/searchUser"))
+        String name = "testUser";
+        user.setSurname(name);
+        //Mockito.when(Team.class.getName()).thenReturn(name);
+        Mockito.when(userRepository.findAll()).thenReturn(users);
+        Mockito.when(userRepository.searchUsersByName(Mockito.any(), Mockito.anyInt())).thenReturn(users);
+        mockMvc.perform(get("/user/displayUsers"))
                 .andExpect(status().isOk())
                 .andExpect(model().attributeExists("users"))
-                .andExpect(view().name("/user/displayUsers"));
-        Mockito.when(userRepository.existsUserByPseudo(Mockito.any())).thenReturn(true);
-        mockMvc.perform(post("/user/searchUser"))
+                .andExpect(view().name("user/displayUsers"));
+        Mockito.verify(userRepository, Mockito.times(1)).findAll();
+        mockMvc.perform(get("/user/displayUsers?filter='bruh'"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("/user/displayUsers"));
+                .andExpect(model().attributeExists("users"))
+                .andExpect(view().name("user/displayUsers"));
+        Mockito.verify(userRepository, Mockito.times(1)).searchUsersByName(Mockito.any(), Mockito.anyInt());
     }
 }

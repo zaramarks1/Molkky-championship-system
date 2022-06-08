@@ -7,6 +7,7 @@ import com.molkky.molkky.service.NotificationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mobile.device.Device;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -23,6 +24,11 @@ public class DefaultAttributes {
     private NotificationService notificationService;
     @Autowired
     private UserTournamentRoleRepository userTournamentRoleRepository;
+    @ModelAttribute("mobile")
+    public Boolean getMobile(Device device, Model model) {
+        model.addAttribute("mobile", device.isMobile());
+        return device.isMobile();
+    }
 
     @ModelAttribute("user")
     public UserLogged getUser(HttpSession session) {
