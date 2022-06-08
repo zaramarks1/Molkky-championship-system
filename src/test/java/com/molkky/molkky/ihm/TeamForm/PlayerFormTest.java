@@ -108,10 +108,7 @@ class PlayerFormTest {
                 (new By.ByCssSelector("body > div > div.contentContainer > form > div.formContainer " +
                         "> div:nth-child(1) > div > div:nth-child(4) > label")).getText());
 
-        Assertions.assertTrue(config.getDriver().findElement
-                (new By.ByXPath("/html/body/div/div[2]/form/div[3]/div[2]/b")).isDisplayed());
-        Assertions.assertEquals("Joueur 2",config.getDriver().findElement
-                (new By.ByXPath("/html/body/div/div[2]/form/div[3]/div[2]/b")).getText());
+
         Assertions.assertTrue(config.getDriver().findElement(new By.ByName("players[1].forename")).isDisplayed());
         Assertions.assertTrue(config.getDriver().findElement(new By.ByName("players[1].surname")).isDisplayed());
         Assertions.assertTrue(config.getDriver().findElement(new By.ByName("players[1].mail")).isDisplayed());
