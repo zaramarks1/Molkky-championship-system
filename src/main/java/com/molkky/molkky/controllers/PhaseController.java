@@ -49,6 +49,9 @@ public class PhaseController extends DefaultAttributes {
     @Autowired
     RoundService roundService;
 
+    private String tournamentView = "redirect:/tournament/view?tournamentId=";
+    private String phaseView = "redirect:/phase/view?id=";
+
     @PostMapping("/generate")
     public String generate(Model model, HttpSession session, @RequestParam(name = "id", required = true) String id){
 
@@ -61,7 +64,7 @@ public class PhaseController extends DefaultAttributes {
         if(user.getRole().equals(UserRole.ADM) ){
             Phase phase = phaseRepository.findById(Integer.valueOf(id));
 
-            if(Boolean.TRUE.equals(phase.getFinished())) return "redirect:/tournament/view?tournamentId="+phase.getTournament().getId();
+            if(Boolean.TRUE.equals(phase.getFinished())) return tournamentView+phase.getTournament().getId();
 
             Tournament tournament = phase.getTournament();
             tournament.setIndexPhase(tournament.getIndexPhase()+1);
@@ -73,7 +76,7 @@ public class PhaseController extends DefaultAttributes {
         }else{
             return "redirect:/";
         }
-        return "redirect:/phase/view?id="+id;
+        return phaseView+id;
     }
 
     @PostMapping("/round")
@@ -89,7 +92,7 @@ public class PhaseController extends DefaultAttributes {
         phase.setNbSets(Integer.valueOf(nbSet));
         phaseRepository.save(phase);
 
-        if(Boolean.TRUE.equals(phase.getFinished())) return "redirect:/tournament/view?tournamentId="+phase.getTournament().getId();
+        if(Boolean.TRUE.equals(phase.getFinished())) return tournamentView+phase.getTournament().getId();
 
         if(user.getRole().equals(UserRole.ADM) ){
             Map<Round, List<Match>> response = phaseService.generate(id);
@@ -98,7 +101,7 @@ public class PhaseController extends DefaultAttributes {
         }else{
             return "redirect:/";
         }
-        return "redirect:/phase/view?id="+id;
+        return phaseView+id;
 
     }
 
@@ -158,12 +161,12 @@ public class PhaseController extends DefaultAttributes {
         phaseRepository.saveAll(phases);
         t.setPhases(phases);
         t =  tournamentRepository.save(t);
-        return "redirect:/tournament/view?tournamentId="+t.getId();
+        return tournamentView+t.getId();
     }
 
     @PostMapping("/view")
     public String viewPost( @RequestParam(name= "id") Integer id){
-        return "redirect:/phase/view?id="+id;
+        return phaseView+id;
     }
 
     @GetMapping("/view")

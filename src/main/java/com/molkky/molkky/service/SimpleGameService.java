@@ -20,19 +20,21 @@ public class SimpleGameService {
     MatchRepository matchRepository;
 
     @Autowired
-    TeamRepository teamRepository;
+    RoundService roundService;
 
     @Autowired
-    PhaseRepository phaseRepository;
+    TeamRepository teamRepository;
 
     @Autowired
     UserTournamentRoleRepository userTournamentRoleRepository;
 
     @Autowired
-    NotificationService notificationService;
+    PhaseRepository phaseRepository;
 
     @Autowired
-    RoundService roundService;
+    NotificationService notificationService;
+
+
 
         Map<Round, List<Match>> generateRounds(SimpleGame simpleGame) {
             Map<Round, List<Match>> results = new HashMap<>();

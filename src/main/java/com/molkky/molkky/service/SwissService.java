@@ -12,7 +12,6 @@ import com.molkky.molkky.repository.UserTournamentRoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -27,13 +26,13 @@ public class SwissService {
     PhaseRepository phaseRepository;
 
     @Autowired
-    UserTournamentRoleRepository userTournamentRoleRepository;
-
-    @Autowired
     NotificationService notificationService;
 
     @Autowired
     RoundService roundService;
+
+    @Autowired
+    UserTournamentRoleRepository userTournamentRoleRepository;
 
     @Autowired
     SwissPoolRepository swissPoolRepository;

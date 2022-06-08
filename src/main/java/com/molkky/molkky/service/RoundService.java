@@ -78,7 +78,6 @@ public class RoundService {
     }
 
     public List<PhaseRankingModel> orderTeamsByScoreInPhase(Phase phase, int victoryValue){
-        System.out.println("PHASE");
         List<PhaseRankingModel> scoresList = new ArrayList<>();
 
         for(Round round : phase.getRounds()){
@@ -152,7 +151,7 @@ public class RoundService {
 
             }else return false;
         }else if (phase instanceof SwissPool){
-            if(((SwissPool) phase).getIndexSubRound() == ((SwissPool) phase).getNbSubRounds()){
+            if(((SwissPool) phase).getIndexSubRound().equals(((SwissPool) phase).getNbSubRounds())){
                 phase.setFinished(true);
                 phaseRepository.save(phase);
                 return true;
