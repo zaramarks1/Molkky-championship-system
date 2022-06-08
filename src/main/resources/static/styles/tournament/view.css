@@ -53,14 +53,23 @@ ul.roundsList {
     margin: 20px;
     border-radius: 7px;
 }
+
+@media only screen and (max-width: 1000px) {
+    .teamCard {
+        width: 100%;
+    }
+}
+
 #participantContainer {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
 }
 
 #staffContainer {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
 }
 .teamName {
     background-color: forestgreen;
@@ -88,7 +97,7 @@ ul.roundsList {
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: center;
+    justify-content: space-around;
 }
 .teamLogo {
     height: 60px;
