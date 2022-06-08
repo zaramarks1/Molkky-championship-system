@@ -89,10 +89,11 @@ public class PhaseController extends DefaultAttributes {
 
         Phase phase = phaseRepository.findById(Integer.valueOf(id));
 
+        if(Boolean.TRUE.equals(phase.getFinished())) return tournamentView+phase.getTournament().getId();
+
         phase.setNbSets(Integer.valueOf(nbSet));
         phaseRepository.save(phase);
 
-        if(Boolean.TRUE.equals(phase.getFinished())) return tournamentView+phase.getTournament().getId();
 
         if(user.getRole().equals(UserRole.ADM) ){
             Map<Round, List<Match>> response = phaseService.generate(id);
