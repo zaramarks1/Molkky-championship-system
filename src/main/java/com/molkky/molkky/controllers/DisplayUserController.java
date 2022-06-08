@@ -1,7 +1,6 @@
 package com.molkky.molkky.controllers;
 
 import com.molkky.molkky.controllers.superclass.DefaultAttributes;
-import com.molkky.molkky.model.UserDisplayModel;
 import com.molkky.molkky.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,9 +17,9 @@ public class DisplayUserController extends DefaultAttributes {
     @GetMapping("/displayUsers")
     public String displayUsers(Model model, @RequestParam(value = "filter", required = false) String filter){
         if(filter != null && !"".equals(filter)){
-            model.addAttribute("teams" , userRepository.searchUsersByName(filter, 10));
+            model.addAttribute("users" , userRepository.searchUsersByName(filter, 10));
         } else {
-            model.addAttribute("teams" , userRepository.findAll());
+            model.addAttribute("users" , userRepository.findAll());
         }
         return "user/displayUsers";
     }
