@@ -153,11 +153,10 @@ public class RoundService {
         return teams;
     }
 
-    public  void createMatchSimpleAndKnockout(List<Team> teamsUpdated, List<Match> matches, Team team1, Team team2, Round round, RoundService roundService) {
+    public  void createMatchSimpleAndKnockout(List<Team> teamsUpdated, Team team1, Team team2, Round round) {
         Match match = new Match();
         match.setRound(round);
         match.setTeams(List.of(team1, team2));
-        matches.add(match);
 
 
         team1.getMatchs().add(match);
@@ -169,7 +168,9 @@ public class RoundService {
         teamsUpdated.add(team1);
         teamsUpdated.add(team2);
 
-        round.getMatches().addAll(roundService.createSetsFromMatch(matches));
+        round.getMatches().addAll(this.createSetsFromMatch(List.of(match)));
     }
+
+
 
 }

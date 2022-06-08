@@ -51,11 +51,10 @@ public class KnockoutService {
         round.setTeams(teams);
 
         for (int i = 0; i < teams.size()-1; i = i + 2) {
-            List<Match> matches = new ArrayList<>();
             Team team1 = teams.get(i);
             Team team2 = teams.get(i+1);
 
-            roundService.createMatchSimpleAndKnockout(teamsUpdated, matches, team1, team2, round, roundService);
+            roundService.createMatchSimpleAndKnockout(teamsUpdated,team1, team2, round);
         }
 
         knockout.getRounds().add(round);
