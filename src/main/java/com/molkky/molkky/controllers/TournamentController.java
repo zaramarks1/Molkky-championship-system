@@ -200,6 +200,7 @@ public class TournamentController extends DefaultAttributes {
 
         tournament.setStatus(TournamentStatus.INPROGRESS);
         tournament.setIndexPhase(1);
+        tournament.setRegisterAvailable(false);
         tournamentRepository.save(tournament);
         phaseService.generate(tournament.getPhases().get(0).getId().toString());
 
@@ -225,10 +226,10 @@ public class TournamentController extends DefaultAttributes {
 
         model.addAttribute("winners", teamsWinner);
 
-        for (int i=0;i<teamsWinner.size();i++){
-            List<UserTournamentRole> usersTournamentRole = teamsWinner.get(i).getUserTournamentRoles();
-            for (int j=0;j<usersTournamentRole.size();j++){
-                User user = usersTournamentRole.get(j).getUser();
+        for (Team team : teamsWinner) {
+            List<UserTournamentRole> usersTournamentRole = team.getUserTournamentRoles();
+            for (UserTournamentRole userTournamentRole : usersTournamentRole) {
+                User user = userTournamentRole.getUser();
                 players.add(user);
             }
         }

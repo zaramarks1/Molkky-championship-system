@@ -1,18 +1,11 @@
 package com.molkky.molkky.service;
 
-import com.molkky.molkky.domain.Court;
-import com.molkky.molkky.domain.Match;
-import com.molkky.molkky.domain.Round;
-import com.molkky.molkky.domain.Set;
-import com.molkky.molkky.domain.UserTournamentRole;
+import com.molkky.molkky.domain.*;
 import com.molkky.molkky.model.CourtModel;
 import com.molkky.molkky.model.MatchModel;
 import com.molkky.molkky.model.UserModel;
 import com.molkky.molkky.model.UserTournamentRoleModel;
-import com.molkky.molkky.repository.CourtRepository;
-import com.molkky.molkky.repository.MatchRepository;
-import com.molkky.molkky.repository.PhaseRepository;
-import com.molkky.molkky.repository.RoundRepository;
+import com.molkky.molkky.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import type.PhaseType;
@@ -46,9 +39,13 @@ public class MatchService {
     private UserService userService;
     @Autowired
     private CourtService courtService;
-
+    
     @Autowired
     private KnockoutService knockoutService;
+
+    @Autowired
+    private SwissService swissService;
+
 
     public SetTeamIndex getUserTeamIndex(MatchModel match, UserTournamentRoleModel user) {
         Match matchEntity = getMatchFromModel(match);
@@ -64,6 +61,17 @@ public class MatchService {
             }
         }
         return SetTeamIndex.ORGA;
+    }
+
+    public Team getOppositeTeam(MatchModel match, UserTournamentRoleModel user){
+        Match matchEntity = getMatchFromModel(match);
+
+        for(UserTournamentRole u : matchEntity.getTeams().get(0).getUserTournamentRoles()) {
+            if(Objects.equals(u.getId(), user.getId())) {
+                return matchEntity.getTeams().get(1);
+            }
+        }
+        return matchEntity.getTeams().get(0);
     }
 
     public static MatchModel getMatchModelFromEntity(Match match) {
@@ -145,7 +153,7 @@ public class MatchService {
                     knockoutService.validateRound(round);
                     break;
                 case SWISSPOOL:
-
+                    swissService.validateRound(round);
                     break;
                 case SIMPLEGAME:
                     simpleGameService.validateRound(round);

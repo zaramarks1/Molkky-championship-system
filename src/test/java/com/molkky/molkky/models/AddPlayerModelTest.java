@@ -6,7 +6,9 @@ import com.molkky.molkky.model.AddPlayerlistModel;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
- class AddPlayerModelTest {
+import java.util.Locale;
+
+class AddPlayerModelTest {
 
     @Test
     void testAddPlayerConstructor1(){
@@ -45,7 +47,7 @@ import org.junit.jupiter.api.Test;
 
         Assertions.assertEquals(player.getSurname(),user.getSurname(), "Surname different");
         Assertions.assertEquals(player.getForename(),user.getForename(),"Forname different");
-        Assertions.assertEquals(player.getClub(),user.getClub(),"Club different");
+        Assertions.assertEquals(player.getClub().toUpperCase(Locale.ROOT),user.getClub(),"Club different");
         Assertions.assertEquals(player.getMail(),user.getEmail(),"Mail different");
     }
 
