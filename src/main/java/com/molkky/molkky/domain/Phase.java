@@ -99,7 +99,6 @@ public class Phase  implements Serializable {
     @JoinColumn(name = "phase_id")
     private List<Round> rounds = new ArrayList<>();
 
-
     public void setHourPhaseStart(String hourPhaseStart) {
         if(!hourPhaseStart.equals("")){
             hourPhaseStart = hourPhaseStart + ":00";
