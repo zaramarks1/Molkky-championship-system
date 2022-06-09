@@ -114,6 +114,7 @@ class TeamCreateControllerTest {
         when(teamRepository.findById(anyInt())).thenReturn(team);
         when(addPlayerModel1.addPlayer()).thenCallRealMethod();
         when(addPlayerModel1.getMail()).thenReturn("test@test.fr");
+        when(addPlayerModel1.getClub()).thenReturn("A");
 
         mockMvc.perform(post("/team/addPlayer")
                         .flashAttr("form",addPlayerlistModel))
@@ -141,8 +142,10 @@ class TeamCreateControllerTest {
         when(teamRepository.findById(anyInt())).thenReturn(team);
         when(addPlayerModel1.addPlayer()).thenCallRealMethod();
         when(addPlayerModel1.getMail()).thenReturn("test@test.fr");
+        when(addPlayerModel1.getClub()).thenReturn("A");
         when(addPlayerModel2.addPlayer()).thenCallRealMethod();
         when(addPlayerModel2.getMail()).thenReturn("test@test.fr");
+        when(addPlayerModel2.getClub()).thenReturn("A");
 
         mockMvc.perform(post("/team/addPlayer/")
                         .flashAttr("form", addPlayerlistModel))

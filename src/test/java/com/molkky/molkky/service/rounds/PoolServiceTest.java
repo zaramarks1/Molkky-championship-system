@@ -197,6 +197,7 @@ import java.util.*;
         Tournament tournament = createTournament();
 
         tournament = createPool(tournament, 1, 2, 4, true, true);
+        tournament = createPool(tournament, 1, 2, 2, true, true);
 
         insertTeam(tournament, 6);
 
@@ -252,7 +253,8 @@ import java.util.*;
         );
         tournament.setNbPlayersPerTeam(1);
         tournament.setVisible(true);
-        tournament.setStatus(TournamentStatus.AVAILABLE);
+        tournament.setStatus(TournamentStatus.INPROGRESS);
+        tournament.setIndexPhase(1);
         return tournamentRepository.save(tournament);
 
     }

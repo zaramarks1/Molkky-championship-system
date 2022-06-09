@@ -92,11 +92,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
    @Test
     void testGeneratePhaseControllerWithUser() throws Exception {
         UserLogged userLogged = Mockito.mock(UserLogged.class);
-        Tournament tournament = new Tournament();
         String id = "1";
 
        when(phaseEntity.getId()).thenReturn(1);
        when(phaseEntity.getTournament()).thenReturn(tournament);
+       when(tournament.getIndexPhase()).thenReturn(1);
        when(this.phaseRepository.findById(Integer.valueOf(id))).thenReturn(phaseEntity);
 
         when(tournamentRepository.save(Mockito.any(Tournament.class))).thenAnswer(i -> i.getArguments()[0]);
@@ -113,6 +113,51 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
                         .param("id",id))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/phase/view?id=1"));
+    }
+
+    @Test
+    void testNextRoundControllerWithUser() throws Exception {
+        UserLogged userLogged = Mockito.mock(UserLogged.class);
+        Tournament tournament = new Tournament();
+        String id = "1";
+
+        when(phaseEntity.getId()).thenReturn(1);
+        when(phaseEntity.getTournament()).thenReturn(tournament);
+        when(this.phaseRepository.findById(Integer.valueOf(id))).thenReturn(phaseEntity);
+        when(phaseEntity.getNbSets()).thenReturn(1);
+        when(tournamentRepository.save(Mockito.any(Tournament.class))).thenAnswer(i -> i.getArguments()[0]);
+        when(phaseRepository.save(Mockito.any(Phase.class))).thenAnswer(i -> i.getArguments()[0]);
+        when(userRepository.save(Mockito.any(User.class))).thenAnswer(i -> i.getArguments()[0]);
+        when(teamRepository.save(Mockito.any(Team.class))).thenAnswer(i -> i.getArguments()[0]);
+        Map<Round, List<Match>> response = createRounds();
+
+        when(userLogged.getRole()).thenReturn(UserRole.ADM);
+        when(phaseService.generate("1")).thenReturn(response);
+
+        this.mockMvc.perform(post("/phase/round").sessionAttr("user", userLogged)
+                        .sessionAttr("user",userLogged)
+                        .param("id",id)
+                .param("nbSet", "2"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/phase/view?id=1"));
+    }
+
+    @Test
+    void testGenerateControllerPhaseIsOver() throws Exception {
+        UserLogged userLogged = Mockito.mock(UserLogged.class);
+        String id = "1";
+
+        when(phaseEntity.getId()).thenReturn(1);
+        when(phaseEntity.getFinished()).thenReturn(true);
+        when(phaseEntity.getTournament()).thenReturn(tournament);
+        when(phaseEntity.getTournament().getId()).thenReturn(1);
+        when(this.phaseRepository.findById(Integer.valueOf(id))).thenReturn(phaseEntity);
+
+        this.mockMvc.perform(post("/phase/round").sessionAttr("user", userLogged)
+                        .sessionAttr("user",userLogged)
+                        .param("id",id))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/tournament/view?tournamentId=1"));
     }
 
     @Test

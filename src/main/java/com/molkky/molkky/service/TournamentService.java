@@ -83,15 +83,15 @@ public class TournamentService {
         List<Tournament> tournaments = tournamentRepository.findAll();
 
         for (Tournament tournament : tournaments) {
-            {
-                if (tournament.getStatus() == TournamentStatus.AVAILABLE) {
-                    if (new Date().after(tournament.getCutOffDate()) || tournament.getMaxTeam() == tournament.getTeams().size()) {
+                if (tournament.getStatus() == TournamentStatus.AVAILABLE && isTournamentNotAvailable(tournament)) {
                         tournament.setRegisterAvailable(false);
                         tournamentRepository.save(tournament);
-                    }
                 }
-            }
         }
+    }
+
+    private boolean isTournamentNotAvailable(Tournament tournament){
+        return new Date().after(tournament.getCutOffDate()) || tournament.getMaxTeam() == tournament.getTeams().size();
     }
 
     // Récupère le gagnant du tournoi

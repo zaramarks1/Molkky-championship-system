@@ -54,7 +54,7 @@ import java.util.*;
 
         Tournament tournament = createTournament();
 
-        tournament = createKnockout(tournament, 1, 1);
+        tournament = createKnockout(tournament, 1);
 
         insertTeam(tournament, 8);
 
@@ -71,7 +71,12 @@ import java.util.*;
         Assertions.assertEquals(1, tournament.getTeams().get(0).getUserTournamentRoles().size(),
                 " There should be 1 player per team ");
 
-        Assertions.assertEquals(1, results.size(), " There should be 4 rounds of simple game ");
+        Assertions.assertEquals(1, tournament.getTeams().get(0).getMatchs().size(),
+                " There should be 1 match per team");
+
+
+
+        Assertions.assertEquals(1, results.size(), " There should be 1 rounds of knockout ");
 
         for(Map.Entry<Round, List<Match>> entry : results.entrySet()){
 
@@ -80,6 +85,21 @@ import java.util.*;
             Assertions.assertEquals(8, entry.getKey().getTeams().size(), " The  should be 2 teams");
             Assertions.assertEquals(4, entry.getValue().size(), " The  should be one match");
 
+        }
+
+        tournament = tournamentRepository.findById(tournament.getId());
+
+        List<Round> rounds = new ArrayList<>(tournament.getPhases().get(0).getRounds());
+        for (Round r: rounds){
+            for(Match m : r.getMatches()){
+                Random rand = new Random();
+                m.setFinished(true);
+                m.setWinner(m.getTeams().get(0));
+                m.setScoreTeam1(50);
+                m.setScoreTeam2(rand.nextInt(49));
+                matchRepository.save(m);
+                matchService.validateMatch(m);
+            }
         }
 
     }
@@ -93,7 +113,7 @@ import java.util.*;
 
         Tournament tournament = createTournament();
 
-        tournament = createKnockout(tournament, 1, 1);
+        tournament = createKnockout(tournament, 1);
 
         insertTeam(tournament, 8);
 
@@ -131,6 +151,15 @@ import java.util.*;
         Assertions.assertEquals(50, tournament.getTeams().get(2).getNbPoints() ," Team 3 should have 50 points");
 
 
+        for(Match m : tournament.getPhases().get(0).getRounds().get(1).getMatches()){
+            Random rand = new Random();
+            m.setFinished(true);
+            m.setWinner(m.getTeams().get(0));
+            m.setScoreTeam1(50);
+            m.setScoreTeam2(rand.nextInt(49));
+            matchRepository.save(m);
+            matchService.validateMatch(m);
+        }
 
     }
 
@@ -141,7 +170,7 @@ import java.util.*;
 
         Tournament tournament = createTournament();
 
-        tournament = createKnockout(tournament, 1, 1);
+        tournament = createKnockout(tournament, 1);
 
         insertTeam(tournament, 4);
 
@@ -161,6 +190,8 @@ import java.util.*;
             }
 
         tournament = tournamentRepository.findById(tournament.getId());
+        Assertions.assertTrue(round.getFinished(), "round should be finished");
+
 
         Map<Round, List<Match>> results2 =  phaseService.generate(tournament.getPhases().get(0).getId().toString());
 
@@ -178,6 +209,8 @@ import java.util.*;
         tournament = tournamentRepository.findById(tournament.getId());
 
         Assertions.assertTrue(tournament.getPhases().get(0).getFinished(), "Phase should be finished");
+        Assertions.assertTrue(round2.getFinished(), "round should be finished");
+
         Assertions.assertEquals(100, tournament.getTeams().get(0).getNbPoints() ," Team 1 should have 100 points");
 
         List<Team> teams = teamRepository.findByTournamentAndEliminated(tournament,false);
@@ -204,16 +237,16 @@ import java.util.*;
         );
         tournament.setNbPlayersPerTeam(1);
         tournament.setVisible(true);
-        tournament.setStatus(TournamentStatus.AVAILABLE);
+        tournament.setStatus(TournamentStatus.INPROGRESS);
+        tournament.setIndexPhase(1);
         return tournamentRepository.save(tournament);
 
     }
-    Tournament createKnockout(Tournament tournament, int nbPhase, int nbMatch){
+    Tournament createKnockout(Tournament tournament, int nbPhase){
 
         Knockout knockout = new Knockout();
         knockout.setNbPhase(nbPhase);
         knockout.setNbSets(3);
-        knockout.setNbMatch(nbMatch);
         knockout.setTournament(tournament);
         knockout.setRanking(true);
         knockout.setSeedingSystem(true);

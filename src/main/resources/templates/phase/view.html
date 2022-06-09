@@ -18,7 +18,7 @@
           <button class="primaryButton" id="buttonRounds">Masquer</button>
         </div>
         <div id="listRounds">
-            <div th:each="mapEntry : ${roundTeams}" class="cardRoundContent">
+            <div th:each="mapEntry : ${roundTeams}" class="cardRoundContent" id=" cardRoundContent">
 
               <div class="partContainer">
                 <h2 class="partTitle"  th:text="${mapEntry.key.type} " >type </h2>
@@ -64,8 +64,33 @@
                     </div>
                   </th:block>
                 </div>
+              </div >
               </div>
+
+          <div class="cardRoundContent" th:if = "${phaseTotal.size()!= 0}" >
+            <div class="partContainer">
+              <h2 th:text="'Résultats de la poule SUISSE - Round  ' + ${currentPhase.indexSubRound}
+              + ' sur ' + ${currentPhase.nbSubRounds}  "></h2>
+              <div>
+                <table style="width: 100%">
+                  <tr style="color:#8C69F4; margin: 10px; text-align: center; width:90%">
+                    <th>Classement</th>
+                    <th>Nom d'équipe</th>
+                    <th>Nombre de victoires</th>
+                    <th>Nombre de points </th>
+                  </tr>
+                  <tr  th:each="scoreList, iStat: ${phaseTotal}"
+                       style="text-align: center;">
+                    <td th:text="${iStat.index+1}"></td>
+                    <td th:text="${scoreList.team.name}"></td>
+                    <td th:text="${scoreList.values}"></td>
+                    <td th:text="${scoreList.totalPoints}"></td>
+                  </tr>
+                </table>
               </div>
+            </div>
+
+          </div>
             </div>
         </div>
       </div>
