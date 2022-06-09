@@ -6,7 +6,6 @@ import com.molkky.molkky.domain.rounds.*;
 import com.molkky.molkky.model.AddStaff;
 import com.molkky.molkky.model.TournamentModel;
 import com.molkky.molkky.model.UserLogged;
-import com.molkky.molkky.model.phase.PhaseListModel;
 import com.molkky.molkky.model.phase.PhaseModel;
 import com.molkky.molkky.repository.TeamRepository;
 import com.molkky.molkky.repository.TournamentRepository;
@@ -139,14 +138,12 @@ class TournamentControllerTest {
         session.setAttribute("user", userLogged);
 
         List<Phase> phases = new ArrayList<>();
-        PhaseListModel phaseListModels = new PhaseListModel();
 
         PhaseModel phaseModelPool = new PhaseModel();
         phaseModelPool.setPhaseType(PhaseType.POOL);
         phaseModelPool.setTournament(tournament.getId());
         phaseModelPool.setHourPhaseStart("");
         phaseModelPool.setTimePhase("");
-        phaseListModels.add(phaseModelPool);
         phases.add(new Pool(phaseModelPool, tournament));
 
         PhaseModel phaseModelSimpleGame = new PhaseModel();
@@ -154,7 +151,6 @@ class TournamentControllerTest {
         phaseModelSimpleGame.setTournament(tournament.getId());
         phaseModelSimpleGame.setHourPhaseStart("");
         phaseModelSimpleGame.setTimePhase("");
-        phaseListModels.add(phaseModelSimpleGame);
         phases.add(new SimpleGame(phaseModelSimpleGame, tournament));
 
         PhaseModel phaseModelKnockOut = new PhaseModel();
@@ -162,7 +158,6 @@ class TournamentControllerTest {
         phaseModelKnockOut.setTournament(tournament.getId());
         phaseModelKnockOut.setHourPhaseStart("");
         phaseModelKnockOut.setTimePhase("");
-        phaseListModels.add(phaseModelKnockOut);
         phases.add(new Knockout(phaseModelKnockOut, tournament));
 
         PhaseModel phaseModelSwissPool = new PhaseModel();
@@ -170,7 +165,6 @@ class TournamentControllerTest {
         phaseModelSwissPool.setTournament(tournament.getId());
         phaseModelSwissPool.setHourPhaseStart("");
         phaseModelSwissPool.setTimePhase("");
-        phaseListModels.add(phaseModelSwissPool);
         phases.add(new SwissPool(phaseModelSwissPool, tournament));
 
         PhaseModel phaseModelFinnish = new PhaseModel();
@@ -178,7 +172,6 @@ class TournamentControllerTest {
         phaseModelFinnish.setTournament(tournament.getId());
         phaseModelFinnish.setHourPhaseStart("");
         phaseModelFinnish.setTimePhase("");
-        phaseListModels.add(phaseModelFinnish);
         phases.add(new Finnish(phaseModelFinnish, tournament));
 
         tournament.setPhases(phases);
@@ -187,7 +180,6 @@ class TournamentControllerTest {
         when(userLogged.getTournament()).thenReturn(tournament);
         when(userLogged.getRole()).thenReturn(UserRole.PLAYER);
         when(tournamentRepository.save(Mockito.any(Tournament.class))).thenAnswer(i -> i.getArguments()[0]);
-        //when(tournament.getPhases()).thenReturn(phases);
 
         mockMvc.perform(get("/tournament/view")
                         .sessionAttr("user", userLogged)
