@@ -308,7 +308,7 @@ public class RoundService {
 
     public boolean isTournamentOver(Tournament tournament){
         for(Phase p: tournament.getPhases()){
-            if(!p.getFinished()) return false;
+            if(Boolean.FALSE.equals(p.getFinished())) return false;
         }
 
         tournament.setFinished(true);

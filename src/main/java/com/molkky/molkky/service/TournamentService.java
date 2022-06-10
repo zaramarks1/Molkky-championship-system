@@ -99,7 +99,6 @@ public class TournamentService {
     public List<Team> getWinners(Tournament tournament){
 
         int nbPhases = tournament.getPhases().size()-1;
-       // List<Team> teams = teamRepository.findByTournamentAndEliminated(tournament, false);
         List<Team> teams = new ArrayList<>();
         List<PhaseRankingModel> phaseRankingModels;
         for(int i = nbPhases; i >=0; i--){
