@@ -102,7 +102,6 @@ public class TournamentService {
                 ).collect(Collectors.toList());
     }
 
-    // EN ATTENTE
     // Lance le tournoi si la date de ce dernier est celle du jour
 //    public void defineMatchInProgress(){
 //        List<Tournament> tournaments = tournamentRepository.findAll();
