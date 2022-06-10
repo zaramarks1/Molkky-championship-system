@@ -1,11 +1,7 @@
 package com.molkky.molkky.controllers;
 
-import com.molkky.molkky.domain.Team;
 import com.molkky.molkky.domain.User;
-import com.molkky.molkky.repository.TeamRepository;
-import com.molkky.molkky.repository.UserRepository;
-import com.molkky.molkky.repository.UserTournamentRoleRepository;
-import com.molkky.molkky.service.NotificationService;
+import com.molkky.molkky.repository.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
@@ -20,13 +16,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(value = DisplayUserController.class, excludeAutoConfiguration = {SecurityAutoConfiguration.class})
 @ExtendWith(MockitoExtension.class)
-class DisplayUserControllerTest {@Autowired
-private MockMvc mockMvc;
+class DisplayUserControllerTest {
+    @Autowired
+    private MockMvc mockMvc;
     @MockBean
     private TeamRepository teamRepository;
     @MockBean
@@ -42,23 +38,12 @@ private MockMvc mockMvc;
         mockMvc.perform(get("/user/displayUsers/"))
                 .andExpect(status().isOk())
                 .andExpect(model().attributeExists("users"))
-                .andExpect(model().attributeExists("userDisplay"))
                 .andExpect(view().name("user/displayUsers"));
         User user = new User();
         List<User> users= new ArrayList();
         users.add(user);
         String pseudo = "testUser";
         user.setPseudo(pseudo);
-        Mockito.when(userRepository.existsUserByPseudo(Mockito.any())).thenReturn(true);
-        Mockito.when(userRepository.findUsersByPseudo(Mockito.any())).thenReturn(users);
-        mockMvc.perform(post("/user/searchUser"))
-                .andExpect(status().isOk())
-                .andExpect(model().attributeExists("users"))
-                .andExpect(view().name("/user/displayUsers"));
-        Mockito.when(userRepository.existsUserByPseudo(Mockito.any())).thenReturn(true);
-        mockMvc.perform(post("/user/searchUser"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("/user/displayUsers"));
     }
 
     @Test

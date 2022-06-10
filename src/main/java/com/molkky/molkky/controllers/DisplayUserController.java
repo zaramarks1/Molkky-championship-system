@@ -1,7 +1,6 @@
 package com.molkky.molkky.controllers;
 
 import com.molkky.molkky.domain.User;
-import com.molkky.molkky.model.UserDisplayModel;
 import com.molkky.molkky.repository.TournamentRepository;
 import com.molkky.molkky.repository.UserRepository;
 import com.molkky.molkky.repository.UserTournamentRoleCustom;
