@@ -41,7 +41,7 @@ public class DisplayTeamController {
     }
 
     @GetMapping("/view")
-    public String teamView(Model model, @RequestParam(value = "teamId")String teamId){
+    public String teamView(Model model, @RequestParam(value="teamId")String teamId){
         Team team = teamRepository.findById(Integer.valueOf(teamId));
         model.addAttribute("team", team);
         model.addAttribute("users", userTournamentRoleCustom.findUserByTeam(team));

@@ -2,8 +2,10 @@ package com.molkky.molkky.controllers;
 
 
 import com.molkky.molkky.domain.Team;
+import com.molkky.molkky.domain.Tournament;
 import com.molkky.molkky.repository.TeamRepository;
 import com.molkky.molkky.repository.UserRepository;
+import com.molkky.molkky.repository.UserTournamentRoleCustom;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
@@ -30,6 +32,8 @@ class DisplayTeamControllerTest {
     private TeamRepository teamRepository;
     @MockBean
     private UserRepository userRepository;
+    @MockBean
+    private UserTournamentRoleCustom userTournamentRoleCustom;
 
     @Test
     void testGetTeams() throws Exception{
@@ -44,6 +48,9 @@ class DisplayTeamControllerTest {
         teams.add(team);
         String name = "testEquipe";
         team.setName(name);
+        Tournament tournament = new Tournament();
+        tournament.setName("name");
+        team.setTournament(tournament);
         //Mockito.when(Team.class.getName()).thenReturn(name);
         Mockito.when(teamRepository.existsTeamByName(Mockito.any())).thenReturn(true);
         Mockito.when(teamRepository.findTeamByName(Mockito.any())).thenReturn(teams);
@@ -56,6 +63,12 @@ class DisplayTeamControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(model().attributeDoesNotExist("teams"))
                 .andExpect(view().name("/team/displayTeams"));
+        Mockito.when(teamRepository.findById(Mockito.anyInt())).thenReturn(team);
+        mockMvc.perform(get("/team/view").param("teamId", "1"))
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("team"))
+                .andExpect(model().attributeExists("users"))
+                .andExpect(view().name("/team/displayDetailsTeam"));
 
     }
 
