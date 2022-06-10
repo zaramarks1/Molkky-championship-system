@@ -212,6 +212,7 @@ public class TournamentController extends DefaultAttributes {
     public String validatePresence (Model model, @RequestParam(name = "tournamentId")String tournamentId, @RequestParam(name = "teamId")int teamId) {
         Team team = teamRepository.findById(teamId);
         team.setPresent(false);
+        team.setEliminated(true);
         teamRepository.save(team);
         return (redirectViewId + tournamentId);
     }

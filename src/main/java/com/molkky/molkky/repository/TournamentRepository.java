@@ -20,4 +20,5 @@ public interface TournamentRepository extends JpaRepository<Tournament, String>,
             nativeQuery = true)
     List<Tournament> searchTournamentsByName(String searchTerm, Integer n);
 
+
 }

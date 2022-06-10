@@ -59,12 +59,12 @@
     flex: none;
     order: 0;
     flex-grow: 0;
+
 }
 
 .boxImage {
     width: -webkit-fill-available;
     height: -webkit-fill-available;
-
 }
 
 .image {
@@ -73,4 +73,16 @@
     margin-top: 15px;
     display: block;
     height: 70px;
+}
+
+
+.textCard{
+    text-decoration: none;
+}
+
+.clickableCard{
+    list-style-type: none;
+    cursor: pointer;
+    width: -webkit-fill-available;
+    height: -webkit-fill-available;
 }

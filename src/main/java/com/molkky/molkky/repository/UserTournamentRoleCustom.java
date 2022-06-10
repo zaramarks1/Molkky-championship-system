@@ -1,5 +1,6 @@
 package com.molkky.molkky.repository;
 
+import com.molkky.molkky.domain.Team;
 import com.molkky.molkky.domain.Tournament;
 import com.molkky.molkky.domain.User;
 import com.molkky.molkky.domain.UserTournamentRole;
@@ -24,5 +25,7 @@ public interface UserTournamentRoleCustom {
     @Query(value="SELECT DISTINCT u.tournament FROM UserTournamentRole u WHERE u.user=:user")
     List<Tournament> findTournamentFromUser(@Param("user") User user);
 
+    @Query(value="SELECT DISTINCT u.user FROM UserTournamentRole u WHERE u.team=:team")
+    List<User> findUserByTeam(@Param("team") Team team);
 
 }
