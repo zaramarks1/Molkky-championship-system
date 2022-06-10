@@ -2,8 +2,7 @@ package com.molkky.molkky.controllers;
 
 import com.molkky.molkky.domain.Team;
 import com.molkky.molkky.domain.User;
-import com.molkky.molkky.repository.TeamRepository;
-import com.molkky.molkky.repository.UserRepository;
+import com.molkky.molkky.repository.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
@@ -29,6 +28,10 @@ private MockMvc mockMvc;
     private TeamRepository teamRepository;
     @MockBean
     private UserRepository userRepository;
+    @MockBean
+    private TournamentRepository tournamentRepository;
+    @MockBean
+    private UserTournamentRoleCustom userTournamentRoleCustom;
 
     @Test
     void testGetUsers() throws Exception{
@@ -53,4 +56,22 @@ private MockMvc mockMvc;
                 .andExpect(status().isOk())
                 .andExpect(view().name("/user/displayUsers"));
     }
+
+    @Test
+    void testViewUser()throws Exception {
+        User user = new User("pseudoTest", "surnameTest", "forenameTest", "clubTest", "mailTest");
+        user.setId(1);
+        List<User> users = new ArrayList<>();
+        users.add(user);
+        Mockito.when(userRepository.findById(Mockito.anyInt())).thenReturn(user);
+        mockMvc.perform(get("/user/view/")
+                        .param("userId", user.getId().toString()))
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("user"))
+                .andExpect(model().attributeExists("tournament"))
+                .andExpect(view().name("/user/displayDetailsUser"));
+    }
+
+
+
 }
