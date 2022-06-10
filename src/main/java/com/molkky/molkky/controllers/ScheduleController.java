@@ -24,6 +24,7 @@ public class ScheduleController {
     public void scheduleFixedDelayTask()  {
         tournamentService.isMinimumTeamsBeforeDate();
         tournamentService.registerClosedForTournament();
+        tournamentService.defineMatchInProgress();
 
         logger.info("Fixed delay task - ${}" , LocalDateTime.now());
     }
