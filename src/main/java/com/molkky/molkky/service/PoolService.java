@@ -98,13 +98,17 @@ public class PoolService {
               }
                r.getMatches().addAll(roundService.createSetsFromMatch(matches));
 
+                if (pool.getRandomStaff()) roundService.assignRandomStaffToMatch(matches, pool);
+
             }
 
         pool = phaseRepository.save(pool);
 
+
         for(Round r : pool.getRounds()){
             results.put(r, r.getMatches());
         }
+
 
         return results;
     }

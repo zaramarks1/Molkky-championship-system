@@ -32,6 +32,7 @@ public class Knockout extends Phase {
 
     public Knockout(PhaseModel knockoutModel, Tournament tournament) throws ParseException {
         this.setStatus(PhaseStatus.NOTSTARTED);
+        this.setRandomStaff(knockoutModel.getRandomStaff());
         this.setNbSets(knockoutModel.getNbSets());
         this.setRanking(knockoutModel.getRanking());
         this.setTopSeeds(knockoutModel.getTopSeeds());
