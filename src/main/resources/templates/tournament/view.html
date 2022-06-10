@@ -79,6 +79,7 @@
                         <h3 class="teamName" th:if="${team.eliminated == false}" th:text="${team.getName()}"></h3>
                         <div class="cardContentContainer">
                             <p class="teamLogo"></p>
+                            <p class="" th:text="'Présence confirmé:'+${team.present}"></p>
                             <ul class="roundsList">
                                 <th:block th:each="team : ${team.getUserTournamentRoles()}">
                                     <li class="teamMember" th:text="${team.getUser().getForename()}"></li>
@@ -161,6 +162,18 @@
                   action="#" th:action="@{/phase/generate}" method="post" class="formContainer">
                 <input hidden th:value="${tournament.phases[__${tournament.getIndexPhase()}__].id}" th:name="id"/>
                 <button id="idNext" name="visible" class="primaryButton" type="submit">Passer à la phase suivante
+                </button>
+
+            </form>
+
+            <form th:if=" ${user != null} and ${#strings.equals(phasesType[__${tournament.getIndexPhase()-1}__].getPhaseType(),'KNOCKOUT') }"
+                  action="#" th:action="@{/phase/generate}" method="post" class="formContainer">
+                <input hidden th:value="${tournament.phases[__${tournament.getIndexPhase()-1}__].id}" th:name="id"/>
+                <label class="inputLabel">Nombre des manches dans la prochaine étape du tableau éliminatoire</label>
+                <input style="margin-bottom: 10px;" name="nbSet" class="inputPhase" th:name="nbSet" type="number"
+                       min="1">
+                <button id="idNextKnockout" name="visible" class="primaryButton" type="submit">Passer à la etape
+                    suivante
                 </button>
             </form>
         </div>

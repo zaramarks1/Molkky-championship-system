@@ -1,18 +1,25 @@
 package com.molkky.molkky.service;
 
-import com.molkky.molkky.domain.Match;
-import com.molkky.molkky.domain.Round;
+import com.molkky.molkky.domain.*;
 import com.molkky.molkky.domain.Set;
-import com.molkky.molkky.domain.Team;
+import com.molkky.molkky.domain.rounds.Knockout;
+import com.molkky.molkky.domain.rounds.SimpleGame;
+import com.molkky.molkky.domain.rounds.SwissPool;
 import com.molkky.molkky.model.phase.PhaseRankingModel;
+import com.molkky.molkky.repository.PhaseRepository;
 import com.molkky.molkky.repository.TeamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import type.PhaseType;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class RoundService {
+
+    @Autowired
+    PhaseRepository phaseRepository;
 
     @Autowired
     TeamRepository teamRepository;
@@ -60,7 +67,6 @@ public class RoundService {
 
             scoresList.add(phaseRankingModel);
 
-
         }
 
         scoresList.sort(Comparator
@@ -69,6 +75,39 @@ public class RoundService {
                 .reversed());
 
         return scoresList;
+
+    }
+
+    public List<PhaseRankingModel> orderTeamsByScoreInPhase(Phase phase, int victoryValue){
+        List<PhaseRankingModel> scoresList = new ArrayList<>();
+
+        for(Round round : phase.getRounds()){
+            scoresList.addAll(orderTeamsByScoreInRound( round, victoryValue));
+        }
+
+        if(phase instanceof SwissPool){
+
+            Map<Team, PhaseRankingModel> map = new HashMap<>();
+            for(PhaseRankingModel p : scoresList){
+                map.merge(p.getTeam(), p, (oldValue, newValue) -> new PhaseRankingModel(p.getTeam(),
+                        oldValue.getTotalPoints() + newValue.getTotalPoints(),
+                        oldValue.getValues() + newValue.getValues()));
+            }
+
+            List<PhaseRankingModel> scoresListNew = new ArrayList<>(map.values());
+            scoresListNew.sort(Comparator
+                    .comparing(PhaseRankingModel::getValues)
+                    .thenComparing(PhaseRankingModel::getTotalPoints)
+                    .reversed());
+
+            return scoresListNew;
+        }else{
+            scoresList.sort(Comparator
+                    .comparing(PhaseRankingModel::getValues)
+                    .thenComparing(PhaseRankingModel::getTotalPoints)
+                    .reversed());
+            return scoresList;
+        }
 
     }
 
@@ -89,4 +128,172 @@ public class RoundService {
         }
         return results;
     }
-}
+
+
+
+    List<Team> getTeamsSorted(Phase phase){
+
+
+        List<Team> teamsOld = phase.getTournament().getTeams();
+        List<Team> teams;
+
+        teams = teamsOld.stream()
+                .filter(team -> !team.isEliminated())
+                .collect(Collectors.toList());
+
+        if(Boolean.TRUE.equals(phase.getRanking()) ) {
+            teams.sort(Comparator
+                    .comparing(Team :: getNbPoints)
+                    .reversed());
+        }
+
+        return teams;
+    }
+
+    public  void createMatchSimpleAndKnockoutAndSwiss(List<Team> teamsUpdated, Team team1, Team team2, Round round) {
+        Match match = new Match();
+        match.setRound(round);
+        match.setTeams(List.of(team1, team2));
+
+
+        team1.getMatchs().add(match);
+        team2.getMatchs().add(match);
+
+        team1.getRounds().add(round);
+        team2.getRounds().add(round);
+
+        teamsUpdated.add(team1);
+        teamsUpdated.add(team2);
+
+        round.getMatches().addAll(this.createSetsFromMatch(List.of(match)));
+    }
+    
+    
+    public Map<Round, List<Match>> generateRoundKnockoutAndSwiss(Phase phase) {
+
+        Map<Round, List<Match>> results = new HashMap<>();
+
+        List<Team> teams = this.getTeamsSorted(phase);
+
+
+        List<Team> teamsUpdated = new ArrayList<>();
+
+        Round round = new Round();
+        if (phase instanceof Knockout) {
+
+            phase.setNbTeamsQualified(teams.size()/2);
+            round.setPhase(phase);
+            round.setType(PhaseType.KNOCKOUT);
+
+        } else if (phase instanceof SwissPool) {
+            round.setPhase(phase);
+            round.setType(PhaseType.SWISSPOOL);
+
+            int indexSubRound = ((SwissPool) phase).getIndexSubRound();
+            if (indexSubRound != 1) {
+                List<PhaseRankingModel> ranking = this.orderTeamsByScoreInRound(phase.getRounds().get(indexSubRound - 2), phase.getVictoryValue());
+
+                teams = new ArrayList<>();
+
+                for (PhaseRankingModel p : ranking) {
+                    teams.add(p.getTeam());
+                }
+            }
+        }
+            round.setTeams(teams);
+
+
+            for (int i = 0; i < teams.size() - 1; i = i + 2) {
+                Team team1 = teams.get(i);
+                Team team2 = teams.get(i + 1);
+
+                this.createMatchSimpleAndKnockoutAndSwiss(teamsUpdated, team1, team2, round);
+            }
+
+            phase.getRounds().add(round);
+            phase = phaseRepository.save(phase);
+            teamRepository.saveAll(teamsUpdated);
+
+            for (Round r : phase.getRounds()) {
+                results.put(r, r.getMatches());
+            }
+
+            return results;
+        }
+
+        List<Team> seedingSystem(Round round, List<PhaseRankingModel>  scoresList){
+
+            List<Team> teams = new ArrayList<>();
+
+                for (PhaseRankingModel p : scoresList) {
+                    Team team = p.getTeam();
+
+                    if(Boolean.TRUE.equals(round.getPhase().getSeedingSystem())) {
+                        team.setNbPoints(team.getNbPoints() + p.getTotalPoints());
+                    }
+
+                    teams.add(team);
+                }
+
+            return teamRepository.saveAll(teams);
+        }
+
+    public boolean isPhaseOver(Phase phase, List<PhaseRankingModel>  scoresList){
+
+        for(Round r: phase.getRounds()){
+
+            if(Boolean.FALSE.equals(r.getFinished())) return false;
+        }
+
+
+        if (phase instanceof Knockout){
+            List<Team> teams = phase.getTournament().getTeams().stream()
+                    .filter(team -> !team.isEliminated())
+                    .collect(Collectors.toList());
+            if(teams.size() == 1) {
+                phase.setFinished(true);
+                phaseRepository.save(phase);
+                return true;
+
+            }else return false;
+        }else if (phase instanceof SwissPool) {
+            SwissPool s = (SwissPool) phase;
+            if (Objects.equals(s.getIndexSubRound(), s.getNbSubRounds())) {
+                phaseOverAction(phase, scoresList);
+                phase.setFinished(true);
+                phaseRepository.save(phase);
+                return true;
+            } else return false;
+            }else if (phase instanceof SimpleGame){
+                phaseOverAction(phase, scoresList);
+                phase.setFinished(true);
+                phaseRepository.save(phase);
+                return true;
+
+        }else{
+            phase.setFinished(true);
+            phaseRepository.save(phase);
+            return true;
+        }
+
+    }
+
+    public void  phaseOverAction(Phase phase, List<PhaseRankingModel>  scoresList){
+
+        List<Team> teams = new ArrayList<>();
+        int nbEliminated = phase.getNbTeamsQualified();
+
+        for(int i = nbEliminated; i < scoresList.size();i++){
+            scoresList.get(i).getTeam().setEliminated(true);
+        }
+            teamRepository.saveAll(teams);
+
+    }
+
+
+
+
+
+    }
+
+

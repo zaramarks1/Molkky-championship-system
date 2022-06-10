@@ -24,19 +24,13 @@ public class DisplayUserController {
     UserTournamentRoleCustom userTournamentRoleCustom;
 
     @GetMapping("/displayUsers")
-    public String displayUsers(Model model){
-        UserDisplayModel userDisplayModel = new UserDisplayModel();
-        model.addAttribute("users", userRepository.findAll());
-        model.addAttribute("userDisplay", userDisplayModel);
-        return "user/displayUsers";
-    }
-
-    @PostMapping("/searchUser")
-    public String searchUser(Model model, @ModelAttribute("userDisplay")UserDisplayModel user){
-        if(userRepository.existsUserByPseudo(user.getPseudo())){
-            model.addAttribute("users", userRepository.findUsersByPseudo(user.getPseudo()));
+    public String displayUsers(Model model, @RequestParam(value = "filter", required = false) String filter){
+        if(filter != null && !"".equals(filter)){
+            model.addAttribute("users" , userRepository.searchUsersByName(filter, 10));
+        } else {
+            model.addAttribute("users" , userRepository.findAll());
         }
-        return "/user/displayUsers";
+        return "user/displayUsers";
     }
 
     @GetMapping("/view")

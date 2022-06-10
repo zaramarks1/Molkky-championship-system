@@ -15,8 +15,12 @@ import java.text.ParseException;
 @Entity
 @DiscriminatorValue("SWISSPOOL")
 public class SwissPool extends Phase {
+
     @Column(name = "nbSubRounds")
     private Integer nbSubRounds;
+
+    @Column(name = "indexSubRound")
+    private Integer indexSubRound=0;
 
     public SwissPool(){
 

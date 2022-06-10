@@ -1,9 +1,18 @@
+:root {
+    font-size : 62.5%
+}
 .bg {
     background-color: #F5F4F9;
 }
 
 .bgButton {
     background-color: #E7E3F9;
+}
+
+.bgButton:hover{
+    background-color: #E7E3F9;
+    opacity: 100%;
+    transition:background-color,opacity ease-in-out .2s;
 }
 
 .textPrimary {
@@ -18,7 +27,7 @@
 
 .contentContainer {
     flex: 1;
-    margin: 15px;
+    margin: 30px;
     font-family: 'Inter', sans-serif;
 }
 
@@ -29,12 +38,19 @@
     letter-spacing: 0.2px;
 }
 
+#tournament_name{
+    font-weight: 700;
+    font-size: 26px;
+    line-height: 24px;
+    letter-spacing: 0.2px;
+}
+
 .contentText {
     font-family: 'Inter', sans-serif;
     margin-top: 25px;
     font-style: normal;
     font-weight: 600;
-    font-size: 16px;
+    font-size: 1.4rem;
     line-height: 22px;
     text-align: justify;
 }
@@ -45,6 +61,12 @@
     justify-content: space-between;
 }
 
+@media only screen and (max-width: 1000px) {
+    .homeContainer {
+        flex-direction: column-reverse;
+    }
+}
+
 .homeImage {
     border-radius: 15px;
     margin-top: 25px    ;
@@ -53,10 +75,32 @@
     object-fit: cover;
 }
 
+@media only screen and (max-width: 1000px) {
+    .homeImage {
+        height: 200px;
+    }
+}
+
 body {
     margin: 0;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     min-height: 100vh;
+}
+
+.tab {
+    font-family: "Inter", sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 24px;
+    text-decoration: none;
+    padding: 10px 15px;
+    color: black;
+}
+
+.tabSelected {
+    border-bottom: 5px solid #8C69F4;
+    color: #8C69F4;
 }

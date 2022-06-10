@@ -171,6 +171,67 @@ class MatchServiceTest {
         Assertions.assertFalse(matchService.isUserInMatch(MatchService.getMatchModelFromEntity(match), UserService.createUserModel(user2)));
     }
 
+    @Test
+    void testGetOppositeTeam1(){
+        Match match = matchRepository.save(new Match());
+        Team team1 = new Team();
+        team1.setName("team1");
+        team1 = teamRepository.save(team1);
+        Team team2 = new Team();
+        team2.setName("team2");
+        team2 = teamRepository.save(team2);
+
+        UserTournamentRole userTournamentRole1 = userTournamentRoleRepository.save(new UserTournamentRole());
+        UserTournamentRole userTournamentRole2 = userTournamentRoleRepository.save(new UserTournamentRole());
+        User user1 = userRepository.save(new User());
+        User user2 = userRepository.save(new User());
+        userTournamentRole2.setUser(user2);
+        user2.setUserTournamentRoles(List.of(userTournamentRole2));
+        userTournamentRole1.setUser(user1);
+        userTournamentRole1.setTeam(team1);
+        userTournamentRoleRepository.save(userTournamentRole1);
+        userTournamentRoleRepository.save(userTournamentRole2);
+        team1.setUserTournamentRoles(List.of(userTournamentRole1));
+        team1 = teamRepository.save(team1);
+
+        match.setTeams(Arrays.asList(team1, team2));
+        match = matchRepository.save(match);
+
+        Team oppositeTeam = matchService.getOppositeTeam(MatchService.getMatchModelFromEntity(match),new UserTournamentRoleModel(userTournamentRole1));
+
+        Assertions.assertEquals("team2",oppositeTeam.getName());
+    }
+
+    @Test
+    void testGetOppositeTeam2(){
+        Match match = matchRepository.save(new Match());
+        Team team1 = new Team();
+        team1.setName("team1");
+        team1 = teamRepository.save(team1);
+        Team team2 = new Team();
+        team2.setName("team2");
+        team2 = teamRepository.save(team2);
+
+        UserTournamentRole userTournamentRole1 = userTournamentRoleRepository.save(new UserTournamentRole());
+        UserTournamentRole userTournamentRole2 = userTournamentRoleRepository.save(new UserTournamentRole());
+        User user1 = userRepository.save(new User());
+        User user2 = userRepository.save(new User());
+        userTournamentRole2.setUser(user2);
+        user2.setUserTournamentRoles(List.of(userTournamentRole2));
+        userTournamentRole1.setUser(user1);
+        userTournamentRole1.setTeam(team1);
+        userTournamentRoleRepository.save(userTournamentRole1);
+        userTournamentRoleRepository.save(userTournamentRole2);
+        team1.setUserTournamentRoles(List.of(userTournamentRole1));
+        team1 = teamRepository.save(team1);
+
+        match.setTeams(Arrays.asList(team1, team2));
+        match = matchRepository.save(match);
+
+        Team oppositeTeam = matchService.getOppositeTeam(MatchService.getMatchModelFromEntity(match),new UserTournamentRoleModel(userTournamentRole2));
+
+        Assertions.assertEquals("team1",oppositeTeam.getName());
+    }
     
     @Test
     void isMatchFinished(){
@@ -236,6 +297,7 @@ class MatchServiceTest {
                 new Date(),
                 1,
                 8,
+                true,
                 true,
                 2,
                 3,

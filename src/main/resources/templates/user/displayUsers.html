@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <div th:replace="fragments/header"></div>
-    <title>Affichage des équipes</title>
+    <title>Affichage des utilisateurs</title>
     <link rel="stylesheet" th:href="@{/styles/user/user.css}" href="./"/>
+    <link rel="stylesheet" th:href="@{/styles/team/listTeam.css}" href="./"/>
 </head>
 <body class="bg">
 <div class="pageContainer">
@@ -13,13 +14,14 @@
         <div th:replace="fragments/searchbar"></div>
 
         <!-- Emplacement pour les filtres-->
-        <div class="searchbar2">
-            <form method="post" th:action="@{/user/searchUser}" th:object="${userDisplay}">
-                <label for="searchUser">Utilisateur: </label>
-                <input id="searchUser" type="text" th:field="*{pseudo}">
-                <input id="submitUser" type="submit" value="Search">
-            </form>
-        </div>
+        <form method="get" th:action="@{/user/displayUsers}" id="cover">
+            <input name="filter" class="inputFilter" type="text" placeholder="Filtrer">
+            <button class = "filter" type="submit">
+                <i class="searchIconFilter">
+                    <img class="searchbarIcon" th:src="@{/assets/search_icon.svg}"/>
+                </i>
+            </button>
+        </form>
 
 
         <div class="cardContainer">

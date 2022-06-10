@@ -58,7 +58,7 @@ class MatchControllerTest {
     void testControllerWithoutUser() throws Exception {
         mockMvc.perform(get("/matches/match?match_id=1"))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/connexion"));
+                .andExpect(view().name("redirect:/connexion"));
     }
 
     @Test

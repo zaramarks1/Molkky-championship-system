@@ -23,6 +23,7 @@ public class TournamentModel {
     private Integer nbCourts;
     private Integer nbPlayersPerTeam;
     private boolean visible;
+    private boolean registerAvailable;
     private String email;
 
     public void setDate(String date) throws ParseException {
@@ -56,6 +57,7 @@ public class TournamentModel {
             this.nbCourts = tournament.getNbCourts();
             this.nbPlayersPerTeam = tournament.getNbPlayersPerTeam();
             this.visible = tournament.isVisible();
+            this.registerAvailable = tournament.isRegisterAvailable();
         }
     }
 

@@ -2,6 +2,7 @@ package com.molkky.molkky.controllers;
 
 import com.molkky.molkky.domain.Team;
 import com.molkky.molkky.model.TeamFilterModel;
+import com.molkky.molkky.controllers.superclass.DefaultAttributes;
 import com.molkky.molkky.repository.TeamRepository;
 import com.molkky.molkky.repository.UserTournamentRoleCustom;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.*;
 
 
 
@@ -22,22 +24,13 @@ public class DisplayTeamController {
     UserTournamentRoleCustom userTournamentRoleCustom;
 
     @GetMapping("/displayTeams")
-    public String displayTeams(Model model) {
-        model.addAttribute("teams", teamRepository.findAll());
-        TeamFilterModel teamModel = new TeamFilterModel();
-        model.addAttribute("teamModel", teamModel);
-        Team team = new Team();
-        model.addAttribute("team" ,team);
-        return "team/displayTeams";
-    }
-
-    @PostMapping("/filter")
-    public ModelAndView connexionUser(@ModelAttribute("teamModel")TeamFilterModel team2, Model model){
-        if(teamRepository.existsTeamByName(team2.getName())){
-            model.addAttribute("teams", teamRepository.findTeamByName(team2.getName()));
-            return new ModelAndView("/team/displayTeams");
+    public String displayTeams(Model model, @RequestParam(value = "filter", required = false) String filter) {
+        if(filter != null && !"".equals(filter)){
+            model.addAttribute("teams" , teamRepository.searchTeamsByName(filter, 10));
+        } else {
+            model.addAttribute("teams" , teamRepository.findAll());
         }
-        return new ModelAndView("/team/displayTeams");
+        return "team/displayTeams";
     }
 
     @GetMapping("/view")

@@ -12,8 +12,21 @@ body{
     overflow: hidden;
 }
 
-.center{
+.connexionLogoContainer {
+    text-align: center;
+    margin: 7vh 0;
+}
+
+.connexionLogo {
+    filter: brightness(0);
+    height: 118px;
+    object-fit: scale-down;
+}
+
+.connexionContainer{
     position: absolute;
+    padding: 35px;
+    color: white;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -22,6 +35,18 @@ body{
     border-radius: 10px;
     box-shadow: 10px 10px 15px rgba(0,0,0,0.05);
 }
+
+@media only screen and (max-width: 600px) {
+    .connexionContainer {
+        width: 100vw;
+        height: 100vh;
+        justify-content: start;
+        display: flex;
+        flex-direction: column;
+        border-radius: 0px;
+    }
+}
+
 .center h1{
     text-align: center;
     padding: 20px 0;
@@ -45,8 +70,8 @@ form .txt_field{
     border: none;
     background: none;
     outline: none;
-
 }
+
 input:-webkit-autofill,
 textarea:-webkit-autofill,
 select:-webkit-autofill {
@@ -59,7 +84,7 @@ select:-webkit-autofill {
     left: 5px;
     color: white;
     transform: translateY(-50%);
-    font-size: 16px;
+    font-size: 19px;
     pointer-events: none;
     transition: .5s;
 }
