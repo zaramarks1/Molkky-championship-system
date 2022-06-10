@@ -42,11 +42,7 @@ public class DisplayUserController {
     @GetMapping("/view")
     public String userView(Model model, @RequestParam(value = "userId")String userId){
         User user = userRepository.findById(Integer.valueOf(userId));
-        model.addAttribute("pseudo", user.getPseudo());
-        model.addAttribute("club", user.getClub());
-        model.addAttribute("prenom", user.getForename());
-        model.addAttribute("nom", user.getSurname());
-        model.addAttribute("email", user.getEmail());
+        model.addAttribute("user",user);
         model.addAttribute("tournament", userTournamentRoleCustom.findTournamentFromUser(user));
         return "/user/displayDetailsUser";
     }

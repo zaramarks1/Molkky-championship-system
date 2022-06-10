@@ -17,6 +17,7 @@ public interface UserTournamentRoleRepository extends UserTournamentRoleCustom, 
     UserTournamentRole findByTeamAndTournament(Team team, Tournament tournament);
     UserTournamentRole findByUserAndTeam(User user, Team team);
     List<UserTournamentRole> findByUser(User user);
+    List<UserTournamentRole> findByTeam(Team team);
 
 
     UserTournamentRole findById(Integer id);

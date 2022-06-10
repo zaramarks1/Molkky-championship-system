@@ -14,17 +14,22 @@
 
         <!-- Emplacement pour les informations d'un user-->
         <div class="contentTitle">
-            Informations de l'utlisateur <span id="userPseudo" th:text="${pseudo}"/>
+            Informations de l'utlisateur <span id="userPseudo" th:text="${user.pseudo}"/>
             <div class="contentText">
-                Email de l'utilisateur : <span id="userMail" th:text="${email}"/> <br> <br>
-                Club de l'utilisateur : <span id="userClub" th:text="${club}"/> <br> <br>
-                Nom de l'utilisateur : <span id="userNom" th:text="${nom}"/> <br> <br>
-                Prénom de l'utilisateur : <span id="userPrenom" th:text="${prenom}"/> <br> <br>
+                Email de l'utilisateur : <span id="userMail" th:text="${user.email}"/> <br> <br>
+                Club de l'utilisateur : <span id="userClub" th:text="${user.club}"/> <br> <br>
+                Nom de l'utilisateur : <span id="userNom" th:text="${user.surename}"/> <br> <br>
+                Prénom de l'utilisateur : <span id="userPrenom" th:text="${user.forename}"/> <br> <br><br> <br>
             </div>
         </div>
 
+
+
+
+
+
         <div class="contentTitle">
-            Liste des tournois de l'utilisateur <span id="userPseudo2" th:text="${pseudo}"/>
+            Liste des tournois de l'utilisateur <span id="userPseudo2" th:text="${user.pseudo}"/>
             <div class="contentText" th:each="tournament: ${tournament}">
                 Nom du tournoi : <span id="nomTournament" th:text="${tournament.name}"/> <br> <br>
                 Date du tournoi  <span id="dateTournament" th:text="${tournament.date}"/> <br> <br>
