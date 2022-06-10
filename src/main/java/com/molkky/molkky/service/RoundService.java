@@ -33,7 +33,7 @@ public class RoundService {
     @Autowired
     MatchRepository matchRepository;
 
-    private Random rand = new Random();
+    private final Random rand = new Random();
 
     public List<PhaseRankingModel> orderTeamsByScoreInRound(Round round, int victoryValue){
         Map<Integer, PhaseRankingModel> scores = new HashMap<>();
