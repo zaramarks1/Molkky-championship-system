@@ -13,7 +13,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 @WebMvcTest(value = ScheduleController.class, excludeAutoConfiguration = {SecurityAutoConfiguration.class})
 @ExtendWith(MockitoExtension.class)
-public class ScheduleControllerTest {
+class ScheduleControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
