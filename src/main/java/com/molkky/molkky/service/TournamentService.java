@@ -67,7 +67,7 @@ public class TournamentService {
         List<Tournament> tournaments = tournamentRepository.findAll();
 
         for (Tournament tournament : tournaments) {
-            if (currentDate.after(tournament.getCutOffDate()) && tournament.getTeams().size() >= tournament.getMinTeam()) {
+            if (currentDate.after(tournament.getCutOffDate()) && tournament.getTeams().size() <= tournament.getMinTeam()) {
                 tournament.setStatus(TournamentStatus.CLOSED);
             }
         }
