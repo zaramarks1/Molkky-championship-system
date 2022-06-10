@@ -61,14 +61,12 @@
         </div>
         <div class="partContainer">
             <h2 class="partTitle">Bracket</h2>
-            <p>L'image suivante sera remplacée par l'arbre de tournoi lorsque l'User Story correspondante sera
-                développée et testée.</p>
+            <p th:if="${#strings.equals(tournament.status, 'AVAILABLE')}">Le bracket sera affiché quand le tournoi aura débuté.</p>
             <img th:src="@{/assets/bracket.png}" class="imgBracket" alt="Tournament Bracket">
         </div>
         <div class="partContainer">
             <h2 class="partTitle">Participants</h2>
             <div id="participantContainer">
-
                 <th:block th:each="team : ${tournament.getTeams()}">
                     <div class="teamCard">
                         <h3 class="teamNameEliminated" th:if="${team.eliminated == true}"
@@ -76,7 +74,7 @@
                         <h3 class="teamName" th:if="${team.eliminated == false}" th:text="${team.getName()}"></h3>
                         <div class="cardContentContainer">
                             <p class="teamLogo"></p>
-                            <p class="" th:text="'Présence confirmé:'+${team.present}"></p>
+                            <p class="" th:text="${team.present == true ? 'Présence confirmée' : 'Présence non confirmée'}"></p>
                             <ul class="roundsList">
                                 <th:block th:each="team : ${team.getUserTournamentRoles()}">
                                     <li class="teamMember" th:text="${team.getUser().getForename()}"></li>
@@ -141,16 +139,6 @@
             <h2 class="partTitle">Règles</h2>
             <p>A définir...</p>
         </div>
-
-        <div class="partContainer" th:if="${#strings.equals(tournament.getStatus(), 'CLOSED')}">
-            <h2 class="partTitle">Vainqueur du tournoi</h2>
-            <form action="#" th:action="@{/tournament/results}" method="post" class="formContainer">
-                <input hidden th:value="${tournament.getId()}" th:name="tournamentId"/>
-                <button id="tournamentId" name="visible" class="primaryButton" type="submit">Afficher le vainqueur
-                </button>
-            </form>
-        </div>
-
         <div class="partContainer" th:if="${tournament.getIndexPhase()} !=0">
             <h2 class="partTitle" th:text=" 'Phase n ' + ${tournament.getIndexPhase()}">Index de la phase</h2>
 
@@ -158,18 +146,19 @@
                 <input hidden th:value="${tournament.phases[__${tournament.getIndexPhase()-1}__].id}" th:name="id"/>
                 <button id="id" name="visible" class="primaryButton" type="submit">Voir la phase en cours</button>
             </form>
-            <div th:if=" ${user != null}" >
 
-            <form  th:if="${tournament.getPhases().size() != (tournament.getIndexPhase())}
-            and  ${phasesType[__${tournament.getIndexPhase()-1}__].getPhase().getFinished() == true}"
+
+            <form th:if=" ${user != null} and ${tournament.getPhases().size() != (tournament.getIndexPhase())}
+            and ${phasesType[__${tournament.getIndexPhase()-1}__].getPhaseType() != ${(type.PhaseType).KNOCKOUT}} "
                   action="#" th:action="@{/phase/generate}" method="post" class="formContainer">
-                <input hidden th:value="${tournament.phases[__${tournament.getIndexPhase()-1}__].id}" th:name="id"/>
+                <input hidden th:value="${tournament.phases[__${tournament.getIndexPhase()}__].id}" th:name="id"/>
                 <button id="idNext" name="visible" class="primaryButton" type="submit">Passer à la phase suivante
                 </button>
+
             </form>
 
-            <form th:if=" ${#strings.equals(phasesType[__${tournament.getIndexPhase()-1}__].getPhaseType(),'KNOCKOUT') }"
-                  action="#" th:action="@{/phase/round}" method="post" class="formContainer">
+            <form th:if=" ${user != null} and ${#strings.equals(phasesType[__${tournament.getIndexPhase()-1}__].getPhaseType(),'KNOCKOUT') }"
+                  action="#" th:action="@{/phase/generate}" method="post" class="formContainer">
                 <input hidden th:value="${tournament.phases[__${tournament.getIndexPhase()-1}__].id}" th:name="id"/>
                 <label class="inputLabel">Nombre des manches dans la prochaine étape du tableau éliminatoire</label>
                 <input style="margin-bottom: 10px;" name="nbSet" class="inputPhase" th:name="nbSet" type="number"
@@ -178,14 +167,14 @@
                     suivante
                 </button>
             </form>
-            </div>
+
         </div>
         <div th:if=" ${user} != null">
             <div th:if="${#strings.equals(user.role, 'ADM')}">
                 <div class="partContainer" th:if="${#strings.equals(tournament.status, 'AVAILABLE')}">
                     <h2 class="partTitle">Visible</h2>
                     <span th:if=" ${tournament.isVisible} == false">
-                       <p>Votre tournoi n'est pas encore visible au public</p>
+                       <p>Votre tournois n'est pas encore visible au publique</p>
                        <form action="#" th:action="@{/tournament/setVisible}" method="post" class="formContainer">
                            <input hidden th:value="${tournament.id}" th:name="tournamentId"/>
                            <button id="isValid" name="visible" class="primaryButton" type="submit">Rendre public le tournoi</button>
@@ -200,6 +189,7 @@
                    </span>
                 </div>
             </div>
+
         </div>
     </div>
 </div>
