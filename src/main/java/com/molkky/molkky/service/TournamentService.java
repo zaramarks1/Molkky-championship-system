@@ -116,7 +116,6 @@ public class TournamentService {
         List<Tournament> tournaments = tournamentRepository.findAll();
 
         for (Tournament tournament : tournaments) {
-            boolean condition = currentDate.after(tournament.getDate());
             if (currentDate.after(tournament.getDate())) {
                 tournament.setStatus(TournamentStatus.INPROGRESS);
                 tournament.setRegisterAvailable(false);
