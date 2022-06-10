@@ -6,10 +6,7 @@ import com.molkky.molkky.domain.rounds.Knockout;
 import com.molkky.molkky.domain.rounds.SimpleGame;
 import com.molkky.molkky.domain.rounds.SwissPool;
 import com.molkky.molkky.model.phase.PhaseRankingModel;
-import com.molkky.molkky.repository.MatchRepository;
-import com.molkky.molkky.repository.PhaseRepository;
-import com.molkky.molkky.repository.TeamRepository;
-import com.molkky.molkky.repository.UserTournamentRoleRepository;
+import com.molkky.molkky.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import type.PhaseType;
@@ -32,6 +29,9 @@ public class RoundService {
 
     @Autowired
     MatchRepository matchRepository;
+
+    @Autowired
+    TournamentRepository tournamentRepository;
 
     private final Random rand = new Random();
 
@@ -254,6 +254,7 @@ public class RoundService {
 
     public boolean isPhaseOver(Phase phase, List<PhaseRankingModel>  scoresList){
 
+        boolean response = true;
         for(Round r: phase.getRounds()){
 
             if(Boolean.FALSE.equals(r.getFinished())) return false;
@@ -267,7 +268,6 @@ public class RoundService {
             if(teams.size() == 1) {
                 phase.setFinished(true);
                 phaseRepository.save(phase);
-                return true;
 
             }else return false;
         }else if (phase instanceof SwissPool) {
@@ -276,19 +276,21 @@ public class RoundService {
                 phaseOverAction(phase, scoresList);
                 phase.setFinished(true);
                 phaseRepository.save(phase);
-                return true;
+
             } else return false;
             }else if (phase instanceof SimpleGame){
                 phaseOverAction(phase, scoresList);
                 phase.setFinished(true);
                 phaseRepository.save(phase);
-                return true;
 
         }else{
             phase.setFinished(true);
             phaseRepository.save(phase);
-            return true;
         }
+
+        isTournamentOver(phase.getTournament());
+
+        return response;
 
     }
 
@@ -302,6 +304,17 @@ public class RoundService {
         }
             teamRepository.saveAll(teams);
 
+    }
+
+    public boolean isTournamentOver(Tournament tournament){
+        for(Phase p: tournament.getPhases()){
+            if(!p.getFinished()) return false;
+        }
+
+        tournament.setFinished(true);
+        tournamentRepository.save(tournament);
+
+        return true;
     }
 
     public void assignRandomStaffToMatch(List<Match> matches, Phase phase){

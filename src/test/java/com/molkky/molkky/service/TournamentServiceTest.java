@@ -4,6 +4,7 @@ import com.molkky.molkky.domain.Team;
 import com.molkky.molkky.domain.Tournament;
 import com.molkky.molkky.domain.User;
 import com.molkky.molkky.model.TournamentModel;
+import com.molkky.molkky.repository.TeamRepository;
 import com.molkky.molkky.repository.TournamentRepository;
 import com.molkky.molkky.repository.UserRepository;
 import com.molkky.molkky.repository.UserTournamentRoleRepository;
@@ -11,6 +12,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -45,6 +47,12 @@ class TournamentServiceTest {
 
     @MockBean
     private UserRepository userRepository;
+
+    @MockBean
+    private TeamRepository teamRepository;
+
+    @MockBean
+    private RoundService roundService;
 
     @MockBean
     private UserTournamentRoleRepository userTournamentRoleRepository;
@@ -157,17 +165,6 @@ class TournamentServiceTest {
         Assertions.assertFalse(tournamentRepository.findByName("tournoi").isRegisterAvailable());
     }
 
-    @Test
-    void getWinnersTest() throws Exception{
-        Tournament tournament = new Tournament();
-        Team team = new Team();
-        team.setEliminated(false);
-        List<Team> teams = new ArrayList<>();
-        teams.add(team);
-        tournament.setTeams(teams);
 
-        List<Team> teamResult = tournamentService.getWinners(tournament);
-        Assertions.assertEquals(teams, teamResult, "Winners are not correct");
-    }
 }
 

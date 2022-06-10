@@ -147,6 +147,7 @@ public class PoolService {
 
         for(int i=0;i<teams.size();i++) {
             Team t = teams.get(i);
+
             String message ;
             if(t.isEliminated()){
                 message = "Ton équipe a terminé " + (i + 1)+ " ème de sa poule et est malheuseusement éliminée.";
