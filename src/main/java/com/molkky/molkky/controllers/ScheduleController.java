@@ -18,13 +18,23 @@ public class ScheduleController {
     @Autowired
     private TournamentService tournamentService;
 
+    private int count = 0;
+
     //@Scheduled(cron = "[Seconds] [Minutes] [Hours] [Day of month] [Month] [Day of week] [Year]")
     // Tous les jours à 1h
     @Scheduled(cron = "0 0 1 * * ?")
     public void scheduleFixedDelayTask()  {
-        tournamentService.isMinimumTeamsBeforeDate();
+        // Reset le compteur qui permet surtout de tester la fonction
+        count = 0;
+        tournamentService.closeTournamentWhenMinimumTeamsBeforeDate();
         tournamentService.registerClosedForTournament();
-
+        tournamentService.defineMatchInProgress();
         logger.info("Fixed delay task - ${}" , LocalDateTime.now());
+
+        count++;
+    }
+
+    public int getCount(){
+        return count;
     }
 }

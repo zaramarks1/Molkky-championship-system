@@ -4,7 +4,6 @@ import com.molkky.molkky.domain.Team;
 import com.molkky.molkky.domain.Tournament;
 import com.molkky.molkky.domain.User;
 import com.molkky.molkky.model.TournamentModel;
-import com.molkky.molkky.repository.TeamRepository;
 import com.molkky.molkky.repository.TournamentRepository;
 import com.molkky.molkky.repository.UserRepository;
 import com.molkky.molkky.repository.UserTournamentRoleRepository;
@@ -12,7 +11,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -27,8 +25,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import static com.molkky.molkky.utility.StringUtilities.createCode;
+import static org.mockito.Mockito.when;
 
 @WebMvcTest(value = TournamentService.class, excludeAutoConfiguration = {SecurityAutoConfiguration.class})
 @ExtendWith(MockitoExtension.class)
@@ -49,12 +49,6 @@ class TournamentServiceTest {
     private UserRepository userRepository;
 
     @MockBean
-    private TeamRepository teamRepository;
-
-    @MockBean
-    private RoundService roundService;
-
-    @MockBean
     private UserTournamentRoleRepository userTournamentRoleRepository;
 
     @MockBean
@@ -66,7 +60,7 @@ class TournamentServiceTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        Mockito.when(tournamentModel.getName()).thenReturn(name);
+        when(tournamentModel.getName()).thenReturn(name);
     }
 
     @Test
@@ -78,8 +72,8 @@ class TournamentServiceTest {
 
     @Test
     void createTournamentServiceWithoutUser() {
-        Mockito.when(this.tournamentModel.getName()).thenReturn("TEST 1");
-        Mockito.when(this.tournamentRepository.save(Mockito.any(Tournament.class))).thenAnswer(i -> i.getArguments()[0]);
+        when(this.tournamentModel.getName()).thenReturn("TEST 1");
+        when(this.tournamentRepository.save(Mockito.any(Tournament.class))).thenAnswer(i -> i.getArguments()[0]);
 
         Tournament test = this.tournamentService.create(this.tournamentModel);
 
@@ -89,11 +83,11 @@ class TournamentServiceTest {
 
     @Test
     void createTournamentServiceWithUser() {
-        Mockito.when(this.tournamentModel.getName()).thenReturn("TEST 1");
-        Mockito.when(this.tournamentRepository.save(Mockito.any(Tournament.class))).thenAnswer(i -> i.getArguments()[0]);
+        when(this.tournamentModel.getName()).thenReturn("TEST 1");
+        when(this.tournamentRepository.save(Mockito.any(Tournament.class))).thenAnswer(i -> i.getArguments()[0]);
 
         // On force le test vérifiant l'existence de l'utilisateur à true
-        Mockito.when(this.userRepository.existsUserByEmail(this.user.getEmail())).thenReturn(true);
+        when(this.userRepository.existsUserByEmail(this.user.getEmail())).thenReturn(true);
 
         Tournament test = this.tournamentService.create(this.tournamentModel);
 
@@ -102,7 +96,7 @@ class TournamentServiceTest {
     }
 
     @Test
-    void isMinimumTeamsBeforeDateTest() throws ParseException {
+    void closeTournamentWhenMinimumTeamsBeforeDate() throws ParseException {
         List<Tournament> tournaments = new ArrayList<>();
         Tournament tournament1 = new Tournament();
         Tournament tournament2 = new Tournament();
@@ -131,9 +125,9 @@ class TournamentServiceTest {
         tournament2.setCutOffDate(date);
         tournament2.setCutOffDate(cutOffDate);
 
-        Mockito.when(tournamentRepository.findAll()).thenReturn(tournaments);
+        when(tournamentRepository.findAll()).thenReturn(tournaments);
 
-        tournamentService.isMinimumTeamsBeforeDate();
+        tournamentService.closeTournamentWhenMinimumTeamsBeforeDate();
 
         Assertions.assertEquals(TournamentStatus.CLOSED, tournament1.getStatus());
     }
@@ -155,8 +149,8 @@ class TournamentServiceTest {
         tournament1.setStatus(TournamentStatus.AVAILABLE);
         tournament1.setName("tournoi");
 
-        Mockito.when(tournamentRepository.findAll()).thenReturn(tournaments);
-        Mockito.when(tournamentRepository.findByName("tournoi")).thenReturn(tournament1);
+        when(tournamentRepository.findAll()).thenReturn(tournaments);
+        when(tournamentRepository.findByName("tournoi")).thenReturn(tournament1);
 
         tournamentService.registerClosedForTournament();
 
@@ -165,6 +159,33 @@ class TournamentServiceTest {
         Assertions.assertFalse(tournamentRepository.findByName("tournoi").isRegisterAvailable());
     }
 
+    @Test
+    void getWinnersTest() throws Exception{
+        Tournament tournament = new Tournament();
+        Team team = new Team();
+        team.setEliminated(false);
+        List<Team> teams = new ArrayList<>();
+        teams.add(team);
+        tournament.setTeams(teams);
 
+        List<Team> teamResult = tournamentService.getWinners(tournament);
+        Assertions.assertEquals(teams, teamResult, "Winners are not correct");
+    }
+
+    @Test
+    void defineMatchInProgressTest() throws Exception {
+        List<Tournament> tournaments = new ArrayList<>();
+        Tournament tournament = new Tournament();
+        tournament.setDate(new SimpleDateFormat("yyyy-MM-dd", Locale.FRANCE).parse("2021-06-01"));
+        tournament.setCutOffDate(new SimpleDateFormat("yyyy-MM-dd", Locale.FRANCE).parse("2021-05-01"));
+        tournaments.add(tournament);
+
+        when(tournamentRepository.findAll()).thenReturn(tournaments);
+
+        tournamentService.defineMatchInProgress();
+
+        Assertions.assertEquals("INPROGRESS", tournament.getStatus().toString(), "STATUT INCORRECT");
+        Assertions.assertFalse(tournament.isRegisterAvailable(), "REGISTER SYSTEM INCORRECT");
+    }
 }
 

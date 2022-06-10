@@ -77,11 +77,6 @@ public class TournamentController extends DefaultAttributes {
     @PostMapping("/inscription")
     public ModelAndView goToInscription(ModelMap model){return new ModelAndView("redirect:/team/create",model);}
 
-    @PostMapping ("/currentTournament")
-    public String currentTournament() {
-        return "/";
-    }
-
     @GetMapping ("/tournamentOnGoing")
     public String getTournamentOnGoing() {
         return "/tournament/tournamentOnGoing";
@@ -190,7 +185,7 @@ public class TournamentController extends DefaultAttributes {
         Tournament tournament = tournamentRepository.findById(Integer.valueOf(tournamentId));
 
         tournament.setVisible(true);
-         tournamentRepository.save(tournament);
+        tournamentRepository.save(tournament);
 
         model.addAttribute("tournament_id", tournamentId);
 
@@ -199,7 +194,7 @@ public class TournamentController extends DefaultAttributes {
     }
 
     @PostMapping("/publish")
-    public String pubishTournament(Model model,@RequestParam(name="tournamentId") String tournamentId ){
+    public String publishTournament(Model model,@RequestParam(name="tournamentId") String tournamentId ){
 
         Tournament tournament = tournamentRepository.findById(Integer.valueOf(tournamentId));
 
@@ -211,7 +206,6 @@ public class TournamentController extends DefaultAttributes {
 
         model.addAttribute("tournament_id", tournamentId);
         return (redirectViewId + tournamentId);
-
     }
 
     @PostMapping("/validatePresence")
@@ -246,7 +240,7 @@ public class TournamentController extends DefaultAttributes {
     }
 
     @PostMapping("/results")
-    public String resultsPost( @RequestParam(name= "tournamentId") Integer tournamentId){
+    public String resultsPost(@RequestParam(name= "tournamentId") Integer tournamentId){
         return "redirect:/tournament/results?tournamentId="+tournamentId;
     }
 
