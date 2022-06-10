@@ -15,7 +15,6 @@ import type.UserRole;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.molkky.molkky.utility.StringUtilities.createCode;
 
@@ -97,10 +96,6 @@ public class TournamentService {
 
     // Récupère le gagnant du tournoi
     // Format return list car possibilité qu'il y ait plusieurs gagnants pas écartée pour le moment
-    public List<Team> getWinners(Tournament tournament) {
-        return tournament.getTeams().stream().filter(
-                team -> !team.isEliminated()
-        ).collect(Collectors.toList());
     public List<Team> getWinners(Tournament tournament){
 
         int nbPhases = tournament.getPhases().size()-1;
@@ -112,12 +107,8 @@ public class TournamentService {
             phaseRankingModels = roundService.orderTeamsByScoreInPhase(phase, phase.getVictoryValue());
 
             for(PhaseRankingModel r : phaseRankingModels) if(!teams.contains(r.getTeam())) teams.add(r.getTeam());
-
         }
-
         return teams;
-
-
     }
 
     // Lance le tournoi si la date de ce dernier est celle du jour

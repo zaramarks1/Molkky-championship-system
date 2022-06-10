@@ -1,9 +1,12 @@
 package com.molkky.molkky.service;
 
+import com.molkky.molkky.domain.Phase;
 import com.molkky.molkky.domain.Team;
 import com.molkky.molkky.domain.Tournament;
 import com.molkky.molkky.domain.User;
 import com.molkky.molkky.model.TournamentModel;
+import com.molkky.molkky.model.phase.PhaseRankingModel;
+import com.molkky.molkky.repository.TeamRepository;
 import com.molkky.molkky.repository.TournamentRepository;
 import com.molkky.molkky.repository.UserRepository;
 import com.molkky.molkky.repository.UserTournamentRoleRepository;
@@ -28,7 +31,7 @@ import java.util.List;
 import java.util.Locale;
 
 import static com.molkky.molkky.utility.StringUtilities.createCode;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @WebMvcTest(value = TournamentService.class, excludeAutoConfiguration = {SecurityAutoConfiguration.class})
 @ExtendWith(MockitoExtension.class)
@@ -38,6 +41,9 @@ class TournamentServiceTest {
 
     @Autowired
     private TournamentService tournamentService;
+
+    @MockBean
+    private RoundService roundService;
 
     @MockBean
     private TournamentModel tournamentModel;
@@ -50,6 +56,9 @@ class TournamentServiceTest {
 
     @MockBean
     private UserTournamentRoleRepository userTournamentRoleRepository;
+
+    @MockBean
+    private TeamRepository teamRepository;
 
     @MockBean
     private User user;
@@ -154,7 +163,7 @@ class TournamentServiceTest {
 
         tournamentService.registerClosedForTournament();
 
-        Mockito.verify(tournamentRepository, Mockito.times(1)).save(tournament1);
+        Mockito.verify(tournamentRepository, times(1)).save(tournament1);
 
         Assertions.assertFalse(tournamentRepository.findByName("tournoi").isRegisterAvailable());
     }
@@ -162,14 +171,23 @@ class TournamentServiceTest {
     @Test
     void getWinnersTest() throws Exception{
         Tournament tournament = new Tournament();
-        Team team = new Team();
-        team.setEliminated(false);
+        List<Phase> phases = new ArrayList<>();
+        Phase phase = new Phase();
+        phase.setNbPhase(3);
+        phase.setVictoryValue(3);
+        phases.add(phase);
+        tournament.setPhases(phases);
         List<Team> teams = new ArrayList<>();
+        Team team = new Team();
         teams.add(team);
-        tournament.setTeams(teams);
+        List<PhaseRankingModel> phaseRankingModels = new ArrayList<>();
+        PhaseRankingModel phaseRankingModel = mock(PhaseRankingModel.class);
+        phaseRankingModel.setTeam(team);
+        phaseRankingModels.add(phaseRankingModel);
 
-        List<Team> teamResult = tournamentService.getWinners(tournament);
-        Assertions.assertEquals(teams, teamResult, "Winners are not correct");
+        Mockito.when(roundService.orderTeamsByScoreInPhase(phase, phase.getVictoryValue())).thenReturn(phaseRankingModels);
+
+        Assertions.assertEquals(teams.size(), tournamentService.getWinners(tournament).size());
     }
 
     @Test
