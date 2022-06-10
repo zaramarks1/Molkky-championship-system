@@ -98,7 +98,7 @@ public class PoolService {
               }
                r.getMatches().addAll(roundService.createSetsFromMatch(matches));
 
-                if (pool.getRandomStaff()) roundService.assignRandomStaffToMatch(matches, pool);
+                if (Boolean.TRUE.equals(pool.getRandomStaff())) roundService.assignRandomStaffToMatch(matches, pool);
 
             }
 

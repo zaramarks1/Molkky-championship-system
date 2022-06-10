@@ -98,10 +98,6 @@ public class TournamentService {
     // Format return list car possibilité qu'il y ait plusieurs gagnants pas écartée pour le moment
     public List<Team> getWinners(Tournament tournament){
 
-        for(Team t : tournament.getTeams()){
-
-        }
-
 
         return tournament.getTeams().stream().filter(
                     team -> !team.isEliminated()

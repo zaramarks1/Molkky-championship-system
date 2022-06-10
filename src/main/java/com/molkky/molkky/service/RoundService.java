@@ -33,6 +33,8 @@ public class RoundService {
     @Autowired
     MatchRepository matchRepository;
 
+    private Random rand = new Random();
+
     public List<PhaseRankingModel> orderTeamsByScoreInRound(Round round, int victoryValue){
         Map<Integer, PhaseRankingModel> scores = new HashMap<>();
         List<PhaseRankingModel> scoresList = new ArrayList<>();
@@ -181,7 +183,6 @@ public class RoundService {
 
     }
     
-    
     public Map<Round, List<Match>> generateRoundKnockoutAndSwiss(Phase phase) {
 
         Map<Round, List<Match>> results = new HashMap<>();
@@ -305,6 +306,7 @@ public class RoundService {
 
     public void assignRandomStaffToMatch(List<Match> matches, Phase phase){
 
+
         if(Boolean.TRUE.equals(phase.getRandomStaff())){
 
             List<UserTournamentRole> users = phase.getTournament().getUserTournamentRoles();
@@ -317,14 +319,12 @@ public class RoundService {
 
             int qtdStaff = staffUsers.size();
 
-            for (Match m : matches){
-                Random rand = new Random();
 
+            for (Match m : matches){
                 m.setUser(staffUsers.get(rand.nextInt(qtdStaff)));
 
             }
 
-           // matchRepository.saveAll(matches);
         }
 
     }
