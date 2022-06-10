@@ -96,7 +96,7 @@ class TournamentServiceTest {
     }
 
     @Test
-    void isMinimumTeamsBeforeDateTest() throws ParseException {
+    void closeTournamentWhenMinimumTeamsBeforeDate() throws ParseException {
         List<Tournament> tournaments = new ArrayList<>();
         Tournament tournament1 = new Tournament();
         Tournament tournament2 = new Tournament();
@@ -127,7 +127,7 @@ class TournamentServiceTest {
 
         when(tournamentRepository.findAll()).thenReturn(tournaments);
 
-        tournamentService.isMinimumTeamsBeforeDate();
+        tournamentService.closeTournamentWhenMinimumTeamsBeforeDate();
 
         Assertions.assertEquals(TournamentStatus.CLOSED, tournament1.getStatus());
     }

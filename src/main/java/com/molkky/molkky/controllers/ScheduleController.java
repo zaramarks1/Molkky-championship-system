@@ -26,7 +26,7 @@ public class ScheduleController {
     public void scheduleFixedDelayTask()  {
         // Reset le compteur qui permet surtout de tester la fonction
         count = 0;
-        tournamentService.isMinimumTeamsBeforeDate();
+        tournamentService.closeTournamentWhenMinimumTeamsBeforeDate();
         tournamentService.registerClosedForTournament();
         tournamentService.defineMatchInProgress();
         logger.info("Fixed delay task - ${}" , LocalDateTime.now());

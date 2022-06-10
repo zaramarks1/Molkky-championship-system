@@ -63,17 +63,14 @@ public class TournamentService {
     }
 
     // Fonction qui test si le nombre d'équipes inscrites après la date limite d'inscription est suffisant. Sinon, ferme le tournament
-    public boolean isMinimumTeamsBeforeDate() {
+    public void closeTournamentWhenMinimumTeamsBeforeDate() {
         List<Tournament> tournaments = tournamentRepository.findAll();
+
         for (Tournament tournament : tournaments) {
-            if (currentDate.after(tournament.getCutOffDate())) {
-                condition = tournament.getTeams().size() >= tournament.getMinTeam();
-                if (!condition) {
-                    tournament.setStatus(TournamentStatus.CLOSED);
-                }
+            if (currentDate.after(tournament.getCutOffDate()) && tournament.getTeams().size() >= tournament.getMinTeam()) {
+                tournament.setStatus(TournamentStatus.CLOSED);
             }
         }
-        return condition;
     }
 
     // Test quand les inscriptions du tournoi doivent être fermées
@@ -81,32 +78,32 @@ public class TournamentService {
         List<Tournament> tournaments = tournamentRepository.findAll();
 
         for (Tournament tournament : tournaments) {
-                if (tournament.getStatus() == TournamentStatus.AVAILABLE && isTournamentNotAvailable(tournament)) {
-                        tournament.setRegisterAvailable(false);
-                        tournamentRepository.save(tournament);
-                }
+            if (tournament.getStatus() == TournamentStatus.AVAILABLE && isTournamentNotAvailable(tournament)) {
+                tournament.setRegisterAvailable(false);
+                tournamentRepository.save(tournament);
+            }
         }
     }
 
-    private boolean isTournamentNotAvailable(Tournament tournament){
+    private boolean isTournamentNotAvailable(Tournament tournament) {
         return new Date().after(tournament.getCutOffDate()) || tournament.getMaxTeam() == tournament.getTeams().size();
     }
 
     // Récupère le gagnant du tournoi
     // Format return list car possibilité qu'il y ait plusieurs gagnants pas écartée pour le moment
-    public List<Team> getWinners(Tournament tournament){
+    public List<Team> getWinners(Tournament tournament) {
         return tournament.getTeams().stream().filter(
-                    team -> !team.isEliminated()
-                ).collect(Collectors.toList());
+                team -> !team.isEliminated()
+        ).collect(Collectors.toList());
     }
 
     // Lance le tournoi si la date de ce dernier est celle du jour
-    public void defineMatchInProgress(){
+    public void defineMatchInProgress() {
         List<Tournament> tournaments = tournamentRepository.findAll();
 
         for (Tournament tournament : tournaments) {
             boolean condition = currentDate.after(tournament.getDate());
-            if(currentDate.after(tournament.getDate())){
+            if (currentDate.after(tournament.getDate())) {
                 tournament.setStatus(TournamentStatus.INPROGRESS);
                 tournament.setRegisterAvailable(false);
             }
