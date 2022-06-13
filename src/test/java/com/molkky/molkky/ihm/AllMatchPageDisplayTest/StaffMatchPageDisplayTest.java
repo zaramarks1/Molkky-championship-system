@@ -115,7 +115,7 @@ class StaffMatchPageDisplayTest {
             teams.add(team2);
             match.setTeams(teams);
             User staff = userRepository.findUserByEmail(emailStaff);
-            match.setUser(staff);
+            match.setStaff(staff);
             matchRepository.save(match);
             Set set1 = new Set();
             set1.setScore1Team1(10);
