@@ -52,6 +52,9 @@ public class SetService {
             case ORGA:
                 setEntity.setScore1Orga(set.getScore1Orga());
                 setEntity.setScore2Orga(set.getScore2Orga());
+                break;
+            default:
+                break;
         }
         if(Boolean.TRUE.equals(isSetFinished(setEntity, user))){
 

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import type.PhaseType;
 import type.UserRole;
 
+import java.security.SecureRandom;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -36,7 +37,7 @@ public class RoundService {
     @Autowired
     MatchService matchService;
 
-    private final Random rand = new Random();
+    private final SecureRandom rand = new SecureRandom();
 
     public List<PhaseRankingModel> orderTeamsByScoreInRound(Round round, int victoryValue){
         Map<Integer, PhaseRankingModel> scores = new HashMap<>();
@@ -335,12 +336,9 @@ public class RoundService {
 
             int qtdStaff = staffUsers.size();
 
-
             for (Match m : matches){
                 m.setUser(staffUsers.get(rand.nextInt(qtdStaff)));
-
             }
-
         }
 
     }

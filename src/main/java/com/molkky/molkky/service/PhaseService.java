@@ -10,7 +10,6 @@ import com.molkky.molkky.domain.rounds.SwissPool;
 import com.molkky.molkky.repository.PhaseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import type.PhaseType;
 
 import java.util.*;
 
