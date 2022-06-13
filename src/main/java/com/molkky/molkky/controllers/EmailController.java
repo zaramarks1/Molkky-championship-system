@@ -14,12 +14,12 @@ public class EmailController {
     EmailSenderService emailSenderService;
 
     @GetMapping("/emailButton")
-    public String createUser(Model model) {
+    public String showButton(Model model) {
         return "/emailButton";
     }
 
-    @PostMapping("/sendMail")
-    public String saveUser() {
+    @PostMapping("/sendEmail")
+    public String sendEmail() {
         emailSenderService.sendEmail("sacha.thuault@gmail.com", "Test", "Fonctionnement de l'envoi d'email");
         return "redirect:/emailButton";
     }

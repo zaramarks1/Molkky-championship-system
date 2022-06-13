@@ -33,6 +33,7 @@ public class Pool extends Phase {
 
     public Pool(PhaseModel poolModel, Tournament tournament) throws ParseException {
         this.setStatus(PhaseStatus.NOTSTARTED);
+        this.setRandomStaff(poolModel.getRandomStaff());
         this.setNbPools(poolModel.getNbPools());
         this.setNbSets(poolModel.getNbSets());
         this.setVictoryValue(poolModel.getVictoryValue());
