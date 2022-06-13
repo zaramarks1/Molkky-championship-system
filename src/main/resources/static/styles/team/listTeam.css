@@ -10,6 +10,7 @@
 .cardTeam{
     box-sizing: border-box;
     text-decoration: none;
+    color: black;
     /* Auto layout */
 
     display: flex;

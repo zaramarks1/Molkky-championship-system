@@ -28,14 +28,14 @@
                     </div>
                     <div class="cardContentContainer">
                         <img class="teamLogo" th:src="@{/assets/teams.svg}" alt="Team icon"/>
-                        <ul class="roundsList">
+                        <div class="roundsList">
                             <th:block th:if="${team.getUserTournamentRoles().isEmpty()}">
                                 <li class="teamMember">Vide</li>
                             </th:block>
                             <th:block th:each="team : ${team.getUserTournamentRoles()}">
                                 <li class="teamMember" th:text="${team.getUser().getForename()}"></li>
                             </th:block>
-                        </ul>
+                        </div>
                     </div>
                     </li>
                 </a>
