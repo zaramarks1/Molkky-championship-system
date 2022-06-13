@@ -21,6 +21,7 @@ public class Finnish extends Phase {
 
     public Finnish(PhaseModel finnishModel, Tournament tournament) throws ParseException {
         this.setStatus(PhaseStatus.NOTSTARTED);
+        this.setRandomStaff(finnishModel.getRandomStaff());
         this.setNbFinnish(finnishModel.getNbFinnish());
         this.setRanking(finnishModel.getRanking());
         this.setTopSeeds(finnishModel.getTopSeeds());
