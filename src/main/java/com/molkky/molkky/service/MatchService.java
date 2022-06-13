@@ -35,7 +35,9 @@ public class MatchService {
 
     @Autowired
     PhaseRepository phaseRepository;
-
+    @Autowired
+    @Lazy
+    private SwissService swissService;
     @Autowired
     private CourtRepository courtRepository;
     @Autowired
