@@ -503,12 +503,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         Phase phase = new Phase();
         phase.setId(17888);
         List<Round> rounds = new ArrayList<>();
-        rounds.add(new Round());
+        Round round = new Round();
+        round.setType(PhaseType.KNOCKOUT);
+        rounds.add(round);
         phase.setRounds(rounds);
         Tournament tournoi = new Tournament();
         tournoi.setIndexPhase(1);
         phase.setTournament(tournoi);
-
         when(phaseRepository.findById(17888)).thenReturn(phase);
 
         mockMvc.perform(get("/phase/view")

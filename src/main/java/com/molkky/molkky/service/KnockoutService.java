@@ -34,6 +34,9 @@ public class KnockoutService {
     RoundService roundService;
 
     @Autowired
+    MatchService matchService;
+
+    @Autowired
     NotificationService notificationService;
 
 
@@ -51,7 +54,7 @@ public class KnockoutService {
             scoresList.get(i).getTeam().setEliminated(true);
         }
 
-        List<Team> teams =roundService.seedingSystem(round, scoresList);
+        List<Team> teams = roundService.seedingSystem(round, scoresList);
 
         generateNotificationAfterRound(teams);
 

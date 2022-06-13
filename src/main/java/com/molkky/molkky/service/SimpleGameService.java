@@ -32,38 +32,39 @@ public class SimpleGameService {
     PhaseRepository phaseRepository;
 
     @Autowired
+    MatchService matchService;
+
+    @Autowired
     NotificationService notificationService;
 
 
 
-        Map<Round, List<Match>> generateRounds(SimpleGame simpleGame) {
-            Map<Round, List<Match>> results = new HashMap<>();
+    Map<Round, List<Match>> generateRounds(SimpleGame simpleGame) {
+        Map<Round, List<Match>> results = new HashMap<>();
 
-            List<Team> teams = roundService.getTeamsSorted(simpleGame);
+        List<Team> teams = roundService.getTeamsSorted(simpleGame);
 
-            List<Team> teamsUpdated = new ArrayList<>();
+        List<Team> teamsUpdated = new ArrayList<>();
 
-                for (int i = 0; i < teams.size()-1; i = i + 2) {
-                    Team team1 = teams.get(i);
-                    Team team2 = teams.get(i+1);
+        for (int i = 0; i < teams.size()-1; i = i + 2) {
+            Team team1 = teams.get(i);
+            Team team2 = teams.get(i+1);
 
-                    Round round = new Round();
-                    round.setPhase(simpleGame);
-                    round.setType(PhaseType.SIMPLEGAME);
-                    round.setTeams(List.of(team1, team2));
+            Round round = new Round();
+            round.setPhase(simpleGame);
+            round.setType(PhaseType.SIMPLEGAME);
+            round.setTeams(List.of(team1, team2));
 
-                    roundService.createMatchSimpleAndKnockoutAndSwiss(teamsUpdated,  team1, team2, round);
-                    simpleGame.getRounds().add(round);
-            }
+            roundService.createMatchSimpleAndKnockoutAndSwiss(teamsUpdated,  team1, team2, round);
+            simpleGame.getRounds().add(round);
+        }
 
-            simpleGame= phaseRepository.save(simpleGame);
-            teamRepository.saveAll(teamsUpdated);
+        simpleGame = phaseRepository.save(simpleGame);
+        teamRepository.saveAll(teamsUpdated);
 
-               for(Round r : simpleGame.getRounds()){
-               results.put(r, r.getMatches());
-              }
-
-
+        for (Round r : simpleGame.getRounds()) {
+            results.put(r, r.getMatches());
+        }
         return results;
     }
 
