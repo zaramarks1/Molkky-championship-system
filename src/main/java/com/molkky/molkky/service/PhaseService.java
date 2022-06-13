@@ -10,6 +10,7 @@ import com.molkky.molkky.domain.rounds.SwissPool;
 import com.molkky.molkky.repository.PhaseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import type.PhaseType;
 
 import java.util.*;
 
@@ -21,6 +22,9 @@ public class PhaseService {
 
     @Autowired
     PoolService poolService;
+
+    @Autowired
+    MatchService matchService;
 
     @Autowired
     SimpleGameService simpleGameService;
@@ -48,6 +52,12 @@ public class PhaseService {
         }else if (phase instanceof SwissPool){
             SwissPool swissPool = (SwissPool) phase;
             results = swissService.generateRounds(swissPool);
+        }
+
+        for(Map.Entry<Round, List<Match>> entry : results.entrySet()){
+            for(Match match : entry.getValue()){
+                matchService.giveRandomCourtToMatch(match);
+            }
         }
 
         return results ;

@@ -56,6 +56,7 @@ public class MatchService {
         court.setAvailable(false);
         court = courtRepository.save(court);
         match.setCourt(court);
+        matchRepository.save(match);
     }
 
     public SetTeamIndex getUserTeamIndex(MatchModel match, UserTournamentRoleModel user) {

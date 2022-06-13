@@ -59,6 +59,7 @@ class MatchServiceTest {
         court.setName("e");
         courtRepository.save(court);
         Match newMatch = new Match();
+        newMatch = matchRepository.save(newMatch);
         matchService.giveRandomCourtToMatch(newMatch);
 
         Assertions.assertFalse(newMatch.getCourt().isAvailable());

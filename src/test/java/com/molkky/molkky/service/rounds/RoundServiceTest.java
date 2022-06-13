@@ -56,8 +56,6 @@ import java.util.Map;
 
 
     @Test
-    @Rollback(false)
-    @Transactional
     void assignRandomStaffToMatchSimple() {
 
         Tournament tournament = createTournament();

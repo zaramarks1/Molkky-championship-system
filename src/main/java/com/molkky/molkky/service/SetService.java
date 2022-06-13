@@ -69,8 +69,10 @@ public class SetService {
 
         if(Boolean.TRUE.equals(matchService.isMatchFinished(match))){
             match.setFinished(true);
-            match.getCourt().setAvailable(true);
-            courtRepository.save(match.getCourt());
+            if(match.getCourt() != null) {
+                match.getCourt().setAvailable(true);
+                courtRepository.save(match.getCourt());
+            }
             int scoreTeam1 =0;
             int scoreTeam2=0;
 

@@ -165,7 +165,6 @@ public class RoundService {
 
     public  void createMatchSimpleAndKnockoutAndSwiss(List<Team> teamsUpdated, Team team1, Team team2, Round round) {
         Match match = new Match();
-        matchService.giveRandomCourtToMatch(match);
         match.setRound(round);
         match.setTeams(List.of(team1, team2));
 
