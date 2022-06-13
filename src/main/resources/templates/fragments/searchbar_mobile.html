@@ -9,12 +9,12 @@
 
         <!--        molkky logo-->
         <a href="/" style="text-decoration: none;">
-            <img th:src="@{/assets/Molkky_logo.png}" alt="logo" class="searchbarLogo"/>
+            <img th:src="@{/assets/Molkky_logo.png}" alt="logo" class="searchbarLogo" alt="Logo molkky"/>
         </a>
 
         <!--        icon login-->
-        <img th:if="${session.user != null}" onclick="window.location.href='/connexion'" class="searchbarIconMobile searchbarIconMobileNotLogged" th:src="@{/assets/logoff.svg}"/>
-        <img th:unless="${session.user != null}" class="searchbarIconMobile searchbarIconMobileLogged" th:src="@{/assets/profile_icon.svg}" onclick="window.location.href='/connexion'"/>
+        <img alt="Icône de déconnexion" th:if="${session.user != null}" onclick="window.location.href='/connexion'" class="searchbarIconMobile searchbarIconMobileNotLogged" th:src="@{/assets/logoff.svg}"/>
+        <img alt="Icône de profil" th:unless="${session.user != null}" class="searchbarIconMobile searchbarIconMobileLogged" th:src="@{/assets/profile_icon.svg}" onclick="window.location.href='/connexion'"/>
     </div>
     <div class="searchbarInputContainerMobile">
         <i class="searchbarIconContainerMobile">
@@ -22,7 +22,7 @@
         </i>
         <input onkeyup="getResults()" id="searchbarInput" type="text" class="searchbarMobile" placeholder="Search"/>
         <i class="searchbarIconContainerMobile">
-            <img class="searchbarIcon" th:src="@{/assets/cross.svg}"/>
+            <img alt="Icône en croix" class="searchbarIcon" th:src="@{/assets/cross.svg}"/>
         </i>
     </div>
     <div class="searchAutoresultsContainerMobile" id="searchAutoresults"></div>
