@@ -33,6 +33,9 @@ public class RoundService {
     @Autowired
     TournamentRepository tournamentRepository;
 
+    @Autowired
+    MatchService matchService;
+
     private final Random rand = new Random();
 
     public List<PhaseRankingModel> orderTeamsByScoreInRound(Round round, int victoryValue){
@@ -162,6 +165,7 @@ public class RoundService {
 
     public  void createMatchSimpleAndKnockoutAndSwiss(List<Team> teamsUpdated, Team team1, Team team2, Round round) {
         Match match = new Match();
+        matchService.giveRandomCourtToMatch(match);
         match.setRound(round);
         match.setTeams(List.of(team1, team2));
 
@@ -235,22 +239,22 @@ public class RoundService {
             return results;
         }
 
-        List<Team> seedingSystem(Round round, List<PhaseRankingModel>  scoresList){
+    List<Team> seedingSystem(Round round, List<PhaseRankingModel>  scoresList){
 
-            List<Team> teams = new ArrayList<>();
+        List<Team> teams = new ArrayList<>();
 
-                for (PhaseRankingModel p : scoresList) {
-                    Team team = p.getTeam();
+            for (PhaseRankingModel p : scoresList) {
+                Team team = p.getTeam();
 
-                    if(Boolean.TRUE.equals(round.getPhase().getSeedingSystem())) {
-                        team.setNbPoints(team.getNbPoints() + p.getTotalPoints());
-                    }
-
-                    teams.add(team);
+                if(Boolean.TRUE.equals(round.getPhase().getSeedingSystem())) {
+                    team.setNbPoints(team.getNbPoints() + p.getTotalPoints());
                 }
 
-            return teamRepository.saveAll(teams);
-        }
+                teams.add(team);
+            }
+
+        return teamRepository.saveAll(teams);
+    }
 
     public boolean isPhaseOver(Phase phase, List<PhaseRankingModel>  scoresList){
 
