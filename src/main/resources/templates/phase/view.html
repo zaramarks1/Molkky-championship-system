@@ -48,26 +48,29 @@
                             <h2 class="partTitle">Matches</h2>
                             <div id="participantContainer">
                                 <th:block th:each="match : ${mapEntry.key.getMatches()}">
-                                    <div class="teamCard">
-                                        <h3 style="background-color: #8787A1" class="teamName"
-                                            th:text="${match.teams[0].name} + ' x '+ ${match.teams[1].name}"></h3>
-                                        <div class="cardContentContainer">
-                                            <table style="width: 100%">
-                                                <tr style="color:#8C69F4; margin: 10px; text-align: center; width:90%">
-                                                    <th>Nom d'équipe</th>
-                                                    <th>Nombre de points</th>
-                                                </tr>
-                                                <tr style="text-align: center;">
-                                                    <td th:text="${match.teams[0].name}"></td>
-                                                    <td th:text="${match.getScoreTeam1()}"></td>
-                                                </tr>
-                                                <tr style="text-align: center;">
-                                                    <td th:text="${match.teams[1].name}"></td>
-                                                    <td th:text="${match.getScoreTeam2()}"></td>
-                                                </tr>
-                                            </table>
+                                    <a th:href="${'/matches/match?match_id=' + match.getId()}" style="text-decoration: none;">
+                                        <div class="teamCard">
+                                            <h3 style="background-color: #8787A1" class="teamName"
+                                                th:text="${match.teams[0].name} + ' x '+ ${match.teams[1].name}"></h3>
+                                            <div class="cardContentContainer">
+                                                <table style="width: 100%">
+                                                    <tr style="color:#8C69F4; margin: 10px; text-align: center; width:90%">
+                                                        <th>Nom d'équipe</th>
+                                                        <th>Nombre de points</th>
+                                                    </tr>
+                                                    <tr style="text-align: center;">
+                                                        <td th:text="${match.teams[0].name}"></td>
+                                                        <td th:text="${match.getScoreTeam1()}"></td>
+                                                    </tr>
+                                                    <tr style="text-align: center;">
+                                                        <td th:text="${match.teams[1].name}"></td>
+                                                        <td th:text="${match.getScoreTeam2()}"></td>
+                                                    </tr>
+                                                </table>
+                                            </div>
                                         </div>
-                                    </div>
+                                    </a>
+
                                 </th:block>
                             </div>
                         </div>

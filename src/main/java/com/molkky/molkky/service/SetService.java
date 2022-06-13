@@ -5,6 +5,7 @@ import com.molkky.molkky.domain.Set;
 import com.molkky.molkky.model.SetModel;
 import com.molkky.molkky.model.UserModel;
 import com.molkky.molkky.model.UserTournamentRoleModel;
+import com.molkky.molkky.repository.CourtRepository;
 import com.molkky.molkky.repository.MatchRepository;
 import com.molkky.molkky.repository.SetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,8 @@ public class SetService {
     private MatchRepository matchRepository;
     @Autowired
     private MatchService matchService;
-
+    @Autowired
+    private CourtRepository courtRepository;
     @Autowired
     private NotificationService notificationService;
 
@@ -62,6 +64,8 @@ public class SetService {
 
         if(Boolean.TRUE.equals(matchService.isMatchFinished(match))){
             match.setFinished(true);
+            match.getCourt().setAvailable(true);
+            courtRepository.save(match.getCourt());
             int scoreTeam1 =0;
             int scoreTeam2=0;
 

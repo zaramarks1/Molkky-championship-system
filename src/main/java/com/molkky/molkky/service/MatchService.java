@@ -14,6 +14,7 @@ import com.molkky.molkky.repository.MatchRepository;
 import com.molkky.molkky.repository.PhaseRepository;
 import com.molkky.molkky.repository.RoundRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import type.PhaseType;
 import type.SetTeamIndex;
@@ -29,9 +30,11 @@ public class MatchService {
     private MatchRepository matchRepository;
 
     @Autowired
+    @Lazy
     private SimpleGameService simpleGameService;
 
     @Autowired
+    @Lazy
     private  PoolService poolService;
 
     @Autowired
@@ -48,7 +51,17 @@ public class MatchService {
     private CourtService courtService;
 
     @Autowired
+    @Lazy
     private KnockoutService knockoutService;
+
+    public void giveRandomCourtToMatch(Match match){
+        List<Court> availableCourts = courtRepository.findByAvailable(true);
+        if(availableCourts.isEmpty()) return;
+        Court court = availableCourts.get(0);
+        match.setCourt(court);
+        court.setAvailable(false);
+        matchRepository.save(match);
+    }
 
     public SetTeamIndex getUserTeamIndex(MatchModel match, UserTournamentRoleModel user) {
         Match matchEntity = getMatchFromModel(match);
@@ -103,7 +116,13 @@ public class MatchService {
 
     public void setCourt(MatchModel matchModel, CourtModel courtModel){
         Match match = getMatchFromModel(matchModel);
+        Court oldCourt = match.getCourt();
+        if(oldCourt != null){
+            oldCourt.setAvailable(true);
+            courtRepository.save(oldCourt);
+        }
         Court court = courtService.getCourtFromModel(courtModel);
+        court.setAvailable(false);
         match.setCourt(court);
         court.getMatches().add(match);
         matchRepository.save(match);

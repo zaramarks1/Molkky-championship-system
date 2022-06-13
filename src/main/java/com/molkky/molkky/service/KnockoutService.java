@@ -36,6 +36,9 @@ public class KnockoutService {
     RoundService roundService;
 
     @Autowired
+    MatchService matchService;
+
+    @Autowired
     NotificationService notificationService;
 
 
@@ -58,6 +61,7 @@ public class KnockoutService {
 
             Match match = new Match();
             match.setRound(round);
+            matchService.giveRandomCourtToMatch(match);
             match.setTeams(List.of(team1, team2));
             matches.add(match);
 
