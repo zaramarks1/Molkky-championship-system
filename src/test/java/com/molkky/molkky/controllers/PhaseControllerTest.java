@@ -1,6 +1,7 @@
 package com.molkky.molkky.controllers;
 
 import com.molkky.molkky.domain.*;
+import com.molkky.molkky.domain.rounds.Knockout;
 import com.molkky.molkky.domain.rounds.Pool;
 import com.molkky.molkky.model.UserLogged;
 import com.molkky.molkky.model.phase.PhaseListModel;
@@ -396,17 +397,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
     @Test
     void testPhaseControllerView() throws Exception {
-
-
-        Phase phase = new Phase();
+        Knockout phase = new Knockout();
         phase.setId(17888);
         List<Round> rounds = new ArrayList<>();
-        rounds.add(new Round());
+        Round round = new Round();
+        round.setType(PhaseType.KNOCKOUT);
+        rounds.add(round);
         phase.setRounds(rounds);
         Tournament tournoi = new Tournament();
         tournoi.setIndexPhase(1);
         phase.setTournament(tournoi);
-
         when(phaseRepository.findById(17888)).thenReturn(phase);
 
         mockMvc.perform(get("/phase/view")
