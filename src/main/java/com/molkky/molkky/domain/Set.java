@@ -45,6 +45,12 @@ public class Set implements Serializable {
     @Column(name = "score2Orga")
     private Integer score2Orga = 0;
 
+    @Column(name = "score1Final")
+    private Integer score1Final = 0;
+
+    @Column(name = "score2Final")
+    private Integer score2Final = 0;
+
     @Column(name = "finished")
     private Boolean finished = false;
 

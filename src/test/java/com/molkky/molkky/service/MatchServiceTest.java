@@ -51,6 +51,19 @@ class MatchServiceTest {
     @Autowired
     private RoundRepository roundRepository;
 
+
+    @Test
+    void courtAttributionTest(){
+        Court court = new Court();
+        court.setAvailable(true);
+        court.setName("e");
+        courtRepository.save(court);
+        Match newMatch = new Match();
+        matchService.giveRandomCourtToMatch(newMatch);
+
+        Assertions.assertFalse(newMatch.getCourt().isAvailable());
+    }
+
     @Test
     void createMatchModelsTest() {
 //        given
@@ -273,6 +286,7 @@ class MatchServiceTest {
         match = matchRepository.findById(match.getId());
 //        then
         Assertions.assertEquals(court.getId(), match.getCourt().getId());
+        Assertions.assertFalse(match.getCourt().isAvailable());
     }
 
     Match createCompleteMatch2(){
