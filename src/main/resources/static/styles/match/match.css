@@ -152,14 +152,15 @@
 .bestOfText {
     font-style: normal;
     font-weight: 600;
-    font-size: 14pxm;
+    font-size: 14px;
     line-height: 24px;
     margin: 15px 0px;
 }
 
 .stateContainer {
-    width: 130px;
-    height: 45px;
+
+    width: fit-content;
+    height: fit-content;
     background: #8C69F4;
     border-radius: 7px;
     display: flex;
@@ -172,6 +173,7 @@
 .liveIndicator {
     width: 17px;
     height: 17px;
+    margin-left: 10px;
     background: #E70B0B;
     border: 3px solid #FFFFFF;
     border-radius: 50%;
@@ -249,4 +251,47 @@
         margin: 15px;
         width: 100%;
     }
+}
+
+#courtInput{
+    width: min-content;
+    height: 48px;
+    border-radius: 4px;
+    border: 0;
+    background-color: #F8FAFC;
+    padding: 10px;
+    box-shadow: 0 0 7px #c4c4c4;
+    margin-right: 24px;
+}
+
+#courtInputLabel{
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.courtInputContainer{
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+}
+
+.courtFormContainer{
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    align-content: center;
+    justify-content: space-between;
+    min-width: 300px;
+}
+
+#courtFormSubmit{
+    justify-items: center;
+}
+
+.staffText{
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 10px;
 }

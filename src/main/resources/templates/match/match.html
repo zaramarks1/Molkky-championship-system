@@ -13,6 +13,20 @@
             <div class="tournamentInfoContainer">
                 <div class="tournamentTitle" th:text="${tournament.name}">placeholder nom tournoi</div>
                 <div class="tournamentDate" th:text="${#dates.format(tournament.date, 'dd/MM/yyyy')}">placeholder date tournoi</div>
+                <div th:if="${court} != null" class="courtText" th:text="${court.name}">Court placeholder</div>
+            </div>
+            <div class = "courtContainer">
+                <!--form for updating the court-->
+                <form method="POST" action="/match/updateMatchCourt" class="courtFormContainer" th:if="${setTeamIndex.displayValue == 'orga'}">
+                    <label id="courtInputLabel" for="courtInput">Choix du terrain</label>
+                    <div class = "courtInputContainer">
+                        <input type="number" hidden name="matchId" th:value="${match.id}">
+                        <select id="courtInput" name="id">
+                            <option th:each="court, iStat: ${availableCourts}" th:value="${court.id}" th:text="${court.name}"></option>
+                        </select>
+                        <button type="submit" class="primaryButton" id="courtFormSubmit">Changer le terrain</button>
+                    </div>
+                </form>
             </div>
             <div class="matchContainer">
                 <div class="columnContainer">
@@ -26,11 +40,11 @@
                     </div>
                 </div>
                 <div class="columnContainer">
-                    <div th:if="${court} != null" class="courtText" th:text="${court.name}">
-                        Court placeholder
-                    </div>
                     <div class="bestOfText" th:text="'Jeu en ' + ${sets.size} + ' sets'">
                         Best of placeholder
+                    </div>
+                    <div class="staffText" th:text="'Staff attribué : '+${match.idStaff.getEmail()}">
+                        Staff attribué
                     </div>
                     <div class="stateContainer">
                         <div class="stateText" th:text="${match.finished == false ? 'En cours' : 'Fini'}">
@@ -87,15 +101,6 @@
                     </div>
                 </form>
             </div>
-<!--            form for updating the court-->
-            <form method="POST" action="/match/updateMatchCourt" class="courtFormContainer" th:if="${setTeamIndex.displayValue == 'orga'}">
-                <label for="courtInput">Choix du terrain</label>
-                <input type="number" hidden name="matchId" th:value="${match.id}">
-                <select id="courtInput" name="id">
-                    <option th:each="court, iStat: ${availableCourts}" th:value="${court.id}" th:text="${court.name}"></option>
-                </select>
-                <button type="submit" class="primaryButton" id="courtFormSubmit">Changer le terrain</button>
-            </form>
         </div>
     </div>
 </div>
