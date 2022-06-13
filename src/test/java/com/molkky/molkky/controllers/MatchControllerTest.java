@@ -131,14 +131,15 @@ class MatchControllerTest {
 
         this.mockMvc.perform(get("/matches/match?match_id=1").sessionAttr("user", userLogged)
                         .sessionAttr("user",userLogged))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/"));
+                .andExpect(status().isOk())
+                .andExpect(model().attribute("setTeamIndex", SetTeamIndex.OUTSIDER))
+                .andExpect(view().name("/match/match"));
     }
 
     @Test
     void testMatchesWithPlayer() throws Exception {
         Tournament tournament = new Tournament();
-        tournament.setId((int)Math.random() * 10000);
+        tournament.setId((int) (Math.random() * 10000));
 
         UserLogged userLogged = mock(UserLogged.class);
         userLogged.setId(399992);
