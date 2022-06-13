@@ -23,19 +23,16 @@
             </div>
         </div>
 
-
-
-
-
-
         <div class="contentTitle">
             Liste des tournois de l'utilisateur <span id="userPseudo2" th:text="${user.pseudo}"/>
             <div class="contentText" th:each="tournament: ${tournament}">
                 Nom du tournoi : <span id="nomTournament" th:text="${tournament.name}"/> <br> <br>
                 Date du tournoi  <span id="dateTournament" th:text="${tournament.date}"/> <br> <br>
+                <a th:href="${'/tournament/view?tournamentId=' + tournament.getId()}">
+                    <button class="primaryButton">Accéder au tournoi</button>
+                </a>
             </div>
         </div>
-
 
     </div>
 </div>
