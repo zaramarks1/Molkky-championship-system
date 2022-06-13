@@ -55,6 +55,21 @@
     width: 100%;
 }
 
+.scoreTeamEntry {
+    font-size: 17px;
+    font-weight: 500;
+    margin: 21px;
+}
+
+.scoreDisplayOutsider{
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 144%;
+    white-space: nowrap;
+    margin: 0 15px;
+}
+
 .teamImage {
     width: 200px;
     height: 120px;
@@ -230,9 +245,13 @@
     height: 100%;
 }
 
+.scoreDisplayOutsider:after {
+    content: ' points';
+}
+
 @media only screen and (max-width: 1000px) {
     .twoQuartersContainer {
-        justify-content: space-between;
+        justify-content: space-around;
         width: 100%;
     }
 }

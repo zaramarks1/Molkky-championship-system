@@ -4,6 +4,8 @@ import com.molkky.molkky.domain.Phase;
 import com.molkky.molkky.domain.Tournament;
 import com.molkky.molkky.model.phase.PhaseModel;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import type.PhaseStatus;
 
 import javax.persistence.Column;
@@ -12,13 +14,17 @@ import javax.persistence.Entity;
 import java.text.ParseException;
 
 
-@Data
 @Entity
+@Getter
+@Setter
 @DiscriminatorValue("KNOCKOUT")
 public class Knockout extends Phase {
 
     @Column(name = "nbMatch")
     private Integer nbMatch;
+
+    @Column(name = "nbRounds")
+    private Integer nbRounds;
 
     /*quarter-finals height of finals etc*/
     @Column(name = "teamsRemaining")

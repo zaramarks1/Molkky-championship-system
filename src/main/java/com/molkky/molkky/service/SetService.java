@@ -82,12 +82,6 @@ public class SetService {
 
             matchService.validateMatch(match);
         }
-
-
-
-
-
-
     }
 
     public Boolean isUserInSet(SetModel setModel, UserModel user){
@@ -104,6 +98,8 @@ public class SetService {
         setModel.setScore2Team2(set.getScore2Team2());
         setModel.setScore1Orga(set.getScore1Orga());
         setModel.setScore2Orga(set.getScore2Orga());
+        setModel.setScore1Final(set.getScore1Final());
+        setModel.setScore2Final(set.getScore2Final());
         setModel.setFinished(set.getFinished());
         return setModel;
     }
@@ -122,6 +118,8 @@ public class SetService {
 
     public Boolean isSetFinished(Set set, UserTournamentRoleModel user){
         if (set.getScore1Orga()==50 || set.getScore2Orga()==50){
+            set.setScore1Final(set.getScore1Orga());
+            set.setScore2Final(set.getScore2Orga());
             return true;
         }
         if((set.getScore1Team1() == 0 && set.getScore2Team1() == 0) || (set.getScore1Team2() == 0 && set.getScore2Team2() == 0)){
@@ -136,7 +134,13 @@ public class SetService {
             return false;
         }
 
-        return set.getScore1Team1() == 50 || set.getScore2Team1() == 50;
+        if(set.getScore1Team1() == 50 || set.getScore2Team1() == 50) {
+            set.setScore1Final(set.getScore1Team1());
+            set.setScore2Final(set.getScore2Team1());
+            return true;
+        }
+
+        return false;
     }
 
 
