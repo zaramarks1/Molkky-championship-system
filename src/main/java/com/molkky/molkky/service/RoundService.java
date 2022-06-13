@@ -96,7 +96,7 @@ public class RoundService {
             scoresList.addAll(orderTeamsByScoreInRound( round, victoryValue));
         }
 
-        if(phase instanceof SwissPool){
+        if(phase instanceof SwissPool || phase instanceof Knockout){
 
             Map<Team, PhaseRankingModel> map = new HashMap<>();
             for(PhaseRankingModel p : scoresList){
@@ -259,7 +259,6 @@ public class RoundService {
 
             if(Boolean.FALSE.equals(r.getFinished())) return false;
         }
-
 
         if (phase instanceof Knockout){
             List<Team> teams = phase.getTournament().getTeams().stream()
