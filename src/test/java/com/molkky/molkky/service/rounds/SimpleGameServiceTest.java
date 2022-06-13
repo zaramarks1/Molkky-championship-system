@@ -165,6 +165,7 @@ import java.util.*;
         simpleGame.setSeedingSystem(seedingSystem);
         simpleGame.setNbTeamsQualified(nbQualifies);
 
+
         simpleGame =  phaseRepository.save(simpleGame);
 
         tournament.getPhases().add(simpleGame);

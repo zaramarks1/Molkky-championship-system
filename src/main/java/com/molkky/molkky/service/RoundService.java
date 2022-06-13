@@ -6,11 +6,11 @@ import com.molkky.molkky.domain.rounds.Knockout;
 import com.molkky.molkky.domain.rounds.SimpleGame;
 import com.molkky.molkky.domain.rounds.SwissPool;
 import com.molkky.molkky.model.phase.PhaseRankingModel;
-import com.molkky.molkky.repository.PhaseRepository;
-import com.molkky.molkky.repository.TeamRepository;
+import com.molkky.molkky.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import type.PhaseType;
+import type.UserRole;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -23,6 +23,17 @@ public class RoundService {
 
     @Autowired
     TeamRepository teamRepository;
+
+    @Autowired
+    UserTournamentRoleRepository userTournamentRoleRepository;
+
+    @Autowired
+    MatchRepository matchRepository;
+
+    @Autowired
+    TournamentRepository tournamentRepository;
+
+    private final Random rand = new Random();
 
     public List<PhaseRankingModel> orderTeamsByScoreInRound(Round round, int victoryValue){
         Map<Integer, PhaseRankingModel> scores = new HashMap<>();
@@ -133,7 +144,6 @@ public class RoundService {
 
     List<Team> getTeamsSorted(Phase phase){
 
-
         List<Team> teamsOld = phase.getTournament().getTeams();
         List<Team> teams;
 
@@ -155,6 +165,7 @@ public class RoundService {
         match.setRound(round);
         match.setTeams(List.of(team1, team2));
 
+        this.assignRandomStaffToMatch(List.of(match), round.getPhase());
 
         team1.getMatchs().add(match);
         team2.getMatchs().add(match);
@@ -165,9 +176,12 @@ public class RoundService {
         teamsUpdated.add(team1);
         teamsUpdated.add(team2);
 
+
         round.getMatches().addAll(this.createSetsFromMatch(List.of(match)));
+
+
+
     }
-    
     
     public Map<Round, List<Match>> generateRoundKnockoutAndSwiss(Phase phase) {
 
@@ -240,6 +254,7 @@ public class RoundService {
 
     public boolean isPhaseOver(Phase phase, List<PhaseRankingModel>  scoresList){
 
+        boolean response = true;
         for(Round r: phase.getRounds()){
 
             if(Boolean.FALSE.equals(r.getFinished())) return false;
@@ -253,7 +268,6 @@ public class RoundService {
             if(teams.size() == 1) {
                 phase.setFinished(true);
                 phaseRepository.save(phase);
-                return true;
 
             }else return false;
         }else if (phase instanceof SwissPool) {
@@ -262,19 +276,21 @@ public class RoundService {
                 phaseOverAction(phase, scoresList);
                 phase.setFinished(true);
                 phaseRepository.save(phase);
-                return true;
+
             } else return false;
             }else if (phase instanceof SimpleGame){
                 phaseOverAction(phase, scoresList);
                 phase.setFinished(true);
                 phaseRepository.save(phase);
-                return true;
 
         }else{
             phase.setFinished(true);
             phaseRepository.save(phase);
-            return true;
         }
+
+        isTournamentOver(phase.getTournament());
+
+        return response;
 
     }
 
@@ -287,6 +303,42 @@ public class RoundService {
             scoresList.get(i).getTeam().setEliminated(true);
         }
             teamRepository.saveAll(teams);
+
+    }
+
+    public boolean isTournamentOver(Tournament tournament){
+        for(Phase p: tournament.getPhases()){
+            if(Boolean.FALSE.equals(p.getFinished())) return false;
+        }
+
+        tournament.setFinished(true);
+        tournamentRepository.save(tournament);
+
+        return true;
+    }
+
+    public void assignRandomStaffToMatch(List<Match> matches, Phase phase){
+
+
+        if(Boolean.TRUE.equals(phase.getRandomStaff())){
+
+            List<UserTournamentRole> users = phase.getTournament().getUserTournamentRoles();
+            List<UserTournamentRole> staffs;
+            staffs = users.stream()
+                    .filter(userTournamentRole -> userTournamentRole.getRole().equals(UserRole.STAFF))
+                    .collect(Collectors.toList());
+            List<User> staffUsers = new ArrayList<>();
+            for(UserTournamentRole u : staffs) staffUsers.add(u.getUser());
+
+            int qtdStaff = staffUsers.size();
+
+
+            for (Match m : matches){
+                m.setUser(staffUsers.get(rand.nextInt(qtdStaff)));
+
+            }
+
+        }
 
     }
 

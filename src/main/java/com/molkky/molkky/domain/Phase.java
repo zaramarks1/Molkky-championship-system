@@ -91,6 +91,9 @@ public class Phase  implements Serializable {
     @Column(name = "isFinished")
     private Boolean finished = false;
 
+    @Column(name = "isStaffRandom")
+    private Boolean randomStaff = false;
+
     @ManyToOne
     @JoinColumn(name="tournament_id")
     private Tournament tournament;
@@ -99,6 +102,12 @@ public class Phase  implements Serializable {
     @JoinColumn(name = "phase_id")
     private List<Round> rounds = new ArrayList<>();
 
+    @Transient
+    public String getDiscriminatorValue(){
+        DiscriminatorValue val = this.getClass().getAnnotation( DiscriminatorValue.class );
+
+        return val == null ? null : val.value();
+    }
 
     public void setHourPhaseStart(String hourPhaseStart) {
         if(!hourPhaseStart.equals("")){

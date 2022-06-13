@@ -33,6 +33,7 @@ public class SwissPool extends Phase {
 
     public SwissPool(PhaseModel swissModel, Tournament tournament) throws ParseException {
         this.setStatus(PhaseStatus.NOTSTARTED);
+        this.setRandomStaff(swissModel.getRandomStaff());
         this.setNbSubRounds(swissModel.getNbSubRounds());
         this.setNbSets(swissModel.getNbSets());
         this.setVictoryValue(swissModel.getVictoryValue());

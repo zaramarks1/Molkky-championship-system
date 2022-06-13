@@ -12,14 +12,17 @@
         <div th:replace="fragments/searchbar"></div>
         <div class="partContainer">
             <h2 class="partTitle">Vainqueur du tournoi</h2>
-            <div id="eachWinner" th:each="winner: ${winners}" th:if="${winners.size() > 0}">
-                <p id="winner" th:text="${winner.getName()}"></p>
+            <div id="eachWinner" th:each="winner, itemStat: ${winners}" th:if="${winners.size() > 0}">
+
+                <span th:text=" ${itemStat.index+1} + ' place: ' "> </span>
+                    <span th:text="${winner.getName()}"></span>
+               <span th:text="'Eliminé :' + ${winner.isEliminated()}"></span>
                 <div class="teamImage">
 
                 </div>
-                <div th:each="player: ${players}">
+                <!--<div th:each="player: ${players}">
                     <p id="namePlayer" th:text="${player.getForename()} + ' ' + ${player.getSurname()}"></p>
-                </div>
+                </div> -->
             </div>
             <div th:unless="${winners.size() > 0}">
                 Pas de vainqueur pour ce tournoi.

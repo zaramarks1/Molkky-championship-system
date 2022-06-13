@@ -79,4 +79,21 @@ class UserChoiceControllerTest {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/"));
     }
+
+    @Test
+    void testChooseWithException() throws Exception {
+        UserTournamentRole userTournamentRole1 = new UserTournamentRole();
+
+        Integer id_tournament = 1;
+        Tournament tournament = new Tournament();
+        tournament.setId(id_tournament);
+
+        when(this.userTournamentRoleRepository.findById(anyInt())).thenReturn(userTournamentRole1);
+
+        mockMvc.perform(post("/user_choice/choiceRole")
+                        .sessionAttr("tournament",tournament)
+                        .param("roleId", "1"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/connexion"));
+    }
 }
