@@ -5,7 +5,6 @@ import com.molkky.molkky.controllers.superclass.DefaultAttributes;
 import com.molkky.molkky.domain.*;
 import com.molkky.molkky.domain.rounds.*;
 import com.molkky.molkky.model.*;
-import com.molkky.molkky.repository.PhaseRepository;
 import com.molkky.molkky.repository.TeamRepository;
 import com.molkky.molkky.repository.TournamentRepository;
 import com.molkky.molkky.repository.UserTournamentRoleRepository;
@@ -121,7 +120,7 @@ public class TournamentController extends DefaultAttributes {
         TournamentModel tournamentModel = new TournamentModel(tournament);
         tournamentModel.setDatesNull();
         tournamentModel.setEmail(tournamentService.getEmailAdmin(tournament));
-        model.addAttribute("tournament",tournamentModel);
+        model.addAttribute(allTournament,tournamentModel);
         return "/tournament/modify";
     }
 
@@ -193,7 +192,6 @@ public class TournamentController extends DefaultAttributes {
             }
         }
 
-        model.addAttribute("tournament", tournament);
         model.addAttribute("phasesType", phasesType);
         model.addAttribute(allTournament, tournament);
         model.addAttribute("nbTeam", tournament.getTeams().size());

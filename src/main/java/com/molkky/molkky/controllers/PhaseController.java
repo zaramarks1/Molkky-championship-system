@@ -1,7 +1,10 @@
 package com.molkky.molkky.controllers;
 
 import com.molkky.molkky.controllers.superclass.DefaultAttributes;
-import com.molkky.molkky.domain.*;
+import com.molkky.molkky.domain.Match;
+import com.molkky.molkky.domain.Phase;
+import com.molkky.molkky.domain.Round;
+import com.molkky.molkky.domain.Tournament;
 import com.molkky.molkky.domain.rounds.*;
 import com.molkky.molkky.model.UserLogged;
 import com.molkky.molkky.model.phase.PhaseListModel;
@@ -10,11 +13,8 @@ import com.molkky.molkky.model.phase.PhaseRankingModel;
 import com.molkky.molkky.repository.PhaseRepository;
 import com.molkky.molkky.repository.RoundRepository;
 import com.molkky.molkky.repository.TournamentRepository;
-import com.molkky.molkky.repository.UserTournamentRoleRepository;
-import com.molkky.molkky.service.NotificationService;
 import com.molkky.molkky.service.PhaseService;
 import com.molkky.molkky.service.RoundService;
-import com.molkky.molkky.service.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

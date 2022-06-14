@@ -8,22 +8,15 @@ import com.molkky.molkky.model.phase.PhaseModel;
 import com.molkky.molkky.repository.PhaseRepository;
 import com.molkky.molkky.repository.TournamentRepository;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.MockitoAnnotations;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
-import type.PhaseType;
 
 import java.sql.Time;
 import java.util.Arrays;
 
 @SpringBootTest
-public class PhaseServiceTest {
+class PhaseServiceTest {
 
     @Autowired
     private PhaseService phaseService;
