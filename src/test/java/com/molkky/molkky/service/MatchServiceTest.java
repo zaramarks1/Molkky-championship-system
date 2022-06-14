@@ -72,6 +72,7 @@ class MatchServiceTest {
         for (int i = 0; i < 10; i++) {
             matches.add(matchRepository.save(new Match()));
         }
+
 //        when
         List<MatchModel> matchModels = MatchService.createMatchModels(matches);
 //        then
@@ -87,6 +88,11 @@ class MatchServiceTest {
     void createMatchModelTest() {
 //        given
         Match match = matchRepository.save(new Match());
+        User user = new User();
+        UserTournamentRole userTournamentRole = new UserTournamentRole();
+        userTournamentRole.setUser(user);
+        userTournamentRole.setRole(UserRole.STAFF);
+        match.setStaff(user);
 //        when
         MatchModel matchModel = MatchService.getMatchModelFromEntity(match);
 //        then
@@ -99,6 +105,11 @@ class MatchServiceTest {
     void getMatchFromModelTest() {
 //        given
         Match match = matchRepository.save(new Match());
+        User user = new User();
+        UserTournamentRole userTournamentRole = new UserTournamentRole();
+        userTournamentRole.setUser(user);
+        userTournamentRole.setRole(UserRole.STAFF);
+        match.setStaff(user);
         MatchModel matchModel = MatchService.getMatchModelFromEntity(match);
 //        when
         Match match2 = matchService.getMatchFromModel(matchModel);
@@ -125,6 +136,11 @@ class MatchServiceTest {
 
         match.setTeams(Arrays.asList(team1, team2));
         match = matchRepository.save(match);
+        User user = new User();
+        UserTournamentRole userTournamentRole = new UserTournamentRole();
+        userTournamentRole.setUser(user);
+        userTournamentRole.setRole(UserRole.STAFF);
+        match.setStaff(user);
 //        when
         SetTeamIndex index = matchService.getUserTeamIndex(MatchService.getMatchModelFromEntity(match), new UserTournamentRoleModel(userTournamentRole1));
 //        then
@@ -149,6 +165,12 @@ class MatchServiceTest {
 
         match.setTeams(Arrays.asList(team2, team1));
         match = matchRepository.save(match);
+
+        User user = new User();
+        UserTournamentRole userTournamentRole = new UserTournamentRole();
+        userTournamentRole.setUser(user);
+        userTournamentRole.setRole(UserRole.STAFF);
+        match.setStaff(user);
 //        when
         SetTeamIndex index = matchService.getUserTeamIndex(MatchService.getMatchModelFromEntity(match), new UserTournamentRoleModel(userTournamentRole1));
 //        then
@@ -178,6 +200,12 @@ class MatchServiceTest {
 
         match.setTeams(Arrays.asList(team2, team1));
         match = matchRepository.save(match);
+
+        User user = new User();
+        UserTournamentRole userTournamentRole = new UserTournamentRole();
+        userTournamentRole.setUser(user);
+        userTournamentRole.setRole(UserRole.STAFF);
+        match.setStaff(user);
 //        when
         SetTeamIndex index = matchService.getUserTeamIndex(MatchService.getMatchModelFromEntity(match), new UserTournamentRoleModel(userTournamentRole2));
 //        then
@@ -211,6 +239,12 @@ class MatchServiceTest {
         match.setTeams(Arrays.asList(team1, team2));
         match = matchRepository.save(match);
 
+        User user = new User();
+        UserTournamentRole userTournamentRole = new UserTournamentRole();
+        userTournamentRole.setUser(user);
+        userTournamentRole.setRole(UserRole.STAFF);
+        match.setStaff(user);
+
         Team oppositeTeam = matchService.getOppositeTeam(MatchService.getMatchModelFromEntity(match),new UserTournamentRoleModel(userTournamentRole1));
 
         Assertions.assertEquals("team2",oppositeTeam.getName());
@@ -242,6 +276,12 @@ class MatchServiceTest {
         match.setTeams(Arrays.asList(team1, team2));
         match = matchRepository.save(match);
 
+        User user = new User();
+        UserTournamentRole userTournamentRole = new UserTournamentRole();
+        userTournamentRole.setUser(user);
+        userTournamentRole.setRole(UserRole.STAFF);
+        match.setStaff(user);
+
         Team oppositeTeam = matchService.getOppositeTeam(MatchService.getMatchModelFromEntity(match),new UserTournamentRoleModel(userTournamentRole2));
 
         Assertions.assertEquals("team1",oppositeTeam.getName());
@@ -251,6 +291,11 @@ class MatchServiceTest {
     void isMatchFinished(){
 //        given
         Match match = createCompleteMatch2();
+        User user = new User();
+        UserTournamentRole userTournamentRole = new UserTournamentRole();
+        userTournamentRole.setUser(user);
+        userTournamentRole.setRole(UserRole.STAFF);
+        match.setStaff(user);
         UserTournamentRole user1 = match.getTeams().get(0).getUserTournamentRoles().get(0);
         UserTournamentRole user2 = match.getTeams().get(1).getUserTournamentRoles().get(0);
         User user3 = userRepository.save(new User());
@@ -279,6 +324,13 @@ class MatchServiceTest {
     void setCourtTest(){
 //        given
         Match match = matchRepository.save(new Match());
+
+        User user = new User();
+        UserTournamentRole userTournamentRole = new UserTournamentRole();
+        userTournamentRole.setUser(user);
+        userTournamentRole.setRole(UserRole.STAFF);
+        match.setStaff(user);
+
         Court court = courtRepository.save(new Court(true, "testCourt"));
         MatchModel matchModel = MatchService.getMatchModelFromEntity(match);
         CourtModel courtModel = new CourtModel(court);

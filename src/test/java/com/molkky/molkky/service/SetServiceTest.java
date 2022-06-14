@@ -57,6 +57,11 @@ class SetServiceTest {
     void enterSetResultsTestTeam1() {
 //        given
         Match match = createCompleteMatch2();
+        User user = new User();
+        UserTournamentRole userTournamentRole = new UserTournamentRole();
+        userTournamentRole.setUser(user);
+        userTournamentRole.setRole(UserRole.STAFF);
+        match.setStaff(user);
         Set set = match.getSets().get(0);
         UserTournamentRole user1 = match.getTeams().get(0).getUserTournamentRoles().get(0);
 //        when
@@ -72,6 +77,11 @@ class SetServiceTest {
     void enterSetResultsTestTeam2() {
 //        given
         Match match = createCompleteMatch2();
+        User user = new User();
+        UserTournamentRole userTournamentRole = new UserTournamentRole();
+        userTournamentRole.setUser(user);
+        userTournamentRole.setRole(UserRole.STAFF);
+        match.setStaff(user);
         Set set = match.getSets().get(0);
         UserTournamentRole user2 = match.getTeams().get(1).getUserTournamentRoles().get(0);
 //        when
@@ -87,6 +97,11 @@ class SetServiceTest {
     void enterSetResultsTestTeamOrga() {
 //        given
         Match match = createCompleteMatch2();
+        User user = new User();
+        UserTournamentRole userTournamentRole = new UserTournamentRole();
+        userTournamentRole.setUser(user);
+        userTournamentRole.setRole(UserRole.STAFF);
+        match.setStaff(user);
         Set set = match.getSets().get(0);
         UserTournamentRole user2 = userTournamentRoleRepository.save(new UserTournamentRole());
 //        when
@@ -162,6 +177,11 @@ class SetServiceTest {
     void isMatchFinishedNotEqualNo50() {
         //        given
         Match match = createCompleteMatch2();
+        User user = new User();
+        UserTournamentRole userTournamentRole = new UserTournamentRole();
+        userTournamentRole.setUser(user);
+        userTournamentRole.setRole(UserRole.STAFF);
+        match.setStaff(user);
         Set set = match.getSets().get(0);
         UserTournamentRole user1 = match.getTeams().get(0).getUserTournamentRoles().get(0);
         UserTournamentRole user2 = match.getTeams().get(1).getUserTournamentRoles().get(0);
@@ -185,6 +205,11 @@ class SetServiceTest {
     void isMatchFinishedEqual50() {
         //        given
         Match match = createCompleteMatch2();
+        User user = new User();
+        UserTournamentRole userTournamentRole = new UserTournamentRole();
+        userTournamentRole.setUser(user);
+        userTournamentRole.setRole(UserRole.STAFF);
+        match.setStaff(user);
         Set set = match.getSets().get(0);
         UserTournamentRole user1 = match.getTeams().get(0).getUserTournamentRoles().get(0);
         UserTournamentRole user2 = match.getTeams().get(1).getUserTournamentRoles().get(0);
@@ -208,6 +233,11 @@ class SetServiceTest {
     void isMatchFinishedNotEqualNoStaffScores1() {
         //        given
         Match match = createCompleteMatch2();
+        User user = new User();
+        UserTournamentRole userTournamentRole = new UserTournamentRole();
+        userTournamentRole.setUser(user);
+        userTournamentRole.setRole(UserRole.STAFF);
+        match.setStaff(user);
         Set set = match.getSets().get(0);
         UserTournamentRole user1 = match.getTeams().get(0).getUserTournamentRoles().get(0);
         UserTournamentRole user2 = match.getTeams().get(1).getUserTournamentRoles().get(0);
@@ -232,6 +262,11 @@ class SetServiceTest {
     void isMatchFinishedNotEqualNoStaffScores2() {
         //        given
         Match match = createCompleteMatch2();
+        User user = new User();
+        UserTournamentRole userTournamentRole = new UserTournamentRole();
+        userTournamentRole.setUser(user);
+        userTournamentRole.setRole(UserRole.STAFF);
+        match.setStaff(user);
         Set set = match.getSets().get(0);
         UserTournamentRole user1 = match.getTeams().get(0).getUserTournamentRoles().get(0);
         UserTournamentRole user2 = match.getTeams().get(1).getUserTournamentRoles().get(0);
@@ -256,6 +291,11 @@ class SetServiceTest {
     void isMatchFinishedNotEqualStaffScores() {
         //        given
         Match match = createCompleteMatch2();
+        User user = new User();
+        UserTournamentRole userTournamentRole = new UserTournamentRole();
+        userTournamentRole.setUser(user);
+        userTournamentRole.setRole(UserRole.STAFF);
+        match.setStaff(user);
         Set set = match.getSets().get(0);
         UserTournamentRole user1 = match.getTeams().get(0).getUserTournamentRoles().get(0);
         UserTournamentRole user2 = match.getTeams().get(1).getUserTournamentRoles().get(0);
