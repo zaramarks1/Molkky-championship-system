@@ -27,7 +27,7 @@ public class Match implements Serializable {
 
     @ManyToOne(optional = true)
     @JoinColumn(name="idStaff")
-    private User user;
+    private User staff;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = Court.class)
     @JoinColumn(name = "idCourt")

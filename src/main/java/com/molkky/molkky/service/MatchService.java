@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import type.PhaseType;
 import type.SetTeamIndex;
+import type.UserRole;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -91,6 +92,7 @@ public class MatchService {
         matchModel.setId(match.getId());
         matchModel.setFinished(match.getFinished());
         matchModel.setNbSets(match.getNbSets());
+        matchModel.setIdStaff(match.getStaff().getId());
         return matchModel;
     }
 
@@ -111,9 +113,14 @@ public class MatchService {
 
     public static List<MatchModel> createMatchModels(List<Match> matches) {
         List<MatchModel> matchModels = new ArrayList<>();
+        User user = new User();
+        UserTournamentRole userTournamentRole = new UserTournamentRole();
+        userTournamentRole.setUser(user);
+        userTournamentRole.setRole(UserRole.STAFF);
         if (matches != null) {
             for (Match match : matches) {
                 if(match.getId() != null) {
+                    match.setStaff(user);
                     matchModels.add(getMatchModelFromEntity(match));
                 }
             }
