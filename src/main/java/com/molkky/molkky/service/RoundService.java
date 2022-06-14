@@ -10,6 +10,7 @@ import com.molkky.molkky.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import type.PhaseType;
+import type.TournamentStatus;
 import type.UserRole;
 
 import java.security.SecureRandom;
@@ -359,7 +360,7 @@ public class RoundService {
         for(Phase p: tournament.getPhases()){
             if(Boolean.FALSE.equals(p.getFinished())) return false;
         }
-
+        tournament.setStatus(TournamentStatus.ENDED);
         tournament.setFinished(true);
         tournamentRepository.save(tournament);
 

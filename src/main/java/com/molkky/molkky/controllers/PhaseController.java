@@ -25,10 +25,7 @@ import type.UserRole;
 
 import javax.servlet.http.HttpSession;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("/phase")
@@ -175,12 +172,14 @@ public class PhaseController extends DefaultAttributes {
 
         Phase phase = phaseRepository.findById(id);
         List<Round> rounds = phase.getRounds();
-
-        Map<Round,  List<PhaseRankingModel>> roundTeams = new HashMap<>();
+        Collections.reverse(rounds);
+        Map<Round,  List<PhaseRankingModel>> roundTeams = new LinkedHashMap<>();
             for (Round r : rounds) {
                 List<PhaseRankingModel> teams = roundService.orderTeamsByScoreInRound(r, phase.getVictoryValue());
                 roundTeams.put(r, teams);
             }
+
+
 
             if(phase instanceof SwissPool){
                 List<PhaseRankingModel> teams = roundService.orderTeamsByScoreInPhase(phase, phase.getVictoryValue());

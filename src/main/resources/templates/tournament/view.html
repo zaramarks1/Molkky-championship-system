@@ -163,11 +163,12 @@
             <h2 class="partTitle" th:text=" 'Phase n ' + ${tournament.getIndexPhase()}">Index de la phase</h2>
 
             <form action="#" th:action="@{/phase/view}" method="post" class="formContainer">
-                <input hidden th:value="${tournament.phases[__${tournament.getIndexPhase()-1}__].id}" th:name="id"/>
+                <input hidden th:value="${currentPhase.id}" th:name="id"/>
                 <button id="id" name="visible" class="primaryButton" type="submit">Voir la phase en cours</button>
             </form>
 
-            <form th:if=" ${user != null} and ${tournament.getPhases().size() != (tournament.getIndexPhase()) } "
+            <form th:if=" ${user != null} and ${tournament.getPhases().size() != (tournament.getIndexPhase()) }
+                    and ${currentPhase.finished == true}"
                   action="#" th:action="@{/phase/generate}" method="post" class="formContainer">
                 <input hidden th:value="${tournament.phases[__${tournament.getIndexPhase()}__].id}" th:name="id"/>
                 <button id="idNext" name="visible" class="primaryButton" type="submit">Passer à la phase suivante
@@ -176,9 +177,10 @@
             </form>
 
             <form th:if=" ${user != null}
+            and ${currentPhase.rounds[__${currentPhase.rounds.size()-1}__].finished == true}
             and (${#strings.equals(phasesType[__${tournament.getIndexPhase()-1}__].getPhaseType(),'KNOCKOUT')  }
             or ${#strings.equals(phasesType[__${tournament.getIndexPhase()-1}__].getPhaseType(),'SWISSPOOL')})"
-                  action="#" th:action="@{/phase/generate}" method="post" class="formContainer">
+                  action="#" th:action="@{/phase/round}" method="post" class="formContainer">
                 <input hidden th:value="${tournament.phases[__${tournament.getIndexPhase()-1}__].id}" th:name="id"/>
                 <label class="inputLabel">Nombre des manches dans la prochaine étape </label>
                 <input style="margin-bottom: 10px;" name="nbSet" class="inputPhase" th:name="nbSet" type="number"

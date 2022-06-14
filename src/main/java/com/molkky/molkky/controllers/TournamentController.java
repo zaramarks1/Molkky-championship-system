@@ -136,6 +136,7 @@ public class TournamentController extends DefaultAttributes {
                 phaseTypeViewModel.setPhaseType(PhaseType.KNOCKOUT);
                 phasesType.add(phaseTypeViewModel);
             } else if (p instanceof SwissPool) {
+
                 SwissPool pool = (SwissPool) p;
                 PhaseTypeViewModel phaseTypeViewModel = new PhaseTypeViewModel();
                 phaseTypeViewModel.setPhase(pool);
@@ -149,6 +150,7 @@ public class TournamentController extends DefaultAttributes {
                 phasesType.add(phaseTypeViewModel);
             }
         }
+        model.addAttribute("currentPhase", tournament.getPhases().get(tournament.getIndexPhase()-1));
 
         model.addAttribute("tournament", tournament);
         model.addAttribute("phasesType", phasesType);
