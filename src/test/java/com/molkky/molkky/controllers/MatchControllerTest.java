@@ -59,9 +59,17 @@ class MatchControllerTest {
 
     @Test
     void testMatchWithoutUser() throws Exception {
+        Match match = createMatch();
+        when(matchRepository.findById(1)).thenReturn(match);
         mockMvc.perform(get("/matches/match?match_id=1"))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/connexion"));
+                .andExpect(status().isOk())
+                .andExpect(model().attribute("match", MatchService.getMatchModelFromEntity(match)))
+                .andExpect(model().attribute("teams", TeamModel.createTeamModels(match.getTeams())))
+                //.andExpect(model().attribute("court", new CourtModel(match.getCourt())))
+                .andExpect(model().attribute("tournament", new TournamentModel(match.getRound().getPhase().getTournament())))
+                .andExpect(model().attribute("sets", SetService.createSetModels(match.getSets())))
+                .andExpect(model().attribute("setTeamIndex", SetTeamIndex.OUTSIDER))
+                .andExpect(view().name("/match/match"));
     }
 
     @Test
@@ -123,14 +131,15 @@ class MatchControllerTest {
 
         this.mockMvc.perform(get("/matches/match?match_id=1").sessionAttr("user", userLogged)
                         .sessionAttr("user",userLogged))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/"));
+                .andExpect(status().isOk())
+                .andExpect(model().attribute("setTeamIndex", SetTeamIndex.OUTSIDER))
+                .andExpect(view().name("/match/match"));
     }
 
     @Test
     void testMatchesWithPlayer() throws Exception {
         Tournament tournament = new Tournament();
-        tournament.setId((int)Math.random() * 10000);
+        tournament.setId((int) (Math.random() * 10000));
 
         UserLogged userLogged = mock(UserLogged.class);
         userLogged.setId(399992);

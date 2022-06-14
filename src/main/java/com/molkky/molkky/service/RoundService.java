@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import type.PhaseType;
 import type.UserRole;
 
+import java.security.SecureRandom;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -33,7 +34,10 @@ public class RoundService {
     @Autowired
     TournamentRepository tournamentRepository;
 
-    private final Random rand = new Random();
+    @Autowired
+    MatchService matchService;
+
+    private final SecureRandom rand = new SecureRandom();
 
     public List<PhaseRankingModel> orderTeamsByScoreInRound(Round round, int victoryValue){
         Map<Integer, PhaseRankingModel> scores = new HashMap<>();
@@ -235,22 +239,22 @@ public class RoundService {
             return results;
         }
 
-        List<Team> seedingSystem(Round round, List<PhaseRankingModel>  scoresList){
+    List<Team> seedingSystem(Round round, List<PhaseRankingModel>  scoresList){
 
-            List<Team> teams = new ArrayList<>();
+        List<Team> teams = new ArrayList<>();
 
-                for (PhaseRankingModel p : scoresList) {
-                    Team team = p.getTeam();
+            for (PhaseRankingModel p : scoresList) {
+                Team team = p.getTeam();
 
-                    if(Boolean.TRUE.equals(round.getPhase().getSeedingSystem())) {
-                        team.setNbPoints(team.getNbPoints() + p.getTotalPoints());
-                    }
-
-                    teams.add(team);
+                if(Boolean.TRUE.equals(round.getPhase().getSeedingSystem())) {
+                    team.setNbPoints(team.getNbPoints() + p.getTotalPoints());
                 }
 
-            return teamRepository.saveAll(teams);
-        }
+                teams.add(team);
+            }
+
+        return teamRepository.saveAll(teams);
+    }
 
     public boolean isPhaseOver(Phase phase, List<PhaseRankingModel>  scoresList){
 
@@ -331,12 +335,9 @@ public class RoundService {
 
             int qtdStaff = staffUsers.size();
 
-
             for (Match m : matches){
                 m.setUser(staffUsers.get(rand.nextInt(qtdStaff)));
-
             }
-
         }
 
     }

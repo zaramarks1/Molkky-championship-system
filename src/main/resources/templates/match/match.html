@@ -64,6 +64,7 @@
                             <div th:unless="${mobile}" class="setText" th:text="'SET ' + ${iStat.index + 1}">
                                 SET X
                             </div>
+                            <div class="scoreDisplayOutsider" th:text="${set.score1Final}" th:case="outsider"/>
                             <input th:disabled="${match.finished == true} and ${set.finished == true}" pattern="[0-9]{2}" th:case="team1" min="0" max="50" class="setInput" type="number" th:name="score1Team1" value="0" th:value="${set.score1Team1}"/>
                             <input th:disabled="${match.finished == true} and ${set.finished == true}" pattern="[0-9]{2}" th:case="team2" min="0" max="50" class="setInput" type="number" th:name="score1Team2" value="0" th:value="${set.score1Team2}"/>
                             <input th:disabled="${match.finished == true} and ${set.finished == true}" pattern="[0-9]{2}" th:case="orga" min="0" max="50" class="setInput" type="number" th:name="score1Orga" value="0" th:value="${set.score1Orga}"/>
@@ -77,6 +78,7 @@
                             <div th:unless="${mobile}" class="setText" th:text="'SET ' + ${iStat.index + 1}">
                                 SET X
                             </div>
+                            <div class="scoreDisplayOutsider" th:text="${set.score2Final}" th:case="outsider"/>
                             <input th:disabled="${match.finished == true} and ${set.finished == true}" th:case="team1" pattern="[0-9]{2}" min="0" max="50" class="setInput" type="number" th:name="score2Team1" value="0" th:value="${set.score2Team1}"/>
                             <input th:disabled="${match.finished == true} and ${set.finished == true}" th:case="team2" pattern="[0-9]{2}" min="0" max="50"  class="setInput" type="number" th:name="score2Team2" value="0" th:value="${set.score2Team2}"/>
                             <input th:disabled="${match.finished == true} and ${set.finished == true}" th:case="orga" pattern="[0-9]{2}" min="0" max="50" class="setInput" type="number" th:name="score2Orga" value="0" th:value="${set.score2Orga}"/>

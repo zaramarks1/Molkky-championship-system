@@ -22,7 +22,7 @@ import java.util.*;
 
 @SpringBootTest(classes = MolkkyApplication.class)
 
-class SwissServiceTest {
+ class SwissServiceTest {
 
     @Autowired
     private TournamentRepository tournamentRepository;
@@ -97,6 +97,8 @@ class SwissServiceTest {
             Assertions.assertEquals(4, entry.getValue().size(), " The  should be 4 match");
 
         }
+
+
 
         Map<Round, List<Match>> results2 =  phaseService.generate(tournament.getPhases().get(0).getId().toString());
 

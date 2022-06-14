@@ -21,10 +21,7 @@
         </div>
         <!-- Emplacement pour les filtres-->
         <div class="boxTournamentList">
-            <div class="boxListe">
-                <div class="rectangle"></div>
-                <div class="ListTournament">Liste des tournois</div>
-            </div>
+            <div class="ListTournament">Liste des tournois</div>
 
 
             <div class="allButton">
@@ -39,11 +36,11 @@
             <div class="boxAllCard">
                 <th:block th:each="tournament:${tournament}">
                     <a class="boxOneCard"  th:href="@{'/tournament/view?tournamentId='+${tournament.id}}">
-                        <span class="insideText tournamentTitleInside" th:text="${tournament.name}"/>
-                        <span class="insideText" th:text="${tournament.date}"/>
-                        <span class="insideText" th:text="${tournament.nbPlayersPerTeam}+' joueurs par équipes'"/>
+                        <span class="insideText tournamentTitleInside nameCard" th:text="${tournament.name}"/>
+                        <span class="insideText dateCard" th:text="${tournament.date}"/>
+                        <span class="insideText nbCard" th:text="${tournament.nbPlayersPerTeam}+' joueurs par équipes'"/>
                         <p class="insideText" th:if="${!tournament.getTeams().isEmpty()}">
-                            <span class="textPlayer"
+                            <span class="textPlayer textPlayer"
                                   th:text="${tournament.getTeams().size()}*${tournament.nbPlayersPerTeam}+' / '+${tournament.getMaxTeam()}*${tournament.getNbPlayersPerTeam()}+' Joueurs'"/>
                         </p>
                         <p class="insideText" th:unless="${!tournament.getTeams().isEmpty()}">
@@ -54,7 +51,7 @@
                         <p class="insideText textInscriptionOpen" th:if="${tournament.visible}">Incriptions ouvertes</p>
                     </a>
                 </th:block>
-            </div>
+        </div>
         </div>
     </div>
 </div>
