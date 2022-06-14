@@ -161,7 +161,53 @@ public class RoundService {
                     .reversed());
         }
 
+        //changer pour eviter affrontation d'un meme club
+        if(Boolean.TRUE.equals(phase.getTerrainAffectation())){
+          teams = sortByClub(teams);
+        }
+
         return teams;
+    }
+
+    public List<Team> sortByClub(List<Team> teams){
+        Map<String, Integer> clubs = new HashMap<>();
+
+        for(Team t : teams){
+            //t.getClub().getName()
+            clubs.merge(t.getName(), 1, (oldValue, newValue) ->oldValue + newValue);
+        }
+
+        List<Team> teamsClub = new ArrayList<>();
+
+        boolean finished = false;
+        do {
+            int idTeam1 = rand.nextInt(teams.size());
+            int idTeam2 = rand.nextInt(teams.size());
+            Team t1 = teams.get(idTeam1);
+            Team t2 = teams.get(idTeam2);
+
+            if(!t1.getName().equals(t2.getName())){
+                teamsClub.addAll(List.of(t1, t2));
+                teams.remove(t1);
+                teams.remove(t2);
+
+                clubs.put(t1.getName(), clubs.get(t1.getName())-1);
+                clubs.put(t2.getName(), clubs.get(t2.getName())-1);
+
+                if(clubs.get(t1.getName() )== 0) clubs.remove(t1.getName());
+                if(clubs.get(t2.getName()) == 0) clubs.remove(t2.getName());
+
+                if(clubs.size() == 1) {
+                    finished = true;
+
+                    teamsClub.addAll(teams);
+
+                }
+
+            }
+        }while(finished);
+
+        return teamsClub;
     }
 
     public  void createMatchSimpleAndKnockoutAndSwiss(List<Team> teamsUpdated, Team team1, Team team2, Round round) {
