@@ -1,10 +1,7 @@
 package com.molkky.molkky.controllers;
 
 import com.molkky.molkky.controllers.superclass.DefaultAttributes;
-import com.molkky.molkky.domain.Match;
-import com.molkky.molkky.domain.Phase;
-import com.molkky.molkky.domain.Round;
-import com.molkky.molkky.domain.Tournament;
+import com.molkky.molkky.domain.*;
 import com.molkky.molkky.domain.rounds.*;
 import com.molkky.molkky.model.UserLogged;
 import com.molkky.molkky.model.phase.PhaseListModel;
@@ -13,8 +10,11 @@ import com.molkky.molkky.model.phase.PhaseRankingModel;
 import com.molkky.molkky.repository.PhaseRepository;
 import com.molkky.molkky.repository.RoundRepository;
 import com.molkky.molkky.repository.TournamentRepository;
+import com.molkky.molkky.repository.UserTournamentRoleRepository;
+import com.molkky.molkky.service.NotificationService;
 import com.molkky.molkky.service.PhaseService;
 import com.molkky.molkky.service.RoundService;
+import com.molkky.molkky.service.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -135,7 +135,7 @@ public class PhaseController extends DefaultAttributes {
     }
 
     @PostMapping("/editPhases")
-    public String savePhases(@ModelAttribute("form")PhaseListModel phasesModel, ModelMap model) throws ParseException {
+    public String savePhases(@ModelAttribute("listPhase")PhaseListModel phasesModel, ModelMap model) throws ParseException {
         Tournament t = tournamentRepository.findById(phasesModel.getPhases().get(0).getTournament());
         List<Phase> phases = new ArrayList<>();
         for(PhaseModel phase : phasesModel.getPhases()){
@@ -162,6 +162,24 @@ public class PhaseController extends DefaultAttributes {
         phaseRepository.saveAll(phases);
         t.setPhases(phases);
         t =  tournamentRepository.save(t);
+        return tournamentView+t.getId();
+    }
+
+    @GetMapping("/modify")
+    public ModelAndView modifyPhase(ModelMap model, @RequestParam(value = "tournamentId") String tournamentId){
+        Tournament t = tournamentRepository.findById(Integer.valueOf(tournamentId));
+        List<Phase> phaseList = t.getPhases();
+        PhaseListModel phaseListModel = new PhaseListModel();
+        for(Phase phase : phaseList){
+            phaseListModel.add(new PhaseModel(phase));
+        }
+        model.addAttribute("listPhase",phaseListModel);
+        return new ModelAndView("/phase/modifyPhase",model);
+    }
+
+    @PostMapping("/modify")
+    public String changeInfoPhases(@ModelAttribute("listPhase")PhaseListModel phasesModel, ModelMap model){
+        Tournament t = phaseService.editPhasesInfo(phasesModel);
         return tournamentView+t.getId();
     }
 

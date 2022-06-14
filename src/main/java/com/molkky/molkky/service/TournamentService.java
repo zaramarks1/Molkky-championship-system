@@ -62,6 +62,12 @@ public class TournamentService {
         return tournament;
     }
 
+    public Tournament modifyTournament(TournamentModel tournamentModel){
+        Tournament tournament = tournamentRepository.findById(tournamentModel.getId());
+        tournament.editTournamentInfo(tournamentModel);
+        return tournamentRepository.save(tournament);
+    }
+
     // Fonction qui test si le nombre d'équipes inscrites après la date limite d'inscription est suffisant. Sinon, ferme le tournament
     public boolean isMinimumTeamsBeforeDate() {
         List<Tournament> tournaments = tournamentRepository.findAll();
@@ -100,6 +106,11 @@ public class TournamentService {
         return tournament.getTeams().stream().filter(
                     team -> !team.isEliminated()
                 ).collect(Collectors.toList());
+    }
+
+    public String getEmailAdmin(Tournament tournament){
+        List<UserTournamentRole> userTournamentRoles = userTournamentRoleRepository.findUserTournamentRoleByRoleAndTournament(UserRole.ADM,tournament);
+        return userTournamentRoles.get(0).getUser().getEmail();
     }
 
     // EN ATTENTE

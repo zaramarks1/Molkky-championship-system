@@ -1,9 +1,11 @@
 package com.molkky.molkky.domain;
 
+import com.molkky.molkky.model.phase.PhaseModel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import type.PhaseStatus;
+import type.PhaseType;
 import type.ScoreMode;
 
 import javax.persistence.*;
@@ -118,5 +120,34 @@ public class Phase  implements Serializable {
         else{
             this.timePhase = null;
         }
+    }
+
+    @Transient
+    public PhaseType getDecriminatorValue() {
+        String type = this.getClass().getAnnotation(DiscriminatorValue.class).value();
+        return PhaseType.valueOf(type);
+    }
+
+    public void editGlobalInfo(PhaseModel phaseModel){
+        this.setStatus(phaseModel.getStatus());
+        this.setTerrainAffectation(phaseModel.getTerrainAffectation());
+        this.setNbCourts(phaseModel.getNbCourts());
+        this.setNbPhase(phaseModel.getNbPhase());
+        this.setNumStartCourt(phaseModel.getNumStartCourt());
+        this.setManagePlanning(phaseModel.isManagePlanning());
+        this.setHourPhaseStart(phaseModel.getHourPhaseStart());
+        this.setTimePhase(phaseModel.getTimePhase());
+        this.setScoreMode(phaseModel.getScoreMode());
+        this.setNbSets(phaseModel.getNbSets());
+        this.setSeedingSystem(phaseModel.getSeedingSystem());
+        this.setTopSeeds(phaseModel.getTopSeeds());
+        this.setRanking(phaseModel.getRanking());
+        this.setNotifBeginningPhase(phaseModel.isNotifBeginningPhase());
+        this.setNbTeamsQualified(phaseModel.getNbTeamsQualified());
+        this.setConsolation(phaseModel.isConsolation());
+        this.setNumberConsolationQualify(phaseModel.getNumberConsolationQualify());
+        this.setPlayoff(phaseModel.isPlayoff());
+        this.setNumberPlayoffQualify(phaseModel.getNumberPlayoffQualify());
+        this.setVictoryValue(phaseModel.getVictoryValue());
     }
 }

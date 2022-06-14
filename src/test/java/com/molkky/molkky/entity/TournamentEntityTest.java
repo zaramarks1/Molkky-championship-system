@@ -237,4 +237,14 @@ class TournamentEntityTest {
 
         Assertions.assertEquals("tournament_name_full", tournament.getName(), "Tournament name should be tournament_name_full");
     }
+
+    @Test
+    void testEditInfoTournament(){
+        TournamentModel model = new TournamentModel();
+        model.setName("Test");
+        Tournament tournament = new Tournament();
+        tournament.editTournamentInfo(model);
+
+        Assertions.assertEquals("Test",tournament.getName());
+    }
 }

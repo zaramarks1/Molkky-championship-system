@@ -5,8 +5,11 @@ import com.molkky.molkky.controllers.superclass.DefaultAttributes;
 import com.molkky.molkky.domain.*;
 import com.molkky.molkky.domain.rounds.*;
 import com.molkky.molkky.model.*;
+import com.molkky.molkky.repository.PhaseRepository;
 import com.molkky.molkky.repository.TeamRepository;
 import com.molkky.molkky.repository.TournamentRepository;
+import com.molkky.molkky.repository.UserTournamentRoleRepository;
+import com.molkky.molkky.service.NotificationService;
 import com.molkky.molkky.service.PhaseService;
 import com.molkky.molkky.service.TournamentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +41,12 @@ public class TournamentController extends DefaultAttributes {
 
     @Autowired
     private TeamRepository teamRepository;
+
+    @Autowired
+    UserTournamentRoleRepository userTournamentRoleRepository;
+
+    @Autowired
+    NotificationService notificationService;
 
     private String allTournament="tournament";
     private String redirectionAll = "/tournament/allTournament";
@@ -100,6 +109,35 @@ public class TournamentController extends DefaultAttributes {
 
         int id = tournamentEntity.getId();
         return "redirect:/phase/choosePhases?tournamentId="+id;
+    }
+
+    @GetMapping("/modify")
+    public String tournamentModify(Model model,@RequestParam(value = "tournamentId") String tournamentId,  HttpSession session){
+        UserLogged user = getUser(session);
+        Tournament tournament = tournamentRepository.findById(Integer.valueOf(tournamentId));
+        if(!user.getEmail().equals(tournamentService.getEmailAdmin(tournament)) || !tournament.getStatus().equals(TournamentStatus.AVAILABLE)){
+            return redirectionAll;
+        }
+        TournamentModel tournamentModel = new TournamentModel(tournament);
+        tournamentModel.setDatesNull();
+        tournamentModel.setEmail(tournamentService.getEmailAdmin(tournament));
+        model.addAttribute("tournament",tournamentModel);
+        return "/tournament/modify";
+    }
+
+    @PostMapping("/modify")
+    public String tournamentEdit(@Valid @ModelAttribute("tournament") TournamentModel tournament, Model model){
+        Integer oldNbRounds = tournamentRepository.findById(tournament.getId()).getNbRounds();
+        Tournament tournament1 = tournamentService.modifyTournament(tournament);
+        List<UserTournamentRole> userTournamentRoles = userTournamentRoleRepository.
+                findUserTournamentRoleByRoleAndTournament(UserRole.PLAYER,tournament1);
+        notificationService.sendNotificationToList("Les infos du tournoi "+tournament1.getName()+" ont été changées",
+                "/tournament/view?tournamentId="+tournament1.getId(),userTournamentRoles);
+        if(!oldNbRounds.equals(tournament1.getNbRounds())){
+            phaseService.clearTournamentPhases(tournament1);
+            return "redirect:/phase/choosePhases?tournamentId="+tournament1.getId();
+        }
+        return "redirect:/phase/modify?tournamentId="+tournament1.getId();
     }
 
     @GetMapping("/view")

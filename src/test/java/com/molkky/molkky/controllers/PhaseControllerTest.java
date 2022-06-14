@@ -22,10 +22,7 @@ import type.PhaseType;
 import type.TournamentStatus;
 import type.UserRole;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -302,7 +299,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         //when(phase.getNbSets()).thenReturn(1);
 
         mockMvc.perform(post("/phase/editPhases")
-                .flashAttr("form",listModel))
+                .flashAttr("listPhase",listModel))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/tournament/view?tournamentId=1"));
 
@@ -333,7 +330,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         when(phase.getTimePhase()).thenReturn("");
 
         mockMvc.perform(post("/phase/editPhases")
-                        .flashAttr("form",listModel))
+                        .flashAttr("listPhase",listModel))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/tournament/view?tournamentId=1"));
 
@@ -364,7 +361,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         when(phase.getTimePhase()).thenReturn("");
 
         mockMvc.perform(post("/phase/editPhases")
-                        .flashAttr("form",listModel))
+                        .flashAttr("listPhase",listModel))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/tournament/view?tournamentId=1"));
 
@@ -395,7 +392,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         when(phase.getTimePhase()).thenReturn("");
 
         mockMvc.perform(post("/phase/editPhases")
-                        .flashAttr("form",listModel))
+                        .flashAttr("listPhase",listModel))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/tournament/view?tournamentId=1"));
 
@@ -426,7 +423,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         when(phase.getTimePhase()).thenReturn("");
 
         mockMvc.perform(post("/phase/editPhases")
-                        .flashAttr("form",listModel))
+                        .flashAttr("listPhase",listModel))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/tournament/view?tournamentId=1"));
 
@@ -470,5 +467,41 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
                 .param("id", "17888"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/phase/view?id=17888"));
+    }
+
+    @Test
+    void testGetModifyPhase() throws Exception {
+        Phase phase = mock(Phase.class);
+
+        when(tournamentRepository.findById(1)).thenReturn(tournament);
+        when(tournament.getPhases()).thenReturn(Arrays.asList(phase));
+        when(phase.getDecriminatorValue()).thenReturn(PhaseType.SIMPLEGAME);
+        when(phase.getTournament()).thenReturn(tournament);
+
+        mockMvc.perform(get("/phase/modify")
+                .param("tournamentId", "1"))
+                .andExpect(model().attributeExists("listPhase"))
+                .andExpect(view().name("/phase/modifyPhase"))
+                .andExpect(status().is2xxSuccessful());
+
+        verify(tournamentRepository,times(1)).findById(1);
+        verify(tournament,times(1)).getPhases();
+        verify(tournament,times(1)).getId();
+        verify(phase,times(2)).getDecriminatorValue();
+        verify(phase,times(1)).getTournament();
+
+        verifyNoMoreInteractions(tournamentRepository);
+        verifyNoMoreInteractions(tournament);
+    }
+
+    @Test
+    void testPostModifyPhase() throws Exception {
+
+        when(phaseService.editPhasesInfo(Mockito.any(PhaseListModel.class))).thenReturn(tournament);
+        when(tournament.getId()).thenReturn(1);
+
+        mockMvc.perform(post("/phase/modify"))
+                .andExpect(view().name("redirect:/tournament/view?tournamentId=1"))
+                .andExpect(status().is3xxRedirection());
     }
 }

@@ -49,4 +49,9 @@ public class SwissPool extends Phase {
         this.setNumberPlayoffQualify(swissModel.getNumberPlayoffQualify());
         this.setTournament(tournament);
     }
+
+    public void editInfoSwiss(PhaseModel swissModel){
+        this.editGlobalInfo(swissModel);
+        this.setNbSubRounds(swissModel.getNbSubRounds());
+    }
 }

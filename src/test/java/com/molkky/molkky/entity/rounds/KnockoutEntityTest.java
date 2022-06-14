@@ -3,7 +3,9 @@ package com.molkky.molkky.entity.rounds;
 import com.molkky.molkky.MolkkyApplication;
 import com.molkky.molkky.domain.Phase;
 import com.molkky.molkky.domain.Tournament;
+import com.molkky.molkky.domain.rounds.Finnish;
 import com.molkky.molkky.domain.rounds.Knockout;
+import com.molkky.molkky.model.phase.PhaseModel;
 import com.molkky.molkky.repository.PhaseRepository;
 import com.molkky.molkky.repository.TournamentRepository;
 import org.junit.jupiter.api.Assertions;
@@ -66,5 +68,19 @@ class KnockoutEntityTest {
         Assertions.assertEquals(true, tournament.getPhases().get(0) instanceof Knockout,
                 " It should be a instance of knockout");
 
+    }
+
+    @Test
+    void testEditKnockoutInfo(){
+        PhaseModel phaseModel = new PhaseModel();
+        phaseModel.setRandomDraw(true);
+        phaseModel.setNotifEveryRound(true);
+        phaseModel.setTimePhase("");
+        phaseModel.setHourPhaseStart("");
+        Knockout knockout = new Knockout();
+        knockout.editInfoKnockout(phaseModel);
+
+        Assertions.assertTrue(knockout.isRandomDraw());
+        Assertions.assertTrue(knockout.isNotifEveryRound());
     }
 }

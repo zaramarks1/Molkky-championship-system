@@ -3,7 +3,9 @@ package com.molkky.molkky.entity.rounds;
 import com.molkky.molkky.MolkkyApplication;
 import com.molkky.molkky.domain.Phase;
 import com.molkky.molkky.domain.Tournament;
+import com.molkky.molkky.domain.rounds.Finnish;
 import com.molkky.molkky.domain.rounds.Pool;
+import com.molkky.molkky.model.phase.PhaseModel;
 import com.molkky.molkky.repository.*;
 import com.molkky.molkky.service.PhaseService;
 import org.junit.jupiter.api.Assertions;
@@ -82,5 +84,21 @@ class PoolEntityTest {
         Assertions.assertEquals(true, tournament.getPhases().get(0) instanceof Pool,
                 " It should be a instance of pool");
 
+    }
+
+    @Test
+    void testEditPoolInfo(){
+        PhaseModel phaseModel = new PhaseModel();
+        phaseModel.setNbPools(2);
+        phaseModel.setNotifEachDay(true);
+        phaseModel.setPlayTeamSameClub(true);
+        phaseModel.setTimePhase("");
+        phaseModel.setHourPhaseStart("");
+        Pool pool = new Pool();
+        pool.editInfoPool(phaseModel);
+
+        Assertions.assertEquals(2,pool.getNbPools());
+        Assertions.assertTrue(pool.isPlayTeamSameClub());
+        Assertions.assertTrue(pool.isNotifEachDay());
     }
 }

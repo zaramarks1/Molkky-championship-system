@@ -3,8 +3,10 @@ package com.molkky.molkky.entity.rounds;
 import com.molkky.molkky.MolkkyApplication;
 import com.molkky.molkky.domain.Phase;
 import com.molkky.molkky.domain.Tournament;
+import com.molkky.molkky.domain.rounds.Finnish;
 import com.molkky.molkky.domain.rounds.Pool;
 import com.molkky.molkky.domain.rounds.SimpleGame;
+import com.molkky.molkky.model.phase.PhaseModel;
 import com.molkky.molkky.repository.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -81,5 +83,17 @@ class FinnishEntityTest {
         Assertions.assertEquals(true, tournament.getPhases().get(1) instanceof SimpleGame,
                 " It should be a instance of simple game");
 
+    }
+
+    @Test
+    void testEditFinnishInfo(){
+        PhaseModel phaseModel = new PhaseModel();
+        phaseModel.setNbFinnish(1);
+        phaseModel.setTimePhase("");
+        phaseModel.setHourPhaseStart("");
+        Finnish finnish = new Finnish();
+        finnish.editInfoFinnish(phaseModel);
+
+        Assertions.assertEquals(1,finnish.getNbFinnish());
     }
 }
