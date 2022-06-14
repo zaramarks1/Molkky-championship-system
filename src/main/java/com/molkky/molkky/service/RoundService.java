@@ -256,7 +256,7 @@ public class RoundService {
 
             int indexSubRound = ((SwissPool) phase).getIndexSubRound();
             if (indexSubRound != 1) {
-                List<PhaseRankingModel> ranking = this.orderTeamsByScoreInRound(phase.getRounds().get(indexSubRound - 2), phase.getVictoryValue());
+                List<PhaseRankingModel> ranking = this.orderTeamsByScoreInPhase(phase, phase.getVictoryValue());
 
                 teams = new ArrayList<>();
 
