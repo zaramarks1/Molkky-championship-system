@@ -41,6 +41,9 @@ public class PoolService {
     @Autowired
     RoundService roundService;
 
+    @Autowired
+    MatchService matchService;
+
 
     public Map<Round, List<Match>> generateRounds(Pool pool){
         Map<Round, List<Match>> results = new HashMap<>();
@@ -83,6 +86,7 @@ public class PoolService {
                       Team team2 = r.getTeams().get(j);
                       Match match = new Match();
                       match.setRound(r);
+                      matchService.giveRandomCourtToMatch(match);
                       match.getTeams().add(team1);
                       match.getTeams().add(team2);
 
@@ -98,13 +102,17 @@ public class PoolService {
               }
                r.getMatches().addAll(roundService.createSetsFromMatch(matches));
 
+                if (Boolean.TRUE.equals(pool.getRandomStaff())) roundService.assignRandomStaffToMatch(matches, pool);
+
             }
 
         pool = phaseRepository.save(pool);
 
+
         for(Round r : pool.getRounds()){
             results.put(r, r.getMatches());
         }
+
 
         return results;
     }
@@ -143,6 +151,7 @@ public class PoolService {
 
         for(int i=0;i<teams.size();i++) {
             Team t = teams.get(i);
+
             String message ;
             if(t.isEliminated()){
                 message = "Ton équipe a terminé " + (i + 1)+ " ème de sa poule et est malheuseusement éliminée.";

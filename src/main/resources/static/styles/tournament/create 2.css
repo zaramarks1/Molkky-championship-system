@@ -84,6 +84,7 @@
 
 .multiSlider {
     height: 28px;
+    width: -webkit-fill-available;
 }
 .multiSlider input[type=range] {
     position: absolute;

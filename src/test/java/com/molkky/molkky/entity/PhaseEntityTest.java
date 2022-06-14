@@ -1,6 +1,5 @@
 package com.molkky.molkky.entity;
 
-import com.fasterxml.jackson.databind.jsontype.impl.AsExistingPropertyTypeSerializer;
 import com.molkky.molkky.MolkkyApplication;
 import com.molkky.molkky.domain.*;
 import com.molkky.molkky.domain.rounds.Pool;

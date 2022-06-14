@@ -1,39 +1,42 @@
 <html xmlns:th="http://thymeleaf.org" xmlns="http://www.w3.org/1999/html" lang="fr">
 <head>
-  <div th:replace="fragments/header"></div>
-  <link rel="stylesheet" th:href="@{/styles/phase/view.css}" href="../"/>
-  <link rel="stylesheet" th:href="@{/styles/tournament/view.css}" href="../"/>
-  <title>Affichage Phase</title>
+    <div th:replace="fragments/header"></div>
+    <link rel="stylesheet" th:href="@{/styles/phase/view.css}" href="../"/>
+    <link rel="stylesheet" th:href="@{/styles/tournament/view.css}" href="../"/>
+    <title>Affichage Phase</title>
 </head>
 
 <body class="bg">
 <div class="pageContainer">
-  <div th:replace="fragments/sidebar"></div>
-  <div class="contentContainer">
-    <div th:replace="fragments/searchbar"></div>
-    <div class="homeContainer">
-      <div class="cardRound">
-        <div class="cardRoundTopBar">
-          <p th:text="'Phase ' + ${currentTournament.indexPhase} "></p>
-          <button class="primaryButton" id="buttonRounds">Masquer</button>
-        </div>
-        <div id="listRounds">
-            <div th:each="mapEntry : ${roundTeams}" class="cardRoundContent" id=" cardRoundContent">
+    <div th:replace="fragments/sidebar"></div>
+    <div class="contentContainer">
+        <div th:replace="fragments/searchbar"></div>
+        <div class="homeContainer">
+            <div class="cardRound">
+                <div class="cardRoundTopBar">
+                    <p th:text="'Phase ' + ${currentTournament.indexPhase + 1} "></p>
+                    <button class="primaryButton" id="buttonRounds">Masquer</button>
+                </div>
+                <div id="listRounds">
+                    <div th:each="mapEntry : ${roundTeams}" class="cardRoundContent" id=" cardRoundContent">
 
-              <div class="partContainer">
-                <h2 class="partTitle"  th:text="${mapEntry.key.type} " >type </h2>
-                <strong style="color: green" th:if = "${mapEntry.key.finished == true}" th:text=" 'Status :TERMINÉ'"></strong>
-                <strong style="color: red" th:if = "${mapEntry.key.finished == false}" th:text="' Status :PAS TERMINÉ'"></strong>
-                  <div>
-                    <table style="width: 100%">
-                      <tr style="color:#8C69F4; margin: 10px; text-align: center; width:90%">
+                        <div class="partContainer">
+                            <h2 class="partTitle" th:text="${mapEntry.key.type.displayValue} ">type </h2>
+                            <div class="matchFinished" th:if="${mapEntry.key.finished == true}"
+                                    th:text=" 'Statut: Terminé'"></div>
+                            <div class="matchNotFinished" th:if="${mapEntry.key.finished == false}"
+                                    th:text="' Statut: En cours'"></div>
+
+<!--                            affichage poule-->
+                            <div th:unless="${mapEntry.key.type.displayValue == 'Éliminatoire'}">
+                                <table class ="mainTable">
+                                    <tr class="mainTableHeader">
                         <th>Classement</th>
                         <th>Nom d'équipe</th>
                         <th>Nombre de victoires</th>
                         <th>Nombre de points </th>
                       </tr>
-                      <tr  th:each="teams, iStat: ${mapEntry.value}"
-                           style="text-align: center;">
+                      <tr class="mainTableAllTeams" th:each="teams, iStat: ${mapEntry.value}">
                         <td th:text="${iStat.index+1}"></td>
                         <td th:text="${teams.team.name}"></td>
                         <td th:text="${teams.values}"></td>
@@ -41,28 +44,31 @@
                       </tr>
                     </table>
                   </div>
-                <h2 class="partTitle">Matches</h2>
-                <div id="participantContainer">
-                  <th:block th:each="match : ${mapEntry.key.getMatches()}">
-                    <div class="teamCard">
-                      <h3 style="background-color: #8787A1" class="teamName"  th:text="${match.teams[0].name} + ' x '+ ${match.teams[1].name}"></h3>
-                      <div class="cardContentContainer">
-                        <table style="width: 100%">
-                          <tr style="color:#8C69F4; margin: 10px; text-align: center; width:90%">
-                            <th>Nom d'équipe</th>
-                            <th>Nombre de points </th>
-                          </tr>
-                          <tr style="text-align: center;">
-                            <td th:text="${match.teams[0].name}"></td>
-                            <td th:text="${match.getScoreTeam1()}"></td>
-                          </tr>
-                          <tr style="text-align: center;">
-                            <td th:text="${match.teams[1].name}"></td>
-                            <td th:text="${match.getScoreTeam2()}"></td>
-                          </tr>
-                        </table>
-                      </div>
-                    </div>
+                <h2 class="partTitle">Matchs</h2>
+                            <div id="participantContainer">
+                                <th:block th:each="match : ${mapEntry.key.getMatches()}">
+                                    <a th:href="${'/matches/match?match_id=' + match.getId()}" style="text-decoration: none;">
+                                        <div class="teamCard">
+                                            <h3 style="" class="teamNameMatches"
+                                                th:text="${match.teams[0].name} + ' x '+ ${match.teams[1].name}"></h3>
+                                            <div class="cardContentContainer">
+                                                <table class ="matchCard">
+                                                    <tr class ="matchCardHeader">
+                                                        <th>Nom d'équipe</th>
+                                                        <th>Nombre de points</th>
+                                                    </tr>
+                                                    <tr class="teamsScores">
+                                                        <td th:text="${match.teams[0].name}"></td>
+                                                        <td th:text="${match.getScoreTeam1()}"></td>
+                                                    </tr>
+                                                    <tr class ="teamsScores">
+                                                        <td th:text="${match.teams[1].name}"></td>
+                                                        <td th:text="${match.getScoreTeam2()}"></td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </a>
                   </th:block>
                 </div>
               </div >
@@ -96,25 +102,25 @@
         </div>
       </div>
     </div>
-  </div>
+</div>
 </body>
 <div th:replace="fragments/footer"></div>
 
 <script>
-  const targetDiv = document.getElementById("listRounds");
-  const btn = document.getElementById("buttonRounds");
+    const targetDiv = document.getElementById("listRounds");
+    const btn = document.getElementById("buttonRounds");
 
-  btn.onclick = function () {
-    if (targetDiv.style.display !== "none") {
-      targetDiv.style.display = "none";
-    } else {
-      targetDiv.style.display = "block"
+    btn.onclick = function () {
+        if (targetDiv.style.display !== "none") {
+            targetDiv.style.display = "none";
+        } else {
+            targetDiv.style.display = "block"
+        }
+        if (btn.innerText === "Masquer") {
+            btn.innerText = "Afficher";
+        } else {
+            btn.innerText = "Masquer";
+        }
     }
-    if (btn.innerText === "Masquer") {
-      btn.innerText = "Afficher";
-    } else {
-      btn.innerText = "Masquer";
-    }
-  }
 </script>
 </html>

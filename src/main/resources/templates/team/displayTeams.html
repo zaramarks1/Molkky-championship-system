@@ -20,7 +20,8 @@
                 </button>
             </form>
             <div class="cardContainer">
-            <div th:each="team: ${teams}" class="cardTeam">
+            <ul th:each="team: ${teams}" class="cardTeam" th:href="@{'/team/view?teamId='+${team.id}}">
+                <li class="clickableCard" th:onclick="'window.location.href=\'/team/view?teamId=' + ${team.id} + '\''">
                 <div class="teamHeader">
                     <div class="teamName">
                         <p th:text="${team.getName()}"></p>
@@ -37,7 +38,8 @@
                         </th:block>
                     </ul>
                 </div>
-            </div>
+                </li>
+            </ul>
             </div>
 
         </div>

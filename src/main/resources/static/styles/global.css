@@ -31,6 +31,13 @@
     font-family: 'Inter', sans-serif;
 }
 
+
+@media only screen and (max-width: 500px) {
+    .contentContainer {
+        margin: 10px;
+    }
+}
+
 .contentTitle {
     font-weight: 600;
     font-size: 20px;
@@ -50,7 +57,7 @@
     margin-top: 25px;
     font-style: normal;
     font-weight: 600;
-    font-size: 1.4rem;
+    font-size: 14px;
     line-height: 22px;
     text-align: justify;
 }
@@ -98,6 +105,13 @@ body {
     text-decoration: none;
     padding: 10px 15px;
     color: black;
+}
+
+@media only screen and (max-width: 500px) {
+    .tab {
+        padding: 10px 10px !important;
+        font-size: 16px;
+    }
 }
 
 .tabSelected {

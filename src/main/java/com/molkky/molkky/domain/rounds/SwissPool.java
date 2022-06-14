@@ -4,6 +4,8 @@ import com.molkky.molkky.domain.Phase;
 import com.molkky.molkky.domain.Tournament;
 import com.molkky.molkky.model.phase.PhaseModel;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import type.PhaseStatus;
 
 import javax.persistence.Column;
@@ -11,7 +13,8 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import java.text.ParseException;
 
-@Data
+@Getter
+@Setter
 @Entity
 @DiscriminatorValue("SWISSPOOL")
 public class SwissPool extends Phase {
@@ -33,6 +36,7 @@ public class SwissPool extends Phase {
 
     public SwissPool(PhaseModel swissModel, Tournament tournament) throws ParseException {
         this.setStatus(PhaseStatus.NOTSTARTED);
+        this.setRandomStaff(swissModel.getRandomStaff());
         this.setNbSubRounds(swissModel.getNbSubRounds());
         this.setNbSets(swissModel.getNbSets());
         this.setVictoryValue(swissModel.getVictoryValue());

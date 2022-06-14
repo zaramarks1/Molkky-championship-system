@@ -47,6 +47,7 @@ public class PhaseModel {
     private boolean playTeamSameClub;
     private Integer nbSubRounds;
     private Integer tournament;
+    private Boolean randomStaff;
     private List<Round> rounds;
 
     public PhaseModel(Phase phase){

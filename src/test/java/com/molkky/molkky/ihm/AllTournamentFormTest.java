@@ -79,7 +79,7 @@ class AllTournamentFormTest {
     }
 
 
-    @Test
+    /*@Test
     void testAllAttributesDisplayed() {
         config.getDriver().get(url+"/tournament/allTournament");
         List<WebElement> nbTournois = config.getDriver().findElements(new By.ByClassName("boxOneCard"));
@@ -90,7 +90,7 @@ class AllTournamentFormTest {
             Assertions.assertTrue(nbTournois.get(i).findElement(new By.ByClassName("textPlayer")).isDisplayed());
             Assertions.assertTrue(nbTournois.get(i).findElement(new By.ByClassName("textPlayer")).isDisplayed() || nbTournois.get(i).findElement(new By.ByClassName("textInscriptionOpen")).isDisplayed());
         }
-    }
+    }*/
 
     @Test
     void testButtonTypeTournament() {

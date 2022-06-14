@@ -24,6 +24,9 @@ public class PhaseService {
     PoolService poolService;
 
     @Autowired
+    MatchService matchService;
+
+    @Autowired
     SimpleGameService simpleGameService;
 
     @Autowired
@@ -55,6 +58,12 @@ public class PhaseService {
         }else if (phase instanceof SwissPool){
             SwissPool swissPool = (SwissPool) phase;
             results = swissService.generateRounds(swissPool);
+        }
+
+        for(Map.Entry<Round, List<Match>> entry : results.entrySet()){
+            for(Match match : entry.getValue()){
+                matchService.giveRandomCourtToMatch(match);
+            }
         }
 
         return results ;

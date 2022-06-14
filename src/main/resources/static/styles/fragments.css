@@ -29,7 +29,7 @@
 }
 
 .footerText {
-    font-size: 15px;
+    font-size: 14px;
     text-align: center;
     color: black;
 }
@@ -51,7 +51,7 @@
     align-items: center;
     font-family: "Inter", sans-serif;
     font-weight: 600;
-    font-size: 1.4rem;
+    font-size: 14px;
     line-height: 18px;
 }
 
@@ -65,7 +65,7 @@
     align-items: center;
     font-family: "Inter", sans-serif;
     font-weight: 600;
-    font-size: 1.4rem;
+    font-size: 14px;
     line-height: 18px;
     position: fixed;
     background-color: white;
@@ -86,7 +86,9 @@
 }
 
 .closebtn{
-    width: -webkit-fill-available;
+    width: -moz-available;          /* WebKit-based browsers will ignore this. */
+    width: -webkit-fill-available;  /* Mozilla-based browsers will ignore this. */
+    width: fill-available;
     text-align: right;
 }
 
@@ -162,19 +164,26 @@
     border-radius: 7px;
     border-width: 0;
     font-weight: 600;
-    font-size: 1.4rem;
+    font-size: 14px;
     line-height: 18px;
     color: #8787A1;
 }
 
 .searchbarIcon {
-    width: 25px;
-    filter : grayscale(1);
+    width: 24px;
+    height: 24px;
+    filter: grayscale(1);
 }
 
 .searchbarIconContainer {
     padding: 18px;
     position: absolute;
+}
+
+@media only screen and (max-width: 400px) {
+    .searchbarIconContainerMobile {
+        padding: 18px 10px;
+    }
 }
 
 .searchbarButtonContainer {
@@ -288,7 +297,7 @@
     font-family: 'Inter', serif;
     font-style: normal;
     font-weight: 600;
-    font-size: 1.4rem;
+    font-size: 14px;
     color: black;
     cursor: pointer;
     padding: 10px;
@@ -362,8 +371,9 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    width: -webkit-fill-available;
-}
+    width: -moz-available;          /* WebKit-based browsers will ignore this. */
+    width: -webkit-fill-available;  /* Mozilla-based browsers will ignore this. */
+    width: fill-available;}
 
 .searchbarInputContainerMobile {
     display: flex;
@@ -373,8 +383,9 @@
     background-color: #E7E7ED;
     border-radius: 7px;
     border-width: 0;
-    width: -webkit-fill-available;
-}
+    width: -moz-available;          /* WebKit-based browsers will ignore this. */
+    width: -webkit-fill-available;  /* Mozilla-based browsers will ignore this. */
+    width: fill-available;}
 
 .hamburgerIcon {
     width: 24px;
@@ -391,7 +402,9 @@
     background-color: #ff000000;
     color: #8787A1;
     border: none;
-    width: -webkit-fill-available;
+    width: -moz-available;          /* WebKit-based browsers will ignore this. */
+    width: -webkit-fill-available;  /* Mozilla-based browsers will ignore this. */
+    width: fill-available;
 }
 
 input.searchbarMobile:focus {
@@ -432,7 +445,8 @@ input.searchbarMobile:focus {
 }
 
 .searchAutoresultsContainerMobile {
-    width: inherit;
+    width: 100%;
     margin-top: 10px;
+    z-index: 1;
 }
 
