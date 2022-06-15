@@ -3,7 +3,6 @@ package com.molkky.molkky.service.rounds;
 import com.molkky.molkky.MolkkyApplication;
 import com.molkky.molkky.domain.*;
 import com.molkky.molkky.domain.rounds.Pool;
-import com.molkky.molkky.domain.rounds.SimpleGame;
 import com.molkky.molkky.repository.*;
 import com.molkky.molkky.service.MatchService;
 import com.molkky.molkky.service.PhaseService;
@@ -181,12 +180,8 @@ import java.util.*;
         Assertions.assertEquals(4, tournament.getPhases().get(1).getRounds().get(1).getTeams().size()
                 , " There should be 4 teams ");
 
-
-
         Assertions.assertEquals(2, results.size(), " There should be 2 rounds of pool 1 ");
         Assertions.assertEquals(2, results2.size(), " There should be 2 rounds of pool 2 ");
-
-
     }
 
     @Test
@@ -216,8 +211,6 @@ import java.util.*;
                 matchRepository.save(m);
                 matchService.validateMatch(m);
             }
-
-
         }
         List<Team> teams = teamRepository.findByTournamentAndEliminated(tournament,false);
 
@@ -235,7 +228,28 @@ import java.util.*;
 
     }
 
+    @Test
+    @Rollback(false)
+    @Transactional
+    void testTeamsInsertByClub() {
+        Tournament tournament = createTournament();
 
+        tournament = createPool(tournament, 1, 2, 2, false, false);
+        tournament = createPool(tournament, 2, 1, 1 ,false, false);
+
+        insertTeam(tournament, 8);
+
+        Map<Round, List<Match>> results =  phaseService.generate(tournament.getPhases().get(0).getId().toString());
+        tournament.getTeams().get(0).setEliminated(true);
+        Team t1 = teamRepository.save(tournament.getTeams().get(0));
+
+        Map<Round, List<Match>> results2 =  phaseService.generate(tournament.getPhases().get(1).getId().toString());
+
+        tournament = tournamentRepository.findById(tournament.getId());
+
+
+
+    }
 
     Tournament createTournament(){
         Tournament tournament = new Tournament(
@@ -277,21 +291,24 @@ import java.util.*;
     }
 
     void insertTeam(Tournament tournament, int qtd) {
+        List<Club> clubs = new ArrayList<>();
+        clubs.add(new Club(1, "ANGERS"));
+        clubs.add(new Club(2, "TOURS"));
+        clubs.add(new Club(3, "REIMS"));
+
         for (int i = 1; i <= qtd; i++) {
             Team team = new Team();
 
             team.setCode("12345");
-
             team.setName("Team" + i);
             team.setTournament(tournament);
-
+            Random rand = new Random();
+            team.setClub(clubs.get(rand.nextInt(clubs.size())));
 
             tournament.getTeams().add(team);
 
             User player = new User();
-
             player.setForename("User" + i);
-
             player = userRepository.save(player);
 
             UserTournamentRole userTournamentRole = new UserTournamentRole();
