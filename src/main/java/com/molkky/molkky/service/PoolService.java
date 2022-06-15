@@ -102,7 +102,7 @@ public class PoolService {
               }
                r.getMatches().addAll(roundService.createSetsFromMatch(matches));
 
-                if (Boolean.TRUE.equals(pool.getRandomStaff())) roundService.assignRandomStaffToMatch(matches, pool);
+              roundService.assignRandomStaffToMatch(matches, pool);
 
             }
 
