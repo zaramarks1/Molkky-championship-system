@@ -5,10 +5,7 @@ import com.molkky.molkky.domain.Tournament;
 import com.molkky.molkky.model.AddPlayerModel;
 import com.molkky.molkky.model.AddPlayerlistModel;
 import com.molkky.molkky.model.CreateTeamModel;
-import com.molkky.molkky.repository.TeamRepository;
-import com.molkky.molkky.repository.TournamentRepository;
-import com.molkky.molkky.repository.UserRepository;
-import com.molkky.molkky.repository.UserTournamentRoleRepository;
+import com.molkky.molkky.repository.*;
 import com.molkky.molkky.service.EmailSenderService;
 import com.molkky.molkky.service.NotificationService;
 import com.molkky.molkky.service.TeamService;
@@ -65,6 +62,9 @@ class TeamControllerTest {
 
     @MockBean
     private TeamService teamService;
+
+    @MockBean
+    ClubRepository clubRepository;
 
     @Test
     void testTeamGetMethod() throws Exception{

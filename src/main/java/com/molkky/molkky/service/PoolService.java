@@ -64,7 +64,7 @@ public class PoolService {
             }
 
             int count =0;
-            
+
         if (Boolean.TRUE.equals(pool.getAvoidConfrontationClub())) {
             teams = rounds.get(count).getTeamsByClub();
         }

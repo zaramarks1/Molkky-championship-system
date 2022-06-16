@@ -25,13 +25,22 @@
                 </div>
 
                 <div class="inputContainer">
-                    <label for="visible" class="inputLabel">Créer un club</label>
-                    <input id="visible" name="visible" type="checkbox" th:field="*{visible}" class="inputTournament"/>
+                    <label class="inputLabel">Créer un nouveau club</label>
+                        <input class="inputTournament"  type="checkbox"  th:id = "newClub"
+                               name="Créer un nouveau club" value="newClub" th:field="*{option}" ><br>
+                    <label class="inputLabel">Choisir un club déjà existant</label>
+                        <input class="inputTournament"  type="checkbox"  th:id = "oldClub"
+                               name="Choisir un club déjà existant"  th:field="*{option}" value="oldClub"><br>
                 </div>
 
-                <div class="inputContainer">
-                    <label for="club" class="inputLabel">Sélectionnez un club</label>
-                    <select class="inputTournament" id="club" th:field="*{club}" >
+                <div hidden class="inputHiddenContainer" id = "createClub">
+                    <label  class="inputLabel">Créer un club</label>
+                    <input id="createClubInput" name="visible" type="text" th:field="*{newClubName}" class="inputTournament"/>
+                </div>
+
+                <div hidden class="inputHiddenContainer" id = "existingClubs">
+                    <label  class="inputLabel">Sélectionnez un club</label>
+                    <select class="inputTournament" id="club" th:field="*{clubId}" >
                         <option th:each="club : ${clubs}" th:value="${club.id}" th:text="${club.name}" class="inputTournament" >
                         </option>
                     </select>
@@ -45,5 +54,33 @@
         </div>
     </div>
 </body>
+
+<script th:inline="javascript">
+    document.getElementById("newClub")
+
+        .addEventListener("change", function () {
+            if (this.checked) {
+                document.getElementById("createClub").hidden = false;
+                document.getElementById("existingClubs").hidden = true;
+                document.getElementById("oldClub").checked = false;
+            } else {
+                document.getElementById("createClub").hidden = true;
+
+            }
+        })
+
+    document.getElementById("oldClub")
+
+        .addEventListener("change", function () {
+            if (this.checked) {
+                document.getElementById("existingClubs").hidden = false;
+                document.getElementById("newClub").checked = false;
+                document.getElementById("createClub").hidden = true;
+            } else {
+                document.getElementById("existingClubs").hidden = true;
+
+            }
+        })
+</script>
 <div th:replace="fragments/footer"></div>
 
