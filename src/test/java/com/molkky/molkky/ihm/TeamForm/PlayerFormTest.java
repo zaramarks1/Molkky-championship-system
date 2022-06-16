@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import type.UserRole;
 
+import java.awt.*;
 import java.text.ParseException;
 import java.util.Random;
 
@@ -69,6 +70,11 @@ class PlayerFormTest {
         config.getDriver().findElement(new By.ById("nom")).sendKeys(teamName);
         Select select = new Select(config.getDriver().findElement(new By.ById("tournament")));
         select.selectByIndex(select.getOptions().size() - 1);
+
+        config.getDriver().findElement(new By.ById("newClub")).click();
+
+        config.getDriver().findElement(new By.ById("createClubInput")).sendKeys("new club");
+
         config.getDriver().findElement(new By.ById("sendTeam")).click();
     }
 

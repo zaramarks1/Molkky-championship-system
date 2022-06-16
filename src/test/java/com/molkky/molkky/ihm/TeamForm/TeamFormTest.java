@@ -68,6 +68,10 @@ class TeamFormTest {
         Select select = new Select(config.getDriver().findElement(new By.ById("tournament")));
         select.selectByIndex(select.getOptions().size() - 1);
         String idTournament = config.getDriver().findElement(new By.ById("tournament")).getAttribute("value");
+
+        config.getDriver().findElement(new By.ById("newClub")).click();
+
+        config.getDriver().findElement(new By.ById("createClubInput")).sendKeys("new club");
         config.getDriver().findElement(new By.ById("sendTeam")).click();
 
         Team team = teamRepository.findByName(teamName);
