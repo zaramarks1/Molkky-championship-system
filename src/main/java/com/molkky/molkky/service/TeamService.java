@@ -52,11 +52,11 @@ public class TeamService {
         return teamRepository.save(teamCreate);
     }
 
-    private String createTeamCode(int n){
+    public String createTeamCode(int n){
         String code = "";
         do {
             code = createCode(n);
-        } while(Boolean.TRUE.equals(teamRepository.existsByCode(createCode(n))));
+        } while(Boolean.TRUE.equals(teamRepository.existsByCode(code)));
         return code;
     }
 

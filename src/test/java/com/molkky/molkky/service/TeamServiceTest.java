@@ -63,7 +63,8 @@ class TeamServiceTest {
         String letters = "0123456789ABCDEFGHIJKLMNOPQRSTUVWYXZ";
         for(int i = 0; i < letters.length(); i++){
             when(teamRepository.existsByCode(String.valueOf(letters.charAt(i)))).thenReturn(true);
-            String code = createCode(1);
+            String code = teamService.createTeamCode(1);
+            when(teamRepository.existsByCode(String.valueOf(letters.charAt(i)))).thenReturn(false);
             Assertions.assertNotEquals(String.valueOf(letters.charAt(i)), code);
         }
 
@@ -90,7 +91,6 @@ class TeamServiceTest {
         Mockito.verifyNoMoreInteractions(teamModel);
         Mockito.verifyNoMoreInteractions(teamModel);
         Mockito.verifyNoMoreInteractions(tournamentRepository);
-        Mockito.verifyNoMoreInteractions(teamRepository);
 
         Assertions.assertNotNull(team,"Team null");
         Assertions.assertEquals(teamName,team.getName(),"Nom different");
