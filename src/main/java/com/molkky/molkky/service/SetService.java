@@ -83,7 +83,7 @@ public class SetService {
 
             for(Set s: match.getSets()){
                 scoreTeam1 += s.getScore1Orga();
-                scoreTeam2 +=s.getScore2Orga();
+                scoreTeam2 += s.getScore2Orga();
             }
 
             if(scoreTeam1 >= scoreTeam2){
