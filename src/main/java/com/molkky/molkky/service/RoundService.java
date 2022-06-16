@@ -163,7 +163,7 @@ public class RoundService {
         }
 
         //changer pour eviter affrontation d'un meme club
-        if(Boolean.TRUE.equals(phase.getTerrainAffectation())){
+        if(Boolean.TRUE.equals(phase.getAvoidConfrontationClub())){
           teams = sortByClub(teams);
         }
 
@@ -171,11 +171,10 @@ public class RoundService {
     }
 
     public List<Team> sortByClub(List<Team> teams){
-        Map<String, Integer> clubs = new HashMap<>();
+        Map<Club, Integer> clubs = new HashMap<>();
 
         for(Team t : teams){
-            //t.getClub().getName()
-            clubs.merge(t.getName(), 1, (oldValue, newValue) ->oldValue + newValue);
+            clubs.merge(t.getClub(), 1, (oldValue, newValue) ->oldValue + newValue);
         }
 
         List<Team> teamsClub = new ArrayList<>();
@@ -187,18 +186,18 @@ public class RoundService {
             Team t1 = teams.get(idTeam1);
             Team t2 = teams.get(idTeam2);
 
-            if(!t1.getName().equals(t2.getName())){
+            if(!t1.getClub().equals(t2.getClub())){
                 teamsClub.addAll(List.of(t1, t2));
                 teams.remove(t1);
                 teams.remove(t2);
 
-                clubs.put(t1.getName(), clubs.get(t1.getName())-1);
-                clubs.put(t2.getName(), clubs.get(t2.getName())-1);
+                clubs.put(t1.getClub(), clubs.get(t1.getClub())-1);
+                clubs.put(t2.getClub(), clubs.get(t2.getClub())-1);
 
-                if(clubs.get(t1.getName() )== 0) clubs.remove(t1.getName());
-                if(clubs.get(t2.getName()) == 0) clubs.remove(t2.getName());
+                if(clubs.get(t1.getClub())== 0) clubs.remove(t1.getClub());
+                if(clubs.get(t2.getClub()) == 0) clubs.remove(t2.getClub());
 
-                if(clubs.size() == 1) {
+                if(clubs.size() <= 1) {
                     finished = true;
 
                     teamsClub.addAll(teams);
@@ -206,7 +205,7 @@ public class RoundService {
                 }
 
             }
-        }while(finished);
+        }while(!finished);
 
         return teamsClub;
     }
@@ -379,13 +378,17 @@ public class RoundService {
                     .filter(userTournamentRole -> userTournamentRole.getRole().equals(UserRole.STAFF))
                     .collect(Collectors.toList());
             List<User> staffUsers = new ArrayList<>();
-            for(UserTournamentRole u : staffs) staffUsers.add(u.getUser());
 
-            int qtdStaff = staffUsers.size();
+            if(staffs.size()!=0){
+                for(UserTournamentRole u : staffs) staffUsers.add(u.getUser());
 
-            for (Match m : matches){
-                m.setUser(staffUsers.get(rand.nextInt(qtdStaff)));
+                int qtdStaff = staffUsers.size();
+
+                for (Match m : matches){
+                    m.setUser(staffUsers.get(rand.nextInt(qtdStaff)));
+                }
             }
+
         }
 
     }

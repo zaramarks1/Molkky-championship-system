@@ -13,15 +13,12 @@ import java.util.List;
 @Entity
 @Table(name = "team")
 public class Team implements Serializable {
-
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(name = "name")
     private String name;
-
 
     @Column(name = "nbPlayers")
     private Integer nbPlayers;
@@ -59,6 +56,10 @@ public class Team implements Serializable {
 
     @Column(name = "present",columnDefinition = "boolean default true")
     private boolean present;
+
+    @ManyToOne
+    @JoinColumn(name="club")
+    private Club club;
 
     public Team(){
         this.shots = new ArrayList<>();
