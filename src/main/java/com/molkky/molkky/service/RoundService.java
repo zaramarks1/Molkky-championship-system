@@ -379,7 +379,7 @@ public class RoundService {
                     .collect(Collectors.toList());
             List<User> staffUsers = new ArrayList<>();
 
-            if(staffs.size()!=0){
+            if(!staffs.isEmpty()){
                 for(UserTournamentRole u : staffs) staffUsers.add(u.getUser());
 
                 int qtdStaff = staffUsers.size();

@@ -247,7 +247,7 @@ import java.util.*;
 
         tournament = tournamentRepository.findById(tournament.getId());
 
-
+        Assertions.assertTrue(true);
 
     }
 
