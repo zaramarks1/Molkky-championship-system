@@ -4,6 +4,7 @@ import com.molkky.molkky.domain.Phase;
 import com.molkky.molkky.domain.Team;
 import com.molkky.molkky.domain.Tournament;
 import com.molkky.molkky.domain.User;
+import com.molkky.molkky.domain.UserTournamentRole;
 import com.molkky.molkky.model.TournamentModel;
 import com.molkky.molkky.model.phase.PhaseRankingModel;
 import com.molkky.molkky.repository.TeamRepository;
@@ -14,6 +15,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -22,10 +24,12 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfi
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import type.TournamentStatus;
+import type.UserRole;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -204,6 +208,49 @@ class TournamentServiceTest {
 
         Assertions.assertEquals("INPROGRESS", tournament.getStatus().toString(), "STATUT INCORRECT");
         Assertions.assertFalse(tournament.isRegisterAvailable(), "REGISTER SYSTEM INCORRECT");
+    }
+
+    @Test
+    void testModifyTournament(){
+        Tournament tournament = new Tournament();
+        TournamentModel tournamentModel = new TournamentModel();
+        tournamentModel.setId(1);
+        tournamentModel.setName("Test");
+
+        Mockito.when(tournamentRepository.findById(tournamentModel.getId())).thenReturn(tournament);
+        Mockito.when(tournamentRepository.save(Mockito.any(Tournament.class))).thenAnswer(i -> i.getArguments()[0]);
+
+        tournament = tournamentService.modifyTournament(tournamentModel);
+
+        Assertions.assertNotNull(tournament);
+        Assertions.assertEquals("Test",tournament.getName());
+
+        Mockito.verify(tournamentRepository,Mockito.times(1)).findById(tournamentModel.getId());
+        Mockito.verify(tournamentRepository,Mockito.times(1)).save(Mockito.any(Tournament.class));
+    }
+
+    @Test
+    void testEmailAdmin(){
+        Tournament tournament = new Tournament();
+        tournament.setId(1);
+
+        User user = new User();
+        user.setId(1);
+        user.setEmail("test@gmail.com");
+
+        UserTournamentRole userTournamentRole = new UserTournamentRole();
+        userTournamentRole.setUser(user);
+        userTournamentRole.setTournament(tournament);
+
+        Mockito.when(userTournamentRoleRepository.findUserTournamentRoleByRoleAndTournament(UserRole.ADM,tournament)).thenReturn(Arrays.asList(userTournamentRole));
+
+        String mail = tournamentService.getEmailAdmin(tournament);
+
+        Assertions.assertEquals("test@gmail.com",mail);
+
+        Mockito.verify(userTournamentRoleRepository,Mockito.times(1)).findUserTournamentRoleByRoleAndTournament(UserRole.ADM,tournament);
+
+
     }
 }
 

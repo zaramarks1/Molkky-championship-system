@@ -69,6 +69,12 @@ public class TournamentService {
         return tournament;
     }
 
+    public Tournament modifyTournament(TournamentModel tournamentModel){
+        Tournament tournament = tournamentRepository.findById(tournamentModel.getId());
+        tournament.editTournamentInfo(tournamentModel);
+        return tournamentRepository.save(tournament);
+    }
+
     // Fonction qui test si le nombre d'équipes inscrites après la date limite d'inscription est suffisant. Sinon, ferme le tournament
     public void closeTournamentWhenMinimumTeamsBeforeDate() {
         List<Tournament> tournaments = tournamentRepository.findAll();
@@ -112,6 +118,12 @@ public class TournamentService {
         return teams;
     }
 
+    public String getEmailAdmin(Tournament tournament){
+        List<UserTournamentRole> userTournamentRoles = userTournamentRoleRepository.findUserTournamentRoleByRoleAndTournament(UserRole.ADM,tournament);
+        return userTournamentRoles.get(0).getUser().getEmail();
+    }
+
+    // EN ATTENTE
     // Lance le tournoi si la date de ce dernier est celle du jour
     public void defineMatchInProgress() {
         List<Tournament> tournaments = tournamentRepository.findAll();

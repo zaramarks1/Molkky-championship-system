@@ -59,4 +59,11 @@ public class Pool extends Phase {
         this.setNumberConsolationQualify(poolModel.getNumberConsolationQualify());
         this.setTournament(tournament);
     }
+
+    public void editInfoPool(PhaseModel poolModel){
+        this.editGlobalInfo(poolModel);
+        this.setNbPools(poolModel.getNbPools());
+        this.setNotifEachDay(poolModel.isNotifEachDay());
+        this.setPlayTeamSameClub(poolModel.isPlayTeamSameClub());
+    }
 }

@@ -265,26 +265,27 @@ public class RoundService {
                 }
             }
         }
-            round.setTeams(teams);
+
+        round.setTeams(teams);
 
 
-            for (int i = 0; i < teams.size() - 1; i = i + 2) {
-                Team team1 = teams.get(i);
-                Team team2 = teams.get(i + 1);
+        for (int i = 0; i < teams.size() - 1; i = i + 2) {
+            Team team1 = teams.get(i);
+            Team team2 = teams.get(i + 1);
 
-                this.createMatchSimpleAndKnockoutAndSwiss(teamsUpdated, team1, team2, round);
-            }
-
-            phase.getRounds().add(round);
-            phase = phaseRepository.save(phase);
-            teamRepository.saveAll(teamsUpdated);
-
-            for (Round r : phase.getRounds()) {
-                results.put(r, r.getMatches());
-            }
-
-            return results;
+            this.createMatchSimpleAndKnockoutAndSwiss(teamsUpdated, team1, team2, round);
         }
+
+        phase.getRounds().add(round);
+        phase = phaseRepository.save(phase);
+        teamRepository.saveAll(teamsUpdated);
+
+        for (Round r : phase.getRounds()) {
+            results.put(r, r.getMatches());
+        }
+
+        return results;
+    }
 
     List<Team> seedingSystem(Round round, List<PhaseRankingModel>  scoresList){
 

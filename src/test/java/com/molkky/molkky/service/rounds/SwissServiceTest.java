@@ -2,12 +2,10 @@ package com.molkky.molkky.service.rounds;
 
 import com.molkky.molkky.MolkkyApplication;
 import com.molkky.molkky.domain.*;
-import com.molkky.molkky.domain.rounds.Knockout;
 import com.molkky.molkky.domain.rounds.SwissPool;
 import com.molkky.molkky.repository.*;
 import com.molkky.molkky.service.MatchService;
 import com.molkky.molkky.service.PhaseService;
-import com.molkky.molkky.service.SwissService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,7 +70,7 @@ import java.util.*;
         Assertions.assertEquals(1, tournament.getTeams().get(0).getUserTournamentRoles().size(),
                 " There should be 1 player per team ");
 
-        Assertions.assertEquals(1, results.size(), " There should be 4 rounds of swiss ");
+        Assertions.assertEquals(1, results.size(), " There should be 1 rounds of swiss ");
 
         for(Match m : tournament.getPhases().get(0).getRounds().get(0).getMatches()){
             Random rand = new Random();

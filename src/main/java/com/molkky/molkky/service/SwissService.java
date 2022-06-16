@@ -42,13 +42,13 @@ public class SwissService {
     Map<Round, List<Match>> generateRounds(SwissPool swissPool) {
 
         int indexSubRound = swissPool.getIndexSubRound();
-       if(swissPool.getNbSubRounds()>indexSubRound) {
+        if(swissPool.getNbSubRounds()>indexSubRound) {
            swissPool.setIndexSubRound(swissPool.getIndexSubRound()+1);
            swissPool = swissPoolRepository.save(swissPool);
            return roundService.generateRoundKnockoutAndSwiss(swissPool);
-       }else {
+        }else {
            return new HashMap<>();
-       }
+        }
 
     }
 

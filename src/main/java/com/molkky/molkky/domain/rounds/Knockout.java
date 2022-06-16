@@ -54,6 +54,12 @@ public class Knockout extends Phase {
         this.setTournament(tournament);
     }
 
+    public void editInfoKnockout(PhaseModel knockoutModel){
+        this.editGlobalInfo(knockoutModel);
+        this.setRandomDraw(knockoutModel.isRandomDraw());
+        this.setNotifEveryRound(knockoutModel.isNotifEveryRound());
+    }
+
     public Knockout() {
     }
 
