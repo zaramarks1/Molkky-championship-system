@@ -124,18 +124,51 @@
                 <div th:if="${#strings.equals(user.role, 'ADM')}">
                     <div class="partContainer">
                         <form action="#" th:action="@{/tournament/addStaff}" method="post" class="formContainer">
-                            <h2 class="partTitle">Ajouter Staff</h2>
+                            <h2 class="partTitle">Ajouter du staff</h2>
                             <div class="inputContainer">
-                                <label class="inputLabel">Ajout Staff</label>
+                                <label class="inputLabel">Nombre de staff à ajouter</label>
                                 <input style="margin-bottom: 10px;" class="inputStaff" id="staff-counter" name="nbStaff"
                                        th:name="staffCount" type="number" min="1">
                                 <input hidden th:value="${tournament.id}" th:name="tournamentId"/>
-                                <button id="addStaff" class="primaryButton" type="submit">Ajouter un Staff</button>
+                                <button id="addStaff" class="primaryButton" type="submit">Ajouter du staff</button>
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
+
+            <div class="partContainer">
+                <h2 class="partTitle">Terrains</h2>
+                <div id="courtContainer">
+                    <th:block th:each="court : ${tournament.getCourts()}">
+                        <div class="teamCard">
+                            <h3 class="teamName" th:text="${court.getName()}"></h3>
+                            <div class="cardContentContainer">
+                                <p class="teamLogo"></p>
+                                <ul class="roundsList">
+                                    <li class="teamMember" th:text="${court.getName()}"></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </th:block>
+                </div>
+
+                <div th:if=" ${user} != null">
+                    <div th:if="${#strings.equals(user.role, 'ADM')}">
+                        <div class="partContainer">
+                            <form action="#" th:action="@{/tournament/addCourt}" method="post" class="formContainer">
+                                <h2 class="partTitle">Ajouter un terrain</h2>
+                                <div class="inputContainer">
+                                    <label class="inputLabel">Nombre de terrains</label>
+                                    <input style="margin-bottom: 10px;" class="inputStaff" id="court-counter"
+                                           th:name="courtCount" type="number" min="1">
+                                    <input hidden th:value="${tournament.id}" th:name="tournamentId"/>
+                                    <button id="addCourt" class="primaryButton" type="submit">Ajouter des terrains</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
         </div>
 
         <div class="partContainer">
