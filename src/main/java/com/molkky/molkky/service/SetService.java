@@ -83,7 +83,7 @@ public class SetService {
 
             for(Set s: match.getSets()){
                 scoreTeam1 += s.getScore1Orga();
-                scoreTeam2 +=s.getScore2Orga();
+                scoreTeam2 += s.getScore2Orga();
             }
 
             if(scoreTeam1 >= scoreTeam2){
@@ -101,8 +101,10 @@ public class SetService {
 
         if(Boolean.FALSE.equals(isSetFinished(setEntity,user))){
             Team oppositeTeam = matchService.getOppositeTeam(MatchService.getMatchModelFromEntity(setEntity.getMatch()), user);
-            UserTournamentRole userRole = userTournamentRoleRepository.findByTeamAndTournament(oppositeTeam,oppositeTeam.getTournament());
-            this.timerNotificationEnterScore(userRole,setEntity);
+            List<UserTournamentRole> userRoles = userTournamentRoleRepository.findByTeamAndTournament(oppositeTeam,oppositeTeam.getTournament());
+            for (UserTournamentRole userRole:userRoles){
+                this.timerNotificationEnterScore(userRole,setEntity);
+            }
         }
     }
 
