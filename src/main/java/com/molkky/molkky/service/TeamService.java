@@ -84,14 +84,9 @@ public class TeamService {
             userTournamentRole.setTeam(team);
             userTournamentRole.setRole(UserRole.PLAYER);
             userTournamentRoles.add(userTournamentRole);
-
-
-
         }
 
-
         userTournamentRoleRepository.saveAll(userTournamentRoles);
-
 
         return team;
     }
