@@ -140,6 +140,7 @@ ul.roundsList {
 .cardContentContainer {
     padding: 5px;
     display: flex;
+    margin-inline: 10px;
     flex-direction: row;
     align-items: center;
     justify-content: center;
@@ -147,7 +148,7 @@ ul.roundsList {
 .teamLogo {
     height: 60px;
     width: 60px;
-    margin-right: 12px;
+    margin-right: 10px;
     margin-bottom: 15px;
 }
 
