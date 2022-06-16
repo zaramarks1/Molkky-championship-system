@@ -66,7 +66,8 @@ public class PoolService {
             int count =0;
             for(Team t : teams){
                 t.getRounds().add( rounds.get(count));
-                rounds.get(count).getTeamsByClub().add(t);
+                if (pool.getAvoidConfrontationClub())rounds.get(count).getTeamsByClub().add(t);
+                else rounds.get(count).getTeams().add(t);
                 count++;
 
                 if(count == nbPool ){
