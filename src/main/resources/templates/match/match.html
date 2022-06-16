@@ -43,7 +43,7 @@
                     <div class="bestOfText" th:text="'Jeu en ' + ${sets.size} + ' sets'">
                         Best of placeholder
                     </div>
-                    <div class="staffText" th:text="'Staff attribué : '+${staff.getEmail()}">
+                    <div class="staffText" th:text="'Staff attribué : '+${staff != null ? staff.getEmail() : 'Aucun'}">
                         Staff attribué
                     </div>
                     <div class="stateContainer">

@@ -92,7 +92,6 @@ public class MatchService {
         matchModel.setId(match.getId());
         matchModel.setFinished(match.getFinished());
         matchModel.setNbSets(match.getNbSets());
-        matchModel.setIdStaff(match.getStaff().getId());
         return matchModel;
     }
 

@@ -13,5 +13,4 @@ public class MatchModel {
     private Integer nbSets;
     private Team winner;
     private Round round;
-    private Integer idStaff;
 }
