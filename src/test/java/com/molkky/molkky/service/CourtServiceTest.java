@@ -1,17 +1,25 @@
 package com.molkky.molkky.service;
 
-import org.junit.jupiter.api.Assertions;
+import com.molkky.molkky.model.CourtModel;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import javax.validation.constraints.AssertTrue;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 @SpringBootTest
 class CourtServiceTest {
+
+    @Autowired
+    private CourtService courtService;
+
+    @MockBean
+    private CourtModel courtModel;
+
     @Test
-    void getAvailableCourtsTest(){
+    void testFunctions(){
 //        given
-        boolean value = true;
-        Assertions.assertTrue( value, "fake test");
+        courtService.getAvailableCourts();
+        courtService.getCourtFromModel(courtModel);
+
     }
 }
