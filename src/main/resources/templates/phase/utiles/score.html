@@ -4,7 +4,7 @@
 <body>
     <div class="inputContainer">
         <label class ="inputLabel" for="scoreMode">Gestion des scores</label>
-        <select required id="scoreMode" th:field="*{phases[__${itemStat.index}__].scoreMode}">
+        <select required class = "selectInputContainer" id="scoreMode" th:field="*{phases[__${itemStat.index}__].scoreMode}">
             <option th:each="scoreOpt : ${T(type.ScoreMode).values()}"
                     th:value="${scoreOpt}"
                     th:text="${scoreOpt}"

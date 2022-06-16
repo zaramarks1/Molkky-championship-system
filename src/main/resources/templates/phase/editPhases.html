@@ -19,7 +19,7 @@
                 <input hidden th:field="*{phases[__${itemStat.index}__].phaseType}" th:value="${phase.phaseType}">
                 <div th:insert="phase/utiles/courtAndPlanning"></div>
                 <div class="inputContainer">
-                    <label class="inputLabel" for="randomStaff">Attribuer des matches aux staff de façon aléatoire </label>
+                    <label class="inputLabel" for="randomStaff">Attribuer des matchs aux staff de façon aléatoire </label>
                     <input class="inputPhase" id="randomStaff" type="checkbox" th:field="*{phases[__${itemStat.index}__].randomStaff}">
                 </div>
                 <div th:switch="${phase.phaseType}">
