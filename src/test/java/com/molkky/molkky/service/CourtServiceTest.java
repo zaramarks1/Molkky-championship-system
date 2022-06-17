@@ -6,7 +6,6 @@ import com.molkky.molkky.model.CourtModel;
 import com.molkky.molkky.repository.CourtRepository;
 import com.molkky.molkky.repository.TournamentRepository;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -39,8 +38,8 @@ class CourtServiceTest {
         Tournament tournament = new Tournament();
         List<Court> courts = List.of(new Court(), new Court());
         when(courtRepository.findByTournamentAndAvailable(any(Tournament.class), anyBoolean())).thenReturn(courts);
-        List<Court> f1 = courtService.getAvailableCourts(tournament);
-        Court f2 = courtService.getCourtFromModel(courtModel);
+        courtService.getAvailableCourts(tournament);
+        courtService.getCourtFromModel(courtModel);
 
         Mockito.verify(courtRepository, Mockito.times(1)).findByTournamentAndAvailable(any(Tournament.class), anyBoolean());
         Mockito.verify(courtRepository, Mockito.times(1)).findById(Mockito.anyInt());
