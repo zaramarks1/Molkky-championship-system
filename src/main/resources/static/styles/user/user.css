@@ -18,6 +18,10 @@
     color: black;
 }
 
+.contentText {
+    margin-bottom: 25px;
+}
+
 .cardContainer {
     display: flex;
     flex-direction: row;

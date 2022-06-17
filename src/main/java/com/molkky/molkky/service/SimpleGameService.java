@@ -88,7 +88,7 @@ public class SimpleGameService {
             Team t = scoresList.get(i).getTeam();
             String message ;
             if(t.isEliminated()){
-                message = "Ton équipe a fini "+(i+1)+" et malheureuseusement été disqualifiée pendant la phase partie simple";
+                message = "Ton équipe a fini "+(i+1)+" et est malheureuseusement éliminée la phase partie simple";
             }else{
                 message = " Félicitations! Ton équipe a fini "+(i+1)+" et est qualifiée pour la prochaine phase";
             }

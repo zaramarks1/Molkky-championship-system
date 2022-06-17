@@ -67,7 +67,7 @@ public class KnockoutService {
         for (Team t : teams) {
             String message;
             if (t.isEliminated()) {
-                message = "Ton équipe a malheureuseusement été disqualifiée dans la phase de tableau éliminatoire";
+                message = "Ton équipe a malheureuseusement été éliminée de la phase de tableau éliminatoire";
             } else {
                 message = " Felicitations! Ton équipe est qualifiée pour la prochaine phase de tableau éliminatoire";
             }

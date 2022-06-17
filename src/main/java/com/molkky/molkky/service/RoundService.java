@@ -338,7 +338,7 @@ public class RoundService {
             int qtdStaff = staffUsers.size();
 
             for (Match m : matches){
-                m.setUser(staffUsers.get(rand.nextInt(qtdStaff)));
+                m.setStaff(staffUsers.get(rand.nextInt(qtdStaff)));
             }
         }
 

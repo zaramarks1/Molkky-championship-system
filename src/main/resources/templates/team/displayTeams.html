@@ -20,26 +20,24 @@
                 </button>
             </form>
             <div class="cardContainer">
-            <ul th:each="team: ${teams}" class="cardTeam" th:href="@{'/team/view?teamId='+${team.id}}">
-                <li class="clickableCard" th:onclick="'window.location.href=\'/team/view?teamId=' + ${team.id} + '\''">
-                <div class="teamHeader">
-                    <div class="teamName">
-                        <p th:text="${team.getName()}"></p>
+                <a th:each="team: ${teams}" class="cardTeam" th:href="@{'/team/view?teamId='+${team.id}}">
+                    <div class="teamHeader">
+                        <div class="teamName">
+                            <p th:text="${team.getName()}"></p>
+                        </div>
                     </div>
-                </div>
-                <div class="cardContentContainer">
-                    <img class="teamLogo" th:src="@{/assets/teams.svg}" alt="Team icon"/>
-                    <ul class="roundsList">
-                        <th:block th:if="${team.getUserTournamentRoles().isEmpty()}">
-                            <li class="teamMember">Vide</li>
-                        </th:block>
-                        <th:block th:each="team : ${team.getUserTournamentRoles()}">
-                            <li class="teamMember" th:text="${team.getUser().getForename()}"></li>
-                        </th:block>
-                    </ul>
-                </div>
-                </li>
-            </ul>
+                    <div class="cardContentContainer">
+                        <img class="teamLogo" th:src="@{/assets/teams.svg}" alt="Team icon"/>
+                        <div class="roundsList">
+                            <th:block th:if="${team.getUserTournamentRoles().isEmpty()}">
+                                <li class="teamMember">Vide</li>
+                            </th:block>
+                            <th:block th:each="team : ${team.getUserTournamentRoles()}">
+                                <li class="teamMember" th:text="${team.getUser().getForename()}"></li>
+                            </th:block>
+                        </div>
+                    </div>
+                </a>
             </div>
 
         </div>

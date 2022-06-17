@@ -140,6 +140,10 @@
 .sidebarButtonContent {
     margin-left: 17px;
     bottom: -0.46%;
+    text-align: left;
+    line-height: 18px;
+    font-size: 14px;
+    font-weight: 600;
 }
 
 .searchbarContainer {

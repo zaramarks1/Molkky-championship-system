@@ -27,13 +27,13 @@ public class Match implements Serializable {
 
     @ManyToOne(optional = true)
     @JoinColumn(name="idStaff")
-    private User user;
+    private User staff;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = Court.class)
     @JoinColumn(name = "idCourt")
     private Court court;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "match_team",
             joinColumns = @JoinColumn(name = "match_id"),

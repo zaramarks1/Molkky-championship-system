@@ -86,7 +86,6 @@ public class PoolService {
                       Team team2 = r.getTeams().get(j);
                       Match match = new Match();
                       match.setRound(r);
-                      matchService.giveRandomCourtToMatch(match);
                       match.getTeams().add(team1);
                       match.getTeams().add(team2);
 

@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import type.PhaseType;
 import type.SetTeamIndex;
+import type.UserRole;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,7 +51,7 @@ public class MatchService {
     private KnockoutService knockoutService;
 
     public void giveRandomCourtToMatch(Match match){
-        List<Court> availableCourts = courtRepository.findByAvailable(true);
+        List<Court> availableCourts = courtRepository.findByTournamentAndAvailable(match.getRound().getTournament(), true);
         if(availableCourts.isEmpty()) return;
         Court court = availableCourts.get(0);
         court.setAvailable(false);
@@ -61,13 +62,13 @@ public class MatchService {
 
     public SetTeamIndex getUserTeamIndex(MatchModel match, UserTournamentRoleModel user) {
         Match matchEntity = getMatchFromModel(match);
-
-        for(UserTournamentRole u : matchEntity.getTeams().get(0).getUserTournamentRoles()) {
+        List<Team> matchTeams = matchEntity.getTeams();
+        for(UserTournamentRole u : matchTeams.get(0).getUserTournamentRoles()) {
             if(Objects.equals(u.getId(), user.getId())) {
                 return SetTeamIndex.TEAM1;
             }
         }
-        for(UserTournamentRole u : matchEntity.getTeams().get(1).getUserTournamentRoles()) {
+        for(UserTournamentRole u : matchTeams.get(1).getUserTournamentRoles()) {
             if(Objects.equals(u.getId(), user.getId())) {
                 return SetTeamIndex.TEAM2;
             }
@@ -111,9 +112,14 @@ public class MatchService {
 
     public static List<MatchModel> createMatchModels(List<Match> matches) {
         List<MatchModel> matchModels = new ArrayList<>();
+        User user = new User();
+        UserTournamentRole userTournamentRole = new UserTournamentRole();
+        userTournamentRole.setUser(user);
+        userTournamentRole.setRole(UserRole.STAFF);
         if (matches != null) {
             for (Match match : matches) {
                 if(match.getId() != null) {
+                    match.setStaff(user);
                     matchModels.add(getMatchModelFromEntity(match));
                 }
             }

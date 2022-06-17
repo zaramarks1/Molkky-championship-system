@@ -7,11 +7,22 @@
 }
 
 .inputContainer {
+
     margin-top: 15px;
     display: flex;
     flex-direction: column;
     align-items: start;
     justify-content: start;
+}
+
+.selectInputContainer{
+    width: 160px;
+    height: 48px;
+    border-radius: 4px;
+    border: 0;
+    background-color: #F8FAFC;
+    padding: 10px;
+    box-shadow: 0 0 7px #c4c4c4;
 }
 
 .inputHiddenContainer {
@@ -28,7 +39,7 @@
 }
 
 .inputPhase {
-    width: 460px;
+    width: -webkit-fill-available;
     height: 48px;
     border-radius: 4px;
     border: 0;
