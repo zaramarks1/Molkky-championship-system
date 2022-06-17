@@ -40,17 +40,17 @@ public class RoundService {
 
     private final SecureRandom rand = new SecureRandom();
 
-    public List<PhaseRankingModel> orderTeamsByScoreInRound(Round round, int victoryValue){
+    public List<PhaseRankingModel> orderTeamsByScoreInRound(Round round, int victoryValue) {
         Map<Integer, PhaseRankingModel> scores = new HashMap<>();
         List<PhaseRankingModel> scoresList = new ArrayList<>();
 
-        for(Team t : round.getTeams()){
+        for (Team t : round.getTeams()) {
             PhaseRankingModel phaseRankingModel = new PhaseRankingModel();
             phaseRankingModel.setTeam(t);
             scores.put(t.getId(), phaseRankingModel);
         }
 
-        for(Match m : round.getMatches()){
+        for (Match m : round.getMatches()) {
             Team team1 = m.getTeams().get(0);
             Team team2 = m.getTeams().get(1);
 
@@ -61,11 +61,11 @@ public class RoundService {
             phaseRankingModel2.setTeam(team2);
             phaseRankingModel2.setTotalPoints(phaseRankingModel2.getTotalPoints() + m.getScoreTeam2());
 
-            for(Team t : m.getTeams()){
-                if(m.getWinner()!= null){
-                    if(t.getId().equals(team1.getId()) && t.getId().equals(m.getWinner().getId())){
+            for (Team t : m.getTeams()) {
+                if (m.getWinner() != null) {
+                    if (t.getId().equals(team1.getId()) && t.getId().equals(m.getWinner().getId())) {
                         phaseRankingModel1.setValues(phaseRankingModel1.getValues() + victoryValue);
-                    }else  if(t.getId().equals(team2.getId()) && t.getId().equals(m.getWinner().getId())){
+                    } else if (t.getId().equals(team2.getId()) && t.getId().equals(m.getWinner().getId())) {
                         phaseRankingModel2.setValues(phaseRankingModel2.getValues() + victoryValue);
                     }
                 }
@@ -76,7 +76,7 @@ public class RoundService {
             scores.put(team2.getId(), phaseRankingModel2);
         }
 
-        for(Map.Entry<Integer, PhaseRankingModel> entry : scores.entrySet()){
+        for (Map.Entry<Integer, PhaseRankingModel> entry : scores.entrySet()) {
 
             Team team = teamRepository.findById(entry.getKey());
             PhaseRankingModel phaseRankingModel = scores.get(team.getId());
@@ -94,17 +94,17 @@ public class RoundService {
 
     }
 
-    public List<PhaseRankingModel> orderTeamsByScoreInPhase(Phase phase, int victoryValue){
+    public List<PhaseRankingModel> orderTeamsByScoreInPhase(Phase phase, int victoryValue) {
         List<PhaseRankingModel> scoresList = new ArrayList<>();
 
-        for(Round round : phase.getRounds()){
-            scoresList.addAll(orderTeamsByScoreInRound( round, victoryValue));
+        for (Round round : phase.getRounds()) {
+            scoresList.addAll(orderTeamsByScoreInRound(round, victoryValue));
         }
 
-        if(phase instanceof SwissPool || phase instanceof Knockout){
+        if (phase instanceof SwissPool || phase instanceof Knockout) {
 
             Map<Team, PhaseRankingModel> map = new HashMap<>();
-            for(PhaseRankingModel p : scoresList){
+            for (PhaseRankingModel p : scoresList) {
                 map.merge(p.getTeam(), p, (oldValue, newValue) -> new PhaseRankingModel(p.getTeam(),
                         oldValue.getTotalPoints() + newValue.getTotalPoints(),
                         oldValue.getValues() + newValue.getValues()));
@@ -117,7 +117,7 @@ public class RoundService {
                     .reversed());
 
             return scoresListNew;
-        }else{
+        } else {
             scoresList.sort(Comparator
                     .comparing(PhaseRankingModel::getValues)
                     .thenComparing(PhaseRankingModel::getTotalPoints)
@@ -127,13 +127,13 @@ public class RoundService {
 
     }
 
-    public List<Match> createSetsFromMatch(List<Match> matches){
+    public List<Match> createSetsFromMatch(List<Match> matches) {
         int nbSets = matches.get(0).getRound().getPhase().getNbSets();
-        List<Match> results  = new ArrayList<>();
+        List<Match> results = new ArrayList<>();
 
-        for(Match m : matches){
+        for (Match m : matches) {
             List<com.molkky.molkky.domain.Set> sets = new ArrayList<>();
-            for(int i =0; i <nbSets; i++){
+            for (int i = 0; i < nbSets; i++) {
                 Set set = new Set();
                 set.setTeams(m.getTeams());
                 set.setMatch(m);
@@ -146,8 +146,7 @@ public class RoundService {
     }
 
 
-
-    List<Team> getTeamsSorted(Phase phase){
+    List<Team> getTeamsSorted(Phase phase) {
 
         List<Team> teamsOld = phase.getTournament().getTeams();
         List<Team> teams;
@@ -156,25 +155,25 @@ public class RoundService {
                 .filter(team -> !team.isEliminated())
                 .collect(Collectors.toList());
 
-        if(Boolean.TRUE.equals(phase.getRanking()) ) {
+        if (Boolean.TRUE.equals(phase.getRanking())) {
             teams.sort(Comparator
-                    .comparing(Team :: getNbPoints)
+                    .comparing(Team::getNbPoints)
                     .reversed());
         }
 
         //changer pour eviter affrontation d'un meme club
-        if(Boolean.TRUE.equals(phase.getAvoidConfrontationClub())){
-          teams = sortByClub(teams);
+        if (Boolean.TRUE.equals(phase.getAvoidConfrontationClub())) {
+            teams = sortByClub(teams);
         }
 
         return teams;
     }
 
-    public List<Team> sortByClub(List<Team> teams){
+    public List<Team> sortByClub(List<Team> teams) {
         Map<Club, Integer> clubs = new HashMap<>();
 
-        for(Team t : teams){
-            clubs.merge(t.getClub(), 1, (oldValue, newValue) ->oldValue + newValue);
+        for (Team t : teams) {
+            clubs.merge(t.getClub(), 1, (oldValue, newValue) -> oldValue + newValue);
         }
 
         List<Team> teamsClub = new ArrayList<>();
@@ -186,18 +185,18 @@ public class RoundService {
             Team t1 = teams.get(idTeam1);
             Team t2 = teams.get(idTeam2);
 
-            if(!t1.getClub().equals(t2.getClub())){
+            if (!t1.getClub().equals(t2.getClub())) {
                 teamsClub.addAll(List.of(t1, t2));
                 teams.remove(t1);
                 teams.remove(t2);
 
-                clubs.put(t1.getClub(), clubs.get(t1.getClub())-1);
-                clubs.put(t2.getClub(), clubs.get(t2.getClub())-1);
+                clubs.put(t1.getClub(), clubs.get(t1.getClub()) - 1);
+                clubs.put(t2.getClub(), clubs.get(t2.getClub()) - 1);
 
-                if(clubs.get(t1.getClub())== 0) clubs.remove(t1.getClub());
-                if(clubs.get(t2.getClub()) == 0) clubs.remove(t2.getClub());
+                if (clubs.get(t1.getClub()) == 0) clubs.remove(t1.getClub());
+                if (clubs.get(t2.getClub()) == 0) clubs.remove(t2.getClub());
 
-                if(clubs.size() <= 1) {
+                if (clubs.size() <= 1) {
                     finished = true;
 
                     teamsClub.addAll(teams);
@@ -205,12 +204,12 @@ public class RoundService {
                 }
 
             }
-        }while(!finished);
+        } while (!finished);
 
         return teamsClub;
     }
 
-    public  void createMatchSimpleAndKnockoutAndSwiss(List<Team> teamsUpdated, Team team1, Team team2, Round round) {
+    public void createMatchSimpleAndKnockoutAndSwiss(List<Team> teamsUpdated, Team team1, Team team2, Round round) {
         Match match = new Match();
         match.setRound(round);
         match.setTeams(List.of(team1, team2));
@@ -230,9 +229,8 @@ public class RoundService {
         round.getMatches().addAll(this.createSetsFromMatch(List.of(match)));
 
 
-
     }
-    
+
     public Map<Round, List<Match>> generateRoundKnockoutAndSwiss(Phase phase) {
 
         Map<Round, List<Match>> results = new HashMap<>();
@@ -245,7 +243,7 @@ public class RoundService {
         Round round = new Round();
         if (phase instanceof Knockout) {
 
-            phase.setNbTeamsQualified(teams.size()/2);
+            phase.setNbTeamsQualified(teams.size() / 2);
             round.setPhase(phase);
             round.setType(PhaseType.KNOCKOUT);
 
@@ -286,41 +284,41 @@ public class RoundService {
         return results;
     }
 
-    List<Team> seedingSystem(Round round, List<PhaseRankingModel>  scoresList){
+    List<Team> seedingSystem(Round round, List<PhaseRankingModel> scoresList) {
 
         List<Team> teams = new ArrayList<>();
 
-            for (PhaseRankingModel p : scoresList) {
-                Team team = p.getTeam();
+        for (PhaseRankingModel p : scoresList) {
+            Team team = p.getTeam();
 
-                if(Boolean.TRUE.equals(round.getPhase().getSeedingSystem())) {
-                    team.setNbPoints(team.getNbPoints() + p.getTotalPoints());
-                }
-
-                teams.add(team);
+            if (Boolean.TRUE.equals(round.getPhase().getSeedingSystem())) {
+                team.setNbPoints(team.getNbPoints() + p.getTotalPoints());
             }
+
+            teams.add(team);
+        }
 
         return teamRepository.saveAll(teams);
     }
 
-    public boolean isPhaseOver(Phase phase, List<PhaseRankingModel>  scoresList){
+    public boolean isPhaseOver(Phase phase, List<PhaseRankingModel> scoresList) {
 
         boolean response = true;
-        for(Round r: phase.getRounds()){
+        for (Round r : phase.getRounds()) {
 
-            if(Boolean.FALSE.equals(r.getFinished())) return false;
+            if (Boolean.FALSE.equals(r.getFinished())) return false;
         }
 
-        if (phase instanceof Knockout){
+        if (phase instanceof Knockout) {
             List<Team> teams = phase.getTournament().getTeams().stream()
                     .filter(team -> !team.isEliminated())
                     .collect(Collectors.toList());
-            if(teams.size() == 1) {
+            if (teams.size() == 1) {
                 phase.setFinished(true);
                 phaseRepository.save(phase);
 
-            }else return false;
-        }else if (phase instanceof SwissPool) {
+            } else return false;
+        } else if (phase instanceof SwissPool) {
             SwissPool s = (SwissPool) phase;
             if (Objects.equals(s.getIndexSubRound(), s.getNbSubRounds())) {
                 phaseOverAction(phase, scoresList);
@@ -328,12 +326,12 @@ public class RoundService {
                 phaseRepository.save(phase);
 
             } else return false;
-            }else if (phase instanceof SimpleGame){
-                phaseOverAction(phase, scoresList);
-                phase.setFinished(true);
-                phaseRepository.save(phase);
+        } else if (phase instanceof SimpleGame) {
+            phaseOverAction(phase, scoresList);
+            phase.setFinished(true);
+            phaseRepository.save(phase);
 
-        }else{
+        } else {
             phase.setFinished(true);
             phaseRepository.save(phase);
         }
@@ -344,21 +342,21 @@ public class RoundService {
 
     }
 
-    public void  phaseOverAction(Phase phase, List<PhaseRankingModel>  scoresList){
+    public void phaseOverAction(Phase phase, List<PhaseRankingModel> scoresList) {
 
         List<Team> teams = new ArrayList<>();
         int nbEliminated = phase.getNbTeamsQualified();
 
-        for(int i = nbEliminated; i < scoresList.size();i++){
+        for (int i = nbEliminated; i < scoresList.size(); i++) {
             scoresList.get(i).getTeam().setEliminated(true);
         }
-            teamRepository.saveAll(teams);
+        teamRepository.saveAll(teams);
 
     }
 
-    public boolean isTournamentOver(Tournament tournament){
-        for(Phase p: tournament.getPhases()){
-            if(Boolean.FALSE.equals(p.getFinished())) return false;
+    public boolean isTournamentOver(Tournament tournament) {
+        for (Phase p : tournament.getPhases()) {
+            if (Boolean.FALSE.equals(p.getFinished())) return false;
         }
         tournament.setStatus(TournamentStatus.ENDED);
         tournament.setFinished(true);
@@ -367,10 +365,10 @@ public class RoundService {
         return true;
     }
 
-    public void assignRandomStaffToMatch(List<Match> matches, Phase phase){
+    public void assignRandomStaffToMatch(List<Match> matches, Phase phase) {
 
 
-        if(Boolean.TRUE.equals(phase.getRandomStaff())){
+        if (Boolean.TRUE.equals(phase.getRandomStaff())) {
 
             List<UserTournamentRole> users = phase.getTournament().getUserTournamentRoles();
             List<UserTournamentRole> staffs;
@@ -379,24 +377,19 @@ public class RoundService {
                     .collect(Collectors.toList());
             List<User> staffUsers = new ArrayList<>();
 
-            if(!staffs.isEmpty()){
-                for(UserTournamentRole u : staffs) staffUsers.add(u.getUser());
+            if (!staffs.isEmpty()) {
+                for (UserTournamentRole u : staffs) staffUsers.add(u.getUser());
 
                 int qtdStaff = staffUsers.size();
 
-                for (Match m : matches){
-                    m.setUser(staffUsers.get(rand.nextInt(qtdStaff)));
+                for (Match m : matches) {
+                    m.setStaff(staffUsers.get(rand.nextInt(qtdStaff)));
                 }
+
             }
 
         }
-
     }
-
-
-
-
-
-    }
+}
 
 

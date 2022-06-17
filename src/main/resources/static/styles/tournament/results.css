@@ -10,3 +10,19 @@
     background: #C4C4C4;
 }
 
+.partTitle {
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+    margin-bottom: 10px;
+}
+
+p {
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 16px;
+    text-align: justify;
+}
+

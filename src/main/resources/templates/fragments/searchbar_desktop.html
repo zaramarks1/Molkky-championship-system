@@ -9,7 +9,7 @@
     <div class="searchbarButtonContainer">
         <div class="notificationContainer" th:if="${session.user != null}">
             <div class="notificationButton" onclick="toggleNotifications()">
-                <img class="notificationButtonIcon" th:src="@{/assets/notification.svg}"/>
+                <img class="notificationButtonIcon" th:src="@{/assets/notification.svg}" alt="Icône de notifications"/>
             </div>
             <div id="unreadCount" class="notificationLabel" onclick="toggleNotifications()" th:unless="${unreadCount == 0}" th:text="${unreadCount}"></div>
             <div th:replace="fragments/notificationList"></div>

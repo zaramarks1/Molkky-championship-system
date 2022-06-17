@@ -16,12 +16,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
-import type.PhaseType;
 import type.TournamentStatus;
 import type.UserRole;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -75,7 +73,7 @@ import java.util.Map;
         tournament = tournamentRepository.findById(tournament.getId());
         for (Round r : tournament.getPhases().get(0).getRounds()) {
             for (Match m : r.getMatches()) {
-                Assertions.assertNotNull(m.getUser(), "there should be a staff assign");
+                Assertions.assertNotNull(m.getStaff(), "there should be a staff assign");
             }
         }
     }
@@ -98,7 +96,7 @@ import java.util.Map;
             tournament = tournamentRepository.findById(tournament.getId());
             for(Round r : tournament.getPhases().get(0).getRounds()){
                 for(Match m : r.getMatches()){
-                    Assertions.assertNotNull(m.getUser(), "there should be a staff assign");
+                    Assertions.assertNotNull(m.getStaff(), "there should be a staff assign");
                 }
             }
 
@@ -122,7 +120,7 @@ import java.util.Map;
         tournament = tournamentRepository.findById(tournament.getId());
         for(Round r : tournament.getPhases().get(0).getRounds()){
             for(Match m : r.getMatches()){
-                Assertions.assertNotNull(m.getUser(), "there should be a staff assign");
+                Assertions.assertNotNull(m.getStaff(), "there should be a staff assign");
             }
         }
 
@@ -147,7 +145,7 @@ import java.util.Map;
         tournament = tournamentRepository.findById(tournament.getId());
         for(Round r : tournament.getPhases().get(0).getRounds()){
             for(Match m : r.getMatches()){
-                Assertions.assertNotNull(m.getUser(), "there should be a staff assign");
+                Assertions.assertNotNull(m.getStaff(), "there should be a staff assign");
             }
         }
 

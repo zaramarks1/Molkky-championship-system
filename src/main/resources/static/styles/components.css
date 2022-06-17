@@ -18,6 +18,7 @@
     transition: background-color,box-shadow, color;
     transition-duration: .2s;
     transition-timing-function: ease-in-out;
+    text-decoration: none;
 }
 
 @media only screen and (max-width: 1000px) {

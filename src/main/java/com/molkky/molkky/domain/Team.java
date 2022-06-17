@@ -32,7 +32,7 @@ public class Team implements Serializable {
     @ManyToMany(mappedBy = "teams")
     private List<Round> rounds;
 
-    @OneToMany(mappedBy="team",fetch = FetchType.EAGER)
+    @OneToMany(mappedBy="team",fetch = FetchType.LAZY)
     private List<UserTournamentRole> userTournamentRoles;
 
     @ManyToOne

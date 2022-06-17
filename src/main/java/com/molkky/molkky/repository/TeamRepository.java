@@ -21,6 +21,7 @@ public interface TeamRepository extends JpaRepository<Team, String>, JpaSpecific
 
     List<Team> findTeamByName(String teamName);
     Boolean existsTeamByName(String teamName);
+    Boolean existsByCode(String code);
     @Query(value="SELECT t.name FROM Team t")
     List<String> findTeamsName();
 

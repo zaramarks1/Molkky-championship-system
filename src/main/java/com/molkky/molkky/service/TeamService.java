@@ -44,7 +44,7 @@ public class TeamService {
         teamCreate.setName(team.getName());
         teamCreate.setTournament(tournament);
 
-        teamCreate.setCode(createCode(5));
+        teamCreate.setCode(createTeamCode(5));
 
         Club c;
         if (team.getOption().equals("oldClub")) {
@@ -59,6 +59,14 @@ public class TeamService {
         teamCreate.setClub(c);
         return teamRepository.save(teamCreate);
 
+    }
+
+    public String createTeamCode(int n){
+        String code = "";
+        do {
+            code = createCode(n);
+        } while(Boolean.TRUE.equals(teamRepository.existsByCode(code)));
+        return code;
     }
 
     public Team addPlayers(AddPlayerlistModel addPlayerlistModel){

@@ -90,8 +90,7 @@ class MatchControllerTest {
 
         when(matchService.getUserTeamIndex(any(MatchModel.class), any(UserTournamentRoleModel.class))).thenReturn(SetTeamIndex.TEAM1);
 
-        this.mockMvc.perform(get("/matches/match?match_id=1").sessionAttr("user", userLogged)
-                        .sessionAttr("user",userLogged))
+        this.mockMvc.perform(get("/matches/match?match_id=1").sessionAttr("user",userLogged))
                 .andExpect(status().isOk())
                 .andExpect(model().attribute("match", MatchService.getMatchModelFromEntity(match)))
                 .andExpect(model().attribute("teams", TeamModel.createTeamModels(match.getTeams())))
@@ -298,6 +297,11 @@ class MatchControllerTest {
     Match createMatch() {
         Match match = new Match();
         Court court = new Court();
+        User user = new User();
+        UserTournamentRole userTournamentRole = new UserTournamentRole();
+        userTournamentRole.setUser(user);
+        userTournamentRole.setRole(UserRole.STAFF);
+        match.setStaff(user);
         court.setName("court");
         match.setCourt(court);
         Team team1 = new Team();
