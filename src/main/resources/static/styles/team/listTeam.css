@@ -5,6 +5,7 @@
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
+
 }
 
 .cardTeam{
@@ -46,12 +47,12 @@
 .teamHeader{
     display: flex;
     flex-direction: row;
-    justify-content: center;
     align-items: center;
     width: -moz-available;          /* WebKit-based browsers will ignore this. */
     width: -webkit-fill-available;  /* Mozilla-based browsers will ignore this. */
     width: fill-available;
     height: 2em;
+    padding: 5px 5px;
     background: #5B5A58;
     border-top-left-radius: 7px;
     border-top-right-radius: 7px;
@@ -75,21 +76,14 @@
 }
 
 .teamName{
-    margin-left: 10px;
-    width: 236px;
-    height: auto;
-    font-style: normal;
-    font-weight: 600;
-    font-size: 20px;
-    line-height: 24px;
-    display: flex;
-    align-items: center;
-    letter-spacing: 0.2px;
-    color: #FFFFFF;
-    flex: none;
-    order: 0;
-    align-self: stretch;
-    flex-grow: 1;
+    color: white;
+    font-weight: bold;
+    margin: 0;
+    padding: 5px 5px;
+    font-size: 16px;
+    border-top-right-radius: 7px;
+    border-top-left-radius: 7px;
+    text-transform: uppercase;
 }
 
 .partTitle {
@@ -127,16 +121,7 @@ ul.roundsList {
     display: flex;
     flex-direction: row;
 }
-.teamName {
-    background-color:#5B5A58;
-    color: white;
-    font-weight: bold;
-    margin: 0;
-    padding: 5px 5px;
-    border-top-right-radius: 7px;
-    border-top-left-radius: 7px;
-    text-transform: uppercase;
-}
+
 
 .cardContentContainer {
     padding: 5px;
@@ -144,13 +129,18 @@ ul.roundsList {
     margin-inline: 10px;
     flex-direction: row;
     align-items: center;
-    justify-content: center;
+    justify-content: space-around;
+    width: -webkit-fill-available;
 }
 .teamLogo {
     height: 60px;
     width: 60px;
     margin-right: 10px;
     margin-bottom: 15px;
+}
+
+li.teamMember{
+    list-style: none;
 }
 
 .tb {

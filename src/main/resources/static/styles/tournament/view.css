@@ -39,6 +39,10 @@ p{
 ul.roundsList {
     list-style: none;
 }
+
+li.teamMember{
+    list-style: none;
+}
 .dir {
     display: flex;
     justify-content: left;
@@ -78,6 +82,7 @@ ul.roundsList {
     background-color: forestgreen;
     color: white;
     font-weight: bold;
+    font-size: 16px;
     margin: 0;
     padding: 5px 5px;
     border-top-right-radius: 7px;
@@ -90,7 +95,7 @@ ul.roundsList {
     color: white;
     font-weight: bold;
     margin: 0;
-    font-size: 17px;
+    font-size: 16px;
     padding: 5px 5px;
     border-top-right-radius: 7px;
     border-top-left-radius: 7px;

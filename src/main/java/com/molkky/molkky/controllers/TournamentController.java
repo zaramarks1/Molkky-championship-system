@@ -185,6 +185,7 @@ public class TournamentController extends DefaultAttributes {
         Tournament tournament = tournamentRepository.findById(Integer.valueOf(tournamentId));
 
         tournament.setVisible(true);
+        tournament.setRegisterAvailable(true);
         tournamentRepository.save(tournament);
 
         model.addAttribute("tournament_id", tournamentId);
@@ -197,7 +198,6 @@ public class TournamentController extends DefaultAttributes {
     public String publishTournament(Model model,@RequestParam(name="tournamentId") String tournamentId ){
 
         Tournament tournament = tournamentRepository.findById(Integer.valueOf(tournamentId));
-
         tournament.setStatus(TournamentStatus.INPROGRESS);
         tournament.setIndexPhase(1);
         tournament.setRegisterAvailable(false);
