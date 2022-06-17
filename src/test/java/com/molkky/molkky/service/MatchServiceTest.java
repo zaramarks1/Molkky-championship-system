@@ -55,10 +55,17 @@ class MatchServiceTest {
     @Test
     void courtAttributionTest(){
         Court court = new Court();
+        Tournament tournament = new Tournament();
+        tournamentRepository.save(tournament);
+        Round round = new Round();
+        round.setTournament(tournament);
+        roundRepository.save(round);
         court.setAvailable(true);
         court.setName("e");
+        court.setTournament(tournament);
         courtRepository.save(court);
         Match newMatch = new Match();
+        newMatch.setRound(round);
         newMatch = matchRepository.save(newMatch);
         matchService.giveRandomCourtToMatch(newMatch);
 
