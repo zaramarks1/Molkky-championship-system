@@ -15,4 +15,5 @@ public interface CourtRepository extends JpaRepository<Court, String>, JpaSpecif
     List<Court> findByAvailable(Boolean available);
     Boolean existsByName(String name);
     List<Court> findByTournament(Tournament tournament);
+    List<Court> findByTournamentAndAvailable(Tournament tournament, Boolean available);
 }
