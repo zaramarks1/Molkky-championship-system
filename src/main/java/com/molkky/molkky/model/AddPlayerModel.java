@@ -13,26 +13,12 @@ public class AddPlayerModel {
 
     private String surname;
     private String forename;
+    private String pseudo;
     private Club club;
     private String mail;
     private Integer teamId;
 
     public AddPlayerModel() {
-    }
-
-    public AddPlayerModel(String surname, String forename, Club club, String mail) {
-        this.surname = surname;
-        this.forename = forename;
-        this.club = club;
-        this.mail = mail;
-    }
-
-    public AddPlayerModel(String surname, String forename, Club club, String mail, Integer teamId) {
-        this.surname = surname;
-        this.forename = forename;
-        this.club = club;
-        this.mail = mail;
-        this.teamId = teamId;
     }
 
     public User addPlayer(){
@@ -42,6 +28,7 @@ public class AddPlayerModel {
         user.setForename(this.getForename());
         user.setEmail(this.getMail());
         user.setClub(this.getClub());
+        user.setPseudo(this.getPseudo());
 
         return user;
     }

@@ -50,9 +50,6 @@
                         <p class="insideText textInscriptionClosed" th:unless="${tournament.visible}">Incriptions fermées</p>
                         <p class="insideText textInscriptionOpen" th:if="${tournament.visible}">Incriptions ouvertes</p>
                     </a>
-                    <a class="boxOneCard buttonModify" th:if="${session.user != null} and (${#strings.equals(session.user.role, 'ADM')})" th:href="@{'/tournament/modify?tournamentId='+${tournament.id}}">
-                        <span class="insideText">Modifier Tournoi</span>
-                    </a>
                 </th:block>
         </div>
         </div>

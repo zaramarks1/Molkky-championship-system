@@ -15,6 +15,9 @@
             <div class="setInline statusCircleGreen"></div>
             <p id="tournament_status" class="setInline" th:text="|(${tournament.status.getDisplayValue()})|"></p>
             <p id="tournament_name" class="setInline" th:text="|${tournament.name}|"></p>
+            <a id="buttonModify" class="boxOneCard" th:if="${session.user != null} and (${#strings.equals(session.user.role, 'ADM')})" th:href="@{'/tournament/modify?tournamentId='+${tournament.id}}">
+                <span class="insideText">Modifier Tournoi</span>
+            </a>
         </div>
         <div class="partContainer">
             <h2 class="partTitle">Informations générales</h2>
@@ -76,7 +79,7 @@
                                th:text="${team.present == true ? 'Présence confirmée' : 'Présence non confirmée'}"></p>
                             <ul class="roundsList">
                                 <th:block th:each="team : ${team.getUserTournamentRoles()}">
-                                    <li class="teamMember" th:text="${team.getUser().getForename()}"></li>
+                                    <li class="teamMember" th:text="${team.getUser().getPseudo()}"></li>
                                 </th:block>
                             </ul>
                         </div>

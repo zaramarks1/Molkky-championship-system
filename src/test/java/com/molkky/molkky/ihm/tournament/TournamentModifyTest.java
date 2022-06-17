@@ -57,11 +57,9 @@ class TournamentModifyTest {
     void testTournamentWrongAdm() throws ParseException {
         Tournament t = createTournament();
         loginUser(createFalseAdm());
-        config.getDriver().get(url + "/tournament/allTournament");
+        config.getDriver().get(url + "/tournament/view?tournamentId="+t.getId());
 
-        List<WebElement> list = config.getDriver().findElements(new By.ByClassName("buttonModify"));
-        list.get(list.size()-1).isDisplayed();
-        list.get(list.size()-1).click();
+        config.getDriver().findElement(new By.ById("buttonModify")).click();
 
         Assertions.assertEquals("Affichage des tournois",config.getDriver().getTitle());
     }
@@ -71,10 +69,10 @@ class TournamentModifyTest {
         Tournament t = createTournament();
         List<UserTournamentRole> userTournamentRoles = userTournamentRoleRepository.findUserTournamentRoleByRoleAndTournament(UserRole.ADM,t);
         loginUser(userTournamentRoles.get(0).getUser());
+        config.getDriver().get(url + "/tournament/view?tournamentId="+t.getId());
 
-        config.getDriver().get(url + "/tournament/allTournament");
-        List<WebElement> list = config.getDriver().findElements(new By.ByClassName("buttonModify"));
-        list.get(list.size()-1).click();
+
+        config.getDriver().findElement(new By.ById("buttonModify")).click();
 
         Assertions.assertEquals("Modification du tournoi",config.getDriver().getTitle());
 
@@ -93,9 +91,11 @@ class TournamentModifyTest {
         List<UserTournamentRole> userTournamentRoles = userTournamentRoleRepository.findUserTournamentRoleByRoleAndTournament(UserRole.ADM,t);
         loginUser(userTournamentRoles.get(0).getUser());
 
-        config.getDriver().get(url + "/tournament/allTournament");
-        List<WebElement> list = config.getDriver().findElements(new By.ByClassName("buttonModify"));
-        list.get(list.size()-1).click();
+        config.getDriver().get(url + "/tournament/view?tournamentId="+t.getId());
+
+        config.getDriver().findElement(new By.ById("buttonModify")).click();
+
+
 
         Assertions.assertEquals("Modification du tournoi",config.getDriver().getTitle());
 
@@ -121,9 +121,8 @@ class TournamentModifyTest {
         List<UserTournamentRole> userTournamentRoles = userTournamentRoleRepository.findUserTournamentRoleByRoleAndTournament(UserRole.ADM,t);
         loginUser(userTournamentRoles.get(0).getUser());
 
-        config.getDriver().get(url + "/tournament/allTournament");
-        List<WebElement> list = config.getDriver().findElements(new By.ByClassName("buttonModify"));
-        list.get(list.size()-1).click();
+        config.getDriver().get(url + "/tournament/view?tournamentId="+t.getId());
+        config.getDriver().findElement(new By.ById("buttonModify")).click();
 
         Assertions.assertEquals("Modification du tournoi",config.getDriver().getTitle());
 
@@ -221,6 +220,8 @@ class TournamentModifyTest {
     }
 
     User createFalseAdm(){
+        Tournament t = new Tournament();
+        tournamentRepository.save(t);
         UserTournamentRole userTournamentRole2 = userTournamentRoleRepository.save(new UserTournamentRole());
         User user2 = new User();
         user2.setEmail(RandomStringUtils.randomAlphabetic(10) + "@gmail.com");
@@ -229,7 +230,7 @@ class TournamentModifyTest {
         userRepository.save(user2);
         userTournamentRole2.setUser(user2);
         userTournamentRole2.setRole(UserRole.ADM);
-        userTournamentRole2.setTournament(null);
+        userTournamentRole2.setTournament(t);
 
         userTournamentRoleRepository.save(userTournamentRole2);
 
