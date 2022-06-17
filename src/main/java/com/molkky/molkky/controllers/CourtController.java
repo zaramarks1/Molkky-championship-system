@@ -2,12 +2,8 @@ package com.molkky.molkky.controllers;
 
 import com.molkky.molkky.domain.Court;
 import com.molkky.molkky.domain.Tournament;
-import com.molkky.molkky.domain.User;
-import com.molkky.molkky.domain.UserTournamentRole;
 import com.molkky.molkky.model.AddCourt;
 import com.molkky.molkky.model.AddCourtList;
-import com.molkky.molkky.model.AddStaff;
-import com.molkky.molkky.model.AddStaffList;
 import com.molkky.molkky.repository.CourtRepository;
 import com.molkky.molkky.repository.TournamentRepository;
 import com.molkky.molkky.repository.UserRepository;
@@ -17,12 +13,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import type.UserRole;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import static com.molkky.molkky.utility.StringUtilities.createCode;
 
 @Controller
 @RequestMapping("/court")
