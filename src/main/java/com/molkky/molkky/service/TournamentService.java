@@ -39,6 +39,15 @@ public class TournamentService {
 
     public final Date currentDate = new Date();
 
+    public Boolean isTournamentReady(Tournament tournament) {
+        if(tournament.getMinTeam() >= tournament.getTeams().size()) {
+            return false;
+        }
+        if(tournament.getCourts().isEmpty()) {
+            return false;
+        }
+        return !userTournamentRoleRepository.findUserTournamentRoleByRoleAndTournament(UserRole.STAFF, tournament).isEmpty();
+    }
 
 
     public Tournament create(TournamentModel tournamentModel) {

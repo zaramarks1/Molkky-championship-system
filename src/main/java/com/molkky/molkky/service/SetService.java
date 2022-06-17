@@ -41,6 +41,7 @@ public class SetService {
 
     public void enterSetResults(SetModel set, UserTournamentRoleModel user){
         Set setEntity = setScore(set,user);
+        if(Boolean.TRUE.equals(setEntity.getFinished())) return;
         if(Boolean.TRUE.equals(isSetFinished(setEntity, user))){
 
             Set setSave = setRepository.findById(set.getId());

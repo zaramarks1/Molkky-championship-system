@@ -1,6 +1,7 @@
 package com.molkky.molkky.service;
 
 import com.molkky.molkky.domain.Court;
+import com.molkky.molkky.domain.Tournament;
 import com.molkky.molkky.model.CourtModel;
 import com.molkky.molkky.repository.CourtRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,7 @@ public class CourtService {
         return courtRepository.findById(courtModel.getId());
     }
 
-    public List<Court> getAvailableCourts(){
-        return courtRepository.findByAvailable(true);
+    public List<Court> getAvailableCourts(Tournament tournament){
+        return courtRepository.findByTournamentAndAvailable(tournament, true);
     }
 }

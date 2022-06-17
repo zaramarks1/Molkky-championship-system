@@ -159,6 +159,8 @@ class MatchFormTest {
         User user = createOrgaUser();
         loginUser(user);
         Court court = courtRepository.save(new Court(true, RandomStringUtils.randomAlphabetic(10)));
+        court.setTournament(match.getRound().getTournament());
+        courtRepository.save(court);
 //        when
         config.getDriver().get(url + "/matches/match?match_id=" + match.getId());
         Select courtSelect = new Select(config.getDriver().findElement(By.id("courtInput")));

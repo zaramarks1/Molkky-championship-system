@@ -191,6 +191,7 @@ public class TournamentController extends DefaultAttributes {
         model.addAttribute("phasesType", phasesType);
         model.addAttribute(allTournament, tournament);
         model.addAttribute("nbTeam", tournament.getTeams().size());
+        model.addAttribute("isReady", tournamentService.isTournamentReady(tournament));
         return "/tournament/view";
 
     }
@@ -243,6 +244,7 @@ public class TournamentController extends DefaultAttributes {
         Tournament tournament = tournamentRepository.findById(Integer.valueOf(tournamentId));
 
         tournament.setVisible(true);
+        tournament.setRegisterAvailable(true);
         tournamentRepository.save(tournament);
 
         model.addAttribute("tournament_id", tournamentId);
@@ -255,7 +257,6 @@ public class TournamentController extends DefaultAttributes {
     public String publishTournament(Model model,@RequestParam(name="tournamentId") String tournamentId ){
 
         Tournament tournament = tournamentRepository.findById(Integer.valueOf(tournamentId));
-
         tournament.setStatus(TournamentStatus.INPROGRESS);
         tournament.setIndexPhase(1);
         tournament.setRegisterAvailable(false);

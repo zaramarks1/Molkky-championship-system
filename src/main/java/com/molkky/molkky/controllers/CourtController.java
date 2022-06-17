@@ -13,7 +13,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import java.util.List;
 
 @Controller
@@ -30,7 +29,7 @@ public class CourtController {
     UserTournamentRoleRepository userTournamentRoleRepository;
 
     @PostMapping("/add")
-    public String addStaff(@ModelAttribute("courts") AddCourtList courts){
+    public String addCourt(@ModelAttribute("courts") AddCourtList courts){
 
         Tournament tournament = tournamentRepository.findById(courts.getCourts().get(0).getTournamentId());
         List<Court> courtList = tournament.getCourts();
@@ -38,6 +37,7 @@ public class CourtController {
             Court newCourt = new Court();
             newCourt.setName(court.getName());
             newCourt.setTournament(tournament);
+            newCourt.setAvailable(true);
             courtRepository.save(newCourt);
             courtList.add(newCourt);
         }
