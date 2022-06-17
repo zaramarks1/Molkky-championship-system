@@ -1,15 +1,22 @@
 package com.molkky.molkky.service;
 
 import com.molkky.molkky.domain.Court;
+import com.molkky.molkky.domain.Tournament;
 import com.molkky.molkky.model.CourtModel;
 import com.molkky.molkky.repository.CourtRepository;
+import com.molkky.molkky.repository.TournamentRepository;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.List;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyBoolean;
+import static org.mockito.Mockito.when;
 
 @SpringBootTest
 class CourtServiceTest {
@@ -23,15 +30,19 @@ class CourtServiceTest {
     @MockBean
     private CourtRepository courtRepository;
 
+    @MockBean
+    private TournamentRepository tournamentRepository;
+
     @Test
     void testFunctions(){
 //        given
-        List<Court> f1 = courtService.getAvailableCourts();
+        Tournament tournament = new Tournament();
+        List<Court> courts = List.of(new Court(), new Court());
+        when(courtRepository.findByTournamentAndAvailable(any(Tournament.class), anyBoolean())).thenReturn(courts);
+        List<Court> f1 = courtService.getAvailableCourts(tournament);
         Court f2 = courtService.getCourtFromModel(courtModel);
 
-        Mockito.verify(courtRepository, Mockito.times(1)).findByAvailable(true);
+        Mockito.verify(courtRepository, Mockito.times(1)).findByTournamentAndAvailable(any(Tournament.class), anyBoolean());
         Mockito.verify(courtRepository, Mockito.times(1)).findById(Mockito.anyInt());
-
-        Mockito.verifyNoMoreInteractions(courtRepository);
     }
 }
