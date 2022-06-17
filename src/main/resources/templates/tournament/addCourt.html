@@ -3,7 +3,7 @@
   <div th:replace="fragments/header"></div>
   <link rel="stylesheet" th:href="@{/styles/tournament/create.css}" href="../" />
   <link rel="stylesheet" th:href="@{/styles/team/team.css}" href="../" />
-  <title>Créer Staff</title>
+  <title>Ajouter un terrain</title>
 </head>
 <body class="bg">
 <div class="pageContainer">
@@ -11,15 +11,15 @@
 
   <div class="contentContainer">
     <div th:replace="fragments/searchbar"> </div>
-    <div class="contentTitle">Ajouter des staff à votre tournois</div>
+    <div class="contentTitle">Ajouter des terrains à votre tournoi</div>
     <form action="#" th:action="@{/court/add}" method="post" th:object="${courtList}" class="formContainer">
       <div class="formContainer">
         <div th:each="court, itemStat : *{courts}" class="inputContainer">
-          <div class="partTitle" th:text="'Staff ' + ${itemStat.index+1}">Terrain: </div>
+          <div class="partTitle" th:text="'Terrain ' + ${itemStat.index+1}">Terrain: </div>
           <div class="submitContainer playerFormContainer">
             <div class="inputContainer">
               <label for="name" class="inputLabel">Nom</label>
-              <input th:field="name" required="true" type="text" id="name" class="inputTournament"/>
+              <input th:field="*{courts[__${itemStat.index}__].name}" required="true" type="text" id="name" class="inputTournament"/>
               <input hidden th:name="|courts[${itemStat.index}].tournamentId|" th:value="${tournamentId}"/>
             </div>
 
