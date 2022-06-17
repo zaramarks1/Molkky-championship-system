@@ -1,45 +1,53 @@
+<html xmlns:th="http://thymeleaf.org" xmlns="http://www.w3.org/1999/html" lang="fr">
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Politique de Confidentialité</title>
+    <div th:replace="fragments/header"></div>
+    <link rel="stylesheet" th:href="@{/styles/cupc/cupc.css}" href="../" />
+    <title>Politique de Confidentialite</title>
 </head>
-<body>
-    <h1>ARTICLE 1: Préambule</h1>
-    <p>
-        La présente Politique de Confidentialité a pour but d'informer les utilisateurs du site:
-    </p>
-    <ul>
-        <li>Sur la manière dont sont collectées leurs données personnelles. Sont considérées comme des données personnelles, toute information permettant d'indentifier un utilisateur. A ce titre, il peut s'agir: de ses noms et prénoms, de son âge, de son adresse postale ou email, de sa localisation ou encore de son adresse IP.</li>
-        <li>Sur les droits dont ils disposent concernant ces données</li>
-        <li>Sur la personne responsable du traitement des données à caractère personnel collectées et traitées</li>
-        <li>Sur les destinataires de ces données personnelles</li>
-        <li>Sur la politique de l'application web en matière de cookie</li>
-    </ul>
-<p>Cette politique complète les Conditions d'Utilisation.</p>
+<body class="bg">
+    <div class="pageContainer">
+        <div th:replace="fragments/sidebar"> </div>
+        <div class="contentContainer">
+            <div th:replace="fragments/searchbar"> </div>
+            <div class="contentTitle">Politique de Confidentalité</div>
+            <h1>ARTICLE 1: Préambule</h1>
+            <p>
+                La présente Politique de Confidentialité a pour but d'informer les utilisateurs du site:
+            </p>
+            <ul>
+                <li>Sur la manière dont sont collectées leurs données personnelles. Sont considérées comme des données personnelles, toute information permettant d'indentifier un utilisateur. A ce titre, il peut s'agir: de ses noms et prénoms, de son âge, de son adresse postale ou email, de sa localisation ou encore de son adresse IP.</li>
+                <li>Sur les droits dont ils disposent concernant ces données</li>
+                <li>Sur la personne responsable du traitement des données à caractère personnel collectées et traitées</li>
+                <li>Sur les destinataires de ces données personnelles</li>
+                <li>Sur la politique de l'application web en matière de cookie</li>
+            </ul>
+            <p>Cette politique complète les Conditions d'Utilisation.</p>
 
-<h1>ARTICLE 2: Principes relatifs à la collecte et au traitement des données personnelles</h1>
-<p>
-    Conformément à l'article du Règlement européen 2016/679, les données à caractère personnel sont:
-</p>
-<ul>
-    <li>Traitées de manière licite, loyale et transparente au regard de la personne concernée</li>
-    <li>Collectées pour des finalités déterminées, explicites et légitimes, et ne pas être traitées ultérieurement d'une manière incompatible avec des finalités</li>
-    <li>Adéquates, pertinentes et limitées à ce qui est nécessaire au regard des finalités pour lesquelles elles sont traitées</li>
-    <li>Exactes et, si nécessaires, tenues à jour</li>
-    <li>Conservées sous une forme permettant l'identification des personnes concernées pendnat une durée n'excédant pas celle nécessaire au regard des finalités pour lesquelles elles sont traitées.</li>
-</ul>
+            <h1>ARTICLE 2: Principes relatifs à la collecte et au traitement des données personnelles</h1>
+            <p>
+                Conformément à l'article du Règlement européen 2016/679, les données à caractère personnel sont:
+            </p>
+            <ul>
+                <li>Traitées de manière licite, loyale et transparente au regard de la personne concernée</li>
+                <li>Collectées pour des finalités déterminées, explicites et légitimes, et ne pas être traitées ultérieurement d'une manière incompatible avec des finalités</li>
+                <li>Adéquates, pertinentes et limitées à ce qui est nécessaire au regard des finalités pour lesquelles elles sont traitées</li>
+                <li>Exactes et, si nécessaires, tenues à jour</li>
+                <li>Conservées sous une forme permettant l'identification des personnes concernées pendnat une durée n'excédant pas celle nécessaire au regard des finalités pour lesquelles elles sont traitées.</li>
+            </ul>
 
-<h1>ARTICLE 3: Les droits de l'utilisateur en matière de collecte et de traitement des données</h1>
-<p>Tout utilisateur concerné par le traitement de ses données personnelles peut se prévaloir des droits suivants, en application du règlement 2016/579 et de la Loi Informatique et Liberté (Loi 78-17 du 6 janvier 1978):</p>
-<ul>
-    <li>Droit d'accès, de rectification et droit à l'effacement des données (posés respectivement aux articles 15, 16 et 17 du RGPD)</li>
-    <li>Droit à la portabilité des données (article 20 du RGPD)</li>
-    <li>Droit à la limitation (article 18 du RGPD) et à l'opposition du traitement des données (article 21 du RGPD)</li>
-    <li>Droit de ne pas faire l'objet d'une décision fondée exclusivement sur un procédé automatisé</li>
-    <li>Droit de déterminer le sort des données après la mort</li>
-    <li>Droit de saisir l'autorité de contrôle compétente (article 77 du RGPD)</li>
-</ul>
-
+            <h1>ARTICLE 3: Les droits de l'utilisateur en matière de collecte et de traitement des données</h1>
+            <p>Tout utilisateur concerné par le traitement de ses données personnelles peut se prévaloir des droits suivants, en application du règlement 2016/579 et de la Loi Informatique et Liberté (Loi 78-17 du 6 janvier 1978):</p>
+            <ul>
+                <li>Droit d'accès, de rectification et droit à l'effacement des données (posés respectivement aux articles 15, 16 et 17 du RGPD)</li>
+                <li>Droit à la portabilité des données (article 20 du RGPD)</li>
+                <li>Droit à la limitation (article 18 du RGPD) et à l'opposition du traitement des données (article 21 du RGPD)</li>
+                <li>Droit de ne pas faire l'objet d'une décision fondée exclusivement sur un procédé automatisé</li>
+                <li>Droit de déterminer le sort des données après la mort</li>
+                <li>Droit de saisir l'autorité de contrôle compétente (article 77 du RGPD)</li>
+            </ul>
+        </div>
+    </div>
 </body>
 </html>
