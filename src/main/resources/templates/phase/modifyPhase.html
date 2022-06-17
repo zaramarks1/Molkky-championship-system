@@ -18,7 +18,7 @@
         <input hidden th:field="*{phases[__${itemStat.index}__].tournament}" th:value="${phase.tournament}">
         <input hidden th:field="*{phases[__${itemStat.index}__].phaseType}" th:value="${phase.phaseType}">
         <input hidden th:field="*{phases[__${itemStat.index}__].id}" th:value="${phase.id}">
-        <div th:insert="phase/utiles/courtAndPlanning"></div>
+<!--        <div th:insert="phase/utiles/courtAndPlanning"></div>-->
         <div th:switch="${phase.phaseType}">
           <div th:case="${T(type.PhaseType).POOL}">
             <div th:insert="phase/typePhase/pool"></div>
