@@ -136,6 +136,7 @@ public class PhaseController extends DefaultAttributes {
         Tournament t = tournamentRepository.findById(phasesModel.getPhases().get(0).getTournament());
         List<Phase> phases = new ArrayList<>();
         for(PhaseModel phase : phasesModel.getPhases()){
+            phase.setRandomStaff(true);
             switch (phase.getPhaseType()){
                 case POOL:
                     phases.add(new Pool(phase,t));
