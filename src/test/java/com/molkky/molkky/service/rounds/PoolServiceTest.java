@@ -23,27 +23,22 @@ import java.util.*;
 
     @Autowired
     private TournamentRepository tournamentRepository;
-
     @Autowired
     private PhaseRepository phaseRepository;
-
     @Autowired
     private TeamRepository teamRepository;
-
     @Autowired
     private UserRepository userRepository;
-
     @Autowired
     private UserTournamentRoleRepository userTournamentRoleRepository;
-
     @Autowired
     private PhaseService phaseService;
-
     @Autowired
     private MatchRepository matchRepository;
     @Autowired
     private MatchService matchService;
-
+    @Autowired
+    private ClubRepository clubRepository;
 
     @Test
     @Rollback(false)
@@ -291,19 +286,14 @@ import java.util.*;
     }
 
     void insertTeam(Tournament tournament, int qtd) {
-        List<Club> clubs = new ArrayList<>();
-        clubs.add(new Club(1, "ANGERS"));
-        clubs.add(new Club(2, "TOURS"));
-        clubs.add(new Club(3, "REIMS"));
+        Club club = new Club();
 
         for (int i = 1; i <= qtd; i++) {
             Team team = new Team();
-
             team.setCode("12345");
             team.setName("Team" + i);
             team.setTournament(tournament);
-            Random rand = new Random();
-            team.setClub(clubs.get(rand.nextInt(clubs.size())));
+            team.setClub(club);
 
             tournament.getTeams().add(team);
 
@@ -322,7 +312,8 @@ import java.util.*;
             tournament.getUserTournamentRoles().add(userTournamentRole);
             team.getUserTournamentRoles().add(userTournamentRole);
 
-            team = teamRepository.save(team);
+            clubRepository.save(club);
+            teamRepository.save(team);
             userTournamentRoleRepository.save(userTournamentRole);
             tournamentRepository.save(tournament);
             userRepository.save(player);
