@@ -73,31 +73,4 @@ class CourtControllerTest {
         verify(courtRepository, times(1)).save(any(Court.class));
     }
 
-    @Test
-    void testAddStaffWithoutUser() throws Exception {
-        int id = 89475;
-        String mail = "test@sfr.fr";
-        Tournament tournament = new Tournament();
-        tournament.setId(id);
-
-        List<AddStaff> mails = new ArrayList<>();
-        AddStaffList staff = new AddStaffList();
-        AddStaff addStaff = new AddStaff();
-        addStaff.setTournamentId(89475);
-        addStaff.setMail(mail);
-        mails.add(addStaff);
-        staff.setMails(mails);
-
-        User user = new User();
-        user.setEmail(mail);
-
-        when(tournamentRepository.findById(89475)).thenReturn(tournament);
-        when(userRepository.existsUserByEmail(mail)).thenReturn(true);
-
-        mockMvc.perform(post("/staff/add")
-                        .flashAttr("staff", staff))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/tournament/view?tournamentId=" + id));
-    }
-
 }
