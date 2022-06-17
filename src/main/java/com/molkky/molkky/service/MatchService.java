@@ -14,10 +14,8 @@ import type.SetTeamIndex;
 import type.UserRole;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 
 @Service
@@ -65,15 +63,12 @@ public class MatchService {
     public SetTeamIndex getUserTeamIndex(MatchModel match, UserTournamentRoleModel user) {
         Match matchEntity = getMatchFromModel(match);
         List<Team> matchTeams = matchEntity.getTeams();
-        List<Team> sortedTeams = matchTeams.stream()
-                .sorted(Comparator.comparing(Team::getId).reversed())
-                .collect(Collectors.toList());
-        for(UserTournamentRole u : sortedTeams.get(0).getUserTournamentRoles()) {
+        for(UserTournamentRole u : matchTeams.get(0).getUserTournamentRoles()) {
             if(Objects.equals(u.getId(), user.getId())) {
                 return SetTeamIndex.TEAM1;
             }
         }
-        for(UserTournamentRole u : sortedTeams.get(1).getUserTournamentRoles()) {
+        for(UserTournamentRole u : matchTeams.get(1).getUserTournamentRoles()) {
             if(Objects.equals(u.getId(), user.getId())) {
                 return SetTeamIndex.TEAM2;
             }
