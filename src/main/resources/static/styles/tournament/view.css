@@ -115,6 +115,10 @@ ul.roundsList {
     margin: 3px;
     font-size: 14px;
 }
+.courtCard {
+    margin: 3px;
+    font-size: 14px;
+}
 .statusCircleGreen {
     height: 15px;
     width: 15px;
