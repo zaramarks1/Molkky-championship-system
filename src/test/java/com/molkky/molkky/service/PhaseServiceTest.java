@@ -12,7 +12,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.sql.Time;
 import java.util.Arrays;
 
 @SpringBootTest
@@ -59,8 +58,8 @@ class PhaseServiceTest {
 
         Assertions.assertEquals(1,tournament.getPhases().size());
         Assertions.assertEquals(2,tournament.getPhases().get(0).getNbSets());
-        Assertions.assertEquals(Time.valueOf("11:00:00"),tournament.getPhases().get(0).getTimePhase());
-        Assertions.assertEquals(Time.valueOf("11:00:00"),tournament.getPhases().get(0).getHourPhaseStart());
+        Assertions.assertNull(tournament.getPhases().get(0).getTimePhase());
+        Assertions.assertNull(tournament.getPhases().get(0).getHourPhaseStart());
     }
 
     @Test
@@ -79,8 +78,8 @@ class PhaseServiceTest {
 
         Assertions.assertEquals(1,tournament.getPhases().size());
         Assertions.assertEquals(2,tournament.getPhases().get(0).getNbSets());
-        Assertions.assertEquals(Time.valueOf("11:00:00"),tournament.getPhases().get(0).getTimePhase());
-        Assertions.assertEquals(Time.valueOf("11:00:00"),tournament.getPhases().get(0).getHourPhaseStart());
+        Assertions.assertNull(tournament.getPhases().get(0).getTimePhase());
+        Assertions.assertNull(tournament.getPhases().get(0).getHourPhaseStart());
     }
 
     @Test
@@ -99,8 +98,8 @@ class PhaseServiceTest {
 
         Assertions.assertEquals(1,tournament.getPhases().size());
         Assertions.assertEquals(2,tournament.getPhases().get(0).getNbSets());
-        Assertions.assertEquals(Time.valueOf("11:00:00"),tournament.getPhases().get(0).getTimePhase());
-        Assertions.assertEquals(Time.valueOf("11:00:00"),tournament.getPhases().get(0).getHourPhaseStart());
+        Assertions.assertNull(tournament.getPhases().get(0).getTimePhase());
+        Assertions.assertNull(tournament.getPhases().get(0).getHourPhaseStart());
     }
 
     @Test
@@ -119,8 +118,8 @@ class PhaseServiceTest {
 
         Assertions.assertEquals(1,tournament.getPhases().size());
         Assertions.assertEquals(2,tournament.getPhases().get(0).getNbSets());
-        Assertions.assertEquals(Time.valueOf("11:00:00"),tournament.getPhases().get(0).getTimePhase());
-        Assertions.assertEquals(Time.valueOf("11:00:00"),tournament.getPhases().get(0).getHourPhaseStart());
+        Assertions.assertNull(tournament.getPhases().get(0).getTimePhase());
+        Assertions.assertNull(tournament.getPhases().get(0).getHourPhaseStart());
     }
 
     @Test
@@ -139,8 +138,8 @@ class PhaseServiceTest {
 
         Assertions.assertEquals(1,tournament.getPhases().size());
         Assertions.assertEquals(2,tournament.getPhases().get(0).getNbSets());
-        Assertions.assertEquals(Time.valueOf("11:00:00"),tournament.getPhases().get(0).getTimePhase());
-        Assertions.assertEquals(Time.valueOf("11:00:00"),tournament.getPhases().get(0).getHourPhaseStart());
+        Assertions.assertNull(tournament.getPhases().get(0).getTimePhase());
+        Assertions.assertNull(tournament.getPhases().get(0).getHourPhaseStart());
     }
 
     PhaseListModel createPhaseModel(Phase phase){
