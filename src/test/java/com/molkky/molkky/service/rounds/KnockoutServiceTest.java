@@ -223,7 +223,7 @@ import java.util.*;
 
     Tournament createTournament(){
         Tournament tournament = new Tournament(
-                "tournament test",
+                "tournament test knockout",
                 "location",
                 new Date(),
                 new Date(),

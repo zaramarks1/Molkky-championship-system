@@ -35,6 +35,11 @@ public class SimpleGame extends Phase {
         this.setConsolation(simpleModel.isConsolation());
         this.setTournament(tournament);
     }
+
+    public void editInfoSimple(PhaseModel simpleModel){
+        this.editGlobalInfo(simpleModel);
+    }
+
     public SimpleGame() {
 
     }

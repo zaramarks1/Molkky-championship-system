@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -61,6 +62,12 @@ public class Round implements  Serializable{
         teamsRank.sort(Comparator.comparing(Team::getNbWins));
         Collections.reverse(teamsRank);
         return teamsRank;
+    }
+
+    public List<Team> getTeamsByClub(){
+        List<Team> teamsClub = this.getTeams();
+        teamsClub.stream().collect(Collectors.groupingBy(Team::getClub));
+        return teamsClub;
     }
 
 }

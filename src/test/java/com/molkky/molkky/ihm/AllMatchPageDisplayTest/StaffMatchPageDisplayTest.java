@@ -151,8 +151,8 @@ class StaffMatchPageDisplayTest {
         if(nbMatchBDD!=0) {
             List<WebElement> nbMatch = config.getDriver().findElements(new By.ById("listMatches"));
             Assertions.assertEquals(nbMatchBDD, nbMatch.size());
-            String idDiv = config.getDriver().findElement(new By.ById("idMatchList")).getText();
-            String[] div = idDiv.split(" :");
+            String idDiv = config.getDriver().findElement(new By.ByClassName("boxOneCardMatches")).getAttribute("href");
+            String[] div = idDiv.split("=");
             String id = div[1];
             config.getDriver().findElement(new By.ById("listMatches")).click();
             Assertions.assertEquals("Match en cours", config.getDriver().getTitle());
@@ -169,8 +169,8 @@ class StaffMatchPageDisplayTest {
         if(nbMatchBDD!=0) {
             List<WebElement> nbMatch2 = config.getDriver().findElements(new By.ById("listMatches"));
             Assertions.assertEquals(nbMatchBDD, nbMatch2.size());
-            String idDiv2 = config.getDriver().findElement(new By.ById("idMatchList")).getText();
-            String[] div2 = idDiv2.split(" :");
+            String idDiv2 = config.getDriver().findElement(new By.ByClassName("boxOneCardMatches")).getAttribute("href");
+            String[] div2 = idDiv2.split("=");
             String id2 = div2[1];
             config.getDriver().findElement(new By.ById("listMatches")).click();
             Assertions.assertEquals("Match en cours", config.getDriver().getTitle());
@@ -186,8 +186,8 @@ class StaffMatchPageDisplayTest {
         int nbMatchBDD = matchRepository.findMatchAttributedToStaff(tournamentRepository.findByName("TournamentTestStaff"),
                 userRepository.findUserByEmail(emailStaff)).size();
         if(nbMatchBDD!=0) {
-            String idDiv3 = config.getDriver().findElement(new By.ById("idMatchList")).getText();
-            String[] div3 = idDiv3.split(" :");
+            String idDiv3 = config.getDriver().findElement(new By.ByClassName("boxOneCardMatches")).getAttribute("href");
+            String[] div3 = idDiv3.split("=");
             String id3 = div3[1];
             config.getDriver().findElement(new By.ById("listMatches")).click();
             Assertions.assertEquals("Match en cours", config.getDriver().getTitle());

@@ -38,6 +38,11 @@ public class TournamentModel {
         return new SimpleDateFormat("yyyy-MM-dd", Locale.FRANCE).parse(date);
     }
 
+    public void setDatesNull(){
+        this.date = null;
+        this.cutOffDate = null;
+    }
+
     @AssertTrue(message = "Date du tournoi avant la date de fin d'inscriptions")
     // Other rules can also be validated in other methods
     public boolean isCutoffDateBeforeDate() {

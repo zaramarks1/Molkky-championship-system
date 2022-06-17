@@ -30,4 +30,14 @@ class TournamentModelTest {
         tournamentModel.setCutOffDate("2020-01-01");
         Assertions.assertFalse(tournamentModel.isCutoffDateBeforeDate());
     }
+
+    @Test
+    void testDateNull() throws ParseException {
+        TournamentModel tournamentModel = new TournamentModel();
+        tournamentModel.setDate("2019-01-01");
+        tournamentModel.setCutOffDate("2020-01-01");
+        tournamentModel.setDatesNull();
+        Assertions.assertNull(tournamentModel.getDate());
+        Assertions.assertNull(tournamentModel.getCutOffDate());
+    }
 }

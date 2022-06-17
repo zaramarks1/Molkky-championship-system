@@ -37,7 +37,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
@@ -220,7 +219,6 @@ class TournamentControllerTest {
                 .andExpect(view().name("redirect:/tournament/create"));
 
         mockMvc.perform(post("/tournament/inscription"))
-                .andDo(print())
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/team/create"));
     }
@@ -274,7 +272,172 @@ class TournamentControllerTest {
         mockMvc.perform(post("/tournament/validatePresence")
                 .param("tournamentId", tournoi.getId().toString())
                 .param("teamId",team.getId().toString()))
-                .andExpect(view().name("redirect:/tournament/view?tournamentId="+tournoi.getId()));
+                .andExpect(view().name("redirect:/tournament/view?tournamentId="+tournoi.getId()))
+                .andExpect(status().is3xxRedirection());
+    }
+
+    @Test
+    void testTournamentGetModifyWrongMail() throws Exception {
+        UserLogged userLogged = mock(UserLogged.class);
+        HttpSession session = new MockHttpSession(null, "user");
+        session.setAttribute("user", userLogged);
+
+        when(tournamentRepository.findById(1)).thenReturn(tournament);
+        when(userLogged.getEmail()).thenReturn("email1@gmail.com");
+        when(tournamentService.getEmailAdmin(tournament)).thenReturn("email2@gmail.com");
+
+        mockMvc.perform(get("/tournament/modify")
+                .sessionAttr("user",userLogged)
+                .param("tournamentId","1"))
+                .andExpect(view().name("/tournament/allTournament"))
+                .andExpect(status().is2xxSuccessful());
+
+        verify(tournamentRepository,times(1)).findById(1);
+        verify(userLogged,times(1)).getEmail();
+        verify(tournamentService,times(1)).getEmailAdmin(tournament);
+
+        verifyNoMoreInteractions(tournamentRepository);
+        verifyNoMoreInteractions(tournamentService);
+    }
+
+    @Test
+    void testTournamentGetModifyTournamentNotAvailable() throws Exception {
+        UserLogged userLogged = mock(UserLogged.class);
+        HttpSession session = new MockHttpSession(null, "user");
+        session.setAttribute("user", userLogged);
+
+        when(tournamentRepository.findById(1)).thenReturn(tournament);
+        when(userLogged.getEmail()).thenReturn("email1@gmail.com");
+        when(tournamentService.getEmailAdmin(tournament)).thenReturn("email1@gmail.com");
+        when(tournament.getStatus()).thenReturn(TournamentStatus.CLOSED);
+
+        mockMvc.perform(get("/tournament/modify")
+                .sessionAttr("user",userLogged)
+                .param("tournamentId","1"))
+                .andExpect(view().name("/tournament/allTournament"))
+                .andExpect(status().is2xxSuccessful());
+
+        verify(tournamentRepository,times(1)).findById(1);
+        verify(userLogged,times(1)).getEmail();
+        verify(tournamentService,times(1)).getEmailAdmin(tournament);
+        verify(tournament,times(1)).getStatus();
+
+        verifyNoMoreInteractions(tournamentRepository);
+        verifyNoMoreInteractions(tournamentService);
+        verifyNoMoreInteractions(tournament);
+    }
+
+    @Test
+    void testTournamentGetModify() throws Exception {
+
+        UserLogged userLogged = mock(UserLogged.class);
+        HttpSession session = new MockHttpSession(null, "user");
+        session.setAttribute("user", userLogged);
+
+        when(tournament.getId()).thenReturn(1);
+        when(tournamentRepository.findById(1)).thenReturn(tournament);
+        when(tournament.getStatus()).thenReturn(TournamentStatus.AVAILABLE);
+        when(userLogged.getEmail()).thenReturn("email1@gmail.com");
+        when(tournamentService.getEmailAdmin(tournament)).thenReturn("email1@gmail.com");
+
+        mockMvc.perform(get("/tournament/modify")
+                        .sessionAttr("user",userLogged)
+                        .param("tournamentId","1"))
+                .andExpect(view().name("/tournament/modify"))
+                .andExpect(model().attributeExists("tournament"))
+                .andExpect(status().is2xxSuccessful());
+
+        verify(tournamentRepository,times(1)).findById(1);
+        verify(userLogged,times(1)).getEmail();
+        verify(tournamentService,times(2)).getEmailAdmin(tournament);
+        verify(tournament,times(1)).getStatus();
+        verify(tournament,times(2)).getId();
+
+        verifyNoMoreInteractions(tournamentRepository);
+        verifyNoMoreInteractions(tournamentService);
+    }
+
+    @Test
+    void testTournamentModifyPostRoundModification() throws Exception {
+        List<UserTournamentRole> userTournamentRoles = new ArrayList<>();
+
+        Tournament tournament2 = mock(Tournament.class);
+        TournamentModel tournamentModel = mock(TournamentModel.class);
+
+        when(tournamentModel.isCutoffDateBeforeDate()).thenReturn(true);
+        when(tournamentModel.getId()).thenReturn(1);
+        when(tournamentRepository.findById(1)).thenReturn(tournament);
+        when(tournament.getNbRounds()).thenReturn(1);
+        when(tournamentService.modifyTournament(Mockito.any(TournamentModel.class))).thenReturn(tournament2);
+        when(userTournamentRoleRepository.findUserTournamentRoleByRoleAndTournament(UserRole.PLAYER,tournament2)).thenReturn(userTournamentRoles);
+        when(tournament2.getNbRounds()).thenReturn(2);
+        when(tournament2.getId()).thenReturn(1);
+        doNothing().when(phaseService).clearTournamentPhases(Mockito.any(Tournament.class));
+
+        mockMvc.perform(post("/tournament/modify")
+                .flashAttr("tournament",tournamentModel))
+                .andExpect(view().name("redirect:/phase/choosePhases?tournamentId=1"))
+                .andExpect(status().is3xxRedirection());
+
+        verify(tournamentModel,times(3)).isCutoffDateBeforeDate();
+        verify(tournamentModel,times(1)).getId();
+        verify(tournamentRepository,times(1)).findById(1);
+        verify(tournament,times(1)).getNbRounds();
+        verify(tournamentService,times(1)).modifyTournament(Mockito.any(TournamentModel.class));
+        verify(userTournamentRoleRepository,times(1)).findUserTournamentRoleByRoleAndTournament(UserRole.PLAYER,tournament2);
+        verify(tournament2,times(1)).getNbRounds();
+        verify(tournament2,times(2)).getId();
+        verify(tournament2,times(1)).getName();
+
+        verifyNoMoreInteractions(tournamentModel);
+        verifyNoMoreInteractions(tournamentModel);
+        verifyNoMoreInteractions(tournamentRepository);
+        verifyNoMoreInteractions(tournament);
+        verifyNoMoreInteractions(tournamentService);
+        verifyNoMoreInteractions(userTournamentRoleRepository);
+        verifyNoMoreInteractions(tournament2);
+
+    }
+
+    @Test
+    void testTournamentModifyPost() throws Exception {
+        List<UserTournamentRole> userTournamentRoles = new ArrayList<>();
+
+        Tournament tournament2 = mock(Tournament.class);
+        TournamentModel tournamentModel = mock(TournamentModel.class);
+
+        when(tournamentModel.isCutoffDateBeforeDate()).thenReturn(true);
+        when(tournamentModel.getId()).thenReturn(1);
+        when(tournamentRepository.findById(1)).thenReturn(tournament);
+        when(tournament.getNbRounds()).thenReturn(1);
+        when(tournamentService.modifyTournament(Mockito.any(TournamentModel.class))).thenReturn(tournament2);
+        when(userTournamentRoleRepository.findUserTournamentRoleByRoleAndTournament(UserRole.PLAYER,tournament2)).thenReturn(userTournamentRoles);
+        when(tournament2.getNbRounds()).thenReturn(1);
+        when(tournament2.getId()).thenReturn(1);
+
+        mockMvc.perform(post("/tournament/modify")
+                        .flashAttr("tournament",tournamentModel))
+                .andExpect(view().name("redirect:/phase/modify?tournamentId=1"))
+                .andExpect(status().is3xxRedirection());
+
+        verify(tournamentModel,times(3)).isCutoffDateBeforeDate();
+        verify(tournamentModel,times(1)).getId();
+        verify(tournamentRepository,times(1)).findById(1);
+        verify(tournament,times(1)).getNbRounds();
+        verify(tournamentService,times(1)).modifyTournament(Mockito.any(TournamentModel.class));
+        verify(userTournamentRoleRepository,times(1)).findUserTournamentRoleByRoleAndTournament(UserRole.PLAYER,tournament2);
+        verify(tournament2,times(1)).getNbRounds();
+        verify(tournament2,times(2)).getId();
+        verify(tournament2,times(1)).getName();
+
+        verifyNoMoreInteractions(tournamentModel);
+        verifyNoMoreInteractions(tournamentModel);
+        verifyNoMoreInteractions(tournamentRepository);
+        verifyNoMoreInteractions(tournament);
+        verifyNoMoreInteractions(tournamentService);
+        verifyNoMoreInteractions(userTournamentRoleRepository);
+        verifyNoMoreInteractions(tournament2);
+
     }
 
     @Test

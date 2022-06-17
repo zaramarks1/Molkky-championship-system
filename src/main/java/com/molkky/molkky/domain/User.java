@@ -35,8 +35,9 @@ public class User implements Serializable {
     @Column(name = "forename")
     private String forename;
 
-    @Column(name = "club")
-    private String club;
+    @ManyToOne
+    @JoinColumn(name="club")
+    private Club club;
 
     @Column(name = "email")
     private String email;
@@ -54,7 +55,7 @@ public class User implements Serializable {
     private List<UserTournamentRole> userTournamentRoles = new ArrayList<>();
 
 
-    public User(String pseudo, String surname, String forename, String club, String email) {
+    public User(String pseudo, String surname, String forename, Club club, String email) {
         this.pseudo = pseudo;
         this.surname = surname;
         this.forename = forename;

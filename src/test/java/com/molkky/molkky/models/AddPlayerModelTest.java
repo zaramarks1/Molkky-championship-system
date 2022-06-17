@@ -1,14 +1,21 @@
 package com.molkky.molkky.models;
 
+import com.molkky.molkky.domain.Club;
 import com.molkky.molkky.domain.User;
 import com.molkky.molkky.model.AddPlayerModel;
 import com.molkky.molkky.model.AddPlayerlistModel;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.Locale;
-
 class AddPlayerModelTest {
+
+    Club club = new Club();
+
+    @BeforeEach
+    void init(){
+        club.setName("Molkky Angers");
+    }
 
     @Test
     void testAddPlayerConstructor1(){
@@ -16,11 +23,11 @@ class AddPlayerModelTest {
         player.setForename("Zara");
         player.setSurname("Marks");
         player.setMail("zara.marks@reseau.eseo.fr");
-        player.setClub("Molkky Angers");
+        player.setClub(club);
 
         Assertions.assertEquals("Marks",player.getSurname(), "Surname different");
         Assertions.assertEquals("Zara",player.getForename(), "Forename different");
-        Assertions.assertEquals("Molkky Angers",player.getClub(), "Club different");
+        Assertions.assertEquals("Molkky Angers",player.getClub().getName(), "Club different");
         Assertions.assertEquals("zara.marks@reseau.eseo.fr",player.getMail(), "Mail different");
     }
 
@@ -30,7 +37,7 @@ class AddPlayerModelTest {
         player.setForename("Zara");
         player.setSurname("Marks");
         player.setMail("zara.marks@reseau.eseo.fr");
-        player.setClub("Molkky Angers");
+        player.setClub(club);
         player.setTeamId(1);
 
         Assertions.assertEquals(Integer.valueOf(1),player.getTeamId(),"Id club different");
@@ -42,12 +49,12 @@ class AddPlayerModelTest {
         player.setForename("Zara");
         player.setSurname("Marks");
         player.setMail("zara.marks@reseau.eseo.fr");
-        player.setClub("Molkky Angers");
+        player.setClub(club);
         User user = player.addPlayer();
 
         Assertions.assertEquals(player.getSurname(),user.getSurname(), "Surname different");
         Assertions.assertEquals(player.getForename(),user.getForename(),"Forname different");
-        Assertions.assertEquals(player.getClub().toUpperCase(Locale.ROOT),user.getClub(),"Club different");
+        Assertions.assertEquals(player.getClub().getName(),user.getClub().getName(),"Club different");
         Assertions.assertEquals(player.getMail(),user.getEmail(),"Mail different");
     }
 
@@ -57,7 +64,7 @@ class AddPlayerModelTest {
         player.setForename("Zara");
         player.setSurname("Marks");
         player.setMail("zara.marks@reseau.eseo.fr");
-        player.setClub("Molkky Angers");
+        player.setClub(club);
 
         String code = player.createCode(10);
         Assertions.assertEquals(10,code.length(), "Length not good");
@@ -72,13 +79,13 @@ class AddPlayerModelTest {
         player1.setForename("Zara");
         player1.setSurname("Marks");
         player1.setMail("zara.marks@reseau.eseo.fr");
-        player1.setClub("Molkky Angers");
+        player1.setClub(club);
 
         AddPlayerModel player2 = new AddPlayerModel();
         player2.setForename("Aurélien");
         player2.setSurname("Masson");
         player2.setMail("aurelien.masson@reseau.eseo.fr");
-        player2.setClub("Molkky Angers");
+        player2.setClub(club);
 
         listPlayer.addPlayer(player1);
         listPlayer.addPlayer(player2);

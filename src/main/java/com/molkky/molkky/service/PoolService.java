@@ -63,14 +63,18 @@ public class PoolService {
                 pool.getRounds().add(round);
             }
 
-
             int count =0;
-            for(Team t : teams){
-                t.getRounds().add( rounds.get(count));
+
+        if (Boolean.TRUE.equals(pool.getAvoidConfrontationClub())) {
+            teams = rounds.get(count).getTeamsByClub();
+        }
+
+            for(Team t : teams) {
+                t.getRounds().add(rounds.get(count));
                 rounds.get(count).getTeams().add(t);
                 count++;
 
-                if(count == nbPool ){
+                if (count == nbPool) {
                     count = 0;
                 }
             }
@@ -101,7 +105,7 @@ public class PoolService {
               }
                r.getMatches().addAll(roundService.createSetsFromMatch(matches));
 
-                if (Boolean.TRUE.equals(pool.getRandomStaff())) roundService.assignRandomStaffToMatch(matches, pool);
+              roundService.assignRandomStaffToMatch(matches, pool);
 
             }
 

@@ -140,8 +140,8 @@ import java.util.List;
                 (new By.ByXPath("/html/body/div/div[2]/form/div[1]/div[1]/div[1]/label")).getText());
         Assertions.assertEquals("Gestion du planning",config.getDriver().findElement
                 (new By.ByXPath("/html/body/div/div[2]/form/div[1]/div[1]/div[4]/label")).getText());
-        Assertions.assertEquals("Nombre de finlandaises",config.getDriver().findElement
-                (new By.ByXPath("/html/body/div/div[2]/form/div[1]/div[2]/div/div/div[1]/label")).getText());
+        Assertions.assertEquals("Attribuer des matchs aux staff de façon aléatoire",config.getDriver().findElement
+                (new By.ByXPath("/html/body/div/div[2]/form/div[1]/div[2]/label")).getText());
 
     }
 

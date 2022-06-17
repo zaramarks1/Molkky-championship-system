@@ -1,5 +1,6 @@
 package com.molkky.molkky.model;
 
+import com.molkky.molkky.domain.Club;
 import lombok.Data;
 import type.UserRole;
 
@@ -9,7 +10,7 @@ public class UserModel {
     private String pseudo;
     private String surname;
     private String forename;
-    private String club;
+    private Club club;
     private String email;
     private Boolean registered;
     private UserRole role;

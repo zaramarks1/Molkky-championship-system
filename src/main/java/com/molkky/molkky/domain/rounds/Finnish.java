@@ -44,6 +44,12 @@ public class Finnish extends Phase {
         this.setTournament(tournament);
     }
 
+    public void editInfoFinnish(PhaseModel finnishModel){
+        this.editGlobalInfo(finnishModel);
+        this.setNbFinnish(finnishModel.getNbFinnish());
+
+    }
+
     public Finnish() {
     }
 }

@@ -41,6 +41,7 @@ public class SetService {
 
     public void enterSetResults(SetModel set, UserTournamentRoleModel user){
         Set setEntity = getSetFromModel(set);
+        if(Boolean.TRUE.equals(setEntity.getFinished())) return;
         SetTeamIndex teamIndex = matchService.getUserTeamIndex(MatchService.getMatchModelFromEntity(setEntity.getMatch()), user);
         switch (teamIndex){
             case TEAM1:

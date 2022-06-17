@@ -10,6 +10,7 @@ import com.molkky.molkky.repository.*;
 import com.molkky.molkky.service.MatchService;
 import com.molkky.molkky.service.PhaseService;
 import com.molkky.molkky.service.RoundService;
+import org.checkerframework.checker.units.qual.C;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,6 +52,9 @@ import java.util.Map;
 
     @Autowired
     private RoundService roundService;
+
+    @Autowired
+    private ClubRepository clubRepository;
 
 
     @Test
@@ -147,9 +151,100 @@ import java.util.Map;
 
     }
 
+    @Test
+    @Rollback(false)
+    @Transactional
+    void avoidConfrontationFromTeamsInTheSameClub(){
+
+        Tournament tournament = createTournament();
+
+        tournament = createSimpleGame(tournament, 1, false, false, 4);
+
+        tournament.getPhases().get(0).setAvoidConfrontationClub(true);
+
+        tournamentRepository.save(tournament);
+
+        insertTeam(tournament, 8);
+
+        Club c1 = new Club();
+        Club c2 = new Club();
+
+        c1.setName("Club 1");
+        c2.setName("Club 2");
+
+        List<Club> clubs = clubRepository.saveAll(List.of(c1,c2));
+
+        for (int i = 0; i < 4;i++){
+            tournament.getTeams().get(i).setClub(clubs.get(0));
+        }
+        for (int i = 4; i < 8;i++){
+            tournament.getTeams().get(i).setClub(clubs.get(1));
+        }
+
+        Map<Round, List<Match>> results =  phaseService.generate(tournament.getPhases().get(0).getId().toString());
+
+        tournament = tournamentRepository.findById(tournament.getId());
+        for(Round r : tournament.getPhases().get(0).getRounds()){
+            for(Match m : r.getMatches()){
+                Assertions.assertNotEquals(m.getTeams().get(0).getClub(), m.getTeams().get(1).getClub()
+                        , "the match should be between teams in separate clubs");
+            }
+        }
+
+    }
+
+    @Test
+    @Rollback(false)
+    @Transactional
+    void avoidConfrontationFromTeamsInTheSameClub2() {
+
+        Tournament tournament = createTournament();
+
+        tournament = createSimpleGame(tournament, 1, false, false, 4);
+
+        tournament.getPhases().get(0).setAvoidConfrontationClub(true);
+
+        tournamentRepository.save(tournament);
+
+        insertTeam(tournament, 10);
+
+        Club c1 = new Club();
+        Club c2 = new Club();
+
+        c1.setName("Club 1");
+        c2.setName("Club 2");
+
+        List<Club> clubs = clubRepository.saveAll(List.of(c1, c2));
+
+        for (int i = 0; i < 8; i++) {
+            tournament.getTeams().get(i).setClub(clubs.get(0));
+        }
+        for (int i = 8; i < 10; i++) {
+            tournament.getTeams().get(i).setClub(clubs.get(1));
+        }
+
+        Map<Round, List<Match>> results = phaseService.generate(tournament.getPhases().get(0).getId().toString());
+
+        tournament = tournamentRepository.findById(tournament.getId());
+        int same = 0;
+        int diff = 0;
+        for (Round r : tournament.getPhases().get(0).getRounds()) {
+            for (Match m : r.getMatches()) {
+               if(m.getTeams().get(0).getClub().getId() ==  m.getTeams().get(1).getClub().getId()) same ++;
+               else diff ++;
+            }
+        }
+
+        Assertions.assertEquals(2, diff , "there should be 2 matches from diff clubs");
+        Assertions.assertEquals(3, same , "there should be 3 matches from the same club");
+
+    }
 
 
-    Tournament createTournament(){
+
+
+
+        Tournament createTournament(){
         Tournament tournament = new Tournament(
                 "tournament test simple game service",
                 "location",
