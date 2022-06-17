@@ -2,6 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/styles/infos/infos.css}" href="../" />
     <div th:replace="fragments/header"></div>
     <title>Informations personnelles</title>
 </head>
@@ -15,44 +16,55 @@
                 <div class="contentTitle">Vos informations personnelles</div>
                 <div class="contentText">
                     <div th:if="${#session.getAttribute('user') != null }">
-                        Votre Email : <span id="email" th:text="${user.email}" />
-                        <br>
-                        <br>
-                        Votre Tournoi : <span id="tournament" th:text="${user.tournament.name}" />
-                        <br>
-                        <br>
-                        Votre Role : <span id="role" th:text="${user.role}" />
-                        <br>
-                        <br>
-                        <div th:if="${#strings.equals(user.role, 'PLAYER')}">
-                            Votre Equipe : <span id="team" th:text="${user.team.name}" />
+                        <div class="infoContainer">
+                            <p class="label firstLabel">Email</p>
+                            <span id="email" th:text="${user.email}" />
+                            <hr>
+                            <p class="label">Tournoi</p>
+                            <span id="tournament" th:text="${user.tournament.name}" />
+                            <hr>
+                            <p class="label">Role</p>
+                            <span id="role" th:text="${user.role}" />
+
+                            <div th:if="${#strings.equals(user.role, 'PLAYER')}">
+                                <hr>
+                                <p class="label">Equipe</p>
+                                <span id="team" th:text="${user.team.name}" />
+                            </div>
                         </div>
+
                         <br>
 
                         <div th:if="${#strings.equals(user.role, 'STAFF')}">
-                            <div class="contentTitle">Les matchs qui vous sont attribués (en tant que staff)</div>
+                            <div class="contentTitle">Les matchs qui vous sont attribués (en tant que staff):</div>
                             <div th:each="match: ${matchList}">
-                                <br>
-                                ID du match : <span th:text="${match.getId()}"></span>
-                                <br>
-                                Nom du court : <span th:text="${match.getCourt().getName()}">msg</span>
-                                <br>
-                                <a th:href="@{'/matches/match?match_id='+${match.getId()}}">text</a>
-                                <div th:if="${match.getFinished()}">
-                                Statut du match : <span>Match terminé</span>
-                                    <br>
-                                    <span  th:text="${match.getTeams().get(0).getName()}"></span>
-                                    <span  th:text="${match.getScoreTeam1()}"></span> |
-                                    <span  th:text="${match.getTeams().get(1).getName()}"></span>
-                                    <span th:text="${match.getScoreTeam2()}"></span>
+                                <div class="infoContainer">
+                                    <p class="label">ID du match</p>
+                                    <span th:text="${match.getId()}"></span>
+                                    <hr>
+                                    <p class="infoContainer">Nom du court</p>
+                                    <span th:text="${match.getCourt().getName()}"></span>
+                                    <hr>
+                                    <p class="label">Lien vers la page du match</p>
+                                    <a th:href="@{'/matches/match?match_id='+${match.getId()}}"></a>
+                                    <div th:if="${match.getFinished()}">
+                                        <p class="label">Statut du match</p>
+                                        <span>Match terminé</span>
+                                        <hr>
+                                        <span th:text="${match.getTeams().get(0).getName()}"></span>
+                                        <span th:text="${match.getScoreTeam1()}"></span> |
+                                        <span th:text="${match.getTeams().get(1).getName()}"></span>
+                                        <span th:text="${match.getScoreTeam2()}"></span>
+                                        <br>
+                                    </div>
+                                    <div th:if="${!match.getFinished()}">
+                                        <p class="label">Statut du match</p>
+                                        <span>Match à venir</span>
+                                    </div>
                                     <br>
                                 </div>
-                                <div th:if="${!match.getFinished()}">
-                                    Statut du match : <span>Match à venir</span>
-                                </div>
-                                <br>
                             </div>
-                            </div>
+                        </div>
                     </div>
                     <div th:unless="${#session.getAttribute('user') != null}">
                         <h2 style="color:red" >Connectez-vous pour accéder à vos informations</h2>

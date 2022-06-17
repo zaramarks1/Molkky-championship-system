@@ -12,6 +12,7 @@ public class InfosController extends DefaultAttributes {
 
     @GetMapping("/infos")
     public String index(Model model, HttpSession session){
+
         return "infos";
     }
 }
