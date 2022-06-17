@@ -9,19 +9,19 @@
     </th:block>
     <th:block th:if="${users.size() > 0}">
         <div class="searchAutoresultsSectionTitle popup">Utilisateurs</div>
-        <div th:each="user, iStat: ${users}" class="searchResultItemContainer popup">
+        <a th:each="user, iStat: ${users}" class="searchResultItemContainer popup" th:href="${'/user/view?userId=' + user.getId()}">
             <img th:src="@{/assets/users.svg}" class="searchResultItemIcon popup" alt="tournament icon"/>
             <div th:text="${user.surname + ' ' + user.forename}" class="searchResultItemText popup">
             </div>
-        </div>
+        </a>
     </th:block>
     <th:block th:if="${teams.size() > 0}">
         <div class="searchAutoresultsSectionTitle popup">Equipes</div>
-        <div th:each="team, iStat: ${teams}" class="searchResultItemContainer popup">
+        <a th:each="team, iStat: ${teams}" class="searchResultItemContainer popup" th:href="${'/team/view?teamId=' + team.getId()}">
             <img th:src="@{/assets/teams.svg}" class="searchResultItemIcon popup" alt="tournament icon"/>
             <div th:text="${team.name}" class="searchResultItemText popup">
             </div>
-        </div>
+        </a>
     </th:block>
     <th:block th:if="${teams.size() == 0 && users.size() == 0 && tournaments.size() == 0}">
         <div class="searchResultItemText popup">Pas de résultat pour la recherche</div>

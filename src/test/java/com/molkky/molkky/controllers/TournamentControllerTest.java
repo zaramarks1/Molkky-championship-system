@@ -289,8 +289,8 @@ class TournamentControllerTest {
         mockMvc.perform(get("/tournament/modify")
                 .sessionAttr("user",userLogged)
                 .param("tournamentId","1"))
-                .andExpect(view().name("/tournament/allTournament"))
-                .andExpect(status().is2xxSuccessful());
+                .andExpect(view().name("redirect:/tournament/allTournament"))
+                .andExpect(status().is3xxRedirection());
 
         verify(tournamentRepository,times(1)).findById(1);
         verify(userLogged,times(1)).getEmail();
@@ -314,8 +314,8 @@ class TournamentControllerTest {
         mockMvc.perform(get("/tournament/modify")
                 .sessionAttr("user",userLogged)
                 .param("tournamentId","1"))
-                .andExpect(view().name("/tournament/allTournament"))
-                .andExpect(status().is2xxSuccessful());
+                .andExpect(view().name("redirect:/tournament/allTournament"))
+                .andExpect(status().is3xxRedirection());
 
         verify(tournamentRepository,times(1)).findById(1);
         verify(userLogged,times(1)).getEmail();

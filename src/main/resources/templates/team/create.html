@@ -18,7 +18,7 @@
 
                 <div class="inputContainer">
                     <label for="tournament" class="inputLabel">Sélectionnez un tournoi</label>
-                    <select class="inputTournament" id="tournament" th:field="*{tournament}" >
+                    <select required class="inputTournament" id="tournament" th:field="*{tournament}" >
                         <option th:each="tournament : ${tournaments}" th:value="${tournament.id}" th:text="${tournament.name}" class="inputTournament" >
                     </option>
                     </select>
@@ -26,19 +26,19 @@
 
                 <div class="inputContainer">
                     <label class="inputLabel">Créer un nouveau club</label>
-                        <input class="inputTournament"  type="checkbox"  th:id = "newClub"
-                               name="Créer un nouveau club" value="newClub" th:field="*{option}" ><br>
-                    <label class="inputLabel">Choisir un club déjà existant</label>
-                        <input class="inputTournament"  type="checkbox"  th:id = "oldClub"
-                               name="Choisir un club déjà existant"  th:field="*{option}" value="oldClub"><br>
+                    <input class="inputTournament"  type="checkbox"  th:id = "newClub"
+                           name="Créer un nouveau club" value="newClub" th:field="*{option}" ><br>
                 </div>
-
-                <div hidden class="inputHiddenContainer" id = "createClub">
+                <div hidden class="inputHiddenContainer inputContainer" id = "createClub" style="display: none">
                     <label  class="inputLabel">Créer un club</label>
                     <input id="createClubInput" name="visible" type="text" th:field="*{newClubName}" class="inputTournament"/>
                 </div>
-
-                <div hidden class="inputHiddenContainer" id = "existingClubs">
+                <div class="inputContainer">
+                    <label class="inputLabel">Choisir un club déjà existant</label>
+                    <input class="inputTournament"  type="checkbox"  th:id = "oldClub"
+                           name="Choisir un club déjà existant"  th:field="*{option}" value="oldClub"><br>
+                </div>
+                <div hidden class="inputHiddenContainer inputContainer" id = "existingClubs" style="display: none">
                     <label  class="inputLabel">Sélectionnez un club</label>
                     <select class="inputTournament" id="club" th:field="*{clubId}" >
                         <option th:each="club : ${clubs}" th:value="${club.id}" th:text="${club.name}" class="inputTournament" >
@@ -60,11 +60,11 @@
 
         .addEventListener("change", function () {
             if (this.checked) {
-                document.getElementById("createClub").hidden = false;
-                document.getElementById("existingClubs").hidden = true;
+                document.getElementById("createClub").style.display = 'flex';
+                document.getElementById("existingClubs").style.display = 'none';
                 document.getElementById("oldClub").checked = false;
             } else {
-                document.getElementById("createClub").hidden = true;
+                document.getElementById("createClub").style.display = 'none';
 
             }
         })
@@ -73,11 +73,11 @@
 
         .addEventListener("change", function () {
             if (this.checked) {
-                document.getElementById("existingClubs").hidden = false;
+                document.getElementById("existingClubs").style.display = 'flex';
                 document.getElementById("newClub").checked = false;
                 document.getElementById("createClub").hidden = true;
             } else {
-                document.getElementById("existingClubs").hidden = true;
+                document.getElementById("existingClubs").style.display = 'none';
 
             }
         })

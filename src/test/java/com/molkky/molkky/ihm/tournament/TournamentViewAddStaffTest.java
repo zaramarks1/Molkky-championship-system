@@ -13,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import type.UserRole;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -109,8 +110,8 @@ class TournamentViewAddStaffTest {
         String tournamentNameIHM = config.getDriver().findElement(new By.ById("tournament_name")).getText();
         Assertions.assertEquals(tournament.getName(),tournamentNameIHM);
         String dateLocationIHM = config.getDriver().findElement(new By.ById("date-and-location")).getText();
-        String dateAndLocationDB = "Le tournoi "+tournament.getName()+" du "
-                +tournament.getDate()+" aura lieu à " + "Angers débutera le " + tournament.getDate()+".";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        String dateAndLocationDB = "Le tournoi "+tournament.getName() + " aura lieu à " + "Angers et débutera le " + simpleDateFormat.format(tournament.getDate()) +".";
         Assertions.assertEquals(dateAndLocationDB,dateLocationIHM);
         String nbTeamsIHM = config.getDriver().findElement(new By.ById("teams-extremums")).getText();
         String nbTeamsDB = "Le nombre d'équipes pour ce tournoi est compris entre "
@@ -130,6 +131,7 @@ class TournamentViewAddStaffTest {
         Tournament tournament = tournamentRepository.findByName(tournamentName);
         int tournamentId = tournament.getId();
         config.getDriver().get(url + "/tournament/view?tournamentId=" + tournamentId);
+        config.getDriver().findElement(new By.ById("staff-counter")).clear();
         config.getDriver().findElement(new By.ById("staff-counter")).sendKeys(Integer.toString(nbStaff));
         config.getDriver().findElement(new By.ById("addStaff")).click();
         Assertions.assertEquals("Créer Staff", config.getDriver().getTitle());

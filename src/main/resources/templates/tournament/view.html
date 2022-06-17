@@ -15,11 +15,14 @@
             <div class="setInline statusCircleGreen"></div>
             <p id="tournament_status" class="setInline" th:text="|(${tournament.status.getDisplayValue()})|"></p>
             <p id="tournament_name" class="setInline" th:text="|${tournament.name}|"></p>
+            <a id="buttonModify" class="boxOneCard" th:if="${session.user != null} and (${#strings.equals(session.user.role, 'ADM')})" th:href="@{'/tournament/modify?tournamentId='+${tournament.id}}">
+                <span class="insideText">Modifier Tournoi</span>
+            </a>
         </div>
         <div class="partContainer">
             <h2 class="partTitle">Informations générales</h2>
             <p id="date-and-location"
-               th:text="|Le tournoi ${tournament.name} du ${tournament.date} aura lieu à ${tournament.location} débutera le ${tournament.date}.|"></p>
+               th:text="|Le tournoi ${tournament.name} aura lieu à ${tournament.location} et débutera le ${#dates.format(tournament.date, 'dd-MM-yyyy')}.|"></p>
             <p>Merci d'apporter votre propre jeu de molkky et de quoi manger pour la journée. Le club ne propose pas de
                 services de restauration.</p>
             <br>
@@ -75,7 +78,7 @@
                                th:text="${team.present == true ? 'Présence confirmée' : 'Présence non confirmée'}"></p>
                             <ul class="roundsList">
                                 <th:block th:each="team : ${team.getUserTournamentRoles()}">
-                                    <li class="teamMember" th:text="${team.getUser().getForename()}"></li>
+                                    <li class="teamMember" th:text="${team.getUser().getPseudo()}"></li>
                                 </th:block>
                             </ul>
                         </div>
@@ -106,7 +109,7 @@
 
         <div class="partContainer">
             <h2 class="partTitle">Staff</h2>
-            <div id="staffContainer">
+            <div id="staffContainer" class="cardListContainer">
                 <th:block th:each="user : ${tournament.getUserTournamentRoles()}">
                     <div class="teamCard" th:if="${#strings.equals(user.getRole(), 'STAFF')}">
                         <h3 class="teamName" th:text="${user.getUser().getSurname()}"></h3>
@@ -128,7 +131,7 @@
                             <div class="inputContainer">
                                 <label class="inputLabel">Nombre de staff à ajouter</label>
                                 <input style="margin-bottom: 10px;" class="inputStaff" id="staff-counter" name="nbStaff"
-                                       th:name="staffCount" type="number" min="1">
+                                       th:name="staffCount" type="number" min="1" value="1">
                                 <input hidden th:value="${tournament.id}" th:name="tournamentId"/>
                                 <button id="addStaff" class="primaryButton" type="submit">Ajouter du staff</button>
                             </div>
@@ -233,7 +236,8 @@
                             <button id="isValid" name="visible" class="primaryButton" type="submit">Rendre public le tournoi</button>
                         </form>
                     </span>
-                    <span th:if=" ${tournament.isVisible} == true">
+                    <p th:if="${isReady == false}">Le tournoi n'a pas assez de terrains, staff ou équipes pour démarrer.</p>
+                    <span th:if="${tournament.isVisible == true && isReady == true}">
                         <p>Votre tournoi est  visible au public ! Souhaitez-vous débuter le tournoi ?</p>
                         <form action="#" th:action="@{/tournament/publish}" method="post" class="formContainer">
                            <input hidden th:value="${tournament.id}" th:name="tournamentId"/>

@@ -110,7 +110,7 @@ public class TournamentController extends DefaultAttributes {
         UserLogged user = getUser(session);
         Tournament tournament = tournamentRepository.findById(Integer.valueOf(tournamentId));
         if(!user.getEmail().equals(tournamentService.getEmailAdmin(tournament)) || !tournament.getStatus().equals(TournamentStatus.AVAILABLE)){
-            return redirectionAll;
+            return "redirect:"+redirectionAll;
         }
         TournamentModel tournamentModel = new TournamentModel(tournament);
         tournamentModel.setDatesNull();
@@ -143,7 +143,6 @@ public class TournamentController extends DefaultAttributes {
 
         if (user != null) {
             if (user.getTournament().getId().toString().equals(tournamentId) && user.getRole().equals(UserRole.ADM)) {
-
                 model.addAttribute("user", user);
             }else{
                 model.addAttribute("user", null);
@@ -192,6 +191,7 @@ public class TournamentController extends DefaultAttributes {
         model.addAttribute("phasesType", phasesType);
         model.addAttribute(allTournament, tournament);
         model.addAttribute("nbTeam", tournament.getTeams().size());
+        model.addAttribute("isReady", tournamentService.isTournamentReady(tournament));
         return "/tournament/view";
 
     }

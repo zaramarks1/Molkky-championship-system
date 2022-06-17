@@ -27,7 +27,7 @@
     flex-direction: row;
     flex-wrap: wrap;
     align-items: center;
-    justify-content: space-between;
+    justify-content: start !important;
 }
 
 .cardUser {
@@ -42,18 +42,24 @@
     box-shadow: 0px 0px 7px 2px rgb(196 196 196 / 25%);
     border-radius: 7px;
     color: white;
+    margin-right: 30px;
+    margin-bottom: 30px;
 }
 
 @media only screen and (max-width: 1000px) {
     .cardUser {
         width: 100%;
+        margin: 10px 0px;
     }
 }
 
 .userHeader {
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: start;
+    padding: 5px;
+    font-size: 16px;
+    font-weight: bold;
     align-items: center;
     width: -moz-available;          /* WebKit-based browsers will ignore this. */
     width: -webkit-fill-available;  /* Mozilla-based browsers will ignore this. */
@@ -78,7 +84,7 @@
 .image {
     margin-left: auto;
     margin-right: auto;
-    margin-top: 15px;
+    margin-top: 8px;
     display: block;
     height: 70px;
 }

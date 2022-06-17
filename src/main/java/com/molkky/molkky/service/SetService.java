@@ -40,25 +40,8 @@ public class SetService {
     static final String URLMATCH = "/matches/match?match_id=";
 
     public void enterSetResults(SetModel set, UserTournamentRoleModel user){
-        Set setEntity = getSetFromModel(set);
+        Set setEntity = setScore(set,user);
         if(Boolean.TRUE.equals(setEntity.getFinished())) return;
-        SetTeamIndex teamIndex = matchService.getUserTeamIndex(MatchService.getMatchModelFromEntity(setEntity.getMatch()), user);
-        switch (teamIndex){
-            case TEAM1:
-                setEntity.setScore1Team1(set.getScore1Team1());
-                setEntity.setScore2Team1(set.getScore2Team1());
-                break;
-            case TEAM2:
-                setEntity.setScore1Team2(set.getScore1Team2());
-                setEntity.setScore2Team2(set.getScore2Team2());
-                break;
-            case ORGA:
-                setEntity.setScore1Orga(set.getScore1Orga());
-                setEntity.setScore2Orga(set.getScore2Orga());
-                break;
-            default:
-                break;
-        }
         if(Boolean.TRUE.equals(isSetFinished(setEntity, user))){
 
             Set setSave = setRepository.findById(set.getId());
@@ -101,12 +84,38 @@ public class SetService {
         }
 
         if(Boolean.FALSE.equals(isSetFinished(setEntity,user))){
-            Team oppositeTeam = matchService.getOppositeTeam(MatchService.getMatchModelFromEntity(setEntity.getMatch()), user);
-            List<UserTournamentRole> userRoles = userTournamentRoleRepository.findByTeamAndTournament(oppositeTeam,oppositeTeam.getTournament());
-            for (UserTournamentRole userRole:userRoles){
-                this.timerNotificationEnterScore(userRole,setEntity);
-            }
+            callTimer(setEntity,user);
         }
+    }
+
+    public void callTimer(Set setEntity, UserTournamentRoleModel user){
+        Team oppositeTeam = matchService.getOppositeTeam(MatchService.getMatchModelFromEntity(setEntity.getMatch()), user);
+        List<UserTournamentRole> userRoles = userTournamentRoleRepository.findByTeamAndTournament(oppositeTeam,oppositeTeam.getTournament());
+        for (UserTournamentRole userRole:userRoles){
+            this.timerNotificationEnterScore(userRole,setEntity);
+        }
+    }
+
+    public Set setScore(SetModel set, UserTournamentRoleModel user){
+        Set setEntity = getSetFromModel(set);
+        SetTeamIndex teamIndex = matchService.getUserTeamIndex(MatchService.getMatchModelFromEntity(setEntity.getMatch()), user);
+        switch (teamIndex){
+            case TEAM1:
+                setEntity.setScore1Team1(set.getScore1Team1());
+                setEntity.setScore2Team1(set.getScore2Team1());
+                break;
+            case TEAM2:
+                setEntity.setScore1Team2(set.getScore1Team2());
+                setEntity.setScore2Team2(set.getScore2Team2());
+                break;
+            case ORGA:
+                setEntity.setScore1Orga(set.getScore1Orga());
+                setEntity.setScore2Orga(set.getScore2Orga());
+                break;
+            default:
+                break;
+        }
+        return setEntity;
     }
 
     public Boolean isUserInSet(SetModel setModel, UserModel user){
