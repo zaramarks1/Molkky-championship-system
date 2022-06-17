@@ -234,7 +234,7 @@
                         </form>
                     </span>
                     <p th:if="${isReady == false}">Le tournoi n'a pas assez de terrains, staff ou équipes pour démarrer.</p>
-                    <span th:if="{tournament.isVisible == true && isReady == true}">
+                    <span th:if="${tournament.isVisible == true && isReady == true}">
                         <p>Votre tournoi est  visible au public ! Souhaitez-vous débuter le tournoi ?</p>
                         <form action="#" th:action="@{/tournament/publish}" method="post" class="formContainer">
                            <input hidden th:value="${tournament.id}" th:name="tournamentId"/>
