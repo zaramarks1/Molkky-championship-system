@@ -165,3 +165,8 @@ li.teamMember{
     padding: 10px;
     box-shadow: 0 0 7px #c4c4c4;
 }
+
+#courtContainer{
+    display: flex;
+    flex-direction: row;
+}
