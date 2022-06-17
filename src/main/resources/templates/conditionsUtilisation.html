@@ -1,54 +1,60 @@
-<html xmlns:th="http://thymeleaf.org" xmlns="http://www.w3.org/1999/html" lang="fr">
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <meta charset="UTF-8">
     <div th:replace="fragments/header"></div>
     <link rel="stylesheet" th:href="@{/styles/cupc/cupc.css}" href="../" />
     <title>Conditions d'Utilisation</title>
 </head>
 <body class="bg">
-    <div class="pageContainer">
-        <div th:replace="fragments/sidebar"> </div>
-        <div class="contentContainer">
-            <div th:replace="fragments/searchbar"> </div>
-            <div class="contentTitle">Conditions d'Utilisation</div>
-            <p>
-                Les présentes Conditions d'Utilisation ont pour objet de préciser le fonctionnement et les objectifs principaux de l'application web, les comportements que les utilisateurs doivent adopter, ainsi que les droits auxquels ces-derniers sont elligibles.
-            </p>
+<div class="pageContainer">
+    <div th:replace="fragments/sidebar"> </div>
+    <div class="contentContainer">
+        <div th:replace="fragments/searchbar"> </div>
+        <div class="homeContainer">
+            <div id="cu">
+                <div class="pageTitle">Conditions d'Utilisation</div>
+                <p>
+                    Les présentes Conditions d'Utilisation ont pour objet de préciser le fonctionnement et les objectifs principaux de l'application web, les comportements que les utilisateurs doivent adopter, ainsi que les droits auxquels ces-derniers sont elligibles.
+                </p>
 
-            <h1>La description du site</h1>
-            <p>lorem10</p>
+                <div class="contentTitle">Description du site</div>
+                <p>lorem10</p>
 
-            <h1>Les droits et les obligations de l'utilisateur</h1>
-            <p>
-                Lors de la création d'un compte sur l'application web, l'utilisateur en question se doit de garder de manière confidentielle l'ensemble des informations qu'il fournit, notamment ses identifiants de connexion.
-                L'utilisateur se doit également d'utiliser l'application web conformément aux objectifs et buts de cette-dernière.
-                De plus, l'utilisateur ne doit tenter, en aucun cas, de nuire au bon fonctionnement de l'application web par quelconque moyen.
-            </p>
+                <div class="contentTitle">Les droits et les obligations de l'utilisateur</div>
+                <p>
+                    Lors de la création d'un compte sur l'application web, l'utilisateur en question se doit de garder de manière confidentielle l'ensemble des informations qu'il fournit, notamment ses identifiants de connexion.
+                    L'utilisateur se doit également d'utiliser l'application web conformément aux objectifs et buts de cette-dernière.
+                    De plus, l'utilisateur ne doit tenter, en aucun cas, de nuire au bon fonctionnement de l'application web par quelconque moyen.
+                </p>
 
-            <h1>Les droits et les obligations de l'éditeur</h1>
-            <p>
-                L'équipe de développement et de maintenance se doit de maintenir l'accès à l'application web. Ce point est naturellement accentué en période de tournoi.
-                Ce deuxième point découle du précédent, l'équipe de développement se doit de tenir toutes les fonctionanlités fonctionnelles et utilisables pour tous les utilisateurs.
-                L'équipe de développement se décharge de toute responsabilité concernant un ou des cas d'utilisation frauduleuse du site par un tiers. Cette utilisation étant présentée comme interdite dans la section précédente.
-            </p>
+                <div class="contentTitle">Les droits et les obligations de l'éditeur</div>
+                <p>
+                    L'équipe de développement et de maintenance se doit de maintenir l'accès à l'application web. Ce point est naturellement accentué en période de tournoi.
+                    Ce deuxième point découle du précédent, l'équipe de développement se doit de tenir toutes les fonctionanlités fonctionnelles et utilisables pour tous les utilisateurs.
+                    L'équipe de développement se décharge de toute responsabilité concernant un ou des cas d'utilisation frauduleuse du site par un tiers. Cette utilisation étant présentée comme interdite dans la section précédente.
+                </p>
 
-            <h1>La responsabilité limitée de l'éditeur quant aux liens hypertextes</h1>
-            <p>
-                Certains liens de redirection présents sur l'application web peuvent pointer vers des sites tiers.
-                Les présentes Conditions d'Utilisation précisent ici le lien entre l'application web et les sites tiers. Cela permet de décharger l'équipe de développement et de maintenance de sa responsabilité en cas de contenu illicite sur le site vers lequel pointe le lien hypertexte.
-            </p>
+                <div class="contentTitle">Les droits et les obligations de l'éditeur</div>
+                <p>
+                    Certains liens de redirection présents sur l'application web peuvent pointer vers des sites tiers.
+                    Les présentes Conditions d'Utilisation précisent ici le lien entre l'application web et les sites tiers. Cela permet de décharger l'équipe de développement et de maintenance de sa responsabilité en cas de contenu illicite sur le site vers lequel pointe le lien hypertexte.
+                </p>
 
-            <h1>Propriété Intellectuelle</h1>
-            <p>
-                Les éléments visibles sur l'application web sont protégés par le droit d'auteur et que leur utilisation sans autorisation préalable expresse est interdite.
-            </p>
+                <div class="contentTitle">Propriété Intellectuelle</div>
+                <p>
+                    Les éléments visibles sur l'application web sont protégés par le droit d'auteur et que leur utilisation sans autorisation préalable expresse est interdite.
+                </p>
 
-            <h1>Les modalités de règlement des litiges</h1>
-            <p>
-                En cas de litige, les différentes parties tenteront de régler le conflit à l'amiable. A défaut de règlement amiable, l'éditeur doit respecter les règles d'attribution de compétence matérielle et territoriale.
-            </p>
+                <div class="contentTitle">Les modalités de règlement des litiges</div>
+                <p>
+                    En cas de litige, les différentes parties tenteront de régler le conflit à l'amiable. A défaut de règlement amiable, l'éditeur doit respecter les règles d'attribution de compétence matérielle et territoriale.
+                </p>
+            </div>
+            <div th:replace="fragments/socials"></div>
         </div>
     </div>
+</div>
 </body>
+<div th:replace="fragments/footer"></div>
 </html>
