@@ -48,9 +48,10 @@ import java.util.List;
         String randomCutOffDate = "01/01/2020";
         String randomMinTeam = "5";
         String randomMaxTeam = "20";
-        String randomNbRounds = "5";
+        String randomNbRounds = "4";
         String randomNbCounts = "1";
         String randomNbPlayersPerTeam = "3";
+        String randomMail = "test@gmail.com";
 
         config.getDriver().findElement(new By.ById("nom")).sendKeys(randomName);
         config.getDriver().findElement(new By.ById("location")).sendKeys(randomLocation);
@@ -62,6 +63,7 @@ import java.util.List;
         config.getDriver().findElement(new By.ById("visible")).click();
         config.getDriver().findElement(new By.ById("nbRounds")).sendKeys(randomNbRounds);
         config.getDriver().findElement(new By.ById("nbCourts")).sendKeys(randomNbCounts);
+        config.getDriver().findElement(new By.ById("email")).sendKeys(randomMail);
         config.getDriver().findElement(new By.ById("sendTournament")).click();
 
         Assertions.assertEquals("Choix de la/des phase(s)", config.getDriver().getTitle());
@@ -77,19 +79,11 @@ import java.util.List;
         Select select4 = new Select(config.getDriver().findElement(new By.ByName("phases[3].phaseType")));
         select4.selectByIndex(3);
 
-        Select select5 = new Select(config.getDriver().findElement(new By.ByName("phases[4].phaseType")));
-        select5.selectByIndex(4);
-
         config.getDriver().findElement(new By.ById("choosePhases")).click();
-
-
     }
-
 
     @Test
     void testAllDisplay(){
-
-       // String idTournament = config.getDriver().findElement(new By.ByName("phases[0].tournament")).getAttribute("value");
 
         Assertions.assertEquals("Éditer les informations de la/des phase(s)", config.getDriver().getTitle());
         Assertions.assertTrue(config.getDriver().findElement(new By.ByClassName("contentTitle")).isDisplayed());
@@ -99,58 +93,31 @@ import java.util.List;
         Assertions.assertTrue(config.getDriver().findElement
                 (new By.ByXPath("/html/body/div/div[2]/form/div[1]/strong")).isDisplayed());
 
-        Assertions.assertEquals("Phase n°1 de type FINNISH",config.getDriver().findElement
+        Assertions.assertEquals("Phase n°1 de type POOL",config.getDriver().findElement
                 (new By.ByXPath("/html/body/div/div[2]/form/div[1]/strong")).getText());
 
-        Assertions.assertEquals("Phase n°2 de type KNOCKOUT",config.getDriver().findElement
+        Assertions.assertEquals("Phase n°2 de type SWISSPOOL",config.getDriver().findElement
                 (new By.ByXPath("/html/body/div/div[2]/form/div[2]/strong")).getText());
 
-        Assertions.assertEquals("Phase n°3 de type POOL",config.getDriver().findElement
+        Assertions.assertEquals("Phase n°3 de type KNOCKOUT",config.getDriver().findElement
                 (new By.ByXPath("/html/body/div/div[2]/form/div[3]/strong")).getText());
 
         Assertions.assertEquals("Phase n°4 de type SIMPLEGAME",config.getDriver().findElement
                 (new By.ByXPath("/html/body/div/div[2]/form/div[4]/strong")).getText());
 
-        Assertions.assertEquals("Phase n°5 de type SWISSPOOL",config.getDriver().findElement
-                (new By.ByXPath("/html/body/div/div[2]/form/div[5]/strong")).getText());
-
-        //FINNISH
-        testFinnish(0);
-
-
-
-        //knockout
-       // Assertions.assertTrue(config.getDriver().findElement(new By.ByName("phases[1].nbMatch")).isDisplayed());
-        testKnockout(1);
-
+        //KNOCKOUT
+        testPool(0);
 
         //POOL
-        testPool(2);
+        testSwiss(1);
 
         //SIMPLE GAME
-        testSimpleGame(3);
+        testKnockout(2);
 
         //SWISS
-        testSwiss(4);
-
+        testSimpleGame(3);
 
         Assertions.assertTrue(config.getDriver().findElement(new By.ById("sendPhases")).isDisplayed());
-
-        Assertions.assertEquals("Affectations terrains",config.getDriver().findElement
-                (new By.ByXPath("/html/body/div/div[2]/form/div[1]/div[1]/div[1]/label")).getText());
-        Assertions.assertEquals("Gestion du planning",config.getDriver().findElement
-                (new By.ByXPath("/html/body/div/div[2]/form/div[1]/div[1]/div[4]/label")).getText());
-        Assertions.assertEquals("Nombre de finlandaises",config.getDriver().findElement
-                (new By.ByXPath("/html/body/div/div[2]/form/div[1]/div[2]/div/div/div[1]/label")).getText());
-
-    }
-
-    void testFinnish(int index){
-        Assertions.assertTrue(config.getDriver().findElement(new By.ByName("phases[" + index + "].nbFinnish")).isDisplayed());
-        Assertions.assertTrue(config.getDriver().findElement(new By.ByName("phases[" + index + "].ranking")).isDisplayed());
-        Assertions.assertTrue(config.getDriver().findElement(new By.ByName("phases[" + index + "].topSeeds")).isDisplayed());
-        Assertions.assertTrue(config.getDriver().findElement(new By.ByName("phases[" + index + "].notifBeginningPhase")).isDisplayed());
-        Assertions.assertTrue(config.getDriver().findElement(new By.ByName("phases[" + index + "].nbTeamsQualified")).isDisplayed());
     }
 
     void testKnockout(int index){
@@ -169,7 +136,6 @@ import java.util.List;
         Assertions.assertTrue(config.getDriver().findElement(new By.ByName("phases[" + index + "].topSeeds")).isDisplayed());
         Assertions.assertTrue(config.getDriver().findElement(new By.ByName("phases[" + index + "].playTeamSameClub")).isDisplayed());
         Assertions.assertTrue(config.getDriver().findElement(new By.ByName("phases[" + index + "].notifBeginningPhase")).isDisplayed());
-        Assertions.assertTrue(config.getDriver().findElement(new By.ByName("phases[" + index + "].notifEachDay")).isDisplayed());
         Assertions.assertTrue(config.getDriver().findElement(new By.ByName("phases[" + index + "].nbTeamsQualified")).isDisplayed());
     }
 
@@ -178,7 +144,6 @@ import java.util.List;
         Assertions.assertTrue(config.getDriver().findElement(new By.ByName("phases[" + index + "].ranking")).isDisplayed());
         Assertions.assertTrue(config.getDriver().findElement(new By.ByName("phases[" + index + "].topSeeds")).isDisplayed());
         Assertions.assertTrue(config.getDriver().findElement(new By.ByName("phases[" + index + "].notifBeginningPhase")).isDisplayed());
-        Assertions.assertTrue(config.getDriver().findElement(new By.ByName("phases[" + index + "].consolation")).isDisplayed());
     }
 
     void testSwiss(int index){
@@ -189,167 +154,61 @@ import java.util.List;
         Assertions.assertTrue(config.getDriver().findElement(new By.ByName("phases[" + index + "].nbSubRounds")).isDisplayed());
     }
 
-    void verifyFirstDisplayed(){
-        Assertions.assertTrue(config.getDriver().findElement(new By.ByName("phases[0].scoreMode")).isDisplayed());
-        Assertions.assertTrue(config.getDriver().findElement(new By.ByName("phases[0].consolation")).isDisplayed());
-        Assertions.assertTrue(config.getDriver().findElement(new By.ByName("phases[0].playoff")).isDisplayed());
-        Assertions.assertTrue(config.getDriver().findElement(new By.ByName("phases[0].terrainAffectation")).isDisplayed());
-        Assertions.assertTrue(config.getDriver().findElement(new By.ByName("phases[0].managePlanning")).isDisplayed());
-    }
-
-    void verifyAfterFinnishedAfterClick(){
-        config.getDriver().findElement(new By.ByName("phases[0].consolation")).click();
-        Assertions.assertTrue(config.getDriver().findElement(new By.ByName("phases[0].numberConsolationQualify")).isDisplayed());
-
-        config.getDriver().findElement(new By.ByName("phases[0].playoff")).click();
-        Assertions.assertTrue(config.getDriver().findElement(new By.ByName("phases[0].numberPlayoffQualify")).isDisplayed());
-
-        config.getDriver().findElement(new By.ByName("phases[0].terrainAffectation")).click();
-        Assertions.assertTrue(config.getDriver().findElement(new By.ByName("phases[0].nbCourts")).isDisplayed());
-        Assertions.assertTrue(config.getDriver().findElement(new By.ByName("phases[0].numStartCourt")).isDisplayed());
-
-
-        config.getDriver().findElement(new By.ByName("phases[0].managePlanning")).click();
-        Assertions.assertTrue(config.getDriver().findElement(new By.ByName("phases[0].hourPhaseStart")).isDisplayed());
-        Assertions.assertTrue(config.getDriver().findElement(new By.ByName("phases[0].timePhase")).isDisplayed());
-    }
 
     void verifyKnockout(){
-        Assertions.assertTrue(config.getDriver().findElement(new By.ByName("phases[1].terrainAffectation")).isDisplayed());
-        config.getDriver().findElement(new By.ByName("phases[1].terrainAffectation")).click();
-        Assertions.assertTrue(config.getDriver().findElement(new By.ByName("phases[1].nbCourts")).isDisplayed());
-        Assertions.assertTrue(config.getDriver().findElement(new By.ByName("phases[1].numStartCourt")).isDisplayed());
-
-        Assertions.assertTrue(config.getDriver().findElement(new By.ByName("phases[1].managePlanning")).isDisplayed());
-        config.getDriver().findElement(new By.ByName("phases[1].managePlanning")).click();
-        Assertions.assertTrue(config.getDriver().findElement(new By.ByName("phases[1].hourPhaseStart")).isDisplayed());
-        Assertions.assertTrue(config.getDriver().findElement(new By.ByName("phases[1].timePhase")).isDisplayed());
+        Assertions.assertTrue(config.getDriver().findElement(new By.ByName("phases[2].randomDraw")).isDisplayed());
+        Assertions.assertTrue(config.getDriver().findElement(new By.ByName("phases[2].notifEveryRound")).isDisplayed());
     }
 
     void verifyPool(){
-        Assertions.assertTrue(config.getDriver().findElement(new By.ByName("phases[2].consolation")).isDisplayed());
-        config.getDriver().findElement(new By.ByName("phases[2].consolation")).click();
-        Assertions.assertTrue(config.getDriver().findElement(new By.ByName("phases[2].numberConsolationQualify")).isDisplayed());
-
-        Assertions.assertTrue(config.getDriver().findElement(new By.ByName("phases[2].playoff")).isDisplayed());
-        Assertions.assertTrue(config.getDriver().findElement(new By.ByName("phases[2].terrainAffectation")).isDisplayed());
-        Assertions.assertTrue(config.getDriver().findElement(new By.ByName("phases[2].managePlanning")).isDisplayed());
-
-        config.getDriver().findElement(new By.ByName("phases[2].playoff")).click();
-        Assertions.assertTrue(config.getDriver().findElement(new By.ByName("phases[2].numberPlayoffQualify")).isDisplayed());
-
-        config.getDriver().findElement(new By.ByName("phases[2].terrainAffectation")).click();
-        Assertions.assertTrue(config.getDriver().findElement(new By.ByName("phases[2].nbCourts")).isDisplayed());
-        Assertions.assertTrue(config.getDriver().findElement(new By.ByName("phases[2].numStartCourt")).isDisplayed());
-
-
-        config.getDriver().findElement(new By.ByName("phases[2].managePlanning")).click();
-        Assertions.assertTrue(config.getDriver().findElement(new By.ByName("phases[2].hourPhaseStart")).isDisplayed());
-        Assertions.assertTrue(config.getDriver().findElement(new By.ByName("phases[2].timePhase")).isDisplayed());
+        Assertions.assertTrue(config.getDriver().findElement(new By.ByName("phases[0].playTeamSameClub")).isDisplayed());
     }
 
     void verifySimplegame(){
-        Assertions.assertTrue(config.getDriver().findElement(new By.ByName("phases[3].consolation")).isDisplayed());
-        Assertions.assertTrue(config.getDriver().findElement(new By.ByName("phases[3].terrainAffectation")).isDisplayed());
-        Assertions.assertTrue(config.getDriver().findElement(new By.ByName("phases[3].managePlanning")).isDisplayed());
-
-        config.getDriver().findElement(new By.ByName("phases[3].terrainAffectation")).click();
-        Assertions.assertTrue(config.getDriver().findElement(new By.ByName("phases[3].nbCourts")).isDisplayed());
-        Assertions.assertTrue(config.getDriver().findElement(new By.ByName("phases[3].numStartCourt")).isDisplayed());
-
-
-        config.getDriver().findElement(new By.ByName("phases[3].managePlanning")).click();
-        Assertions.assertTrue(config.getDriver().findElement(new By.ByName("phases[3].hourPhaseStart")).isDisplayed());
-        Assertions.assertTrue(config.getDriver().findElement(new By.ByName("phases[3].timePhase")).isDisplayed());
+        Assertions.assertTrue(config.getDriver().findElement(new By.ByName("phases[3].notifBeginningPhase")).isDisplayed());
     }
 
     void verifySwiss(){
-        Assertions.assertTrue(config.getDriver().findElement(new By.ByName("phases[4].playoff")).isDisplayed());
-        Assertions.assertTrue(config.getDriver().findElement(new By.ByName("phases[4].terrainAffectation")).isDisplayed());
-        Assertions.assertTrue(config.getDriver().findElement(new By.ByName("phases[4].managePlanning")).isDisplayed());
-
-        config.getDriver().findElement(new By.ByName("phases[4].playoff")).click();
-        Assertions.assertTrue(config.getDriver().findElement(new By.ByName("phases[4].numberPlayoffQualify")).isDisplayed());
-
-        config.getDriver().findElement(new By.ByName("phases[4].terrainAffectation")).click();
-        Assertions.assertTrue(config.getDriver().findElement(new By.ByName("phases[4].nbCourts")).isDisplayed());
-        Assertions.assertTrue(config.getDriver().findElement(new By.ByName("phases[4].numStartCourt")).isDisplayed());
-
-
-        config.getDriver().findElement(new By.ByName("phases[4].managePlanning")).click();
-        Assertions.assertTrue(config.getDriver().findElement(new By.ByName("phases[4].hourPhaseStart")).isDisplayed());
-        Assertions.assertTrue(config.getDriver().findElement(new By.ByName("phases[4].timePhase")).isDisplayed());
+        Assertions.assertTrue(config.getDriver().findElement(new By.ByName("phases[1].nbTeamsQualified")).isDisplayed());
     }
 
     @Test
     void testAllDisplayHidden(){
-
-        // String idTournament = config.getDriver().findElement(new By.ByName("phases[0].tournament")).getAttribute("value");
 
         Assertions.assertEquals("Éditer les informations de la/des phase(s)", config.getDriver().getTitle());
         Assertions.assertTrue(config.getDriver().findElement(new By.ByClassName("contentTitle")).isDisplayed());
         Assertions.assertEquals("Veuillez éditer les différentes informations de la/des phase(s)",config.getDriver().findElement
                 (new By.ByClassName("contentTitle")).getText());
 
-        //FINNISH
-        verifyFirstDisplayed();
-        verifyAfterFinnishedAfterClick();
-
-        //knockout
-        verifyKnockout();
-
-        //POOL
-
         verifyPool();
-
-        //SIMPLE GAME
+        verifyKnockout();
         verifySimplegame();
-
-
-
-        //SWISS
         verifySwiss();
-
     }
-
-
-
 
     @Test
     void insertPhasesValues(){
 
         String idTournament = config.getDriver().findElement(new By.ByName("phases[0].tournament")).getAttribute("value");
 
-
-        config.getDriver().findElement(new By.ByName("phases[0].nbFinnish")).sendKeys("4");
-        config.getDriver().findElement(new By.ByName("phases[0].ranking")).click();
-        config.getDriver().findElement(new By.ByName("phases[0].nbTeamsQualified")).sendKeys("10");
-
-        config.getDriver().findElement(new By.ByName("phases[0].scoreMode")).isDisplayed();
-        config.getDriver().findElement(new By.ByName("phases[0].consolation")).isDisplayed();
-        config.getDriver().findElement(new By.ByName("phases[0].playoff")).isDisplayed();
-        config.getDriver().findElement(new By.ByName("phases[0].terrainAffectation")).isDisplayed();
-        config.getDriver().findElement(new By.ByName("phases[0].managePlanning")).isDisplayed();
-
         //knockout
-        config.getDriver().findElement(new By.ByName("phases[1].nbSets")).sendKeys("3");
-        //config.getDriver().findElement(new By.ByName("phases[1].nbMatch")).sendKeys("3");
+        config.getDriver().findElement(new By.ByName("phases[2].nbSets")).sendKeys("3");
 
         //pool
-        config.getDriver().findElement(new By.ByName("phases[2].nbPools")).sendKeys("2");
-        config.getDriver().findElement(new By.ByName("phases[2].nbTeamsQualified")).sendKeys("4");
-        config.getDriver().findElement(new By.ByName("phases[2].nbSets")).sendKeys("3");
-        config.getDriver().findElement(new By.ByName("phases[2].victoryValue")).sendKeys("2");
+        config.getDriver().findElement(new By.ByName("phases[0].nbPools")).sendKeys("2");
+        config.getDriver().findElement(new By.ByName("phases[0].nbTeamsQualified")).sendKeys("4");
+        config.getDriver().findElement(new By.ByName("phases[0].nbSets")).sendKeys("3");
+        config.getDriver().findElement(new By.ByName("phases[0].victoryValue")).sendKeys("2");
 
         //simple
         config.getDriver().findElement(new By.ByName("phases[3].nbSets")).sendKeys("3");
+        config.getDriver().findElement(new By.ByName("phases[3].nbTeamsQualified")).sendKeys("1");
 
         //swiss
-
-        config.getDriver().findElement(new By.ByName("phases[4].nbSets")).sendKeys("2");
-        config.getDriver().findElement(new By.ByName("phases[4].victoryValue")).sendKeys("2");
-        config.getDriver().findElement(new By.ByName("phases[4].nbTeamsQualified")).sendKeys("4");
-        config.getDriver().findElement(new By.ByName("phases[4].nbSubRounds")).sendKeys("2");
+        config.getDriver().findElement(new By.ByName("phases[1].nbSets")).sendKeys("2");
+        config.getDriver().findElement(new By.ByName("phases[1].victoryValue")).sendKeys("2");
+        config.getDriver().findElement(new By.ByName("phases[1].nbTeamsQualified")).sendKeys("4");
+        config.getDriver().findElement(new By.ByName("phases[1].nbSubRounds")).sendKeys("2");
 
         config.getDriver().findElement(new By.ById("sendPhases")).click();
 
@@ -357,13 +216,11 @@ import java.util.List;
 
         List<Phase> phases = phaseRepository.findByTournament(tournament);
 
-
-        Assertions.assertEquals( 5,phases.size(),"There should be 5 phases");
-        Assertions.assertTrue(phases.get(0) instanceof Finnish, "The phase should be finnish");
-        Assertions.assertTrue(phases.get(1) instanceof Knockout, "The phase should be knockout");
-        Assertions.assertTrue(phases.get(2) instanceof Pool, "The phase should be pool");
+        Assertions.assertEquals( 4,phases.size(),"There should be 4 phases");
+        Assertions.assertTrue(phases.get(2) instanceof Knockout, "The phase should be knockout");
+        Assertions.assertTrue(phases.get(0) instanceof Pool, "The phase should be pool");
         Assertions.assertTrue(phases.get(3) instanceof SimpleGame, "The phase should be simple game");
-        Assertions.assertTrue(phases.get(4) instanceof SwissPool, "The phase should be swiss");
+        Assertions.assertTrue(phases.get(1) instanceof SwissPool, "The phase should be swiss");
 
 
         Assertions.assertNotNull(tournament);
