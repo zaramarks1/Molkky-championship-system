@@ -37,6 +37,7 @@
 
                         <div th:if="${#strings.equals(user.role, 'STAFF')}">
                             <div class="contentTitle">Les matchs qui vous sont attribués (en tant que staff):</div>
+                            <div th:if="${matchList!=null}"><h1>error</h1></div>
                             <div th:each="match: ${matchList}">
                                 <div class="infoContainer">
                                     <p class="label">ID du match</p>
