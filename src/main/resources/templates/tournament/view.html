@@ -19,7 +19,7 @@
         <div class="partContainer">
             <h2 class="partTitle">Informations générales</h2>
             <p id="date-and-location"
-               th:text="|Le tournoi ${tournament.name} du ${tournament.date} aura lieu à ${tournament.location} débutera le ${tournament.date}.|"></p>
+               th:text="|Le tournoi ${tournament.name} aura lieu à ${tournament.location} et débutera le ${#dates.format(tournament.date, 'dd-MM-yyyy')}.|"></p>
             <p>Merci d'apporter votre propre jeu de molkky et de quoi manger pour la journée. Le club ne propose pas de
                 services de restauration.</p>
             <br>
