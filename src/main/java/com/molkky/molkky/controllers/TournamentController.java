@@ -192,6 +192,7 @@ public class TournamentController extends DefaultAttributes {
         model.addAttribute("phasesType", phasesType);
         model.addAttribute(allTournament, tournament);
         model.addAttribute("nbTeam", tournament.getTeams().size());
+        model.addAttribute("isReady", tournamentService.isTournamentReady(tournament));
         return "/tournament/view";
 
     }

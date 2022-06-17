@@ -1,10 +1,6 @@
 package com.molkky.molkky.service;
 
-import com.molkky.molkky.domain.Phase;
-import com.molkky.molkky.domain.Team;
-import com.molkky.molkky.domain.Tournament;
-import com.molkky.molkky.domain.User;
-import com.molkky.molkky.domain.UserTournamentRole;
+import com.molkky.molkky.domain.*;
 import com.molkky.molkky.model.TournamentModel;
 import com.molkky.molkky.model.phase.PhaseRankingModel;
 import com.molkky.molkky.repository.TeamRepository;
@@ -106,6 +102,64 @@ class TournamentServiceTest {
 
         // Vérification de la création du tournoi et du nom qui est bien assigné
         Assertions.assertEquals("TEST 1", test.getName(), "Name incorrect");
+    }
+
+    @Test
+    void isTournamentReadyGoodTest(){
+        Tournament tournament = mock(Tournament.class);
+        List<Court> courts = mock(List.class);
+        when(courts.isEmpty()).thenReturn(false);
+        List<Team> teams = mock(List.class);
+        when(teams.size()).thenReturn(2);
+        when(tournament.getTeams()).thenReturn(teams);
+        when(tournament.getCourts()).thenReturn(courts);
+        List<UserTournamentRole> mockedUserTournamentRoles = mock(List.class);
+        when(mockedUserTournamentRoles.isEmpty()).thenReturn(false);
+        when(userTournamentRoleRepository.findUserTournamentRoleByRoleAndTournament(any(UserRole.class), any(Tournament.class))).thenReturn(mockedUserTournamentRoles);
+        when(tournament.getMinTeam()).thenReturn(0);
+
+        Assertions.assertTrue(tournamentService.isTournamentReady(tournament));
+    }
+
+    @Test
+    void isTournamentReadyBadCourtsTest(){
+        Tournament tournament = mock(Tournament.class);
+        List<Court> courts = mock(List.class);
+        when(courts.isEmpty()).thenReturn(true);
+        List<Team> teams = mock(List.class);
+        when(teams.size()).thenReturn(2);
+        when(tournament.getTeams()).thenReturn(teams);
+        when(tournament.getCourts()).thenReturn(courts);
+        List<UserTournamentRole> mockedUserTournamentRoles = mock(List.class);
+        when(userTournamentRoleRepository.findUserTournamentRoleByRoleAndTournament(any(UserRole.class), any(Tournament.class))).thenReturn(mockedUserTournamentRoles);
+        when(tournament.getMinTeam()).thenReturn(0);
+
+        Assertions.assertFalse(tournamentService.isTournamentReady(tournament));
+    }
+
+    @Test
+    void isTournamentReadyBadTeamsTest(){
+        Tournament tournament = mock(Tournament.class);
+        when(tournament.getMinTeam()).thenReturn(1);
+
+        Assertions.assertFalse(tournamentService.isTournamentReady(tournament));
+    }
+
+    @Test
+    void isTournamentReadyBadStaffTest(){
+        Tournament tournament = mock(Tournament.class);
+        List<Court> courts = mock(List.class);
+        when(courts.isEmpty()).thenReturn(false);
+        List<Team> teams = mock(List.class);
+        when(teams.size()).thenReturn(2);
+        when(tournament.getTeams()).thenReturn(teams);
+        when(tournament.getCourts()).thenReturn(courts);
+        List<UserTournamentRole> mockedUserTournamentRoles = mock(List.class);
+        when(mockedUserTournamentRoles.isEmpty()).thenReturn(true);
+        when(userTournamentRoleRepository.findUserTournamentRoleByRoleAndTournament(any(UserRole.class), any(Tournament.class))).thenReturn(mockedUserTournamentRoles);
+        when(tournament.getMinTeam()).thenReturn(0);
+
+        Assertions.assertFalse(tournamentService.isTournamentReady(tournament));
     }
 
     @Test
