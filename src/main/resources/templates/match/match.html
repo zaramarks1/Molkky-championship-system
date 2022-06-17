@@ -14,6 +14,7 @@
                 <div class="tournamentTitle" th:text="${tournament.name}">placeholder nom tournoi</div>
                 <div class="tournamentDate" th:text="${#dates.format(tournament.date, 'dd/MM/yyyy')}">placeholder date tournoi</div>
                 <div th:if="${court} != null" class="courtText" th:text="${court.name}">Court placeholder</div>
+                <div th:unless="${court} != null" class="courtText">Pas de terrain attribué</div>
             </div>
             <div class = "courtContainer">
                 <!--form for updating the court-->
