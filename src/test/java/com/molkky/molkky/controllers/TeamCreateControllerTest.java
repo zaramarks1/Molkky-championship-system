@@ -12,7 +12,6 @@ import com.molkky.molkky.service.NotificationService;
 import com.molkky.molkky.service.TeamService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
@@ -114,7 +113,7 @@ class TeamCreateControllerTest {
         when(teamRepository.findById(anyInt())).thenReturn(team);
         when(addPlayerModel1.addPlayer()).thenCallRealMethod();
         when(addPlayerModel1.getMail()).thenReturn("test@test.fr");
-        when(addPlayerModel1.getClub()).thenReturn("A");
+        when(addPlayerModel1.getClub().getName()).thenReturn("A");
 
         mockMvc.perform(post("/team/addPlayer")
                         .flashAttr("form",addPlayerlistModel))
@@ -142,10 +141,10 @@ class TeamCreateControllerTest {
         when(teamRepository.findById(anyInt())).thenReturn(team);
         when(addPlayerModel1.addPlayer()).thenCallRealMethod();
         when(addPlayerModel1.getMail()).thenReturn("test@test.fr");
-        when(addPlayerModel1.getClub()).thenReturn("A");
+        when(addPlayerModel1.getClub().getName()).thenReturn("A");
         when(addPlayerModel2.addPlayer()).thenCallRealMethod();
         when(addPlayerModel2.getMail()).thenReturn("test@test.fr");
-        when(addPlayerModel2.getClub()).thenReturn("A");
+        when(addPlayerModel2.getClub().getName()).thenReturn("A");
 
         mockMvc.perform(post("/team/addPlayer/")
                         .flashAttr("form", addPlayerlistModel))

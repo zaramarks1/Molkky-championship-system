@@ -1,5 +1,6 @@
 package com.molkky.molkky.controllers;
 
+import com.molkky.molkky.domain.Club;
 import com.molkky.molkky.domain.User;
 import com.molkky.molkky.repository.*;
 import org.junit.jupiter.api.Test;
@@ -48,7 +49,7 @@ class DisplayUserControllerTest {
 
     @Test
     void testViewUser()throws Exception {
-        User user = new User("pseudoTest", "surnameTest", "forenameTest", "clubTest", "mailTest");
+        User user = new User("pseudoTest", "surnameTest", "forenameTest", new Club(), "mailTest");
         user.setId(1);
         List<User> users = new ArrayList<>();
         users.add(user);
@@ -60,7 +61,4 @@ class DisplayUserControllerTest {
                 .andExpect(model().attributeExists("tournament"))
                 .andExpect(view().name("/user/displayDetailsUser"));
     }
-
-
-
 }

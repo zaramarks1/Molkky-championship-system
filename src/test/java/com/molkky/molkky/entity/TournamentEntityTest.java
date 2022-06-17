@@ -96,7 +96,7 @@ class TournamentEntityTest {
                 3,
                 2
         ));
-        User user = userRepository.save(new User("pseudoUser1", "surname1", "forename1", "club1", "email1"));
+        User user = userRepository.save(new User("pseudoUser1", "surname1", "forename1", new Club(), "email1"));
         List<UserTournamentRole> admins = new ArrayList<>();
         UserTournamentRole userTournamentRole = new UserTournamentRole();
         userTournamentRole.setUser(user);

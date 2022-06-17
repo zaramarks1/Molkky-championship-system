@@ -1,5 +1,6 @@
 package com.molkky.molkky.controllers;
 
+import com.molkky.molkky.domain.Club;
 import com.molkky.molkky.domain.Team;
 import com.molkky.molkky.domain.Tournament;
 import com.molkky.molkky.model.AddPlayerModel;
@@ -108,13 +109,15 @@ class TeamControllerTest {
 
         Team team = new Team();
         team.setId(1);
+        Club club = new Club();
+        club.setName("A");
 
         Mockito.when(addPlayerlistModel.getPlayers()).thenReturn(list);
         Mockito.when(addPlayerModel1.getTeamId()).thenReturn(team.getId());
         Mockito.when(teamRepository.findById(Mockito.anyInt())).thenReturn(team);
         Mockito.when(addPlayerModel1.addPlayer()).thenCallRealMethod();
         Mockito.when(addPlayerModel1.getMail()).thenReturn("test@test.fr");
-        when(addPlayerModel1.getClub()).thenReturn("A");
+        when(addPlayerModel1.getClub()).thenReturn(club);
 
         mockMvc.perform(post("/team/addPlayer")
                         .flashAttr("form",addPlayerlistModel))
@@ -138,16 +141,18 @@ class TeamControllerTest {
 
         Team team = new Team();
         team.setId(1);
+        Club club = new Club();
+        club.setName("A");
 
         Mockito.when(addPlayerlistModel.getPlayers()).thenReturn(list);
         Mockito.when(addPlayerModel1.getTeamId()).thenReturn(team.getId());
         Mockito.when(teamRepository.findById(Mockito.anyInt())).thenReturn(team);
         Mockito.when(addPlayerModel1.addPlayer()).thenCallRealMethod();
         Mockito.when(addPlayerModel1.getMail()).thenReturn("test@test.fr");
-        when(addPlayerModel1.getClub()).thenReturn("A");
+        when(addPlayerModel1.getClub()).thenReturn(club);
         Mockito.when(addPlayerModel2.addPlayer()).thenCallRealMethod();
         Mockito.when(addPlayerModel2.getMail()).thenReturn("test@test.fr");
-        when(addPlayerModel2.getClub()).thenReturn("A");
+        when(addPlayerModel2.getClub()).thenReturn(club);
 
         mockMvc.perform(post("/team/addPlayer/")
                         .flashAttr("form", addPlayerlistModel))

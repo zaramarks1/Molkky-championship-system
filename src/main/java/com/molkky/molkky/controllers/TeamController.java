@@ -70,9 +70,7 @@ public class TeamController extends DefaultAttributes {
 
         for(int i =0 ; i< teamNew.getTournament().getNbPlayersPerTeam();i++){
             players.addPlayer(new AddPlayerModel());
-
         }
-
 
         model.addAttribute("form", players);
         model.addAttribute("isDiffMail", true);
@@ -89,6 +87,7 @@ public class TeamController extends DefaultAttributes {
         Team team = teamRepository.findById(players.get(0).getTeamId());
 
         for(AddPlayerModel player : players){
+            player.setClub(team.getClub());
             User user = player.addPlayer();
             users.add(user);
         }
