@@ -52,6 +52,7 @@ public class MatchService {
 
     public void giveRandomCourtToMatch(Match match){
         List<Court> availableCourts = courtRepository.findByTournamentAndAvailable(match.getRound().getTournament(), true);
+        if(availableCourts.isEmpty()) return;
         Court court = availableCourts.get(0);
         court.setAvailable(false);
         court = courtRepository.save(court);
