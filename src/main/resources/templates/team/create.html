@@ -17,6 +17,11 @@
                 </div>
 
                 <div class="inputContainer">
+                    <label for="photo" class="inputLabel">Photo de l'équipe</label>
+                    <input id ="photo" name="photoFile" type="file" accept="image/png, image/jpeg" class="inputTournament" placeholder="Photo"/>
+                </div>
+
+                <div class="inputContainer">
                     <label for="tournament" class="inputLabel">Sélectionnez un tournoi</label>
                     <select class="inputTournament" id="tournament" th:field="*{tournament}" >
                         <option th:each="tournament : ${tournaments}" th:value="${tournament.id}" th:text="${tournament.name}" class="inputTournament" >

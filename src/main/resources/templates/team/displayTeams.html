@@ -20,24 +20,23 @@
                 </button>
             </form>
             <div class="cardContainer">
-                <a th:each="team: ${teams}" class="cardTeam" th:href="@{'/team/view?teamId='+${team.id}}">
-                    <div class="teamHeader">
-                        <div class="teamName">
-                            <p th:text="${team.getName()}"></p>
-                        </div>
+            <ul th:each="team: ${teams}" class="cardTeam" th:href="@{'/team/view?teamId='+${team.id}}">
+                <li class="clickableCard" th:onclick="'window.location.href=\'/team/view?teamId=' + ${team.id} + '\''">
+                <div class="teamHeader">
+                    <div class="teamName">
+                        <p th:text="${team.getName()}"></p>
                     </div>
-                    <div class="cardContentContainer">
+                </div>
+                <div class="cardContentContainer">
+                    <th:block th:if="${team.photo.isEmpty()}">
                         <img class="teamLogo" th:src="@{/assets/teams.svg}" alt="Team icon"/>
-                        <div class="roundsList">
-                            <th:block th:if="${team.getUserTournamentRoles().isEmpty()}">
-                                <li class="teamMember">Vide</li>
-                            </th:block>
-                            <th:block th:each="team : ${team.getUserTournamentRoles()}">
-                                <li class="teamMember" th:text="${team.getUser().getForename()}"></li>
-                            </th:block>
-                        </div>
-                    </div>
-                </a>
+                    </th:block>
+                    <th:block th:unless="${team.photo.isEmpty()}">
+                        <img class='teamPhoto' th:src="@{'/teamPhotos/'+${team.getId()}+'/'+${team.photo}}" alt="Team icon"/>
+                    </th:block>
+                </div>
+                </li>
+            </ul>
             </div>
 
         </div>
