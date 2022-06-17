@@ -48,6 +48,8 @@ class TeamFormTest {
         Assertions.assertTrue(config.getDriver().findElement(new By.ById("nom")).isDisplayed());
         Assertions.assertTrue(config.getDriver().findElement(new By.ById("tournament")).isDisplayed());
         Assertions.assertTrue(config.getDriver().findElement(new By.ById("sendTeam")).isDisplayed());
+        Assertions.assertTrue(config.getDriver().findElement(new By.ById("newClub")).isDisplayed());
+        Assertions.assertTrue(config.getDriver().findElement(new By.ById("oldClub")).isDisplayed());
 
         Assertions.assertEquals("Créer une équipe",config.getDriver().findElement
                 (new By.ByClassName("contentTitle")).getText());
@@ -56,9 +58,6 @@ class TeamFormTest {
         Assertions.assertEquals("Sélectionnez un tournoi",config.getDriver().findElement
                 (new By.ByCssSelector("body > div > div.contentContainer > form > div:nth-child(2) > label")).getText());
         Assertions.assertEquals("Étape suivante",config.getDriver().findElement(new By.ById("sendTeam")).getText());
-        Assertions.assertEquals("Créer un nouveau club",config.getDriver().findElement(new By.ById("newClub")).getText());
-        Assertions.assertEquals("Choisir un club déjà existant",config.getDriver().findElement(new By.ById("oldClub")).getText());
-
     }
 
     @Test

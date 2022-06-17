@@ -34,7 +34,8 @@ class TournamentEntityTest {
     private MatchRepository matchRepository;
     @Autowired
     private CourtRepository courtRepository;
-
+    @Autowired
+    private ClubRepository clubRepository;
     @Autowired
     private PhaseRepository phaseRepository;
 
@@ -96,7 +97,10 @@ class TournamentEntityTest {
                 3,
                 2
         ));
-        User user = userRepository.save(new User("pseudoUser1", "surname1", "forename1", new Club(), "email1"));
+        Club club = new Club();
+        club.setName("clubTest");
+        clubRepository.save(club);
+        User user = userRepository.save(new User("pseudoUser1", "surname1", "forename1", club, "email1"));
         List<UserTournamentRole> admins = new ArrayList<>();
         UserTournamentRole userTournamentRole = new UserTournamentRole();
         userTournamentRole.setUser(user);

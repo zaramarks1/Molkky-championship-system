@@ -1,6 +1,7 @@
 package com.molkky.molkky.controllers;
 
 
+import com.molkky.molkky.domain.Club;
 import com.molkky.molkky.domain.Team;
 import com.molkky.molkky.domain.Tournament;
 import com.molkky.molkky.model.AddPlayerModel;
@@ -107,13 +108,15 @@ class TeamCreateControllerTest {
 
         Team team = new Team();
         team.setId(1);
+        Club club = new Club();
+        club.setName("A");
 
         when(addPlayerlistModel.getPlayers()).thenReturn(list);
         when(addPlayerModel1.getTeamId()).thenReturn(team.getId());
         when(teamRepository.findById(anyInt())).thenReturn(team);
         when(addPlayerModel1.addPlayer()).thenCallRealMethod();
         when(addPlayerModel1.getMail()).thenReturn("test@test.fr");
-        when(addPlayerModel1.getClub().getName()).thenReturn("A");
+        when(addPlayerModel1.getClub()).thenReturn(club);
 
         mockMvc.perform(post("/team/addPlayer")
                         .flashAttr("form",addPlayerlistModel))
@@ -135,16 +138,18 @@ class TeamCreateControllerTest {
 
         Team team = new Team();
         team.setId(1);
+        Club club = new Club();
+        club.setName("A");
 
         when(addPlayerlistModel.getPlayers()).thenReturn(list);
         when(addPlayerModel1.getTeamId()).thenReturn(team.getId());
         when(teamRepository.findById(anyInt())).thenReturn(team);
         when(addPlayerModel1.addPlayer()).thenCallRealMethod();
         when(addPlayerModel1.getMail()).thenReturn("test@test.fr");
-        when(addPlayerModel1.getClub().getName()).thenReturn("A");
+        when(addPlayerModel1.getClub()).thenReturn(club);
         when(addPlayerModel2.addPlayer()).thenCallRealMethod();
         when(addPlayerModel2.getMail()).thenReturn("test@test.fr");
-        when(addPlayerModel2.getClub().getName()).thenReturn("A");
+        when(addPlayerModel2.getClub()).thenReturn(club);
 
         mockMvc.perform(post("/team/addPlayer/")
                         .flashAttr("form", addPlayerlistModel))
