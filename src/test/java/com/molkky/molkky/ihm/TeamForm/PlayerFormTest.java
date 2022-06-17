@@ -19,7 +19,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import type.UserRole;
 
-import java.awt.*;
 import java.text.ParseException;
 import java.util.Random;
 
@@ -161,7 +160,7 @@ class PlayerFormTest {
         Assertions.assertEquals(nom,user.getSurname());
         Assertions.assertEquals(prenom,user.getForename());
         Assertions.assertEquals(mail,user.getEmail());
-        Assertions.assertEquals("MOLKKY ANGERS",user.getClub());
+        Assertions.assertEquals("MOLKKY ANGERS",user.getClub().getName());
         Assertions.assertNotNull(userTournamentRole1);
         Assertions.assertEquals(UserRole.PLAYER,userTournamentRole1.getRole());
         Assertions.assertEquals(team.getTournament().getId(),userTournamentRole1.getTournament().getId());
@@ -170,7 +169,7 @@ class PlayerFormTest {
         Assertions.assertEquals(nom2,user2.getSurname());
         Assertions.assertEquals(prenom2,user2.getForename());
         Assertions.assertEquals(mail2,user2.getEmail());
-        Assertions.assertEquals("MOLKKY ANGERS",user.getClub());
+        Assertions.assertEquals("MOLKKY ANGERS",user.getClub().getName());
         Assertions.assertNotNull(userTournamentRole2);
         Assertions.assertEquals(UserRole.PLAYER,userTournamentRole2.getRole());
         Assertions.assertEquals(team.getTournament().getId(),userTournamentRole2.getTournament().getId());
