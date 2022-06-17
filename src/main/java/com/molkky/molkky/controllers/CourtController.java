@@ -38,7 +38,7 @@ public class CourtController {
     UserTournamentRoleRepository userTournamentRoleRepository;
 
     @PostMapping("/add")
-    public String addStaff(@ModelAttribute("staff") AddCourtList courts){
+    public String addStaff(@ModelAttribute("courts") AddCourtList courts){
 
         Tournament tournament = tournamentRepository.findById(courts.getCourts().get(0).getTournamentId());
         List<Court> courtList = tournament.getCourts();
