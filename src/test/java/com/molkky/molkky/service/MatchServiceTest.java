@@ -57,8 +57,12 @@ class MatchServiceTest {
         Court court = new Court();
         Tournament tournament = new Tournament();
         tournamentRepository.save(tournament);
+        Phase phase = new Phase();
+        phaseRepository.save(phase);
         Round round = new Round();
-        round.setTournament(tournament);
+        round.setPhase(phase);
+        phase.setTournament(tournament);
+        phaseRepository.save(phase);
         roundRepository.save(round);
         court.setAvailable(true);
         court.setName("e");
