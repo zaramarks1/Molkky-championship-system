@@ -11,7 +11,7 @@
 
   <div class="contentContainer">
     <div th:replace="fragments/searchbar"> </div>
-    <div class="contentTitle">Ajouter des staff à votre tournois</div>
+    <div class="contentTitle">Ajouter du staff à votre tournoi</div>
     <form action="#" th:action="@{/staff/add}" method="post" th:object="${staffList}" class="formContainer">
       <div class="inputContainer">
         <span th:if="${!isDiffMail}">S'il vous plait, entrez des mails différents pour chaque staff !</span>
@@ -20,7 +20,7 @@
       </div>
       <div class="formContainer">
         <div th:each="mail, itemStat : *{mails}" class="inputContainer">
-          <b th:text="'Staff ' + ${itemStat.index+1}">Staff: </b>
+          <div class="partTitle" th:text="'Staff ' + ${itemStat.index+1}">Staff: </div>
           <div class="submitContainer playerFormContainer">
             <div class="inputContainer">
               <label for="email" class="inputLabel">Mail</label>

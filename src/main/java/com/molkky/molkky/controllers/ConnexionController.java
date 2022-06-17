@@ -8,6 +8,7 @@ import com.molkky.molkky.model.UserLogged;
 import com.molkky.molkky.repository.UserRepository;
 import com.molkky.molkky.repository.UserTournamentRoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mobile.device.Device;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,7 +32,7 @@ public class ConnexionController {
     private static final String CHANGE_PAGE_CONNECTION = "redirect:/connexion";
 
     @GetMapping("/connexion")
-    public String home(Model  model,HttpSession session){
+    public String home(Model  model, HttpSession session, Device device){
         session.invalidate();
         User user = new User();
         model.addAttribute("user" ,user);
@@ -39,6 +40,7 @@ public class ConnexionController {
         UserConnectionModel userConnectionModel = new UserConnectionModel();
 
         model.addAttribute("userConnection", userConnectionModel);
+        model.addAttribute("mobile", device.isMobile());
         return "/connexion";
     }
 
@@ -50,7 +52,7 @@ public class ConnexionController {
                     List<UserTournamentRole> players = userTournamentRoleRepository.findUserWithCode(user,userModel.getCode());
                     if(!players.isEmpty()){
                         UserLogged userLogged = new UserLogged(user.getId(),players.get(0).getId(), userModel.getEmail(),
-                                    userModel.getPassword(), players.get(0).getRole(),players.get(0).getTournament(), new TeamModel(players.get(0).getTeam()));
+                                    userModel.getPassword(), players.get(0).getRole(),players.get(0).getTournament(), new TeamModel(players.get(0).getTeam()),user.getSurname(), user.getPseudo(), user.getForename());
                         request.getSession().setAttribute("user",userLogged);
                         return new ModelAndView("redirect:/");
                     }
@@ -62,7 +64,7 @@ public class ConnexionController {
                 }
                 List<UserTournamentRole> adminorstaff = userTournamentRoleRepository.findUserAdminStaff(user);
                 if(adminorstaff.size()==1){
-                    UserLogged adminStaffLogged = new UserLogged(user.getId(),adminorstaff.get(0).getId(), userModel.getEmail(),userModel.getPassword(),adminorstaff.get(0).getRole(),adminorstaff.get(0).getTournament());
+                    UserLogged adminStaffLogged = new UserLogged(user.getId(),adminorstaff.get(0).getId(), userModel.getEmail(),userModel.getPassword(),adminorstaff.get(0).getRole(),adminorstaff.get(0).getTournament(),user.getSurname(), user.getPseudo(), user.getForename());
                     request.getSession().setAttribute("user",adminStaffLogged);
                     return new ModelAndView("redirect:/");
                 }

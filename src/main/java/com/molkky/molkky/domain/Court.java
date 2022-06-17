@@ -29,6 +29,10 @@ public class Court implements Serializable {
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "court")
     private List<Match> matches = new ArrayList<>();
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Tournament tournament;
+
+
     public Court(boolean isAvailable, String name) {
         this.available = isAvailable;
         this.name = name;

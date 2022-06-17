@@ -6,13 +6,15 @@ import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang.RandomStringUtils;
 
+import java.util.Locale;
+
 @Getter
 @Setter
 public class AddPlayerModel {
 
     private String surname;
     private String forename;
-    private String club;
+    private String club = "";
     private String mail;
     private Integer teamId;
 
@@ -40,8 +42,7 @@ public class AddPlayerModel {
         user.setSurname(this.getSurname());
         user.setForename(this.getForename());
         user.setEmail(this.getMail());
-        user.setClub(this.getClub());
-
+        user.setClub(this.getClub().toUpperCase(Locale.ROOT));
 
         return user;
     }

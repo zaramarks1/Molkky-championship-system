@@ -2,14 +2,13 @@ package com.molkky.molkky.controllers;
 
 
 import com.molkky.molkky.controllers.superclass.DefaultAttributes;
-import com.molkky.molkky.domain.Phase;
-import com.molkky.molkky.domain.Tournament;
+import com.molkky.molkky.domain.*;
 import com.molkky.molkky.domain.rounds.*;
-import com.molkky.molkky.model.AddStaff;
-import com.molkky.molkky.model.AddStaffList;
-import com.molkky.molkky.model.TournamentModel;
-import com.molkky.molkky.model.UserLogged;
+import com.molkky.molkky.model.*;
+import com.molkky.molkky.repository.TeamRepository;
 import com.molkky.molkky.repository.TournamentRepository;
+import com.molkky.molkky.repository.UserTournamentRoleRepository;
+import com.molkky.molkky.service.NotificationService;
 import com.molkky.molkky.service.PhaseService;
 import com.molkky.molkky.service.TournamentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +18,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import type.PhaseType;
-import com.molkky.molkky.model.PhaseTypeViewModel;
 import type.TournamentStatus;
 import type.UserRole;
 
@@ -40,10 +38,18 @@ public class TournamentController extends DefaultAttributes {
     @Autowired
     private PhaseService phaseService;
 
+    @Autowired
+    private TeamRepository teamRepository;
+
+    @Autowired
+    UserTournamentRoleRepository userTournamentRoleRepository;
+
+    @Autowired
+    NotificationService notificationService;
 
     private String allTournament="tournament";
     private String redirectionAll = "/tournament/allTournament";
-
+    private String redirectViewId = "redirect:/tournament/view?tournamentId=";
 
     @GetMapping("/allTournament")
     public String tournamentForm(Model model) {
@@ -79,12 +85,6 @@ public class TournamentController extends DefaultAttributes {
     @PostMapping("/inscription")
     public ModelAndView goToInscription(ModelMap model){return new ModelAndView("redirect:/team/create",model);}
 
-
-    @PostMapping ("/currentTournament")
-    public String currentTournament() {
-        return "/";
-    }
-
     @GetMapping ("/tournamentOnGoing")
     public String getTournamentOnGoing() {
         return "/tournament/tournamentOnGoing";
@@ -105,10 +105,37 @@ public class TournamentController extends DefaultAttributes {
         return "redirect:/phase/choosePhases?tournamentId="+id;
     }
 
+    @GetMapping("/modify")
+    public String tournamentModify(Model model,@RequestParam(value = "tournamentId") String tournamentId,  HttpSession session){
+        UserLogged user = getUser(session);
+        Tournament tournament = tournamentRepository.findById(Integer.valueOf(tournamentId));
+        if(!user.getEmail().equals(tournamentService.getEmailAdmin(tournament)) || !tournament.getStatus().equals(TournamentStatus.AVAILABLE)){
+            return redirectionAll;
+        }
+        TournamentModel tournamentModel = new TournamentModel(tournament);
+        tournamentModel.setDatesNull();
+        tournamentModel.setEmail(tournamentService.getEmailAdmin(tournament));
+        model.addAttribute(allTournament,tournamentModel);
+        return "/tournament/modify";
+    }
+
+    @PostMapping("/modify")
+    public String tournamentEdit(@Valid @ModelAttribute("tournament") TournamentModel tournament, Model model){
+        Integer oldNbRounds = tournamentRepository.findById(tournament.getId()).getNbRounds();
+        Tournament tournament1 = tournamentService.modifyTournament(tournament);
+        List<UserTournamentRole> userTournamentRoles = userTournamentRoleRepository.
+                findUserTournamentRoleByRoleAndTournament(UserRole.PLAYER,tournament1);
+        notificationService.sendNotificationToList("Les infos du tournoi "+tournament1.getName()+" ont été changées",
+                "/tournament/view?tournamentId="+tournament1.getId(),userTournamentRoles);
+        if(!oldNbRounds.equals(tournament1.getNbRounds())){
+            phaseService.clearTournamentPhases(tournament1);
+            return "redirect:/phase/choosePhases?tournamentId="+tournament1.getId();
+        }
+        return "redirect:/phase/modify?tournamentId="+tournament1.getId();
+    }
+
     @GetMapping("/view")
     public String tournamentViewPostLaunch(Model model,@RequestParam(value = "tournamentId", required = false) String tournamentId,  HttpSession session){
-
-
         Tournament tournament = tournamentRepository.findById(Integer.valueOf(tournamentId));
 
         //USER FROM SESSION
@@ -160,7 +187,6 @@ public class TournamentController extends DefaultAttributes {
             }
         }
 
-        model.addAttribute("tournament", tournament);
         model.addAttribute("phasesType", phasesType);
         model.addAttribute(allTournament, tournament);
         model.addAttribute("nbTeam", tournament.getTeams().size());
@@ -189,37 +215,90 @@ public class TournamentController extends DefaultAttributes {
         return new ModelAndView( "/tournament/addStaff", model) ;
     }
 
+    @PostMapping("/addCourt")
+    public ModelAndView addCourtToTournament(ModelMap model, @RequestParam(name="courtCount") String courtCount,
+                                       @RequestParam(name="tournamentId") String tournamentId) {
+
+        model.addAttribute("tournamentId", tournamentId);
+        model.addAttribute("court_counter", courtCount);
+
+        List<AddCourt> courtList = new ArrayList<>();
+
+        for(int i = 0; i< Integer.parseInt(courtCount) ; i++){
+            AddCourt addCourt = new AddCourt();
+            addCourt.setTournamentId(Integer.valueOf(tournamentId));
+            courtList.add(addCourt);
+        }
+
+
+        model.addAttribute("isDiffMail", true);
+        model.addAttribute("courtList", new AddCourtList(courtList));
+        return new ModelAndView( "/tournament/addCourt", model) ;
+    }
+
     @PostMapping("/setVisible")
     public String setVisibleTournament(Model model,@RequestParam(name="tournamentId") String tournamentId ){
 
         Tournament tournament = tournamentRepository.findById(Integer.valueOf(tournamentId));
 
         tournament.setVisible(true);
-         tournamentRepository.save(tournament);
+        tournamentRepository.save(tournament);
 
         model.addAttribute("tournament_id", tournamentId);
 
-        return "redirect:/tournament/view?tournamentId=" + tournamentId;
+        return (redirectViewId + tournamentId);
 
     }
 
     @PostMapping("/publish")
-    public String pubishTournament(Model model,@RequestParam(name="tournamentId") String tournamentId ){
+    public String publishTournament(Model model,@RequestParam(name="tournamentId") String tournamentId ){
 
         Tournament tournament = tournamentRepository.findById(Integer.valueOf(tournamentId));
 
         tournament.setStatus(TournamentStatus.INPROGRESS);
         tournament.setIndexPhase(1);
+        tournament.setRegisterAvailable(false);
         tournamentRepository.save(tournament);
-
-
         phaseService.generate(tournament.getPhases().get(0).getId().toString());
 
-
         model.addAttribute("tournament_id", tournamentId);
+        return (redirectViewId + tournamentId);
+    }
 
-        return "redirect:/tournament/view?tournamentId=" + tournamentId;
+    @PostMapping("/validatePresence")
+    public String validatePresence (Model model, @RequestParam(name = "tournamentId")String tournamentId, @RequestParam(name = "teamId")int teamId) {
+        Team team = teamRepository.findById(teamId);
+        team.setPresent(false);
+        team.setEliminated(true);
+        teamRepository.save(team);
+        return (redirectViewId + tournamentId);
+    }
 
+    @GetMapping("/results")
+    public String results (Model model, @RequestParam(name="tournamentId") String tournamentId){
+        Tournament tournament = tournamentRepository.findById(Integer.valueOf(tournamentId));
+        model.addAttribute("tournamentStatus", tournament.getStatus().toString());
+
+        List<Team> teamsWinner = tournamentService.getWinners(tournament);
+        List<User> players = new ArrayList<>();
+
+        model.addAttribute("winners", teamsWinner);
+
+        for (Team team : teamsWinner) {
+            List<UserTournamentRole> usersTournamentRole = team.getUserTournamentRoles();
+            for (UserTournamentRole userTournamentRole : usersTournamentRole) {
+                User user = userTournamentRole.getUser();
+                players.add(user);
+            }
+        }
+        model.addAttribute("players", players);
+
+        return "/tournament/results";
+    }
+
+    @PostMapping("/results")
+    public String resultsPost(@RequestParam(name= "tournamentId") Integer tournamentId){
+        return "redirect:/tournament/results?tournamentId="+tournamentId;
     }
 
 }

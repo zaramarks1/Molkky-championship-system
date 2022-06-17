@@ -1,0 +1,129 @@
+<html xmlns:th="http://thymeleaf.org" xmlns="http://www.w3.org/1999/html" lang="fr">
+<head>
+  <div th:replace="fragments/header"></div>
+  <link rel="stylesheet" th:href="@{/styles/tournament/create.css}" href="../" />
+  <title>Modification du tournoi</title>
+</head>
+<body class="bg">
+<div class="pageContainer">
+  <div th:replace="fragments/sidebar"> </div>
+  <div class="contentContainer">
+    <div th:replace="fragments/searchbar"> </div>
+    <div class="contentTitle">Modifier le tournoi</div>
+    <form action="#" th:action="@{/tournament/modify}" method="post" th:object="${tournament}" class="formContainer">
+      <input id ="id" hidden name="id" type="number" th:field="*{id}"/>
+      <div class="inputContainer">
+        <label for="nom" class="inputLabel">Nom du Tournoi</label>
+        <input id ="nom" required name="nom" type="text" th:field="*{name}"  class="inputTournament" placeholder="Nom"/>
+      </div>
+
+      <div class="inputContainer">
+        <label for="location" class="inputLabel">Lieu du Tournoi</label>
+        <input id="location" required name="location" type="text" th:field="*{location}" class="inputTournament" placeholder="Localisation"/>
+      </div>
+
+      <div class="inputContainer">
+        <label for="dateTournoi" class="inputLabel">Date du tournoi</label>
+        <input id="dateTournoi" required name="dateTournoi" type="date" th:field="*{date}" class="inputTournament" placeholder="Date" onchange="setMinDate()"/>
+      </div>
+
+      <div class="inputContainer">
+        <label for="cutOffDate" class="inputLabel">Date de fin d'inscription</label>
+        <input id="cutOffDate" required name="cutOffDate" type="date" th:field="*{cutOffDate}" class="inputTournament" placeholder="Date"/>
+      </div>
+
+      <span class="inputContainer">
+                    <div required class="inputLabel nbEquipesContainer">Nombre d'équipes,
+                        <div id="nbMinTeam"></div> -
+                        <div id="nbMaxTeam"></div>
+                    </div>
+                    <div class="multiSlider">
+                        <input type="range" min="0" max="20"  name="minTeam"  value="5" id="minTeam">
+                        <input type="range" min="0" max="20"  name="maxTeam" value="45" id="maxTeam" style="background: none;">
+                    </div>
+                </span>
+
+      <div class="inputContainer">
+        <label for="visible" class="inputLabel">Tournoi ouvert</label>
+        <input id="visible" name="visible" type="checkbox" th:field="*{visible}" class="inputTournament"/>
+      </div>
+
+      <div class="inputContainer">
+        <label for="nbPlayersPerTeam" class="inputLabel">Nombre de joueurs par équipe</label>
+        <input id="nbPlayersPerTeam" required name="nbPlayersPerTeam" th:min="*{nbPlayersPerTeam}" type="number" th:field="*{nbPlayersPerTeam}" class="inputTournament"/>
+      </div>
+
+      <div class="inputContainer">
+        <label for="nbRounds" class="inputLabel">Nombre de Phases</label>
+        <input id="nbRounds" required name="nbRounds" min="1" type="number" th:field="*{nbRounds}" class="inputTournament"/>
+      </div>
+
+      <div class="inputContainer">
+        <label for="nbCourts" class="inputLabel">Nombre de terrains disponibles</label>
+        <input id="nbCourts" name="nbCourts" min="1" type="number" th:field="*{nbCourts}" class="inputTournament"/>
+      </div>
+
+      <div class="inputContainer">
+        <label for="nbCourts" class="inputLabel">Email du administrateur </label>
+        <input readonly id="email"  name="email" type="email" th:field="*{email}" class="inputTournament"/>
+      </div>
+      <div class="submitContainer">
+        <button id="sendTournament" class="primaryButton" type="submit">Modifier le Tournoi</button>
+      </div>
+    </form>
+  </div>
+</div>
+<script>
+  const lowerSlider = document.getElementById('minTeam');
+  const upperSlider = document.getElementById('maxTeam');
+  let lowerVal = parseInt(lowerSlider.value);
+  let upperVal = parseInt(upperSlider.value);
+  const interval = 1
+
+
+  upperSlider.oninput = function() {
+    lowerVal = parseInt(lowerSlider.value);
+    upperVal = parseInt(upperSlider.value);
+
+    if (upperVal < lowerVal + interval) {
+      lowerSlider.value = upperVal - interval;
+
+      if (lowerVal === lowerSlider.min) {
+        upperSlider.value = interval;
+      }
+    }
+    refreshTeams()
+  };
+
+
+  lowerSlider.oninput = function() {
+    lowerVal = parseInt(lowerSlider.value);
+    upperVal = parseInt(upperSlider.value);
+
+    if (lowerVal > upperVal - interval) {
+      upperSlider.value = lowerVal + interval;
+
+      if (upperVal === upperSlider.max) {
+        lowerSlider.value = parseInt(upperSlider.max) - interval;
+      }
+
+    }
+    refreshTeams();
+  };
+
+  function refreshTeams(){
+    let minTeam = document.getElementById('nbMinTeam');
+    let maxTeam = document.getElementById('nbMaxTeam');
+    minTeam.innerHTML = lowerSlider.value;
+    maxTeam.innerHTML = upperSlider.value;
+  }
+
+  refreshTeams();
+
+  function setMinDate(){
+    document.getElementById('cutOffDate').max = document.getElementById('dateTournoi').value;
+  }
+</script>
+</body>
+<div th:replace="fragments/footer"></div>
+

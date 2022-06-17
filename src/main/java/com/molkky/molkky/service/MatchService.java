@@ -1,22 +1,17 @@
 package com.molkky.molkky.service;
 
-import com.molkky.molkky.domain.Court;
-import com.molkky.molkky.domain.Match;
-import com.molkky.molkky.domain.Round;
-import com.molkky.molkky.domain.Set;
-import com.molkky.molkky.domain.UserTournamentRole;
+import com.molkky.molkky.domain.*;
 import com.molkky.molkky.model.CourtModel;
 import com.molkky.molkky.model.MatchModel;
 import com.molkky.molkky.model.UserModel;
 import com.molkky.molkky.model.UserTournamentRoleModel;
-import com.molkky.molkky.repository.CourtRepository;
-import com.molkky.molkky.repository.MatchRepository;
-import com.molkky.molkky.repository.PhaseRepository;
-import com.molkky.molkky.repository.RoundRepository;
+import com.molkky.molkky.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import type.PhaseType;
 import type.SetTeamIndex;
+import type.UserRole;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,9 +24,11 @@ public class MatchService {
     private MatchRepository matchRepository;
 
     @Autowired
+    @Lazy
     private SimpleGameService simpleGameService;
 
     @Autowired
+    @Lazy
     private  PoolService poolService;
 
     @Autowired
@@ -39,27 +36,55 @@ public class MatchService {
 
     @Autowired
     PhaseRepository phaseRepository;
-
+    @Autowired
+    @Lazy
+    private SwissService swissService;
     @Autowired
     private CourtRepository courtRepository;
     @Autowired
     private UserService userService;
     @Autowired
     private CourtService courtService;
+
+    @Autowired
+    @Lazy
+    private KnockoutService knockoutService;
+
+    public void giveRandomCourtToMatch(Match match){
+        List<Court> availableCourts = courtRepository.findByTournamentAndAvailable(match.getRound().getTournament(), true);
+        if(availableCourts.isEmpty()) return;
+        Court court = availableCourts.get(0);
+        court.setAvailable(false);
+        court = courtRepository.save(court);
+        match.setCourt(court);
+        matchRepository.save(match);
+    }
+
     public SetTeamIndex getUserTeamIndex(MatchModel match, UserTournamentRoleModel user) {
         Match matchEntity = getMatchFromModel(match);
-
-        for(UserTournamentRole u : matchEntity.getTeams().get(0).getUserTournamentRoles()) {
+        List<Team> matchTeams = matchEntity.getTeams();
+        for(UserTournamentRole u : matchTeams.get(0).getUserTournamentRoles()) {
             if(Objects.equals(u.getId(), user.getId())) {
                 return SetTeamIndex.TEAM1;
             }
         }
-        for(UserTournamentRole u : matchEntity.getTeams().get(1).getUserTournamentRoles()) {
+        for(UserTournamentRole u : matchTeams.get(1).getUserTournamentRoles()) {
             if(Objects.equals(u.getId(), user.getId())) {
                 return SetTeamIndex.TEAM2;
             }
         }
         return SetTeamIndex.ORGA;
+    }
+
+    public Team getOppositeTeam(MatchModel match, UserTournamentRoleModel user){
+        Match matchEntity = getMatchFromModel(match);
+
+        for(UserTournamentRole u : matchEntity.getTeams().get(0).getUserTournamentRoles()) {
+            if(Objects.equals(u.getId(), user.getId())) {
+                return matchEntity.getTeams().get(1);
+            }
+        }
+        return matchEntity.getTeams().get(0);
     }
 
     public static MatchModel getMatchModelFromEntity(Match match) {
@@ -87,9 +112,14 @@ public class MatchService {
 
     public static List<MatchModel> createMatchModels(List<Match> matches) {
         List<MatchModel> matchModels = new ArrayList<>();
+        User user = new User();
+        UserTournamentRole userTournamentRole = new UserTournamentRole();
+        userTournamentRole.setUser(user);
+        userTournamentRole.setRole(UserRole.STAFF);
         if (matches != null) {
             for (Match match : matches) {
                 if(match.getId() != null) {
+                    match.setStaff(user);
                     matchModels.add(getMatchModelFromEntity(match));
                 }
             }
@@ -99,7 +129,13 @@ public class MatchService {
 
     public void setCourt(MatchModel matchModel, CourtModel courtModel){
         Match match = getMatchFromModel(matchModel);
+        Court oldCourt = match.getCourt();
+        if(oldCourt != null){
+            oldCourt.setAvailable(true);
+            courtRepository.save(oldCourt);
+        }
         Court court = courtService.getCourtFromModel(courtModel);
+        court.setAvailable(false);
         match.setCourt(court);
         court.getMatches().add(match);
         matchRepository.save(match);
@@ -138,10 +174,10 @@ public class MatchService {
 
                     break;
                 case KNOCKOUT:
-
+                    knockoutService.validateRound(round);
                     break;
                 case SWISSPOOL:
-
+                    swissService.validateRound(round);
                     break;
                 case SIMPLEGAME:
                     simpleGameService.validateRound(round);

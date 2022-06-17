@@ -13,26 +13,26 @@
             <form action="#" th:action="@{/tournament/create}" method="post" th:object="${tournament}" class="formContainer">
                 <div class="inputContainer">
                     <label for="nom" class="inputLabel">Nom du Tournoi</label>
-                    <input id ="nom" name="nom" type="text" th:field="*{name}"  class="inputTournament" placeholder="Nom"/>
+                    <input id ="nom" required name="nom" type="text" th:field="*{name}"  class="inputTournament" placeholder="Nom"/>
                 </div>
 
                 <div class="inputContainer">
                     <label for="location" class="inputLabel">Lieu du Tournoi</label>
-                    <input id="location" name="location" type="text" th:field="*{location}" class="inputTournament" placeholder="Localisation"/>
+                    <input id="location" required name="location" type="text" th:field="*{location}" class="inputTournament" placeholder="Localisation"/>
                 </div>
 
                 <div class="inputContainer">
                     <label for="dateTournoi" class="inputLabel">Date du tournoi</label>
-                    <input id="dateTournoi" name="dateTournoi" type="date" th:field="*{date}" class="inputTournament" placeholder="Date" onchange="setMinDate()"/>
+                    <input id="dateTournoi" required name="dateTournoi" type="date" th:field="*{date}" class="inputTournament" placeholder="Date" onchange="setMinDate()"/>
                 </div>
 
                 <div class="inputContainer">
                     <label for="cutOffDate" class="inputLabel">Date de fin d'inscription</label>
-                    <input id="cutOffDate" name="cutOffDate" type="date" th:field="*{cutOffDate}" class="inputTournament" placeholder="Date"/>
+                    <input id="cutOffDate" required name="cutOffDate" type="date" th:field="*{cutOffDate}" class="inputTournament" placeholder="Date"/>
                 </div>
 
                 <span class="inputContainer">
-                    <div class="inputLabel nbEquipesContainer">Nombre d'équipes,
+                    <div required class="inputLabel nbEquipesContainer">Nombre d'équipes,
                         <div id="nbMinTeam"></div> -
                         <div id="nbMaxTeam"></div>
                     </div>
@@ -49,12 +49,12 @@
 
                 <div class="inputContainer">
                     <label for="nbPlayersPerTeam" class="inputLabel">Nombre de joueurs par équipe</label>
-                    <input id="nbPlayersPerTeam" name="nbPlayersPerTeam" min="1" type="number" th:field="*{nbPlayersPerTeam}" class="inputTournament"/>
+                    <input id="nbPlayersPerTeam" required name="nbPlayersPerTeam" min="1" type="number" th:field="*{nbPlayersPerTeam}" class="inputTournament"/>
                 </div>
 
                 <div class="inputContainer">
-                    <label for="nbRounds" class="inputLabel">Nombre de Rounds</label>
-                    <input id="nbRounds" name="nbRounds" min="1" type="number" th:field="*{nbRounds}" class="inputTournament"/>
+                    <label for="nbRounds" class="inputLabel">Nombre de Phases</label>
+                    <input id="nbRounds" required name="nbRounds" min="1" type="number" th:field="*{nbRounds}" class="inputTournament"/>
                 </div>
 
                 <div class="inputContainer">
@@ -63,8 +63,8 @@
                 </div>
 
                 <div class="inputContainer">
-                    <label for="nbCourts" class="inputLabel">Email du administrateur </label>
-                    <input id="email" name="email" type="email" th:field="*{email}" class="inputTournament"/>
+                    <label for="nbCourts" class="inputLabel">Email de l'administrateur </label>
+                    <input id="email"  name="email" type="email" th:field="*{email}" class="inputTournament"/>
                 </div>
                 <div class="submitContainer">
                     <button id="sendTournament" class="primaryButton" type="submit">Créer le tournoi</button>

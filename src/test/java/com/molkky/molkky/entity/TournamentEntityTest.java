@@ -48,6 +48,7 @@ class TournamentEntityTest {
                 1,
                 2,
                 true,
+                true,
                 2,
                 3,
                 2
@@ -69,6 +70,7 @@ class TournamentEntityTest {
                 1,
                 2,
                 true,
+                true,
                 2,
                 3,
                 2
@@ -88,6 +90,7 @@ class TournamentEntityTest {
                 new Date(),
                 1,
                 2,
+                true,
                 true,
                 2,
                 3,
@@ -116,6 +119,7 @@ class TournamentEntityTest {
                 new Date(),
                 1,
                 2,
+                true,
                 true,
                 2,
                 3,
@@ -232,5 +236,15 @@ class TournamentEntityTest {
         tournamentRepository.save(tournament);
 
         Assertions.assertEquals("tournament_name_full", tournament.getName(), "Tournament name should be tournament_name_full");
+    }
+
+    @Test
+    void testEditInfoTournament(){
+        TournamentModel model = new TournamentModel();
+        model.setName("Test");
+        Tournament tournament = new Tournament();
+        tournament.editTournamentInfo(model);
+
+        Assertions.assertEquals("Test",tournament.getName());
     }
 }

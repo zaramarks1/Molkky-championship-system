@@ -71,7 +71,7 @@ import java.util.List;
     }
 
     @Test
-    void testPlayerFormGetPage(){
+    void testFormGetPage(){
         Assertions.assertEquals("Choix de la/des phase(s)", config.getDriver().getTitle());
     }
 

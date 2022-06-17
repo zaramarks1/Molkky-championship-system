@@ -13,9 +13,14 @@ import java.util.List;
 public interface UserRepository extends JpaRepository<User, String>, JpaSpecificationExecutor<User> {
     User findById(Integer id);
     List<User> findAll();
+
     User findUserByEmail(String email);
     User findUserByEmailAndPassword(String email, String password);
+    List<User> findUsersByPseudo(String pseudo);
 
+
+
+    boolean existsUserByPseudo(String pseudo);
     boolean existsUserByEmailAndPassword(String email, String password);
     boolean existsUserByEmail(String email);
 

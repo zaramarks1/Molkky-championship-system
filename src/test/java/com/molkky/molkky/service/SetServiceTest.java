@@ -9,6 +9,7 @@ import com.molkky.molkky.model.UserTournamentRoleModel;
 import com.molkky.molkky.repository.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -56,6 +57,11 @@ class SetServiceTest {
     void enterSetResultsTestTeam1() {
 //        given
         Match match = createCompleteMatch2();
+        User user = new User();
+        UserTournamentRole userTournamentRole = new UserTournamentRole();
+        userTournamentRole.setUser(user);
+        userTournamentRole.setRole(UserRole.STAFF);
+        match.setStaff(user);
         Set set = match.getSets().get(0);
         UserTournamentRole user1 = match.getTeams().get(0).getUserTournamentRoles().get(0);
 //        when
@@ -90,6 +96,11 @@ class SetServiceTest {
     void enterSetResultsTestTeam2() {
 //        given
         Match match = createCompleteMatch2();
+        User user = new User();
+        UserTournamentRole userTournamentRole = new UserTournamentRole();
+        userTournamentRole.setUser(user);
+        userTournamentRole.setRole(UserRole.STAFF);
+        match.setStaff(user);
         Set set = match.getSets().get(0);
         UserTournamentRole user2 = match.getTeams().get(1).getUserTournamentRoles().get(0);
 //        when
@@ -105,6 +116,11 @@ class SetServiceTest {
     void enterSetResultsTestTeamOrga() {
 //        given
         Match match = createCompleteMatch2();
+        User user = new User();
+        UserTournamentRole userTournamentRole = new UserTournamentRole();
+        userTournamentRole.setUser(user);
+        userTournamentRole.setRole(UserRole.STAFF);
+        match.setStaff(user);
         Set set = match.getSets().get(0);
         UserTournamentRole user2 = userTournamentRoleRepository.save(new UserTournamentRole());
 //        when
@@ -180,6 +196,11 @@ class SetServiceTest {
     void isMatchFinishedNotEqualNo50() {
         //        given
         Match match = createCompleteMatch2();
+        User user = new User();
+        UserTournamentRole userTournamentRole = new UserTournamentRole();
+        userTournamentRole.setUser(user);
+        userTournamentRole.setRole(UserRole.STAFF);
+        match.setStaff(user);
         Set set = match.getSets().get(0);
         UserTournamentRole user1 = match.getTeams().get(0).getUserTournamentRoles().get(0);
         UserTournamentRole user2 = match.getTeams().get(1).getUserTournamentRoles().get(0);
@@ -203,6 +224,11 @@ class SetServiceTest {
     void isMatchFinishedEqual50() {
         //        given
         Match match = createCompleteMatch2();
+        User user = new User();
+        UserTournamentRole userTournamentRole = new UserTournamentRole();
+        userTournamentRole.setUser(user);
+        userTournamentRole.setRole(UserRole.STAFF);
+        match.setStaff(user);
         Set set = match.getSets().get(0);
         UserTournamentRole user1 = match.getTeams().get(0).getUserTournamentRoles().get(0);
         UserTournamentRole user2 = match.getTeams().get(1).getUserTournamentRoles().get(0);
@@ -223,9 +249,14 @@ class SetServiceTest {
     }
 
     @Test
-    void isMatchFinishedNotEqualNoStaffScores() {
+    void isMatchFinishedNotEqualNoStaffScores1() {
         //        given
         Match match = createCompleteMatch2();
+        User user = new User();
+        UserTournamentRole userTournamentRole = new UserTournamentRole();
+        userTournamentRole.setUser(user);
+        userTournamentRole.setRole(UserRole.STAFF);
+        match.setStaff(user);
         Set set = match.getSets().get(0);
         UserTournamentRole user1 = match.getTeams().get(0).getUserTournamentRoles().get(0);
         UserTournamentRole user2 = match.getTeams().get(1).getUserTournamentRoles().get(0);
@@ -243,13 +274,47 @@ class SetServiceTest {
         //        then
         set = setRepository.findById(set.getId());
         Assertions.assertEquals(false, set.getFinished());
-        verify(notificationService, times(1)).sendNotificationToList(anyString(), anyString(), anyList());
+        verify(notificationService, times(2)).sendNotificationToList(anyString(), anyString(), anyList());
+    }
+
+    @Test
+    void isMatchFinishedNotEqualNoStaffScores2() {
+        //        given
+        Match match = createCompleteMatch2();
+        User user = new User();
+        UserTournamentRole userTournamentRole = new UserTournamentRole();
+        userTournamentRole.setUser(user);
+        userTournamentRole.setRole(UserRole.STAFF);
+        match.setStaff(user);
+        Set set = match.getSets().get(0);
+        UserTournamentRole user1 = match.getTeams().get(0).getUserTournamentRoles().get(0);
+        UserTournamentRole user2 = match.getTeams().get(1).getUserTournamentRoles().get(0);
+        User user3 = userRepository.save(new User());
+        set = setRepository.findById(set.getId());
+
+
+        //        when scores are not equal and staff has not entered scores
+        set.setScore1Team1(50);
+        set.setScore2Team1(20);
+        set.setScore1Team2(50);
+        set.setScore2Team2(40);
+        setService.enterSetResults(SetService.createSetModel(set), new UserTournamentRoleModel(user1));
+        setService.enterSetResults(SetService.createSetModel(set), new UserTournamentRoleModel(user2));
+        //        then
+        set = setRepository.findById(set.getId());
+        Assertions.assertEquals(false, set.getFinished());
+        verify(notificationService, times(2)).sendNotificationToList(anyString(), anyString(), anyList());
     }
 
     @Test
     void isMatchFinishedNotEqualStaffScores() {
         //        given
         Match match = createCompleteMatch2();
+        User user = new User();
+        UserTournamentRole userTournamentRole = new UserTournamentRole();
+        userTournamentRole.setUser(user);
+        userTournamentRole.setRole(UserRole.STAFF);
+        match.setStaff(user);
         Set set = match.getSets().get(0);
         UserTournamentRole user1 = match.getTeams().get(0).getUserTournamentRoles().get(0);
         UserTournamentRole user2 = match.getTeams().get(1).getUserTournamentRoles().get(0);
@@ -342,6 +407,7 @@ class SetServiceTest {
                 new Date(),
                 1,
                 8,
+                true,
                 true,
                 2,
                 3,

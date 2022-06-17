@@ -9,6 +9,7 @@ import type.TournamentStatus;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -29,10 +30,10 @@ public class Tournament implements Serializable {
     private String location;
 
     @Column(name = "date")
-    private Date date;
+    private Date date = new Date();
 
     @Column(name = "cutOffDate")
-    private Date cutOffDate;
+    private Date cutOffDate = new Date();
 
     @Column(name = "minTeam")
     private Integer minTeam;
@@ -42,6 +43,9 @@ public class Tournament implements Serializable {
 
     @Column(name = "visible")
     private boolean visible;
+
+    @Column(name = "registerAvailable")
+    private boolean registerAvailable = true;
 
     @Column(name = "nbRounds")
     private Integer nbRounds;
@@ -58,6 +62,9 @@ public class Tournament implements Serializable {
 
     @OneToMany(mappedBy="tournament")
     private List<UserTournamentRole> userTournamentRoles;
+
+    @OneToMany(mappedBy="tournament")
+    private List<Court> courts;
 
     @OneToMany(mappedBy="tournament")
     private List<Round> rounds;
@@ -79,7 +86,7 @@ public class Tournament implements Serializable {
     @Column(name = "nbPlayersPerTeam",nullable = false, columnDefinition = "int default 2")
     private Integer nbPlayersPerTeam;
 
-    public Tournament(String name, String location, Date date, Date cutOffDate, Integer minTeam, Integer maxTeam, boolean visible, Integer nbRounds, Integer nbCourts, Integer nbPlayersPerTeam) {
+    public Tournament(String name, String location, Date date, Date cutOffDate, Integer minTeam, Integer maxTeam, boolean visible, boolean registerAvailable, Integer nbRounds, Integer nbCourts, Integer nbPlayersPerTeam) {
         this.name = name;
         this.location = location;
         this.date = date;
@@ -87,6 +94,7 @@ public class Tournament implements Serializable {
         this.minTeam = minTeam;
         this.maxTeam = maxTeam;
         this.visible = visible;
+        this.registerAvailable = registerAvailable;
         this.nbRounds = nbRounds;
         this.nbCourts = nbCourts;
         this.status = TournamentStatus.AVAILABLE;
@@ -105,6 +113,7 @@ public class Tournament implements Serializable {
         this.minTeam = tournamentModel.getMinTeam();
         this.maxTeam = tournamentModel.getMaxTeam();
         this.visible = tournamentModel.isVisible();
+        this.registerAvailable = tournamentModel.isRegisterAvailable();
         this.nbRounds = tournamentModel.getNbRounds();
         this.nbCourts = tournamentModel.getNbCourts();
         this.status = TournamentStatus.AVAILABLE;
@@ -125,4 +134,19 @@ public class Tournament implements Serializable {
         this.userTournamentRoles = new ArrayList<>();
         this.teams = new ArrayList<>();
     }
+
+    public void editTournamentInfo(TournamentModel tournamentModel){
+        this.name = tournamentModel.getName();
+        this.location = tournamentModel.getLocation();
+        this.date = tournamentModel.getDate();
+        this.cutOffDate = tournamentModel.getCutOffDate();
+        this.minTeam = tournamentModel.getMinTeam();
+        this.maxTeam = tournamentModel.getMaxTeam();
+        this.visible = tournamentModel.isVisible();
+        this.registerAvailable = tournamentModel.isRegisterAvailable();
+        this.nbRounds = tournamentModel.getNbRounds();
+        this.nbCourts = tournamentModel.getNbCourts();
+        this.nbPlayersPerTeam = tournamentModel.getNbPlayersPerTeam();
+    }
+
 }

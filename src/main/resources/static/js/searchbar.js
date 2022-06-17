@@ -7,7 +7,6 @@ function getResults(event){
             // Typical action to be performed when the document is ready:
             autoResultsContainer.innerHTML = xhttp.responseText;
             document.addEventListener('click', (e) => handleClick(e))
-
         }
     };
     xhttp.open("GET", "/search/search?term=" + input.value, true);

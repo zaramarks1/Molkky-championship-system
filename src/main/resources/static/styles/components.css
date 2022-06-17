@@ -1,12 +1,13 @@
 .primaryButton {
     cursor: pointer;
-    width: 193px;
+    width: fit-content;
     height: 56px;
+    padding-inline: 28px;
     background-color: #8C69F4;
     box-shadow: 0 2px 10px #8C69F4;
     border-radius: 8px;
     font-weight: 600;
-    font-size: 16px;
+    font-size: 14px;
     line-height: 24px;
     display: flex;
     align-items: center;
@@ -17,6 +18,13 @@
     transition: background-color,box-shadow, color;
     transition-duration: .2s;
     transition-timing-function: ease-in-out;
+    text-decoration: none;
+}
+
+@media only screen and (max-width: 1000px) {
+    .primaryButton {
+        width: 100%;
+    }
 }
 
 .primaryButton:hover {
@@ -33,10 +41,12 @@
     cursor: pointer;
     width: 193px;
     height: 56px;
+    width: fit-content;
+    padding-inline: 28px;
     background-color: #E9E4FA;
     border-radius: 8px;
     font-weight: 600;
-    font-size: 16px;
+    font-size: 14px;
     line-height: 24px;
     display: flex;
     align-items: center;

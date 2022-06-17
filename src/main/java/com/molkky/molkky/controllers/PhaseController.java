@@ -49,6 +49,9 @@ public class PhaseController extends DefaultAttributes {
     @Autowired
     RoundService roundService;
 
+    private String tournamentView = "redirect:/tournament/view?tournamentId=";
+    private String phaseView = "redirect:/phase/view?id=";
+
     @PostMapping("/generate")
     public String generate(Model model, HttpSession session, @RequestParam(name = "id", required = true) String id){
 
@@ -58,14 +61,38 @@ public class PhaseController extends DefaultAttributes {
             return "redirect:/connexion";
         }
 
+        if(user.getRole().equals(UserRole.ADM) ){
+            Phase phase = phaseRepository.findById(Integer.valueOf(id));
+
+            if(Boolean.TRUE.equals(phase.getFinished())) return tournamentView+phase.getTournament().getId();
+
+            Tournament tournament = phase.getTournament();
+            tournament.setIndexPhase(tournament.getIndexPhase()+1);
+            tournamentRepository.save(tournament);
+
+            Map<Round, List<Match>> response = phaseService.generate(id);
+
+            model.addAttribute("round_match", response);
+        }else{
+            return "redirect:/";
+        }
+        return phaseView+id;
+    }
+
+    @PostMapping("/round")
+    public String nextRound(Model model, HttpSession session, @RequestParam(name = "id", required = true) String id,  @RequestParam(name = "nbSet", required = false) String nbSet){
+        UserLogged user = (UserLogged) session.getAttribute("user");
+
+        if(user == null){
+            return "redirect:/connexion";
+        }
 
         Phase phase = phaseRepository.findById(Integer.valueOf(id));
 
-        Tournament tournament = phase.getTournament();
+        if(Boolean.TRUE.equals(phase.getFinished())) return tournamentView+phase.getTournament().getId();
 
-        tournament.setIndexPhase(tournament.getIndexPhase()+1);
-
-        tournamentRepository.save(tournament);
+        phase.setNbSets(Integer.valueOf(nbSet));
+        phaseRepository.save(phase);
 
 
         if(user.getRole().equals(UserRole.ADM) ){
@@ -75,7 +102,8 @@ public class PhaseController extends DefaultAttributes {
         }else{
             return "redirect:/";
         }
-        return "redirect:/phase/view?id="+id;
+        return phaseView+id;
+
     }
 
     @GetMapping("/choosePhases")
@@ -107,7 +135,7 @@ public class PhaseController extends DefaultAttributes {
     }
 
     @PostMapping("/editPhases")
-    public String savePhases(@ModelAttribute("form")PhaseListModel phasesModel, ModelMap model) throws ParseException {
+    public String savePhases(@ModelAttribute("listPhase")PhaseListModel phasesModel, ModelMap model) throws ParseException {
         Tournament t = tournamentRepository.findById(phasesModel.getPhases().get(0).getTournament());
         List<Phase> phases = new ArrayList<>();
         for(PhaseModel phase : phasesModel.getPhases()){
@@ -134,12 +162,30 @@ public class PhaseController extends DefaultAttributes {
         phaseRepository.saveAll(phases);
         t.setPhases(phases);
         t =  tournamentRepository.save(t);
-        return "redirect:/tournament/view?tournamentId="+t.getId();
+        return tournamentView+t.getId();
+    }
+
+    @GetMapping("/modify")
+    public ModelAndView modifyPhase(ModelMap model, @RequestParam(value = "tournamentId") String tournamentId){
+        Tournament t = tournamentRepository.findById(Integer.valueOf(tournamentId));
+        List<Phase> phaseList = t.getPhases();
+        PhaseListModel phaseListModel = new PhaseListModel();
+        for(Phase phase : phaseList){
+            phaseListModel.add(new PhaseModel(phase));
+        }
+        model.addAttribute("listPhase",phaseListModel);
+        return new ModelAndView("/phase/modifyPhase",model);
+    }
+
+    @PostMapping("/modify")
+    public String changeInfoPhases(@ModelAttribute("listPhase")PhaseListModel phasesModel, ModelMap model){
+        Tournament t = phaseService.editPhasesInfo(phasesModel);
+        return tournamentView+t.getId();
     }
 
     @PostMapping("/view")
     public String viewPost( @RequestParam(name= "id") Integer id){
-        return "redirect:/phase/view?id="+id;
+        return phaseView+id;
     }
 
     @GetMapping("/view")
@@ -149,11 +195,19 @@ public class PhaseController extends DefaultAttributes {
         List<Round> rounds = phase.getRounds();
 
         Map<Round,  List<PhaseRankingModel>> roundTeams = new HashMap<>();
+            for (Round r : rounds) {
+                List<PhaseRankingModel> teams = roundService.orderTeamsByScoreInRound(r, phase.getVictoryValue());
+                roundTeams.put(r, teams);
+            }
 
-        for(Round r : rounds ){
-            List<PhaseRankingModel> teams = roundService.orderTeamsByScoreInRound(r, phase.getVictoryValue());
-            roundTeams.put(r, teams);
-        }
+            if(phase instanceof SwissPool){
+                List<PhaseRankingModel> teams = roundService.orderTeamsByScoreInPhase(phase, phase.getVictoryValue());
+                model.addAttribute("phaseTotal", teams);
+            }else{
+                model.addAttribute("phaseTotal", new ArrayList<>());
+            }
+
+
 
         model.addAttribute("rounds", rounds);
         model.addAttribute("roundTeams", roundTeams);

@@ -14,13 +14,16 @@ import java.util.List;
 @Repository
 public interface UserTournamentRoleRepository extends UserTournamentRoleCustom, JpaRepository<UserTournamentRole, String>, JpaSpecificationExecutor<UserTournamentRole> {
 
-    UserTournamentRole findByTeamAndTournament(Team team, Tournament tournament);
+    List<UserTournamentRole> findByTeamAndTournament(Team team, Tournament tournament);
     UserTournamentRole findByUserAndTeam(User user, Team team);
     List<UserTournamentRole> findByUser(User user);
+    List<UserTournamentRole> findByTeam(Team team);
 
 
     UserTournamentRole findById(Integer id);
 
     List<UserTournamentRole> findUserTournamentRoleByTournamentAndUser(Tournament tournament, User user);
     List<UserTournamentRole> findUserTournamentRoleByRoleAndTournament(UserRole role, Tournament tournament);
+    List<UserTournamentRole> findUserTournamentRoleByTournamentAndUserAndRole(Tournament tournament, User user, UserRole role);
+
 }

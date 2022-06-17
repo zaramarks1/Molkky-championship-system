@@ -49,22 +49,25 @@ public class MatchController extends DefaultAttributes {
     @GetMapping("/matches/match")
     public String match(Model model, HttpSession session, @RequestParam(name = "match_id", required = true) Integer id) {
         UserLogged user = getUser(session);
-        if(user == null){
-            return "redirect:/connexion";
-        }
         Match match = matchRepository.findById(id);
-        SetTeamIndex setTeamIndex = matchService.getUserTeamIndex(MatchService.getMatchModelFromEntity(match), new UserTournamentRoleModel(userTournamentRoleRepository.findById(user.getTournamentRoleId())));
-
+        SetTeamIndex setTeamIndex;
+        if(user == null){
+            setTeamIndex = SetTeamIndex.OUTSIDER;
+        } else if (Boolean.TRUE.equals(!matchService.isUserInMatch(MatchService.getMatchModelFromEntity(match), UserService.createUserModelFromUserLogged(user))) && user.getRole() == UserRole.PLAYER) {
 //        case the user is a player but not in the match
-        if(Boolean.TRUE.equals(!matchService.isUserInMatch(MatchService.getMatchModelFromEntity(match), UserService.createUserModelFromUserLogged(user))) && user.getRole() == UserRole.PLAYER){
-            return "redirect:/";
+            setTeamIndex = SetTeamIndex.OUTSIDER;
+        } else {
+            setTeamIndex = matchService.getUserTeamIndex(MatchService.getMatchModelFromEntity(match), new UserTournamentRoleModel(userTournamentRoleRepository.findById(user.getTournamentRoleId())));
         }
+
         model.addAttribute("availableCourts", courtService.getAvailableCourts());
         model.addAttribute("match", MatchService.getMatchModelFromEntity(match));
+        model.addAttribute("court", new CourtModel(match.getCourt()));
         model.addAttribute("teams", Arrays.asList(new TeamModel(match.getTeams().get(0)), new TeamModel(match.getTeams().get(1))));
         model.addAttribute("tournament", new TournamentModel(match.getRound().getPhase().getTournament()));
         model.addAttribute("sets", SetService.createSetModels(match.getSets()));
         model.addAttribute("setTeamIndex", setTeamIndex);
+        model.addAttribute("staff", match.getStaff());
         return "/match/match";
     }
 

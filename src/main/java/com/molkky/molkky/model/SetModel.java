@@ -13,5 +13,7 @@ public class SetModel {
     private Integer score2Team2 = 0;
     private Integer score1Orga = 0;
     private Integer score2Orga = 0;
+    private Integer score1Final = 0;
+    private Integer score2Final = 0;
     private Boolean finished = false;
 }

@@ -23,6 +23,7 @@ public class TournamentModel {
     private Integer nbCourts;
     private Integer nbPlayersPerTeam;
     private boolean visible;
+    private boolean registerAvailable;
     private String email;
 
     public void setDate(String date) throws ParseException {
@@ -35,6 +36,11 @@ public class TournamentModel {
 
     public Date formatDate(String date) throws ParseException {
         return new SimpleDateFormat("yyyy-MM-dd", Locale.FRANCE).parse(date);
+    }
+
+    public void setDatesNull(){
+        this.date = null;
+        this.cutOffDate = null;
     }
 
     @AssertTrue(message = "Date du tournoi avant la date de fin d'inscriptions")
@@ -56,6 +62,7 @@ public class TournamentModel {
             this.nbCourts = tournament.getNbCourts();
             this.nbPlayersPerTeam = tournament.getNbPlayersPerTeam();
             this.visible = tournament.isVisible();
+            this.registerAvailable = tournament.isRegisterAvailable();
         }
     }
 

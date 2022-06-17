@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import type.PhaseType;
 
 import java.util.*;
-import java.util.stream.*;
+
 
 @Service
 public class PoolService {
@@ -41,25 +41,18 @@ public class PoolService {
     @Autowired
     RoundService roundService;
 
+    @Autowired
+    MatchService matchService;
+
 
     public Map<Round, List<Match>> generateRounds(Pool pool){
         Map<Round, List<Match>> results = new HashMap<>();
 
-        List<Team> teamsOld = pool.getTournament().getTeams();
-        List<Team> teams;
         int nbPool = pool.getNbPools();
 
-        teams = teamsOld.stream()
-                .filter(team -> !team.isEliminated())
-                .collect(Collectors.toList());
+        List<Team> teams = roundService.getTeamsSorted(pool);
 
-        if(Boolean.TRUE.equals(pool.getRanking()) ) {
-            teams.sort(Comparator
-                    .comparing(Team :: getNbPoints)
-                    .reversed());
-        }
-
-            List<Round> rounds = new ArrayList<>();
+        List<Round> rounds = new ArrayList<>();
 
             for(int i =1; i <= nbPool;i++){
                 Round round = new Round();
@@ -108,13 +101,17 @@ public class PoolService {
               }
                r.getMatches().addAll(roundService.createSetsFromMatch(matches));
 
+                if (Boolean.TRUE.equals(pool.getRandomStaff())) roundService.assignRandomStaffToMatch(matches, pool);
+
             }
 
         pool = phaseRepository.save(pool);
 
+
         for(Round r : pool.getRounds()){
             results.put(r, r.getMatches());
         }
+
 
         return results;
     }
@@ -144,6 +141,7 @@ public class PoolService {
 
         generateNotificationAfterRound(teams);
 
+        roundService.isPhaseOver(pool, scoresList);
 
     }
 
@@ -152,6 +150,7 @@ public class PoolService {
 
         for(int i=0;i<teams.size();i++) {
             Team t = teams.get(i);
+
             String message ;
             if(t.isEliminated()){
                 message = "Ton équipe a terminé " + (i + 1)+ " ème de sa poule et est malheuseusement éliminée.";

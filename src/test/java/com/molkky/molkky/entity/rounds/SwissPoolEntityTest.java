@@ -4,8 +4,10 @@ import com.molkky.molkky.MolkkyApplication;
 import com.molkky.molkky.domain.Match;
 import com.molkky.molkky.domain.Phase;
 import com.molkky.molkky.domain.Tournament;
+import com.molkky.molkky.domain.rounds.Finnish;
 import com.molkky.molkky.domain.rounds.SimpleGame;
 import com.molkky.molkky.domain.rounds.SwissPool;
+import com.molkky.molkky.model.phase.PhaseModel;
 import com.molkky.molkky.repository.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -40,6 +42,7 @@ class SwissPoolEntityTest {
                 1,
                 8,
                 true,
+                true,
                 2,
                 3,
                 2
@@ -67,5 +70,17 @@ class SwissPoolEntityTest {
         Assertions.assertEquals(true, tournament.getPhases().get(0) instanceof SwissPool,
                 " It should be a instance of simple game");
 
+    }
+
+    @Test
+    void testEditSwissInfo(){
+        PhaseModel phaseModel = new PhaseModel();
+        phaseModel.setNbSubRounds(1);
+        phaseModel.setTimePhase("");
+        phaseModel.setHourPhaseStart("");
+        SwissPool swissPool = new SwissPool();
+        swissPool.editInfoSwiss(phaseModel);
+
+        Assertions.assertEquals(1,swissPool.getNbSubRounds());
     }
 }

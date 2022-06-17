@@ -4,6 +4,8 @@ import com.molkky.molkky.domain.Phase;
 import com.molkky.molkky.domain.Tournament;
 import com.molkky.molkky.model.phase.PhaseModel;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import type.PhaseStatus;
 
 import javax.persistence.Column;
@@ -11,7 +13,8 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import java.text.ParseException;
 
-@Data
+@Getter
+@Setter
 @Entity
 @DiscriminatorValue("POOL")
 public class Pool extends Phase {
@@ -33,6 +36,7 @@ public class Pool extends Phase {
 
     public Pool(PhaseModel poolModel, Tournament tournament) throws ParseException {
         this.setStatus(PhaseStatus.NOTSTARTED);
+        this.setRandomStaff(poolModel.getRandomStaff());
         this.setNbPools(poolModel.getNbPools());
         this.setNbSets(poolModel.getNbSets());
         this.setVictoryValue(poolModel.getVictoryValue());
@@ -54,5 +58,12 @@ public class Pool extends Phase {
         this.setConsolation(poolModel.isConsolation());
         this.setNumberConsolationQualify(poolModel.getNumberConsolationQualify());
         this.setTournament(tournament);
+    }
+
+    public void editInfoPool(PhaseModel poolModel){
+        this.editGlobalInfo(poolModel);
+        this.setNbPools(poolModel.getNbPools());
+        this.setNotifEachDay(poolModel.isNotifEachDay());
+        this.setPlayTeamSameClub(poolModel.isPlayTeamSameClub());
     }
 }

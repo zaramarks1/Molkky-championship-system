@@ -1,0 +1,29 @@
+<div class="searchbarContainerMobile">
+    <div class="searchbarUpperContainerMobile">
+<!--        hamburger icon-->
+        <div class="navSideBarMobile">
+            <a style="font-size:30px;cursor:pointer" onclick="openNav()">
+               <img class="hamburgerIcon" th:src="@{/assets/menu-icon.svg}" alt="hamburger open menu icon"/>
+            </a>
+        </div>
+
+        <!--        molkky logo-->
+        <a href="/" style="text-decoration: none;">
+            <img th:src="@{/assets/Molkky_logo.png}" class="searchbarLogo" alt="Logo molkky"/>
+        </a>
+
+        <!--        icon login-->
+        <img alt="Icône de déconnexion" th:if="${session.user != null}" onclick="window.location.href='/connexion'" class="searchbarIconMobile searchbarIconMobileNotLogged" th:src="@{/assets/logoff.svg}"/>
+        <img alt="Icône de profil" th:unless="${session.user != null}" class="searchbarIconMobile searchbarIconMobileLogged" th:src="@{/assets/profile_icon.svg}" onclick="window.location.href='/connexion'"/>
+    </div>
+    <div class="searchbarInputContainerMobile">
+        <i class="searchbarIconContainerMobile">
+            <img class="searchbarIcon" th:src="@{/assets/search_icon.svg}"/>
+        </i>
+        <input onkeyup="getResults()" id="searchbarInput" type="text" class="searchbarMobile" placeholder="Search"/>
+        <i class="searchbarIconContainerMobile">
+            <img alt="Icône en croix" class="searchbarIcon" th:src="@{/assets/cross.svg}"/>
+        </i>
+    </div>
+    <div class="searchAutoresultsContainerMobile" id="searchAutoresults"></div>
+</div>

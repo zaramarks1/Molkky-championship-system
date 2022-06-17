@@ -18,4 +18,11 @@ public interface TeamRepository extends JpaRepository<Team, String>, JpaSpecific
             nativeQuery = true)
     List<Team> searchTeamsByName(String searchTerm, Integer n);
     List<Team> findByTournamentAndEliminated(Tournament tournament, Boolean elimitaded);
+
+    List<Team> findTeamByName(String teamName);
+    Boolean existsTeamByName(String teamName);
+    Boolean existsByCode(String code);
+    @Query(value="SELECT t.name FROM Team t")
+    List<String> findTeamsName();
+
 }

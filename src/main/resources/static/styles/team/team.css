@@ -3,3 +3,102 @@
     margin-top: -20px;
     max-width: 1048px;
 }
+
+.searchbar2 {
+    max-width: 1500px;
+    flex-grow: 1;
+    height: 58px;
+    background-color: #E7E7ED;
+    border-radius: 7px;
+    border-width: 0;
+    padding: 0 50px;
+    font-weight: 100;
+    font-size: 15px;
+    line-height: 18px;
+    color: black;
+}
+
+.cardContainer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.cardUser {
+    box-sizing: border-box;
+
+    /* Auto layout */
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px;
+
+    width: 300px;
+    height: 125px;
+    margin-bottom: 30px;
+
+    background: #F4F4F8;
+    /* secondary */
+
+    border: 1px solid #C4C4C4;
+    box-shadow: 0px 0px 7px 2px rgba(196, 196, 196, 0.25);
+    border-radius: 7px;
+    color: white;
+    /* Inside auto layout */
+
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+}
+
+.userHeader {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: -webkit-fill-available;
+    height: 2em;
+    background: #5B5A58;
+    border-top-left-radius: 7px;
+    border-top-right-radius: 7px;
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+
+}
+
+.boxImage {
+    width: -webkit-fill-available;
+    height: -webkit-fill-available;
+
+}
+
+.image {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 15px;
+    display: block;
+    height: 70px;
+}
+
+.clickCard{
+    width: -webkit-fill-available;
+    height: -webkit-fill-available;
+    text-decoration: none;
+}
+
+.textCard{
+    text-decoration: none;
+}
+
+.textEliminated{
+    color: red;
+}
+
+.textInCompetition{
+    color: green;
+}

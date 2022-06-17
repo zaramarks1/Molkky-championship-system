@@ -4,6 +4,8 @@ import com.molkky.molkky.domain.Phase;
 import com.molkky.molkky.domain.Tournament;
 import com.molkky.molkky.model.phase.PhaseModel;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import type.PhaseStatus;
 
 import javax.persistence.Column;
@@ -11,12 +13,17 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import java.text.ParseException;
 
-@Data
+@Getter
+@Setter
 @Entity
 @DiscriminatorValue("SWISSPOOL")
 public class SwissPool extends Phase {
+
     @Column(name = "nbSubRounds")
     private Integer nbSubRounds;
+
+    @Column(name = "indexSubRound")
+    private Integer indexSubRound=0;
 
     public SwissPool(){
 
@@ -29,6 +36,7 @@ public class SwissPool extends Phase {
 
     public SwissPool(PhaseModel swissModel, Tournament tournament) throws ParseException {
         this.setStatus(PhaseStatus.NOTSTARTED);
+        this.setRandomStaff(swissModel.getRandomStaff());
         this.setNbSubRounds(swissModel.getNbSubRounds());
         this.setNbSets(swissModel.getNbSets());
         this.setVictoryValue(swissModel.getVictoryValue());
@@ -44,5 +52,10 @@ public class SwissPool extends Phase {
         this.setPlayoff(swissModel.isPlayoff());
         this.setNumberPlayoffQualify(swissModel.getNumberPlayoffQualify());
         this.setTournament(tournament);
+    }
+
+    public void editInfoSwiss(PhaseModel swissModel){
+        this.editGlobalInfo(swissModel);
+        this.setNbSubRounds(swissModel.getNbSubRounds());
     }
 }

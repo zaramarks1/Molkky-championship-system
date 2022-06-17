@@ -82,9 +82,7 @@ class StaffMatchPageDisplayTest {
             round = roundRepository.save(round);
 
             //roundRepository.save(round);
-            Court court = new Court();
-            court.setName("courtTestStaff");
-            courtRepository.save(court);
+
             if(userRepository.findUserByEmail(emailStaff)==null) {
                 User staff = new User();
                 staff.setEmail(emailStaff);
@@ -103,8 +101,13 @@ class StaffMatchPageDisplayTest {
                 utr.get(0).setTournament(tournament);
                 userTournamentRoleRepository.save(utr.get(0));
             }
-            Match match = new Match();
+            Match match = matchRepository.save(new Match());
             match.setRound(round);
+
+            Court court = new Court();
+            court.setName("courtTestStaff");
+            court = courtRepository.save(court);
+
             match.setCourt(court);
             match.setFinished(false);
             List<Team> teams = new ArrayList<Team>();
@@ -112,7 +115,7 @@ class StaffMatchPageDisplayTest {
             teams.add(team2);
             match.setTeams(teams);
             User staff = userRepository.findUserByEmail(emailStaff);
-            match.setUser(staff);
+            match.setStaff(staff);
             matchRepository.save(match);
             Set set1 = new Set();
             set1.setScore1Team1(10);
@@ -210,8 +213,11 @@ class StaffMatchPageDisplayTest {
         }
 
     }
+    /*
     @AfterAll
     void tearDown() {
         config.getDriver().quit();
     }
+
+     */
 }

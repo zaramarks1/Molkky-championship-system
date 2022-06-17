@@ -2,23 +2,39 @@
     width: 95%;
     height: auto;
     border-radius: 7px;
-    background-color: white;
-    padding: 10px 20px;
-    margin: 10px 0;
+    margin-bottom: 25px;
 }
+
+@media only screen and (max-width: 1000px) {
+    .partContainer {
+        width: auto;
+    }
+}
+
 p{
     font-family: 'Inter', sans-serif;
     font-style: normal;
-    font-weight: 600;
+    font-weight: 400;
     font-size: 16px;
     line-height: 22px;
     text-align: justify;
 }
+
+
+.sidebarButton p {
+    font-weight: 600;
+    font-size : 14px;
+    text-align: left;
+    margin-left: 17px;
+    bottom: -0.46%;
+    line-height: inherit;
+}
 .partTitle {
     font-weight: bold;
+    font-size: 20px;
 }
 .partSubtitle {
-    letter-spacing: 2px;
+    font-size: 18px;
 }
 ul.roundsList {
     list-style: none;
@@ -27,33 +43,43 @@ ul.roundsList {
     display: flex;
     justify-content: left;
     flex-direction: row;
+    font-size : 16px;
 }
 .imgBracket {
     object-fit: cover;
 }
 .teamCard {
-    width: 246px;
+    width: fit-content;
     background-color: #F4F4F8;
     box-sizing: border-box;
     box-shadow: 0px 0px 7px 2px rgba(0, 0, 0, 0.25);
     margin: 20px;
     border-radius: 7px;
 }
+
+@media only screen and (max-width: 1000px) {
+    .teamCard {
+        width: 100%;
+    }
+}
+
 #participantContainer {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
 }
 
 #staffContainer {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
 }
 .teamName {
     background-color: forestgreen;
     color: white;
     font-weight: bold;
     margin: 0;
-    padding: 2px 5px;
+    padding: 5px 5px;
     border-top-right-radius: 7px;
     border-top-left-radius: 7px;
     text-transform: uppercase;
@@ -64,26 +90,34 @@ ul.roundsList {
     color: white;
     font-weight: bold;
     margin: 0;
-    padding: 2px 5px;
+    font-size: 17px;
+    padding: 5px 5px;
     border-top-right-radius: 7px;
     border-top-left-radius: 7px;
     text-transform: uppercase;
 }
 .cardContentContainer {
+    margin-inline: 10px;
     padding: 5px;
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: center;
+    justify-content: space-around;
 }
 .teamLogo {
     height: 60px;
     width: 60px;
+    margin-right: 10px;
     border-radius: 7px;
     background-color: #6D41F3;
 }
 .teamMember {
     margin: 3px;
+    font-size: 14px;
+}
+.courtCard {
+    margin: 3px;
+    font-size: 14px;
 }
 .statusCircleGreen {
     height: 15px;
@@ -107,4 +141,22 @@ ul.roundsList {
     display:  inline-block;
 }
 
+.inputStaff {
+    width: 160px;
+    height: 48px;
+    border-radius: 4px;
+    border: 0;
+    background-color: #F8FAFC;
+    padding: 10px;
+    box-shadow: 0 0 7px #c4c4c4;
+}
 
+.inputValidatePresenceTeam{
+    width: -webkit-fill-available;
+    height: 48px;
+    border-radius: 4px;
+    border: 0;
+    background-color: #F8FAFC;
+    padding: 10px;
+    box-shadow: 0 0 7px #c4c4c4;
+}

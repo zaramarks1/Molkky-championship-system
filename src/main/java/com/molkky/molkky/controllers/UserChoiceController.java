@@ -63,7 +63,7 @@ public class UserChoiceController {
             UserTournamentRole userTournamentRole = userTournamentRoleRepository.findById(Integer.valueOf(roleId));
             User userChoice = userTournamentRole.getUser();
             Tournament tournament = (Tournament) session.getAttribute("tournament");
-            UserLogged userLogged = new UserLogged(userChoice.getId(),userTournamentRole.getId() ,userChoice.getEmail(), userChoice.getPassword(), userTournamentRole.getRole(), tournament);
+            UserLogged userLogged = new UserLogged(userChoice.getId(),userTournamentRole.getId() ,userChoice.getEmail(), userChoice.getPassword(), userTournamentRole.getRole(), tournament, userChoice.getSurname(), userChoice.getPseudo(), userChoice.getForename());
             session.setAttribute("user", userLogged);
             return "redirect:/";
         }

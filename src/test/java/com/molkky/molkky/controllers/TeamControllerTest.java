@@ -26,6 +26,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -113,12 +114,12 @@ class TeamControllerTest {
         Mockito.when(teamRepository.findById(Mockito.anyInt())).thenReturn(team);
         Mockito.when(addPlayerModel1.addPlayer()).thenCallRealMethod();
         Mockito.when(addPlayerModel1.getMail()).thenReturn("test@test.fr");
+        when(addPlayerModel1.getClub()).thenReturn("A");
 
         mockMvc.perform(post("/team/addPlayer")
                         .flashAttr("form",addPlayerlistModel))
                 .andDo(print())
                 .andExpect(view().name("redirect:/team/create"))
-                .andExpect(redirectedUrl("/team/create?unreadCount=0"))
                 .andExpect(status().is3xxRedirection());
 
         Mockito.verify(addPlayerlistModel,Mockito.times(1)).getPlayers();
@@ -143,8 +144,10 @@ class TeamControllerTest {
         Mockito.when(teamRepository.findById(Mockito.anyInt())).thenReturn(team);
         Mockito.when(addPlayerModel1.addPlayer()).thenCallRealMethod();
         Mockito.when(addPlayerModel1.getMail()).thenReturn("test@test.fr");
+        when(addPlayerModel1.getClub()).thenReturn("A");
         Mockito.when(addPlayerModel2.addPlayer()).thenCallRealMethod();
         Mockito.when(addPlayerModel2.getMail()).thenReturn("test@test.fr");
+        when(addPlayerModel2.getClub()).thenReturn("A");
 
         mockMvc.perform(post("/team/addPlayer/")
                         .flashAttr("form", addPlayerlistModel))
