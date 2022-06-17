@@ -59,6 +59,7 @@ class TournamentFormTest {
         String randomNbRounds = "1";
         String randomNbCounts = "1";
         String randomNbPlayersPerTeam = "3";
+        String randomMail = "test@sfr.fr";
 
         config.getDriver().findElement(new By.ById("nom")).sendKeys(randomName);
         config.getDriver().findElement(new By.ById("location")).sendKeys(randomLocation);
@@ -70,6 +71,7 @@ class TournamentFormTest {
         config.getDriver().findElement(new By.ById("visible")).click();
         config.getDriver().findElement(new By.ById("nbRounds")).sendKeys(randomNbRounds);
         config.getDriver().findElement(new By.ById("nbCourts")).sendKeys(randomNbCounts);
+        config.getDriver().findElement(new By.ById("email")).sendKeys(randomMail);
         config.getDriver().findElement(new By.ById("sendTournament")).click();
 
         Tournament tournament = tournamentRepository.findByName(randomName);
