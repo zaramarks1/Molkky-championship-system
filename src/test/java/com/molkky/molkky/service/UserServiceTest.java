@@ -1,10 +1,12 @@
 package com.molkky.molkky.service;
 
+import com.molkky.molkky.domain.Club;
 import com.molkky.molkky.domain.User;
 import com.molkky.molkky.model.UserLogged;
 import com.molkky.molkky.model.UserModel;
 import com.molkky.molkky.repository.UserRepository;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,6 +21,14 @@ class UserServiceTest {
     private UserService userService;
     @Autowired
     private UserRepository userRepository;
+
+    Club club = new Club();
+
+    @BeforeEach
+    void init() {
+        club.setName("club");
+    }
+
     @Test
     void createUserModelTest() {
 //        given
@@ -27,7 +37,7 @@ class UserServiceTest {
         user.setPseudo("bruhpseudo");
         user.setSurname("surname");
         user.setForename("forename");
-        user.setClub("club");
+        user.setClub(club);
 //        when
         UserModel userModel = UserService.createUserModel(user);
 //        then
@@ -35,7 +45,7 @@ class UserServiceTest {
         Assertions.assertEquals(user.getPseudo(), userModel.getPseudo());
         Assertions.assertEquals(user.getSurname(), userModel.getSurname());
         Assertions.assertEquals(user.getForename(), userModel.getForename());
-        Assertions.assertEquals(user.getClub(), userModel.getClub());
+        Assertions.assertEquals(user.getClub().getName(), userModel.getClub().getName());
     }
     @Test
     void createModelFromUserLoggedTest(){

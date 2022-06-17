@@ -1,16 +1,10 @@
 package com.molkky.molkky.service;
 
-import com.molkky.molkky.domain.Team;
-import com.molkky.molkky.domain.Tournament;
-import com.molkky.molkky.domain.User;
-import com.molkky.molkky.domain.UserTournamentRole;
+import com.molkky.molkky.domain.*;
 import com.molkky.molkky.model.AddPlayerModel;
 import com.molkky.molkky.model.AddPlayerlistModel;
 import com.molkky.molkky.model.CreateTeamModel;
-import com.molkky.molkky.repository.TeamRepository;
-import com.molkky.molkky.repository.TournamentRepository;
-import com.molkky.molkky.repository.UserRepository;
-import com.molkky.molkky.repository.UserTournamentRoleRepository;
+import com.molkky.molkky.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import type.UserRole;
@@ -36,6 +30,9 @@ public class TeamService {
     @Autowired
     TournamentRepository tournamentRepository;
 
+    @Autowired
+    ClubRepository clubRepository;
+
 
     public Team create(CreateTeamModel team){
 
@@ -49,7 +46,19 @@ public class TeamService {
 
         teamCreate.setCode(createTeamCode(5));
 
+        Club c;
+        if (team.getOption().equals("oldClub")) {
+            c = clubRepository.findById(team.getClubId());
+        }
+        else{
+            c = new Club();
+            c.setName(team.getNewClubName());
+        }
+
+        c = clubRepository.save(c);
+        teamCreate.setClub(c);
         return teamRepository.save(teamCreate);
+
     }
 
     public String createTeamCode(int n){
@@ -83,14 +92,9 @@ public class TeamService {
             userTournamentRole.setTeam(team);
             userTournamentRole.setRole(UserRole.PLAYER);
             userTournamentRoles.add(userTournamentRole);
-
-
-
         }
 
-
         userTournamentRoleRepository.saveAll(userTournamentRoles);
-
 
         return team;
     }

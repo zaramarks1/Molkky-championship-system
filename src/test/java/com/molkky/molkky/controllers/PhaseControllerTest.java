@@ -515,7 +515,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         when(phaseRepository.findById(17888)).thenReturn(phase);
 
         mockMvc.perform(get("/phase/view")
-                        .param("id", "17888"))
+                        .param("id", "17888")
+                         .param("phaseIndex", "1"))
                 .andExpect(status().isOk())
                 .andExpect(model().attributeExists("rounds"))
                 .andExpect(model().attributeExists("roundTeams"))
@@ -527,9 +528,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         verify(this.roundService, times(1)).orderTeamsByScoreInRound(any(Round.class), anyInt());
 
         mockMvc.perform(post("/phase/view")
-                .param("id", "17888"))
+                .param("id", "17888")
+                .param("phaseIndex", "1"))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/phase/view?id=17888"));
+                .andExpect(view().name("redirect:/phase/view?id=17888&phaseIndex=1"));
     }
 
     @Test
@@ -603,7 +605,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         when(phaseRepository.findById(17888)).thenReturn(phase);
 
         mockMvc.perform(get("/phase/view")
-                        .param("id", "17888"))
+                        .param("id", "17888")
+                        .param("phaseIndex", "1"))
                 .andExpect(status().isOk())
                 .andExpect(model().attributeExists("rounds"))
                 .andExpect(model().attributeExists("roundTeams"))
@@ -614,8 +617,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         verify(this.phaseRepository, times(1)).findById(anyInt());
 
         mockMvc.perform(post("/phase/view")
-                        .param("id", "17888"))
+                        .param("id", "17888")
+                        .param("phaseIndex", "1"))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/phase/view?id=17888"));
+                .andExpect(view().name("redirect:/phase/view?id=17888&phaseIndex=1"));
     }
 }

@@ -1,21 +1,18 @@
 package com.molkky.molkky.controllers;
 
 
+import com.molkky.molkky.domain.Club;
 import com.molkky.molkky.domain.Team;
 import com.molkky.molkky.domain.Tournament;
 import com.molkky.molkky.model.AddPlayerModel;
 import com.molkky.molkky.model.AddPlayerlistModel;
 import com.molkky.molkky.model.CreateTeamModel;
-import com.molkky.molkky.repository.TeamRepository;
-import com.molkky.molkky.repository.TournamentRepository;
-import com.molkky.molkky.repository.UserRepository;
-import com.molkky.molkky.repository.UserTournamentRoleRepository;
+import com.molkky.molkky.repository.*;
 import com.molkky.molkky.service.EmailSenderService;
 import com.molkky.molkky.service.NotificationService;
 import com.molkky.molkky.service.TeamService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
@@ -66,6 +63,9 @@ class TeamCreateControllerTest {
     @MockBean
     private EmailSenderService emailSenderService;
 
+    @MockBean
+    ClubRepository clubRepository;
+
 
     /*
     Test work with conditions, example : @Controller -> @RestController or add @RequestBody to method
@@ -108,13 +108,15 @@ class TeamCreateControllerTest {
 
         Team team = new Team();
         team.setId(1);
+        Club club = new Club();
+        club.setName("A");
 
         when(addPlayerlistModel.getPlayers()).thenReturn(list);
         when(addPlayerModel1.getTeamId()).thenReturn(team.getId());
         when(teamRepository.findById(anyInt())).thenReturn(team);
         when(addPlayerModel1.addPlayer()).thenCallRealMethod();
         when(addPlayerModel1.getMail()).thenReturn("test@test.fr");
-        when(addPlayerModel1.getClub()).thenReturn("A");
+        when(addPlayerModel1.getClub()).thenReturn(club);
 
         mockMvc.perform(post("/team/addPlayer")
                         .flashAttr("form",addPlayerlistModel))
@@ -136,16 +138,18 @@ class TeamCreateControllerTest {
 
         Team team = new Team();
         team.setId(1);
+        Club club = new Club();
+        club.setName("A");
 
         when(addPlayerlistModel.getPlayers()).thenReturn(list);
         when(addPlayerModel1.getTeamId()).thenReturn(team.getId());
         when(teamRepository.findById(anyInt())).thenReturn(team);
         when(addPlayerModel1.addPlayer()).thenCallRealMethod();
         when(addPlayerModel1.getMail()).thenReturn("test@test.fr");
-        when(addPlayerModel1.getClub()).thenReturn("A");
+        when(addPlayerModel1.getClub()).thenReturn(club);
         when(addPlayerModel2.addPlayer()).thenCallRealMethod();
         when(addPlayerModel2.getMail()).thenReturn("test@test.fr");
-        when(addPlayerModel2.getClub()).thenReturn("A");
+        when(addPlayerModel2.getClub()).thenReturn(club);
 
         mockMvc.perform(post("/team/addPlayer/")
                         .flashAttr("form", addPlayerlistModel))

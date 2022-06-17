@@ -42,10 +42,6 @@
                             <label for="email" class="inputLabel">Mail</label>
                             <input  required="true" type="email" id = "email" th:field="*{players[__${itemStat.index}__].mail}"  class="inputTournament"/>
                         </div>
-                        <div class="inputContainer">
-                            <label for="club" class="inputLabel">Club</label>
-                            <input   id = "club" th:field="*{players[__${itemStat.index}__].club}"  class="inputTournament"/>
-                        </div>
                     </div>
                     <input hidden th:name="|players[${itemStat.index}].teamId|" th:value="${team.id}"/>
                 </div>

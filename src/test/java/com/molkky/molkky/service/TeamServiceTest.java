@@ -7,13 +7,11 @@ import com.molkky.molkky.domain.UserTournamentRole;
 import com.molkky.molkky.model.AddPlayerModel;
 import com.molkky.molkky.model.AddPlayerlistModel;
 import com.molkky.molkky.model.CreateTeamModel;
-import com.molkky.molkky.repository.TeamRepository;
-import com.molkky.molkky.repository.TournamentRepository;
-import com.molkky.molkky.repository.UserRepository;
-import com.molkky.molkky.repository.UserTournamentRoleRepository;
+import com.molkky.molkky.repository.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,6 +56,10 @@ class TeamServiceTest {
     @MockBean
     private User user;
 
+    @MockBean
+    ClubRepository clubRepository;
+
+
     @Test
     void createTeamCodeTest(){
         String letters = "0123456789ABCDEFGHIJKLMNOPQRSTUVWYXZ";
@@ -77,10 +79,15 @@ class TeamServiceTest {
         Tournament tournament = new Tournament();
         tournament.setId(idTournament);
 
-        when(teamModel.getTournament()).thenReturn(idTournament);
-        when(tournamentRepository.findById(idTournament)).thenReturn(tournament);
-        when(teamModel.getName()).thenReturn(teamName);
-        when(teamRepository.save(Mockito.any(Team.class))).thenAnswer(i -> i.getArguments()[0]);
+
+        Mockito.when(teamModel.getTournament()).thenReturn(idTournament);
+        Mockito.when(tournamentRepository.findById(idTournament)).thenReturn(tournament);
+        Mockito.when(teamModel.getName()).thenReturn(teamName);
+        Mockito.when(teamRepository.save(Mockito.any(Team.class))).thenAnswer(i -> i.getArguments()[0]);
+        Mockito.when(teamModel.getOption()).thenReturn("newClub");
+        Mockito.when(teamModel.getNewClubName()).thenReturn("new club name");
+
+
 
         Team team = teamService.create(teamModel);
 
@@ -88,6 +95,8 @@ class TeamServiceTest {
         Mockito.verify(teamModel,Mockito.times(1)).getName();
         Mockito.verify(tournamentRepository,Mockito.times(1)).findById(idTournament);
         Mockito.verify(teamRepository,Mockito.times(1)).save(team);
+        Mockito.verify(teamModel,Mockito.times(1)).getOption();
+        Mockito.verify(teamModel,Mockito.times(1)).getNewClubName();
         Mockito.verifyNoMoreInteractions(teamModel);
         Mockito.verifyNoMoreInteractions(teamModel);
         Mockito.verifyNoMoreInteractions(tournamentRepository);

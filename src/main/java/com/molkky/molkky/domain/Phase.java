@@ -96,6 +96,9 @@ public class Phase  implements Serializable {
     @Column(name = "isStaffRandom")
     private Boolean randomStaff = false;
 
+    @Column(name = "avoidConfrontationClub")
+    private Boolean avoidConfrontationClub = false;
+
     @ManyToOne
     @JoinColumn(name="tournament_id")
     private Tournament tournament;
