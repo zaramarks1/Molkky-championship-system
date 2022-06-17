@@ -10,7 +10,7 @@
         <div class="contentContainer">
             <div th:replace="fragments/searchbar"> </div>
             <div class="contentTitle">Créer une équipe</div>
-            <form action="#" th:action="@{/team/create}" method="post" th:object="${team}" class="formContainer">
+            <form action="#" th:action="@{/team/create}" method="post" th:object="${team}" class="formContainer" enctype="multipart/form-data">
                 <div class="inputContainer">
                     <label for="nom" class="inputLabel">Nom de l'équipe</label>
                     <input required id ="nom" name="nom" type="text" th:field="*{name}"  class="inputTournament" placeholder="Nom"/>

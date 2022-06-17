@@ -7,15 +7,15 @@ import lombok.Setter;
 @Setter
 public class CreateTeamModel {
 
+
     private String name;
     private Integer nbPlayers;
     private Integer tournament;
+    private String photo;
     private Integer clubId;
     private String newClubName;
     private String option;
-
     public CreateTeamModel(){
     }
-
 
 }
