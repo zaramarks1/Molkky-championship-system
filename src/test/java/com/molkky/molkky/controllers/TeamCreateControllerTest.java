@@ -106,8 +106,11 @@ class TeamCreateControllerTest {
         AddPlayerlistModel addPlayerlistModel = mock(AddPlayerlistModel.class);
         list.add(addPlayerModel1);
 
+        Tournament t = new Tournament();
+        t.setId(1);
         Team team = new Team();
         team.setId(1);
+        team.setTournament(t);
         Club club = new Club();
         club.setName("A");
 
@@ -121,7 +124,7 @@ class TeamCreateControllerTest {
         mockMvc.perform(post("/team/addPlayer")
                         .flashAttr("form",addPlayerlistModel))
                 .andDo(MockMvcResultHandlers.print())
-                .andExpect(view().name("redirect:/team/create"))
+                .andExpect(view().name("redirect:/tournament/view?tournamentId=1"))
                 .andExpect(status().is3xxRedirection());
 
     }
