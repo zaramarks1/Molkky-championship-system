@@ -84,11 +84,15 @@ public class SetService {
         }
 
         if(Boolean.FALSE.equals(isSetFinished(setEntity,user))){
-            Team oppositeTeam = matchService.getOppositeTeam(MatchService.getMatchModelFromEntity(setEntity.getMatch()), user);
-            List<UserTournamentRole> userRoles = userTournamentRoleRepository.findByTeamAndTournament(oppositeTeam,oppositeTeam.getTournament());
-            for (UserTournamentRole userRole:userRoles){
-                this.timerNotificationEnterScore(userRole,setEntity);
-            }
+            callTimer(setEntity,user);
+        }
+    }
+
+    public void callTimer(Set setEntity, UserTournamentRoleModel user){
+        Team oppositeTeam = matchService.getOppositeTeam(MatchService.getMatchModelFromEntity(setEntity.getMatch()), user);
+        List<UserTournamentRole> userRoles = userTournamentRoleRepository.findByTeamAndTournament(oppositeTeam,oppositeTeam.getTournament());
+        for (UserTournamentRole userRole:userRoles){
+            this.timerNotificationEnterScore(userRole,setEntity);
         }
     }
 
