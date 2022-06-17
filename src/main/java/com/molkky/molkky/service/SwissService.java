@@ -82,7 +82,7 @@ public class SwissService {
             Team t = scoresList.get(i).getTeam();
             String message ;
             if(t.isEliminated()){
-                message = "Ton équipe a fini "+(i+1)+" et malheureuseusement été disqualifiée pendant la phase de poule swiss";
+                message = "Ton équipe a fini "+(i+1)+" et est malheureuseusement éliminée de la phase de poule Suisses";
             }else{
                 message = " Félicitations! Ton équipe a fini "+(i+1)+" et est qualifiée pour la prochaine phase";
             }
