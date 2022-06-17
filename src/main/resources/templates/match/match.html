@@ -16,19 +16,6 @@
                 <div th:if="${court} != null" class="courtText" th:text="${court.name}">Court placeholder</div>
                 <div th:unless="${court} != null" class="courtText">Pas de terrain attribué</div>
             </div>
-            <div class = "courtContainer">
-                <!--form for updating the court-->
-                <form method="POST" action="/match/updateMatchCourt" class="courtFormContainer" th:if="${setTeamIndex.displayValue == 'orga'}">
-                    <label id="courtInputLabel" for="courtInput">Choix du terrain</label>
-                    <div class = "courtInputContainer">
-                        <input type="number" hidden name="matchId" th:value="${match.id}">
-                        <select id="courtInput" name="id">
-                            <option th:each="court, iStat: ${availableCourts}" th:value="${court.id}" th:text="${court.name}"></option>
-                        </select>
-                        <button type="submit" class="primaryButton" id="courtFormSubmit">Changer le terrain</button>
-                    </div>
-                </form>
-            </div>
             <div class="matchContainer">
                 <div class="columnContainer">
                     <div class="teamContainer">
@@ -101,6 +88,19 @@
                     </div>
                     <div class="submitContainer" >
                         <input th:if="${match.finished == false} and ${set.finished == false}" type="submit" class="primaryButton" th:id="'submitSet' + ${iStat.index}"/>
+                    </div>
+                </form>
+            </div>
+            <div class = "courtContainer">
+                <!--form for updating the court-->
+                <form method="POST" action="/match/updateMatchCourt" class="courtFormContainer" th:if="${setTeamIndex.displayValue == 'orga'}">
+                    <label id="courtInputLabel" for="courtInput">Choix du terrain</label>
+                    <div class = "courtInputContainer">
+                        <input type="number" hidden name="matchId" th:value="${match.id}">
+                        <select id="courtInput" name="id">
+                            <option th:each="court, iStat: ${availableCourts}" th:value="${court.id}" th:text="${court.name}"></option>
+                        </select>
+                        <button type="submit" class="primaryButton" id="courtFormSubmit">Changer le terrain</button>
                     </div>
                 </form>
             </div>
