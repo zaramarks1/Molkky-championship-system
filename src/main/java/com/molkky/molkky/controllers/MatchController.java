@@ -60,9 +60,9 @@ public class MatchController extends DefaultAttributes {
             setTeamIndex = matchService.getUserTeamIndex(MatchService.getMatchModelFromEntity(match), new UserTournamentRoleModel(userTournamentRoleRepository.findById(user.getTournamentRoleId())));
         }
 
-        model.addAttribute("availableCourts", courtService.getAvailableCourts());
+        model.addAttribute("availableCourts", courtService.getAvailableCourts(match.getRound().getTournament()));
         model.addAttribute("match", MatchService.getMatchModelFromEntity(match));
-        model.addAttribute("court", new CourtModel(match.getCourt()));
+        if(match.getCourt() != null) model.addAttribute("court", new CourtModel(match.getCourt()));
         model.addAttribute("teams", Arrays.asList(new TeamModel(match.getTeams().get(0)), new TeamModel(match.getTeams().get(1))));
         model.addAttribute("tournament", new TournamentModel(match.getRound().getPhase().getTournament()));
         model.addAttribute("sets", SetService.createSetModels(match.getSets()));

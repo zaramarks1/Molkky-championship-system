@@ -20,7 +20,10 @@
                 Nombre de joueur dans l'équipe <span id="nbPlayerTeam" th:text="${team.nbPlayers}"/> <br> <br>
                 Tournoi associé : <span  th:text="${team.getTournament().getName()}" />
                 <th:block th:if="${team.isEliminated()}"><span class="textEliminated" >(éliminée)</span></th:block>
-                <th:block th:unless="${team.isEliminated()}"><span class="textInCompetition">(en compétition)</span></th:block> <br> <br><br> <br>
+                <th:block th:unless="${team.isEliminated()}"><span class="textInCompetition">(en compétition)</span></th:block> <br><br>
+                <a style="text-decoration: none;" th:href="${'/tournament/view?tournamentId=' + team.getTournament().getId()}">
+                    <button class="primaryButton">Accéder au tournoi</button>
+                </a><br>
             </div>
         </div>
 
@@ -30,7 +33,6 @@
             <div class="contentText" th:each="user: ${users}">
                 Nom du joueur: <span id="nomTournament" th:text="${user.pseudo}"/> <br> <br>
                 Club du joueur: <span id="nomTournament" th:text="${user.club}"/> <br> <br>
-
             </div>
         </div>
     </div>

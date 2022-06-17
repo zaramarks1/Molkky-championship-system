@@ -63,7 +63,9 @@ li.teamMember{
 
 @media only screen and (max-width: 1000px) {
     .teamCard {
-        width: 100%;
+        width: -moz-available;          /* WebKit-based browsers will ignore this. */
+        width: -webkit-fill-available;  /* Mozilla-based browsers will ignore this. */
+        width: fill-available;
     }
 }
 
@@ -73,7 +75,7 @@ li.teamMember{
     flex-wrap: wrap;
 }
 
-#staffContainer {
+.cardListContainer {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -144,6 +146,7 @@ li.teamMember{
 }
 .setInline {
     display:  inline-block;
+    margin: 0px;
 }
 
 .inputStaff {
