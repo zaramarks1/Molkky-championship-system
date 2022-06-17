@@ -107,7 +107,7 @@
 
         <div class="partContainer">
             <h2 class="partTitle">Staff</h2>
-            <div id="staffContainer">
+            <div id="staffContainer" class="cardListContainer">
                 <th:block th:each="user : ${tournament.getUserTournamentRoles()}">
                     <div class="teamCard" th:if="${#strings.equals(user.getRole(), 'STAFF')}">
                         <h3 class="teamName" th:text="${user.getUser().getSurname()}"></h3>
@@ -129,7 +129,7 @@
                             <div class="inputContainer">
                                 <label class="inputLabel">Nombre de staff à ajouter</label>
                                 <input style="margin-bottom: 10px;" class="inputStaff" id="staff-counter" name="nbStaff"
-                                       th:name="staffCount" type="number" min="1">
+                                       th:name="staffCount" type="number" min="1" value="1">
                                 <input hidden th:value="${tournament.id}" th:name="tournamentId"/>
                                 <button id="addStaff" class="primaryButton" type="submit">Ajouter du staff</button>
                             </div>
@@ -140,7 +140,7 @@
 
             <div class="partContainer">
                 <h2 class="partTitle">Terrains</h2>
-                <div id="courtContainer">
+                <div id="courtContainer" class="cardListContainer">
                     <th:block th:each="court : ${tournament.getCourts()}">
                         <div class="teamCard">
                             <h3 class="teamName" th:text="${court.getName()}"></h3>
@@ -162,7 +162,7 @@
                                 <div class="inputContainer">
                                     <label class="inputLabel">Nombre de terrains</label>
                                     <input style="margin-bottom: 10px;" class="inputStaff" id="court-counter"
-                                           th:name="courtCount" type="number" min="1">
+                                           th:name="courtCount" type="number" min="1" value="1">
                                     <input hidden th:value="${tournament.id}" th:name="tournamentId"/>
                                     <button id="addCourt" class="primaryButton" type="submit">Ajouter des terrains
                                     </button>
