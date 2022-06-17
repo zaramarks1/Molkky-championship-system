@@ -137,7 +137,7 @@
                 </div>
             </div>
         </div>
-        <div class="partContainer">
+        <div class="partContainer" th:if="${#strings.equals(tournament.status, 'INPROGRESS')}">
             <h2 class="partTitle">Resultats</h2>
             <form action="#" th:action="@{/tournament/results}" method="post" class="formContainer">
                 <input hidden th:value="${tournament.id}" th:name="tournamentId"/>
