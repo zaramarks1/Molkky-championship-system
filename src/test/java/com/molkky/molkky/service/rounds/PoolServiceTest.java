@@ -136,8 +136,19 @@ import java.util.*;
 
 
         Map<Round, List<Match>> results =  phaseService.generate(tournament.getPhases().get(0).getId().toString());
-        tournament.getTeams().get(0).setEliminated(true);
-        Team t1 = teamRepository.save(tournament.getTeams().get(0));
+
+        List<Round> rounds = new ArrayList<>(tournament.getPhases().get(0).getRounds());
+        for (Round r: rounds){
+            for(Match m : r.getMatches()){
+                Random rand = new Random();
+                m.setFinished(true);
+                m.setWinner(m.getTeams().get(0));
+                m.setScoreTeam1(50);
+                m.setScoreTeam2(rand.nextInt(49));
+                matchRepository.save(m);
+                matchService.validateMatch(m);
+            }
+        }
 
         Map<Round, List<Match>> results2 =  phaseService.generate(tournament.getPhases().get(1).getId().toString());
 
@@ -161,8 +172,8 @@ import java.util.*;
                 " There should be 1 player per team ");
 
 
-        Assertions.assertEquals(1, tournament.getTeams().get(0).getRounds().size(),
-                " There should be 1 round for team 1");
+        Assertions.assertEquals(2, tournament.getTeams().get(0).getRounds().size(),
+                " There should be 2 round for team 1");
         Assertions.assertEquals(2, tournament.getTeams().get(1).getRounds().size(),
                 " There should be 2 rounds per team 2");
 
@@ -170,10 +181,10 @@ import java.util.*;
                 , " There should be 5 teams ");
         Assertions.assertEquals(4, tournament.getPhases().get(0).getRounds().get(1).getTeams().size()
                 , " There should be 4 teams ");
-        Assertions.assertEquals(4, tournament.getPhases().get(1).getRounds().get(0).getTeams().size()
-                , " There should be 4 teams ");
-        Assertions.assertEquals(4, tournament.getPhases().get(1).getRounds().get(1).getTeams().size()
-                , " There should be 4 teams ");
+        Assertions.assertEquals(2, tournament.getPhases().get(1).getRounds().get(0).getTeams().size()
+                , " There should be 2 teams ");
+        Assertions.assertEquals(2, tournament.getPhases().get(1).getRounds().get(1).getTeams().size()
+                , " There should be 2 teams ");
 
         Assertions.assertEquals(2, results.size(), " There should be 2 rounds of pool 1 ");
         Assertions.assertEquals(2, results2.size(), " There should be 2 rounds of pool 2 ");

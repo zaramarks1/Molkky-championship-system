@@ -12,6 +12,8 @@ import com.molkky.molkky.repository.UserTournamentRoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import type.SetTeamIndex;
+import type.UserRole;
+
 import java.util.*;
 
 @Service
@@ -81,7 +83,7 @@ public class SetService {
 
             for(Set s: match.getSets()){
                 scoreTeam1 += s.getScore1Orga();
-                scoreTeam2 +=s.getScore2Orga();
+                scoreTeam2 += s.getScore2Orga();
             }
 
             if(scoreTeam1 >= scoreTeam2){
@@ -99,13 +101,20 @@ public class SetService {
 
         if(Boolean.FALSE.equals(isSetFinished(setEntity,user))){
             Team oppositeTeam = matchService.getOppositeTeam(MatchService.getMatchModelFromEntity(setEntity.getMatch()), user);
-            UserTournamentRole userRole = userTournamentRoleRepository.findByTeamAndTournament(oppositeTeam,oppositeTeam.getTournament());
-            this.timerNotificationEnterScore(userRole,setEntity);
+            List<UserTournamentRole> userRoles = userTournamentRoleRepository.findByTeamAndTournament(oppositeTeam,oppositeTeam.getTournament());
+            for (UserTournamentRole userRole:userRoles){
+                this.timerNotificationEnterScore(userRole,setEntity);
+            }
         }
     }
 
     public Boolean isUserInSet(SetModel setModel, UserModel user){
         Set set = getSetFromModel(setModel);
+        User userStaff = new User();
+        UserTournamentRole userTournamentRole = new UserTournamentRole();
+        userTournamentRole.setUser(userStaff);
+        userTournamentRole.setRole(UserRole.STAFF);
+        set.getMatch().setStaff(userStaff);
         return matchService.isUserInMatch(MatchService.getMatchModelFromEntity(set.getMatch()), user);
     }
 

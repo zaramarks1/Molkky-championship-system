@@ -9,7 +9,6 @@ import type.TournamentStatus;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -62,6 +61,9 @@ public class Tournament implements Serializable {
 
     @OneToMany(mappedBy="tournament")
     private List<UserTournamentRole> userTournamentRoles;
+
+    @OneToMany(mappedBy="tournament")
+    private List<Court> courts;
 
     @OneToMany(mappedBy="tournament")
     private List<Round> rounds;

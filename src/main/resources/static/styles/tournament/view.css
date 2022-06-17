@@ -90,12 +90,14 @@ ul.roundsList {
     color: white;
     font-weight: bold;
     margin: 0;
-    padding: 2px 5px;
+    font-size: 17px;
+    padding: 5px 5px;
     border-top-right-radius: 7px;
     border-top-left-radius: 7px;
     text-transform: uppercase;
 }
 .cardContentContainer {
+    margin-inline: 10px;
     padding: 5px;
     display: flex;
     flex-direction: row;
@@ -105,10 +107,15 @@ ul.roundsList {
 .teamLogo {
     height: 60px;
     width: 60px;
+    margin-right: 10px;
     border-radius: 7px;
     background-color: #6D41F3;
 }
 .teamMember {
+    margin: 3px;
+    font-size: 14px;
+}
+.courtCard {
     margin: 3px;
     font-size: 14px;
 }
@@ -134,4 +141,22 @@ ul.roundsList {
     display:  inline-block;
 }
 
+.inputStaff {
+    width: 160px;
+    height: 48px;
+    border-radius: 4px;
+    border: 0;
+    background-color: #F8FAFC;
+    padding: 10px;
+    box-shadow: 0 0 7px #c4c4c4;
+}
 
+.inputValidatePresenceTeam{
+    width: -webkit-fill-available;
+    height: 48px;
+    border-radius: 4px;
+    border: 0;
+    background-color: #F8FAFC;
+    padding: 10px;
+    box-shadow: 0 0 7px #c4c4c4;
+}

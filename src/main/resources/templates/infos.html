@@ -28,21 +28,21 @@
                             </button>
                         </form>
                         <br>
-                        Votre Prénom : <span id="surname" th:text="${user.surname}" />
+                        Votre Prénom : <span id="forename" th:text="${user.forename}" />
                         <br>
-                        <form method="post" th:action="@{/changeSurname}" autocomplete="off">
+                        <form method="post" th:action="@{/changeForename}" autocomplete="off">
                             <div>
-                                <input class="inputFilter" required="required" type="text" th:name="surname" placeholder="Changer prénom" >
+                                <input class="inputFilter" required="required" type="text" th:name="forename" placeholder="Changer prénom" >
                             </div>
                             <button class = "filter" type="submit">Changer votre prénom
                             </button>
                         </form>
                         <br>
-                        Votre Nom de Famille : <span id="forename" th:text="${user.forename}" />
+                        Votre Nom de Famille : <span id="surname" th:text="${user.surname}" />
                         <br>
-                        <form method="post" th:action="@{/changeForename}" autocomplete="off">
+                        <form method="post" th:action="@{/changeSurname}" autocomplete="off">
                             <div>
-                                <input class="inputFilter" required="required" type="text" th:name="forename" placeholder="Changer nom de famille" >
+                                <input class="inputFilter" required="required" type="text" th:name="surname" placeholder="Changer nom de famille" >
                             </div>
                             <button class = "filter" type="submit">Changer votre nom de famille
                             </button>

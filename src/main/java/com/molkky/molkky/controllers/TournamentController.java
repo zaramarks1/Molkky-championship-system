@@ -217,6 +217,27 @@ public class TournamentController extends DefaultAttributes {
         return new ModelAndView( "/tournament/addStaff", model) ;
     }
 
+    @PostMapping("/addCourt")
+    public ModelAndView addCourtToTournament(ModelMap model, @RequestParam(name="courtCount") String courtCount,
+                                       @RequestParam(name="tournamentId") String tournamentId) {
+
+        model.addAttribute("tournamentId", tournamentId);
+        model.addAttribute("court_counter", courtCount);
+
+        List<AddCourt> courtList = new ArrayList<>();
+
+        for(int i = 0; i< Integer.parseInt(courtCount) ; i++){
+            AddCourt addCourt = new AddCourt();
+            addCourt.setTournamentId(Integer.valueOf(tournamentId));
+            courtList.add(addCourt);
+        }
+
+
+        model.addAttribute("isDiffMail", true);
+        model.addAttribute("courtList", new AddCourtList(courtList));
+        return new ModelAndView( "/tournament/addCourt", model) ;
+    }
+
     @PostMapping("/setVisible")
     public String setVisibleTournament(Model model,@RequestParam(name="tournamentId") String tournamentId ){
 

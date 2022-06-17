@@ -13,6 +13,7 @@ import java.util.List;
 public interface UserRepository extends JpaRepository<User, String>, JpaSpecificationExecutor<User> {
     User findById(Integer id);
     List<User> findAll();
+
     User findUserByEmail(String email);
     User findUserByEmailAndPassword(String email, String password);
     List<User> findUsersByPseudo(String pseudo);

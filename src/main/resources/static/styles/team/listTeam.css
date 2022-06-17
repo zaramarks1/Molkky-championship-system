@@ -9,7 +9,8 @@
 
 .cardTeam{
     box-sizing: border-box;
-
+    text-decoration: none;
+    color: black;
     /* Auto layout */
 
     display: flex;
@@ -140,6 +141,7 @@ ul.roundsList {
 .cardContentContainer {
     padding: 5px;
     display: flex;
+    margin-inline: 10px;
     flex-direction: row;
     align-items: center;
     justify-content: center;
@@ -147,7 +149,7 @@ ul.roundsList {
 .teamLogo {
     height: 60px;
     width: 60px;
-    margin-right: 12px;
+    margin-right: 10px;
     margin-bottom: 15px;
 }
 
@@ -169,6 +171,7 @@ ul.roundsList {
     border-style: inset;
     border-color: transparent;
     border-image: initial;
+    margin: 10px;
 }
 
 #cover {
@@ -177,14 +180,13 @@ ul.roundsList {
     justify-content: center;
     background-color: #E7E7ED;
     border-radius: 7px;
-    padding: 10px;
-    max-width: 350px;
+    width: 350px;
     margin-bottom: 25px;
 }
 
 @media only screen and (max-width: 600px) {
     #cover {
-        max-width: none;
+        width: 100%;
     }
 }
 
@@ -202,15 +204,9 @@ ul.roundsList {
 }
 
 .inputFilter {
+    width: 100%;
     font-size: 20px;
     line-height: 1;
-    width: 460px;
-    height: 48px;
-    border-radius: 4px;
-    border: 0;
-    background-color: #F8FAFC;
-    padding: 10px;
-    box-shadow: 0 0 7px #c4c4c4;
 }
 .inputFilter:focus, textarea:focus, select:focus{
     outline: none;
