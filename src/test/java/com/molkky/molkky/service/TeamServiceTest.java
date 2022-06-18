@@ -33,6 +33,9 @@ class TeamServiceTest {
     private TeamService teamService;
 
     @MockBean
+    private EmailSenderService emailSenderService;
+
+    @MockBean
     private CreateTeamModel teamModel;
 
     @MockBean
