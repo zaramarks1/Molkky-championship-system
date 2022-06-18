@@ -36,7 +36,7 @@
                         </div>
                         <div class="inputContainer">
                             <label  for="surname" class="inputLabel">Nom de famille</label>
-                            <input id = "surname" th:field="*{players[__${itemStat.index}__].surname}" class="inputTournament"/>
+                            <input required id = "surname" th:field="*{players[__${itemStat.index}__].surname}" class="inputTournament"/>
                         </div>
                         <div class="inputContainer">
                             <label for="email" class="inputLabel">Mail</label>
