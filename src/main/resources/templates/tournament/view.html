@@ -123,7 +123,7 @@
                 </th:block>
             </div>
 
-            <div th:if=" ${user} != null">
+            <div th:if=" ${user} != null and ${#strings.equals(tournament.status, 'AVAILABLE')}">
                 <div th:if="${#strings.equals(user.role, 'ADM')}">
                     <div class="partContainer">
                         <form action="#" th:action="@{/tournament/addStaff}" method="post" class="formContainer">
@@ -139,13 +139,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="partContainer" th:if="${#strings.equals(tournament.status, 'INPROGRESS')}">
-            <h2 class="partTitle">Resultats</h2>
-            <form action="#" th:action="@{/tournament/results}" method="post" class="formContainer">
-                <input hidden th:value="${tournament.id}" th:name="tournamentId"/>
-                <button id="idResults" name="visible" class="primaryButton" type="submit">Voir les resultats</button>
-            </form>
         </div>
         <div class="partContainer">
             <h2 class="partTitle">Terrains</h2>
@@ -163,7 +156,7 @@
                 </th:block>
             </div>
 
-            <div th:if=" ${user} != null">
+            <div th:if=" ${user} != null and ${#strings.equals(tournament.status, 'AVAILABLE')}">
                 <div th:if="${#strings.equals(user.role, 'ADM')}">
                     <div class="partContainer">
                         <form action="#" th:action="@{/tournament/addCourt}" method="post" class="formContainer">
@@ -180,6 +173,13 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="partContainer" th:if="${#strings.equals(tournament.status, 'INPROGRESS')}">
+            <h2 class="partTitle">Resultats</h2>
+            <form action="#" th:action="@{/tournament/results}" method="post" class="formContainer">
+                <input hidden th:value="${tournament.id}" th:name="tournamentId"/>
+                <button id="idResults" name="visible" class="primaryButton" type="submit">Voir les resultats</button>
+            </form>
         </div>
         <div class="partContainer" th:if="${tournament.getIndexPhase()} !=0">
             <h2 class="partTitle">Voir les phases précédentes</h2>
