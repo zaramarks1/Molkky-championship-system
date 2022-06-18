@@ -49,6 +49,9 @@ class TournamentServiceTest {
     private TournamentModel tournamentModel;
 
     @MockBean
+    private EmailSenderService emailSenderService;
+
+    @MockBean
     private TournamentRepository tournamentRepository;
 
     @MockBean

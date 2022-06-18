@@ -52,17 +52,32 @@ li.teamMember{
 .imgBracket {
     object-fit: cover;
 }
+
 .teamCard {
+    color: black;
     width: fit-content;
     background-color: #F4F4F8;
     box-sizing: border-box;
     box-shadow: 0px 0px 7px 2px rgba(0, 0, 0, 0.25);
-    margin: 20px;
+    margin-right: 20px;
+    margin-bottom: 10px;
+    margin-top: 10px;
     border-radius: 7px;
+}
+
+@media only screen and (max-width: 600px) {
+    .pastPhaseContainer {
+        justify-content: space-between!important;
+    }
+    .pastPhase {
+        margin: 10px 0;
+    }
+
 }
 
 @media only screen and (max-width: 1000px) {
     .teamCard {
+        margin: 10px 0!important;
         width: -moz-available;          /* WebKit-based browsers will ignore this. */
         width: -webkit-fill-available;  /* Mozilla-based browsers will ignore this. */
         width: fill-available;

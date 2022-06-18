@@ -24,6 +24,9 @@ import static com.molkky.molkky.utility.StringUtilities.createCode;
 public class TournamentService {
 
     @Autowired
+    EmailSenderService emailSenderService;
+
+    @Autowired
     TournamentRepository tournamentRepository;
 
     @Autowired
@@ -64,10 +67,18 @@ public class TournamentService {
 
         User user = new User();
 
+//        creating the admin
         if (!userRepository.existsUserByEmail(mail)) {
             user.setEmail(mail);
             user.setPassword(createCode(5));
             user = userRepository.save(user);
+            if(user != null){
+                emailSenderService.sendEmail(mail, "Bienvenue sur Molkky", "Bonjour,\n\n" +
+                        "Vous êtes bien inscrit sur Molkky.\n" +
+                        "Votre mot de passe est : " + user.getPassword() + "\n\n" +
+                        "Bon jeu sur Molkky !\n\n" +
+                        "L'équipe Molkky");
+            }
         } else {
             user = userRepository.findUserByEmail(mail);
         }

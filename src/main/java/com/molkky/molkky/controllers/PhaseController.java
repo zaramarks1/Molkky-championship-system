@@ -181,11 +181,6 @@ public class PhaseController extends DefaultAttributes {
         return tournamentView+t.getId();
     }
 
-    @PostMapping("/view")
-    public String viewPost( @RequestParam(name= "id") Integer id,  @RequestParam(name= "phaseIndex") Integer phaseIndex ){
-        return phaseView+id + "&phaseIndex=" + phaseIndex;
-    }
-
     @GetMapping("/view")
     public String view(Model model, HttpSession session, @RequestParam(name= "id") Integer id,
                        @RequestParam(name= "phaseIndex") Integer phaseIndex){

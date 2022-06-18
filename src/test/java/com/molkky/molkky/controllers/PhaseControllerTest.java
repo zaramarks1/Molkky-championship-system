@@ -527,11 +527,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         verify(this.phaseRepository, times(1)).findById(anyInt());
         verify(this.roundService, times(1)).orderTeamsByScoreInRound(any(Round.class), anyInt());
 
-        mockMvc.perform(post("/phase/view")
+        mockMvc.perform(get("/phase/view")
                 .param("id", "17888")
                 .param("phaseIndex", "1"))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/phase/view?id=17888&phaseIndex=1"));
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(view().name("/phase/view"));
     }
 
     @Test
@@ -616,10 +616,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
         verify(this.phaseRepository, times(1)).findById(anyInt());
 
-        mockMvc.perform(post("/phase/view")
+        mockMvc.perform(get("/phase/view")
                         .param("id", "17888")
                         .param("phaseIndex", "1"))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/phase/view?id=17888&phaseIndex=1"));
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(view().name("/phase/view"));
     }
 }

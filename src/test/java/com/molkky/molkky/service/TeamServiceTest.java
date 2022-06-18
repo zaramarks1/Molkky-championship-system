@@ -33,6 +33,9 @@ class TeamServiceTest {
     private TeamService teamService;
 
     @MockBean
+    private EmailSenderService emailSenderService;
+
+    @MockBean
     private CreateTeamModel teamModel;
 
     @MockBean
@@ -139,7 +142,7 @@ class TeamServiceTest {
         Mockito.verify(teamRepository,Mockito.times(1)).findById(listPlayer.get(0).getTeamId());
         Mockito.verify(addPlayerModel1,Mockito.times(3)).getTeamId();
         Mockito.verify(addPlayerModel1,Mockito.times(1)).addPlayer();
-        Mockito.verify(user,Mockito.atMost(1)).getEmail();
+        Mockito.verify(user,Mockito.atMost(2)).getEmail();
         Mockito.verify(user,Mockito.atMost(1)).setPassword(Mockito.anyString());
         Mockito.verify(userRepository,Mockito.atMost(1)).existsUserByEmail(email);
         Mockito.verify(userRepository,Mockito.atMost(1)).save(Mockito.any(User.class));
@@ -148,7 +151,6 @@ class TeamServiceTest {
         Mockito.verifyNoMoreInteractions(addPlayerlistModel);
         Mockito.verifyNoMoreInteractions(addPlayerModel1);
         Mockito.verifyNoMoreInteractions(teamRepository);
-        Mockito.verifyNoMoreInteractions(user);
         Mockito.verifyNoMoreInteractions(userRepository);
         Mockito.verifyNoMoreInteractions(userTounamentRoleRepository);
     }
