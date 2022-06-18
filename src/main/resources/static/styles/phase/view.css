@@ -39,6 +39,7 @@
 .cardRoundContent{
     height: min-content;
     margin-left: 25px;
+    margin-right: 25px;
     margin-bottom: 10px;
 }
 
@@ -56,6 +57,7 @@ table{
 
 .mainTable{
     width: 100%;
+    overflow-x: auto;
 }
 
 .mainTableHeader{
@@ -118,4 +120,8 @@ th,td {
 
 .simpleGameTeams span {
     display: inline;
+}
+
+.tableContainer{
+    overflow-x: auto;
 }
