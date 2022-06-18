@@ -183,18 +183,12 @@
         </div>
         <div class="partContainer" th:if="${tournament.getIndexPhase()} !=0">
             <h2 class="partTitle">Voir les phases précédentes</h2>
-            <form th:if = "${tournament.getIndexPhase()} >1" action="#" th:action="@{/phase/view}" method="post" class="formContainer">
-                <th:block th:each="phase, itemStat : ${tournament.getPhases()}">
-                    <div class="teamCard" th:if="${tournament.getIndexPhase() > itemStat.index+1}">
-                        <h3 class="teamName" th:text=" 'Phase ' + ${itemStat.index+1}"></h3>
-                        <div class="cardContentContainer">
-                            <input hidden th:value="${phase.id}" th:name="id"/>
-                            <input hidden th:value="${itemStat.index+1}" th:name="phaseIndex"/>
-                            <button id="idHistoric" name="visible" class="primaryButton" type="submit">Voir</button>
-                        </div>
-                    </div>
-                </th:block>
-            </form>
+            <div class="cardListContainer">
+                <a style="text-decoration: none" th:href="'/phase/view?id=' + ${phase.getId()} + '&phaseIndex=' + ${itemStat.index + 1}" th:each="phase, itemStat : ${tournament.getPhases()}">
+                    <button id="idHistoric" name="visible" class="primaryButton" type="submit" th:text="'Voir phase ' + ${phase.getId()}"></button>
+                </a>
+            </div>
+
 
             <h2 class="partTitle" th:text=" 'Phase n ' + ${tournament.getIndexPhase()}">Index de la phase</h2>
             <form action="#" th:action="@{/phase/view}" method="post" class="formContainer">
@@ -220,7 +214,7 @@
                 <label class="inputLabel">Nombre des manches dans la prochaine étape </label>
                 <input style="margin-bottom: 10px;" name="nbSet" class="inputPhase" th:name="nbSet" type="number"
                        min="1">
-                <button id="idNextKnockout" name="visible" class="primaryButton" type="submit">Passer à la etape
+                <button id="idNextKnockout" name="visible" class="primaryButton" type="submit">Passer à la étape
                     suivante
                 </button>
             </form>
