@@ -15,6 +15,7 @@ import type.UserRole;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.molkky.molkky.utility.StringUtilities.createCode;
 
@@ -40,7 +41,11 @@ public class TournamentService {
     public final Date currentDate = new Date();
 
     public Boolean isTournamentReady(Tournament tournament) {
-        if(tournament.getMinTeam() >= tournament.getTeams().size()) {
+        List<Team> totalTeams = tournament.getTeams();
+        List<Team> notEliminatedTeams;
+
+        notEliminatedTeams = totalTeams.stream().filter(team -> !team.isEliminated()).collect(Collectors.toList());
+        if(tournament.getMinTeam() > notEliminatedTeams.size()) {
             return false;
         }
         if(tournament.getCourts().isEmpty()) {

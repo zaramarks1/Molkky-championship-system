@@ -15,7 +15,7 @@
             <div class="setInline statusCircleGreen"></div>
             <p id="tournament_status" class="setInline" th:text="|(${tournament.status.getDisplayValue()})|"></p>
             <p id="tournament_name" class="setInline" th:text="|${tournament.name}|"></p>
-            <a id="buttonModify" class="boxOneCard" th:if="${session.user != null} and (${#strings.equals(session.user.role, 'ADM')})" th:href="@{'/tournament/modify?tournamentId='+${tournament.id}}">
+            <a id="buttonModify" class="primaryButton boxOneCard" th:if="${session.user != null} and (${#strings.equals(session.user.role, 'ADM')})" th:href="@{'/tournament/modify?tournamentId='+${tournament.id}}">
                 <span class="insideText">Modifier Tournoi</span>
             </a>
         </div>
@@ -131,7 +131,7 @@
                             <div class="inputContainer">
                                 <label class="inputLabel">Nombre de staff à ajouter</label>
                                 <input style="margin-bottom: 10px;" class="inputStaff" id="staff-counter" name="nbStaff"
-                                       th:name="staffCount" type="number" min="1" value="1">
+                                       th:name="staffCount" type="number" min="1" required="required">
                                 <input hidden th:value="${tournament.id}" th:name="tournamentId"/>
                                 <button id="addStaff" class="primaryButton" type="submit">Ajouter du staff</button>
                             </div>
@@ -171,7 +171,7 @@
                             <div class="inputContainer">
                                 <label class="inputLabel">Nombre de terrains</label>
                                 <input style="margin-bottom: 10px;" class="inputStaff" id="court-counter"
-                                       th:name="courtCount" type="number" min="1">
+                                       th:name="courtCount" type="number" min="1" required="required">
                                 <input hidden th:value="${tournament.id}" th:name="tournamentId"/>
                                 <button id="addCourt" class="primaryButton" type="submit">Ajouter des terrains
                                 </button>

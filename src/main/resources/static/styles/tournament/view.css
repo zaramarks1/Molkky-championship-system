@@ -172,4 +172,9 @@ li.teamMember{
 #courtContainer{
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
+}
+
+#buttonModify{
+    margin: 10px 0px 40px;
 }
