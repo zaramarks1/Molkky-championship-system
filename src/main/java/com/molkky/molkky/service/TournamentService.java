@@ -7,6 +7,7 @@ import com.molkky.molkky.repository.TeamRepository;
 import com.molkky.molkky.repository.TournamentRepository;
 import com.molkky.molkky.repository.UserRepository;
 import com.molkky.molkky.repository.UserTournamentRoleRepository;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import type.TournamentStatus;
@@ -21,6 +22,9 @@ import static com.molkky.molkky.utility.StringUtilities.createCode;
 
 @Service
 public class TournamentService {
+
+    @Autowired
+    EmailSenderService emailSenderService;
 
     @Autowired
     TournamentRepository tournamentRepository;
@@ -59,10 +63,16 @@ public class TournamentService {
 
         User user = new User();
 
+//        creating the admin
         if (!userRepository.existsUserByEmail(mail)) {
             user.setEmail(mail);
             user.setPassword(createCode(5));
             user = userRepository.save(user);
+            emailSenderService.sendEmail(mail, "Bienvenue sur Molkky", "Bonjour,\n\n" +
+                    "Vous êtes bien inscrit sur Molkky.\n" +
+                    "Votre mot de passe est : " + user.getPassword() + "\n\n" +
+                    "Bon jeu sur Molkky !\n\n" +
+                    "L'équipe Molkky");
         } else {
             user = userRepository.findUserByEmail(mail);
         }
