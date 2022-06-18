@@ -22,7 +22,7 @@
             </div>
 
             <div class="inputContainer" th:if="${!isDiffMail}">
-                <span th:if="${!isDiffMail}">S'il vous plait, entrez des mails différents pour chaque joueur !</span>
+                <span class="errorDiffMail" th:if="${!isDiffMail}">S'il vous plait, entrez des mails différents pour chaque joueur !</span>
             </div>
 
 

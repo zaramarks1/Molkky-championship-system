@@ -46,7 +46,7 @@
                             <span th:text="${phase.getPhaseType().getDisplayValue()}"></span>
                             <div th:switch="${phase.getPhaseType()}">
                                 <div th:case="${T(type.PhaseType).POOL}">
-                                    <span th:text="'Nombre des poules: ' + ${phase.getPhase().getNbPools()}  "></span>
+                                    <span th:text="'Nombre de poules: ' + ${phase.getPhase().getNbPools()}  "></span>
                                 </div>
                                 <div th:case="${T(type.PhaseType).KNOCKOUT}">
                                 </div>
@@ -207,7 +207,7 @@
                 </button>
             </form>
 
-            <form th:if=" ${user != null}
+            <form th:if=" ${user != null} and ${#strings.equals(user.role, 'ADM')}
             and ${currentPhase.rounds[__${currentPhase.rounds.size()-1}__].finished == true}
             and (${#strings.equals(phasesType[__${tournament.getIndexPhase()-1}__].getPhaseType(),'KNOCKOUT')  }
             or ${#strings.equals(phasesType[__${tournament.getIndexPhase()-1}__].getPhaseType(),'SWISSPOOL')})"
@@ -244,7 +244,7 @@
                 </div>
             </div>
         </div>
-        <div class="partContainer" th:if="${#strings.equals(tournament.status, 'INPROGRESS')}">
+        <div class="partContainer" th:if="${#strings.equals(tournament.status, 'CLOSED')}">
             <h2 class="partTitle">Resultats</h2>
             <form action="#" th:action="@{/tournament/results}" method="post" class="formContainer">
                 <input hidden th:value="${tournament.id}" th:name="tournamentId"/>
