@@ -36,33 +36,37 @@
                         <br>
 
                         <div th:if="${#strings.equals(user.role, 'STAFF')}">
-                            <div class="contentTitle">Les matchs qui vous sont attribués (en tant que staff):</div>
-                            <div th:if="${matchList!=null}"><h1>error</h1></div>
-                            <div th:each="match: ${matchList}">
-                                <div class="infoContainer">
-                                    <p class="label">ID du match</p>
-                                    <span th:text="${match.getId()}"></span>
-                                    <hr>
-                                    <p class="infoContainer">Nom du court</p>
-                                    <span th:text="${match.getCourt().getName()}"></span>
-                                    <hr>
-                                    <p class="label">Lien vers la page du match</p>
-                                    <a th:href="@{'/matches/match?match_id='+${match.getId()}}"></a>
-                                    <div th:if="${match.getFinished()}">
-                                        <p class="label">Statut du match</p>
-                                        <span>Match terminé</span>
+                            <div th:if="${matchList==null}">
+                                <div class="contentTitle">Vous êtes STAFF mais aucun match ne vous est attribué...</div>
+                            </div>
+                            <div th:if="${matchList!=null}">
+                                <div class="contentTitle">Les matchs qui vous sont attribués (en tant que staff):</div>
+                                <div th:each="match: ${matchList}">
+                                    <div class="infoContainer">
+                                        <p class="label">ID du match</p>
+                                        <span th:text="${match.getId()}"></span>
                                         <hr>
-                                        <span th:text="${match.getTeams().get(0).getName()}"></span>
-                                        <span th:text="${match.getScoreTeam1()}"></span> |
-                                        <span th:text="${match.getTeams().get(1).getName()}"></span>
-                                        <span th:text="${match.getScoreTeam2()}"></span>
+                                        <p class="infoContainer">Nom du court</p>
+                                        <span th:text="${match.getCourt().getName()}"></span>
+                                        <hr>
+                                        <p class="label">Lien vers la page du match</p>
+                                        <a th:href="@{'/matches/match?match_id='+${match.getId()}}"></a>
+                                        <div th:if="${match.getFinished()}">
+                                            <p class="label">Statut du match</p>
+                                            <span>Match terminé</span>
+                                            <hr>
+                                            <span th:text="${match.getTeams().get(0).getName()}"></span>
+                                            <span th:text="${match.getScoreTeam1()}"></span> |
+                                            <span th:text="${match.getTeams().get(1).getName()}"></span>
+                                            <span th:text="${match.getScoreTeam2()}"></span>
+                                            <br>
+                                        </div>
+                                        <div th:if="${!match.getFinished()}">
+                                            <p class="label">Statut du match</p>
+                                            <span>Match à venir</span>
+                                        </div>
                                         <br>
                                     </div>
-                                    <div th:if="${!match.getFinished()}">
-                                        <p class="label">Statut du match</p>
-                                        <span>Match à venir</span>
-                                    </div>
-                                    <br>
                                 </div>
                             </div>
                         </div>
