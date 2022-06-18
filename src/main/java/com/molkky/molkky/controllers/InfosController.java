@@ -42,13 +42,13 @@ public class InfosController extends DefaultAttributes {
         UserTournamentRole userTournamentRole = userTournamentRoleRepository.findUserTournamentRoleByUserId(user.getId());
         Tournament tournament = tournamentRepository.findById(userTournamentRole.getTournament().getId());
 
-//        List<Match> matchList = matchRepository.findMatchAttributedToStaff(
-//                tournament,
-//                user
-//        );
-//        model.addAttribute(matchList);
-        System.out.println(user.getId());
-        System.out.println(userTournamentRole);
+        List<Match> matchList = matchRepository.findMatchAttributedToStaff(
+                tournament,
+                user
+        );
+
+        model.addAttribute(matchList);
+
         return "infos";
     }
 }
