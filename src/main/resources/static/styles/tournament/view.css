@@ -52,7 +52,9 @@ li.teamMember{
 .imgBracket {
     object-fit: cover;
 }
+
 .teamCard {
+    color: black;
     width: fit-content;
     background-color: #F4F4F8;
     box-sizing: border-box;

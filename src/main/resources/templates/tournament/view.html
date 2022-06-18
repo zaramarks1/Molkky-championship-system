@@ -68,7 +68,7 @@
             <div id="participantContainer">
 
                 <th:block th:each="team : ${tournament.getTeams()}">
-                    <div class="teamCard">
+                    <a style="text-decoration: none" class="teamCard" th:href="'/team/view?teamId=' + ${team.getId()}">
                         <h3 class="teamNameEliminated" th:if="${team.eliminated == true}"
                             th:text="${team.getName()}"></h3>
                         <h3 class="teamName" th:if="${team.eliminated == false}" th:text="${team.getName()}"></h3>
@@ -82,7 +82,7 @@
                                 </th:block>
                             </ul>
                         </div>
-                    </div>
+                    </a>
                 </th:block>
             </div>
         </div>
@@ -111,7 +111,7 @@
             <h2 class="partTitle">Staff</h2>
             <div id="staffContainer" class="cardListContainer">
                 <th:block th:each="user : ${tournament.getUserTournamentRoles()}">
-                    <div class="teamCard" th:if="${#strings.equals(user.getRole(), 'STAFF')}">
+                    <a class="teamCard" style="text-decoration: none" th:href="'/user/view?teamId=' + ${user.getId()}" th:if="${#strings.equals(user.getRole(), 'STAFF')}">
                         <h3 class="teamName" th:text="${user.getUser().getSurname()}"></h3>
                         <div class="cardContentContainer">
                             <p class="teamLogo"></p>
@@ -119,7 +119,7 @@
                                 <li class="teamMember" th:text="${user.getUser().getEmail()}"></li>
                             </ul>
                         </div>
-                    </div>
+                    </a>
                 </th:block>
             </div>
 
