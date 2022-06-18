@@ -31,6 +31,11 @@
                                 <p class="label">Equipe</p>
                                 <span id="team" th:text="${user.team.name}" />
                             </div>
+                            <div th:if="${#strings.equals(user.role, 'STAFF')}">
+                                <hr>
+                                <p class="label">Nom</p>
+                                <span id="forename" th:text="${#session.getAttribute('forename')}" />
+                            </div>
                         </div>
 
                         <br>

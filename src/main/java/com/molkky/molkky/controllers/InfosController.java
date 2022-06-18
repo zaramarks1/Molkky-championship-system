@@ -5,12 +5,12 @@ import com.molkky.molkky.domain.Match;
 import com.molkky.molkky.domain.Tournament;
 import com.molkky.molkky.domain.User;
 import com.molkky.molkky.domain.UserTournamentRole;
+import com.molkky.molkky.model.StaffForename;
 import com.molkky.molkky.model.UserLogged;
 import com.molkky.molkky.repository.MatchRepository;
 import com.molkky.molkky.repository.TournamentRepository;
 import com.molkky.molkky.repository.UserRepository;
 import com.molkky.molkky.repository.UserTournamentRoleRepository;
-import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -37,16 +37,24 @@ public class InfosController extends DefaultAttributes {
     @GetMapping("/infos")
     public String index(Model model, HttpSession session){
         UserLogged userLogged = (UserLogged) session.getAttribute("user");
-        User user = userRepository.findById(userLogged.getId());
+        User loggedUser = userRepository.findById(userLogged.getId());
 
-        UserTournamentRole userTournamentRole = userTournamentRoleRepository.findUserTournamentRoleByUserId(user.getId());
+        UserTournamentRole userTournamentRole = userTournamentRoleRepository.findUserTournamentRoleByUserId(loggedUser.getId());
         Tournament tournament = tournamentRepository.findById(userTournamentRole.getTournament().getId());
+
+        String modifiedPseudo = loggedUser.getForename();
+        if(loggedUser.getForename() == null) {
+            modifiedPseudo = loggedUser.getForename()+"-X";
+        }
+        StaffForename staffForename = new StaffForename(modifiedPseudo);
 
         List<Match> matchList = matchRepository.findMatchAttributedToStaff(
                 tournament,
-                user
+                loggedUser
         );
 
+        System.out.println(modifiedPseudo);
+        session.setAttribute("forename", modifiedPseudo);
         model.addAttribute(matchList);
 
         return "infos";
