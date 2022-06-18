@@ -115,7 +115,10 @@ public class Phase  implements Serializable {
     }
 
     public void setHourPhaseStart(String hourPhaseStart) {
-        if(!hourPhaseStart.equals("")){
+        if(hourPhaseStart == null){
+            this.hourPhaseStart = null;
+        }
+        else if(!hourPhaseStart.equals("")){
             hourPhaseStart = hourPhaseStart + ":00";
             this.hourPhaseStart = Time.valueOf(hourPhaseStart);
         }
@@ -125,7 +128,10 @@ public class Phase  implements Serializable {
     }
 
     public void setTimePhase(String timePhase) {
-        if(!timePhase.equals("")){
+        if(timePhase == null){
+            this.timePhase = null;
+        }
+        else if(!timePhase.equals("")){
             timePhase = timePhase + ":00";
             this.timePhase = Time.valueOf(timePhase);
         }
@@ -147,8 +153,7 @@ public class Phase  implements Serializable {
         this.setNbPhase(phaseModel.getNbPhase());
         this.setNumStartCourt(phaseModel.getNumStartCourt());
         this.setManagePlanning(phaseModel.isManagePlanning());
-        this.setHourPhaseStart(phaseModel.getHourPhaseStart());
-        this.setTimePhase(phaseModel.getTimePhase());
+
         this.setScoreMode(phaseModel.getScoreMode());
         this.setNbSets(phaseModel.getNbSets());
         this.setSeedingSystem(phaseModel.getSeedingSystem());

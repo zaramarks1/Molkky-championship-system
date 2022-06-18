@@ -59,12 +59,12 @@
 
                 <div class="inputContainer">
                     <label for="nbCourts" class="inputLabel">Nombre de terrains disponibles</label>
-                    <input id="nbCourts" name="nbCourts" min="1" type="number" th:field="*{nbCourts}" class="inputTournament"/>
+                    <input id="nbCourts" required name="nbCourts" min="1" type="number" th:field="*{nbCourts}" class="inputTournament"/>
                 </div>
 
                 <div class="inputContainer">
                     <label for="nbCourts" class="inputLabel">Email de l'administrateur </label>
-                    <input id="email"  name="email" type="email" th:field="*{email}" class="inputTournament"/>
+                    <input id="email"  required name="email" type="email" th:field="*{email}" class="inputTournament"/>
                 </div>
                 <div class="submitContainer">
                     <button id="sendTournament" class="primaryButton" type="submit">Créer le tournoi</button>
