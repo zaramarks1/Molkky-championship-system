@@ -68,13 +68,12 @@ public class TournamentService {
             user.setPassword(createCode(5));
             user = userRepository.save(user);
             if(user != null){
-
+                emailSenderService.sendEmail(mail, "Bienvenue sur Molkky", "Bonjour,\n\n" +
+                        "Vous êtes bien inscrit sur Molkky.\n" +
+                        "Votre mot de passe est : " + user.getPassword() + "\n\n" +
+                        "Bon jeu sur Molkky !\n\n" +
+                        "L'équipe Molkky");
             }
-            emailSenderService.sendEmail(mail, "Bienvenue sur Molkky", "Bonjour,\n\n" +
-                    "Vous êtes bien inscrit sur Molkky.\n" +
-                    "Votre mot de passe est : " + user.getPassword() + "\n\n" +
-                    "Bon jeu sur Molkky !\n\n" +
-                    "L'équipe Molkky");
         } else {
             user = userRepository.findUserByEmail(mail);
         }
