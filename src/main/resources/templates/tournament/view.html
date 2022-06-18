@@ -183,9 +183,9 @@
         </div>
         <div class="partContainer" th:if="${tournament.getIndexPhase()} !=0">
             <h2 class="partTitle">Voir les phases précédentes</h2>
-            <div class="cardListContainer">
+            <div class="cardListContainer pastPhaseContainer">
                 <a style="text-decoration: none" th:href="'/phase/view?id=' + ${phase.getId()} + '&phaseIndex=' + ${itemStat.index + 1}" th:each="phase, itemStat : ${tournament.getPhases()}">
-                    <button id="idHistoric" name="visible" class="primaryButton" type="submit" th:text="'Voir phase ' + ${phase.getId()}"></button>
+                    <button id="idHistoric" name="visible" class="primaryButton pastPhase" type="submit" th:text="'Voir phase ' + ${phase.getId()}"></button>
                 </a>
             </div>
 
