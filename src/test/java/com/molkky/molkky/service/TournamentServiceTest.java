@@ -171,7 +171,7 @@ class TournamentServiceTest {
 
 
         //Instantiating the SimpleDateFormat class
-        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         //Parsing the given String to Date object
         Date cutOffDate = formatter.parse(cutOffDate_string);
         Date date = formatter.parse(date_string);
@@ -195,7 +195,7 @@ class TournamentServiceTest {
         tournaments.add(tournament1);
 
         //Instantiating the SimpleDateFormat class
-        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         //Parsing the given String to Date object
         Date cutOffDate = formatter.parse(cutOffDate_string);
         Date date = formatter.parse(date_string);
