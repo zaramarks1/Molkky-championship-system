@@ -113,7 +113,7 @@
             <h2 class="partTitle">Staff</h2>
             <div id="staffContainer" class="cardListContainer">
                 <th:block th:each="user : ${tournament.getUserTournamentRoles()}">
-                    <a class="teamCard" style="text-decoration: none" th:href="'/user/view?teamId=' + ${user.getId()}" th:if="${#strings.equals(user.getRole(), 'STAFF')}">
+                    <a class="teamCard" style="text-decoration: none" th:if="${#strings.equals(user.getRole(), 'STAFF')}">
                         <h3 class="teamName" th:text="${user.getUser().getSurname()}"></h3>
                         <div class="cardContentContainer">
                             <p class="teamLogo"></p>
