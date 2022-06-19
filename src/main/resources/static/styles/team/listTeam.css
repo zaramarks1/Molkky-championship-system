@@ -17,7 +17,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 0px;
-
+    text-decoration: none;
     width: 246px;
     height: 125px;
     margin-bottom: 30px;
@@ -50,6 +50,7 @@
     align-items: center;
     width: -webkit-fill-available;
     height: 2em;
+    padding: 5px;
     background: #5B5A58;
     border-top-left-radius: 7px;
     border-top-right-radius: 7px;
@@ -70,23 +71,7 @@
     height: 31px;
 }
 
-.teamName{
-    margin-left: 10px;
-    width: 236px;
-    height: auto;
-    font-style: normal;
-    font-weight: 600;
-    font-size: 20px;
-    line-height: 24px;
-    display: flex;
-    align-items: center;
-    letter-spacing: 0.2px;
-    color: #FFFFFF;
-    flex: none;
-    order: 0;
-    align-self: stretch;
-    flex-grow: 1;
-}
+
 
 .partTitle {
     font-weight: bold;
@@ -121,15 +106,23 @@ ul.roundsList {
     display: flex;
     flex-direction: row;
 }
-.teamName {
-    background-color:#5B5A58;
-    color: white;
-    font-weight: bold;
-    margin: 0;
-    padding: 2px 5px;
-    border-top-right-radius: 7px;
-    border-top-left-radius: 7px;
-    text-transform: uppercase;
+.teamName{
+    margin-left: 10px;
+    width: 236px;
+    height: auto;
+    font-style: normal;
+    font-size: 16px;
+    font-weight: 700;
+    padding: 5px 5px;
+    line-height: 24px;
+    display: flex;
+    align-items: center;
+    letter-spacing: 0.2px;
+    color: #FFFFFF;
+    flex: none;
+    order: 0;
+    align-self: stretch;
+    flex-grow: 1;
 }
 
 .cardContentContainer {
