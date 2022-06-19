@@ -234,10 +234,6 @@
     min-height: 75px;
 }
 
-.buttonModify{
-    width: 10%;
-}
-
 .tournamentView {
     width: 85%;
 }
@@ -300,3 +296,7 @@ div#listMatches{
 }
 
 .tournamentFormContainer
+
+#valider{
+    margin-right: 10px;
+}

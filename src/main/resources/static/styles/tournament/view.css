@@ -183,3 +183,23 @@ li.teamMember{
     padding: 10px;
     box-shadow: 0 0 7px #c4c4c4;
 }
+
+#courtContainer{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+#buttonModify{
+    margin: 10px 0px 40px;
+}
+
+.inputPhase{
+    width: 460px;
+    height: 48px;
+    border-radius: 4px;
+    border: 0;
+    background-color: #F8FAFC;
+    padding: 10px;
+    box-shadow: 0 0 7px #C4C4C4;
+}

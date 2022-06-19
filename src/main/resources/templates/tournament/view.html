@@ -15,7 +15,9 @@
             <div class="setInline statusCircleGreen"></div>
             <p id="tournament_status" class="setInline" th:text="|(${tournament.status.getDisplayValue()})|"></p>
             <p id="tournament_name" class="setInline" th:text="|${tournament.name}|"></p>
-            <a id="buttonModify" class="boxOneCard" th:if="${session.user != null} and (${#strings.equals(session.user.role, 'ADM')})" th:href="@{'/tournament/modify?tournamentId='+${tournament.id}}">
+            <a id="buttonModify" class="primaryButton boxOneCard"
+               th:if="${session.user != null} and (${#strings.equals(session.user.role, 'ADM')})"
+               th:href="@{'/tournament/modify?tournamentId='+${tournament.id}}">
                 <span class="insideText">Modifier Tournoi</span>
             </a>
         </div>
@@ -123,7 +125,7 @@
                 </th:block>
             </div>
 
-            <div th:if=" ${user} != null">
+            <div th:if=" ${user} != null and ${#strings.equals(tournament.status, 'AVAILABLE')}">
                 <div th:if="${#strings.equals(user.role, 'ADM')}">
                     <div class="partContainer">
                         <form action="#" th:action="@{/tournament/addStaff}" method="post" class="formContainer">
@@ -131,7 +133,7 @@
                             <div class="inputContainer">
                                 <label class="inputLabel">Nombre de staff à ajouter</label>
                                 <input style="margin-bottom: 10px;" class="inputStaff" id="staff-counter" name="nbStaff"
-                                       th:name="staffCount" type="number" min="1" value="1">
+                                       th:name="staffCount" type="number" min="1" required="required">
                                 <input hidden th:value="${tournament.id}" th:name="tournamentId"/>
                                 <button id="addStaff" class="primaryButton" type="submit">Ajouter du staff</button>
                             </div>
@@ -139,13 +141,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="partContainer" th:if="${#strings.equals(tournament.status, 'INPROGRESS')}">
-            <h2 class="partTitle">Resultats</h2>
-            <form action="#" th:action="@{/tournament/results}" method="post" class="formContainer">
-                <input hidden th:value="${tournament.id}" th:name="tournamentId"/>
-                <button id="idResults" name="visible" class="primaryButton" type="submit">Voir les resultats</button>
-            </form>
         </div>
         <div class="partContainer">
             <h2 class="partTitle">Terrains</h2>
@@ -163,7 +158,7 @@
                 </th:block>
             </div>
 
-            <div th:if=" ${user} != null">
+            <div th:if=" ${user} != null and ${#strings.equals(tournament.status, 'AVAILABLE')}">
                 <div th:if="${#strings.equals(user.role, 'ADM')}">
                     <div class="partContainer">
                         <form action="#" th:action="@{/tournament/addCourt}" method="post" class="formContainer">
@@ -171,7 +166,7 @@
                             <div class="inputContainer">
                                 <label class="inputLabel">Nombre de terrains</label>
                                 <input style="margin-bottom: 10px;" class="inputStaff" id="court-counter"
-                                       th:name="courtCount" type="number" min="1">
+                                       th:name="courtCount" type="number" min="1" required="required">
                                 <input hidden th:value="${tournament.id}" th:name="tournamentId"/>
                                 <button id="addCourt" class="primaryButton" type="submit">Ajouter des terrains
                                 </button>
@@ -190,7 +185,7 @@
             </div>
 
 
-            <h2 class="partTitle" th:text=" 'Phase n ' + ${tournament.getIndexPhase()}">Index de la phase</h2>
+            <h2 class="partTitle" th:text=" 'Phase №' + ${tournament.getIndexPhase()}">Index de la phase</h2>
             <form action="#" th:action="@{/phase/view}" method="post" class="formContainer">
                 <input hidden th:value="${currentPhase.id}" th:name="id"/>
                 <input hidden th:value="${tournament.getIndexPhase()}" th:name="phaseIndex"/>
@@ -205,16 +200,16 @@
                 </button>
             </form>
 
-            <form th:if=" ${user != null}
+            <form th:if=" ${user != null} and ${#strings.equals(user.role, 'ADM')}
             and ${currentPhase.rounds[__${currentPhase.rounds.size()-1}__].finished == true}
             and (${#strings.equals(phasesType[__${tournament.getIndexPhase()-1}__].getPhaseType(),'KNOCKOUT')  }
             or ${#strings.equals(phasesType[__${tournament.getIndexPhase()-1}__].getPhaseType(),'SWISSPOOL')})"
                   action="#" th:action="@{/phase/round}" method="post" class="formContainer">
                 <input hidden th:value="${tournament.phases[__${tournament.getIndexPhase()-1}__].id}" th:name="id"/>
-                <label class="inputLabel">Nombre des manches dans la prochaine étape </label>
+                <label class="inputLabel">Nombre de manches dans la prochaine étape </label>
                 <input style="margin-bottom: 10px;" name="nbSet" class="inputPhase" th:name="nbSet" type="number"
                        min="1">
-                <button id="idNextKnockout" name="visible" class="primaryButton" type="submit">Passer à la étape
+                <button id="idNextKnockout" name="visible" class="primaryButton" type="submit">Passer à l'étape
                     suivante
                 </button>
             </form>
@@ -230,7 +225,8 @@
                             <button id="isValid" name="visible" class="primaryButton" type="submit">Rendre public le tournoi</button>
                         </form>
                     </span>
-                    <p th:if="${isReady == false}">Le tournoi n'a pas assez de terrains, staff ou équipes pour démarrer.</p>
+                    <p th:if="${isReady == false}">Le tournoi n'a pas assez de terrains, staff ou équipes pour
+                        démarrer.</p>
                     <span th:if="${tournament.isVisible == true && isReady == true}">
                         <p>Votre tournoi est  visible au public ! Souhaitez-vous débuter le tournoi ?</p>
                         <form action="#" th:action="@{/tournament/publish}" method="post" class="formContainer">
@@ -241,8 +237,15 @@
                 </div>
             </div>
         </div>
+        <div class="partContainer" th:if="${#strings.equals(tournament.status, 'CLOSED')}">
+            <h2 class="partTitle">Resultats</h2>
+            <form action="#" th:action="@{/tournament/results}" method="post" class="formContainer">
+                <input hidden th:value="${tournament.id}" th:name="tournamentId"/>
+                <button id="idResults" name="visible" class="primaryButton" type="submit">Voir les resultats</button>
+            </form>
         </div>
     </div>
+</div>
 </div>
 
 </body>

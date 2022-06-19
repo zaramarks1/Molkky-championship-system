@@ -177,3 +177,9 @@ select.inputTournament {
     margin-bottom: 10px;
     font-weight: 600;
 }
+
+.errorDiffMail{
+    font-size: 14px;
+    font-weight: 600;
+    color: red;
+}

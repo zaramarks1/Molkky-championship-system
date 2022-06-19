@@ -14,7 +14,6 @@
     justify-content: center;
     border-width: 0;
     color: white;
-    margin-right: 10px;
     transition: background-color,box-shadow, color;
     transition-duration: .2s;
     transition-timing-function: ease-in-out;
@@ -23,7 +22,9 @@
 
 @media only screen and (max-width: 1000px) {
     .primaryButton {
-        width: 100%;
+        width: -moz-available;          /* WebKit-based browsers will ignore this. */
+        width: -webkit-fill-available;  /* Mozilla-based browsers will ignore this. */
+        width: fill-available;
     }
 }
 

@@ -1,8 +1,8 @@
-<html xmlns:th="http://thymeleaf.org" xmlns="http://www.w3.org/1999/html" lang="fr">
+<html lang="fr" xmlns="http://www.w3.org/1999/html" xmlns:th="http://thymeleaf.org">
 <head>
     <div th:replace="fragments/header"></div>
-    <link rel="stylesheet" th:href="@{/styles/phase/view.css}" href="../"/>
-    <link rel="stylesheet" th:href="@{/styles/tournament/view.css}" href="../"/>
+    <link href="../" rel="stylesheet" th:href="@{/styles/phase/view.css}"/>
+    <link href="../" rel="stylesheet" th:href="@{/styles/tournament/view.css}"/>
     <title>Affichage Phase</title>
 </head>
 
@@ -19,42 +19,43 @@
                     <button class="primaryButton" id="buttonRounds">Masquer</button>
                 </div>
                 <div id="listRounds">
-                    <div th:each="mapEntry : ${roundTeams}" class="cardRoundContent" id=" cardRoundContent">
+                    <div class="cardRoundContent" id=" cardRoundContent" th:each="mapEntry : ${roundTeams}">
 
                         <div class="partContainer">
                             <h2 class="partTitle" th:text="${mapEntry.key.type.displayValue} ">type </h2>
                             <div class="matchFinished" th:if="${mapEntry.key.finished == true}"
-                                    th:text=" 'Statut: Terminé'"></div>
+                                 th:text=" 'Statut: Terminé'"></div>
                             <div class="matchNotFinished" th:if="${mapEntry.key.finished == false}"
-                                    th:text="' Statut: En cours'"></div>
+                                 th:text="' Statut: En cours'"></div>
 
-<!--                            affichage poule-->
-                            <div th:unless="${mapEntry.key.type.displayValue == 'Éliminatoire'}">
-                                <table class ="mainTable">
+                            <!--                            affichage poule-->
+                            <div class="tableContainer" th:unless="${mapEntry.key.type.displayValue == 'Éliminatoire'}">
+                                <table class="mainTable">
                                     <tr class="mainTableHeader">
-                        <th>Classement</th>
-                        <th>Nom d'équipe</th>
-                        <th>Nombre de victoires</th>
-                        <th>Nombre de points </th>
-                      </tr>
-                      <tr class="mainTableAllTeams" th:each="teams, iStat: ${mapEntry.value}">
-                        <td th:text="${iStat.index+1}"></td>
-                        <td th:text="${teams.team.name}"></td>
-                        <td th:text="${teams.values}"></td>
-                        <td th:text="${teams.totalPoints}"></td>
-                      </tr>
-                    </table>
-                  </div>
-                <h2 class="partTitle">Matchs</h2>
+                                        <th>Classement</th>
+                                        <th>Nom d'équipe</th>
+                                        <th>Nombre de victoires</th>
+                                        <th>Nombre de points</th>
+                                    </tr>
+                                    <tr class="mainTableAllTeams" th:each="teams, iStat: ${mapEntry.value}">
+                                        <td th:text="${iStat.index+1}"></td>
+                                        <td th:text="${teams.team.name}"></td>
+                                        <td th:text="${teams.values}"></td>
+                                        <td th:text="${teams.totalPoints}"></td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <h2 class="partTitle">Matchs</h2>
                             <div id="participantContainer">
                                 <th:block th:each="match : ${mapEntry.key.getMatches()}">
-                                    <a th:href="${'/matches/match?match_id=' + match.getId()}" style="text-decoration: none;">
+                                    <a style="text-decoration: none;"
+                                       th:href="${'/matches/match?match_id=' + match.getId()}">
                                         <div class="teamCard">
-                                            <h3 style="" class="teamNameMatches"
+                                            <h3 class="teamNameMatches" style=""
                                                 th:text="${match.teams[0].name} + ' x '+ ${match.teams[1].name}"></h3>
                                             <div class="cardContentContainer">
-                                                <table class ="matchCard">
-                                                    <tr class ="matchCardHeader">
+                                                <table class="matchCard">
+                                                    <tr class="matchCardHeader">
                                                         <th>Nom d'équipe</th>
                                                         <th>Nombre de points</th>
                                                     </tr>
@@ -62,7 +63,7 @@
                                                         <td th:text="${match.teams[0].name}"></td>
                                                         <td th:text="${match.getScoreTeam1()}"></td>
                                                     </tr>
-                                                    <tr class ="teamsScores">
+                                                    <tr class="teamsScores">
                                                         <td th:text="${match.teams[1].name}"></td>
                                                         <td th:text="${match.getScoreTeam2()}"></td>
                                                     </tr>
@@ -70,39 +71,37 @@
                                             </div>
                                         </div>
                                     </a>
-                  </th:block>
+                                </th:block>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cardRoundContent" th:if="${phaseTotal.size()!= 0}">
+                        <div class="partContainer">
+                            <h2 th:text="'Résultats de la poule SUISSE - Round  ' + ${currentPhase.indexSubRound}
+                                          + ' sur ' + ${currentPhase.nbSubRounds}  "></h2>
+                            <div class="tableContainer">
+                                <table class="mainTable">
+                                    <tr class="mainTableHeader">
+                                        <th>Classement</th>
+                                        <th>Nom d'équipe</th>
+                                        <th>Nombre de victoires</th>
+                                        <th>Nombre de points</th>
+                                    </tr>
+                                    <tr class="mainTableAllTeams" th:each="scoreList, iStat: ${phaseTotal}">
+                                        <td th:text="${iStat.index+1}"></td>
+                                        <td th:text="${scoreList.team.name}"></td>
+                                        <td th:text="${scoreList.values}"></td>
+                                        <td th:text="${scoreList.totalPoints}"></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
-              </div >
-              </div>
 
-          <div class="cardRoundContent" th:if = "${phaseTotal.size()!= 0}" >
-            <div class="partContainer">
-              <h2 th:text="'Résultats de la poule SUISSE - Round  ' + ${currentPhase.indexSubRound}
-              + ' sur ' + ${currentPhase.nbSubRounds}  "></h2>
-              <div>
-                <table style="width: 100%">
-                  <tr style="color:#8C69F4; margin: 10px; text-align: center; width:90%">
-                    <th>Classement</th>
-                    <th>Nom d'équipe</th>
-                    <th>Nombre de victoires</th>
-                    <th>Nombre de points </th>
-                  </tr>
-                  <tr  th:each="scoreList, iStat: ${phaseTotal}"
-                       style="text-align: center;">
-                    <td th:text="${iStat.index+1}"></td>
-                    <td th:text="${scoreList.team.name}"></td>
-                    <td th:text="${scoreList.values}"></td>
-                    <td th:text="${scoreList.totalPoints}"></td>
-                  </tr>
-                </table>
-              </div>
             </div>
-
-          </div>
-            </div>
-
         </div>
-      </div>
     </div>
 </div>
 </body>
