@@ -319,5 +319,6 @@
 }
 
 .teamPhoto{
-    width: 75%;
+    height: 100%;
+    max-width: 100%;
 }

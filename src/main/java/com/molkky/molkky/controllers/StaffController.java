@@ -8,6 +8,7 @@ import com.molkky.molkky.model.AddStaffList;
 import com.molkky.molkky.repository.TournamentRepository;
 import com.molkky.molkky.repository.UserRepository;
 import com.molkky.molkky.repository.UserTournamentRoleRepository;
+import com.molkky.molkky.service.EmailSenderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -34,6 +35,9 @@ public class StaffController {
     @Autowired
     UserTournamentRoleRepository userTournamentRoleRepository;
 
+    @Autowired
+    EmailSenderService emailSenderService;
+
     @PostMapping("/add")
     public String addStaff(@ModelAttribute("staff") AddStaffList staff){
 
@@ -51,7 +55,11 @@ public class StaffController {
             }else{
                 user = userRepository.findUserByEmail(user.getEmail());
             }
-
+            emailSenderService.sendEmail(s.getMail(), "Bienvenue sur Molkky", "Bonjour,\n\n" +
+                    "Vous avez bien créé un tournoi sur Molkky.\n" +
+                    "Votre mot de passe est : " + user.getPassword() + "\n\n" +
+                    "Bon jeu sur Molkky !\n\n" +
+                    "L'équipe Molkky");
             UserTournamentRole userTournamentRole = new UserTournamentRole();
             userTournamentRole.setTournament(tournament);
             userTournamentRole.setUser(user);
