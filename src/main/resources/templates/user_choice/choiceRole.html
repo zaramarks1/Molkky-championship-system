@@ -1,16 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Role</title>
+    <div th:replace="fragments/header"></div>
     <link rel="stylesheet" th:href="@{/styles/components.css}" href="./" />
     <link rel="stylesheet" th:href="@{/styles/choiceUser/choice.css}" href="./" />
-
-
+    <title>Role</title>
 </head>
 <body>
 <div id="pageContainerItem">
-    <h2 id="rolesChoice">Quel est votre rôle au sein de ce tournoi ?</h2>
+    <div id="rolesChoice" class="choiceTitle">Quel est votre rôle au sein de ce tournoi ?</div>
 
     <form action="/user_choice/choiceRole" method="post"  class="formContainer">
         <div th:each="role: ${roles}">

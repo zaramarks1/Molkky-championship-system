@@ -1,15 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Choix du Role/Tournoi</title>
+    <div th:replace="fragments/header"></div>
     <link rel="stylesheet" th:href="@{/styles/components.css}" href="./" />
     <link rel="stylesheet" th:href="@{/styles/choiceUser/choice.css}" href="./" />
-
+    <title>Choix du Role/Tournoi</title>
 </head>
 <body>
 <div id="pageContainerItem">
-    <h2 id="tournamentChoice">Choisissez le tournoi auquel vous voulez accéder</h2>
+    <div class="choiceTitle" id="tournamentChoice">Choisissez le tournoi auquel vous voulez accéder</div>
     <form action="" method="post" >
         <br>
         <div th:each="tournament: ${tournaments}">
