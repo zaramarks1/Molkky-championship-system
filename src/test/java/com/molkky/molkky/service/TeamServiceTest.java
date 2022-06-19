@@ -11,7 +11,6 @@ import com.molkky.molkky.repository.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +22,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.molkky.molkky.utility.StringUtilities.createCode;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @WebMvcTest(value = TeamService.class, excludeAutoConfiguration = {SecurityAutoConfiguration.class})
@@ -174,7 +175,10 @@ class TeamServiceTest {
         when(addPlayerlistModel.getPlayers()).thenReturn(listPlayer);
         when(addPlayerModel1.getTeamId()).thenReturn(id_team);
         when(teamRepository.findById(listPlayer.get(0).getTeamId())).thenReturn(teamMock);
-
+        User mockedUser = mock(User.class);
+        when(mockedUser.getEmail()).thenReturn("mail@mail.fr");
+        when(mockedUser.getPassword()).thenReturn("password");
+        when(userRepository.findUserByEmail(anyString())).thenReturn(mockedUser);
         when(addPlayerModel1.addPlayer()).thenReturn(user);
         when(user.getEmail()).thenReturn(email);
 

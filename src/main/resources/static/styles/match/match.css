@@ -71,9 +71,11 @@
 }
 
 .teamImage {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 200px;
     height: 120px;
-    background: #C4C4C4;
 }
 
 .teamName {
@@ -314,4 +316,8 @@
     font-weight: 600;
     margin-bottom: 10px;
     text-align: center;
+}
+
+.teamPhoto{
+    width: 75%;
 }

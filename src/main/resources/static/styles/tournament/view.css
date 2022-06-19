@@ -20,7 +20,6 @@ p{
     text-align: justify;
 }
 
-
 .sidebarButton p {
     font-weight: 600;
     font-size : 14px;
@@ -52,7 +51,6 @@ li.teamMember{
 .imgBracket {
     object-fit: cover;
 }
-
 .teamCard {
     color: black;
     width: fit-content;
@@ -76,7 +74,6 @@ li.teamMember{
     .pastPhase {
         margin: 10px 0;
     }
-
 }
 
 @media only screen and (max-width: 1000px) {
@@ -135,7 +132,6 @@ li.teamMember{
     width: 60px;
     margin-right: 10px;
     border-radius: 7px;
-    background-color: #6D41F3;
 }
 .teamMember {
     margin: 3px;

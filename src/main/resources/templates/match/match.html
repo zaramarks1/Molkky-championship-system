@@ -19,11 +19,12 @@
             <div class="matchContainer">
                 <div class="columnContainer">
                     <div class="teamContainer">
-                        <div th:unless="${mobile}" class="teamImage">
-
+                        <div th:unless="${mobile}" class="teamImage" >
+                            <img th:if="${teams[0].photo.isEmpty()}" class='teamPhoto' th:src="@{/assets/teams.svg}" alt="Team icon"/>
+                            <img th:unless="${teams[0].photo.isEmpty()}" class='teamPhoto' th:src="@{'/teamPhotos/'+${teams[0].id}+'/'+${teams[0].photo}}" alt="Team icon"/>
                         </div>
                         <div class="teamName" th:text="${teams[0].name}">
-                            Nom de la team
+                            Nom de de l'équipe
                         </div>
                     </div>
                 </div>
@@ -45,11 +46,12 @@
                 </div>
                 <div class="columnContainer">
                     <div class="teamContainer">
-                        <div th:unless="${mobile}" class="teamImage">
-
+                        <div th:unless="${mobile}" class="teamImage" >
+                            <img th:if="${teams[1].photo.isEmpty()}" class='teamPhoto' th:src="@{/assets/teams.svg}" alt="Team icon"/>
+                            <img th:unless="${teams[1].photo.isEmpty()}" class='teamPhoto' th:src="@{'/teamPhotos/'+${teams[1].id}+'/'+${teams[1].photo}}" alt="Team icon"/>
                         </div>
-                        <div class="teamName"  th:text="${teams[1].name}">
-                            Nom de l'équipe
+                        <div class="teamName" th:text="${teams[1].name}">
+                            Nom de de l'équipe
                         </div>
                     </div>
                 </div>
