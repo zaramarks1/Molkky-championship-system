@@ -2,10 +2,12 @@ package com.molkky.molkky.controllers;
 
 
 import com.molkky.molkky.repository.MatchRepository;
+import com.molkky.molkky.repository.TournamentRepository;
 import com.molkky.molkky.repository.UserTournamentRoleRepository;
 import com.molkky.molkky.service.NotificationService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
@@ -29,8 +31,9 @@ class InfosControllerTest {
     private UserTournamentRoleRepository userTournamentRoleRepository;
     @MockBean
     private MatchRepository matchRepository;
-
-    @Autowired
+    @MockBean
+    private TournamentRepository tournamentRepository;
+    @MockBean
     private InfosController infosController;
 
     @Test

@@ -5,7 +5,6 @@ import com.molkky.molkky.domain.Match;
 import com.molkky.molkky.domain.Tournament;
 import com.molkky.molkky.domain.User;
 import com.molkky.molkky.domain.UserTournamentRole;
-import com.molkky.molkky.model.StaffForename;
 import com.molkky.molkky.model.UserLogged;
 import com.molkky.molkky.repository.MatchRepository;
 import com.molkky.molkky.repository.TournamentRepository;
@@ -46,14 +45,12 @@ public class InfosController extends DefaultAttributes {
         if(loggedUser.getForename() == null) {
             modifiedPseudo = loggedUser.getForename()+"-X";
         }
-        StaffForename staffForename = new StaffForename(modifiedPseudo);
 
         List<Match> matchList = matchRepository.findMatchAttributedToStaff(
                 tournament,
                 loggedUser
         );
 
-        System.out.println(modifiedPseudo);
         session.setAttribute("forename", modifiedPseudo);
         model.addAttribute(matchList);
 
