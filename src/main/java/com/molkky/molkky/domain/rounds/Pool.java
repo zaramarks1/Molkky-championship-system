@@ -58,6 +58,7 @@ public class Pool extends Phase {
         this.setConsolation(poolModel.isConsolation());
         this.setNumberConsolationQualify(poolModel.getNumberConsolationQualify());
         this.setTournament(tournament);
+        this.setAvoidConfrontationClub(poolModel.getAvoidConfrontationClub());
     }
 
     public void editInfoPool(PhaseModel poolModel){

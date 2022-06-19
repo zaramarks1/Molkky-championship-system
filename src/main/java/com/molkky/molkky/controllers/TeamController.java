@@ -30,6 +30,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Controller
 @RequestMapping("/team")
@@ -66,7 +67,7 @@ public class TeamController extends DefaultAttributes {
 
         Team teamNew = teamService.create(team);
         //Start
-        String fileNameString = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+       String fileNameString = StringUtils.cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
         teamNew.setPhoto(fileNameString);
         Team teamSave = teamRepository.save(teamNew);
         String uploadDir = "images/teampics/" + teamSave.getId();

@@ -53,7 +53,7 @@ class InfosControllerTest {
         when(user.getId()).thenReturn(1);
         when(userRepository.findById(user.getId())).thenReturn(new User());
         mockMvc.perform(post("/changePseudo").sessionAttr("user", user)
-                .param("pseudo", "tweew"))
+                        .param("pseudo", "tweew"))
                 .andExpect(view().name("redirect:/infos"));
         mockMvc.perform(post("/changeSurname").sessionAttr("user", user)
                         .param("surname", "test"))
@@ -63,7 +63,7 @@ class InfosControllerTest {
                 .andExpect(view().name("redirect:/infos"));
         mockMvc.perform(post("/changePassword").sessionAttr("user", user)
                         .param("pwd1", "test")
-                                .param("pwd2","test"))
+                        .param("pwd2","test"))
                 .andExpect(view().name("redirect:/infos"));
         mockMvc.perform(post("/cancelRegisteration").sessionAttr("user", user))
                 .andExpect(view().name("redirect:/connexion"));

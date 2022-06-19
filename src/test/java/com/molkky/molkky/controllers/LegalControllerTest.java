@@ -58,13 +58,13 @@ class LegalControllerTest {
     void testCU() throws Exception {
         mockMvc.perform(get("/conditionsUtilisation"))
                 .andExpect(status().is2xxSuccessful())
-                .andExpect(view().name("legal/cu"));
+                .andExpect(view().name("conditionsUtilisation"));
     }
 
     @Test
     void testPolitique() throws Exception {
         mockMvc.perform(get("/politiqueConfidentialite"))
                 .andExpect(status().is2xxSuccessful())
-                .andExpect(view().name("legal/politique"));
+                .andExpect(view().name("politiqueConfidentialite"));
     }
 }

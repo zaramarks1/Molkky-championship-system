@@ -50,6 +50,7 @@ public class SwissPool extends Phase {
         this.setNbTeamsQualified(swissModel.getNbTeamsQualified());
         this.setPlayoff(swissModel.isPlayoff());
         this.setNumberPlayoffQualify(swissModel.getNumberPlayoffQualify());
+        this.setAvoidConfrontationClub(swissModel.getAvoidConfrontationClub());
         this.setTournament(tournament);
     }
 

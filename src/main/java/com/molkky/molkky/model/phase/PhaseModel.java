@@ -48,6 +48,7 @@ public class PhaseModel {
     private Integer nbSubRounds;
     private Integer tournament;
     private Boolean randomStaff;
+    private Boolean avoidConfrontationClub;
     private List<Round> rounds;
 
     public PhaseModel(Phase phase){
