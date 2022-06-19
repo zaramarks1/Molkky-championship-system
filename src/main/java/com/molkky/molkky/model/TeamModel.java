@@ -15,12 +15,14 @@ public class TeamModel implements Serializable {
     private String name;
     private Integer nbPlayers;
     private Integer nbWins = 0;
+    private String photo;
 
     public TeamModel(Team team) {
         this.id = team.getId();
         this.name = team.getName();
         this.nbPlayers = team.getNbPlayers();
         this.nbWins = team.getNbWins();
+        this.photo=team.getPhoto();
     }
 
     public static List<TeamModel> createTeamModels(List<Team> teams) {
