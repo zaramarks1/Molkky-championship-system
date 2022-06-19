@@ -1,34 +1,29 @@
 package com.molkky.molkky.controllers;
 
 
-<<<<<<< HEAD
+
 import com.molkky.molkky.repository.MatchRepository;
 import com.molkky.molkky.repository.TournamentRepository;
-=======
+
 import com.molkky.molkky.domain.User;
 import com.molkky.molkky.domain.UserTournamentRole;
 import com.molkky.molkky.model.CreateTeamModel;
 import com.molkky.molkky.model.UserLogged;
 import com.molkky.molkky.repository.UserRepository;
->>>>>>> PreProd
+
 import com.molkky.molkky.repository.UserTournamentRoleRepository;
 import com.molkky.molkky.service.NotificationService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-<<<<<<< HEAD
 import org.mockito.Mock;
-=======
 import org.mockito.Mockito;
->>>>>>> PreProd
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
-
 import java.util.Optional;
-
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mockitoSession;
 import static org.mockito.Mockito.when;

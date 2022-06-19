@@ -25,14 +25,13 @@ public interface UserTournamentRoleRepository extends UserTournamentRoleCustom, 
     UserTournamentRole findById(Integer id);
 
     List<UserTournamentRole> findUserTournamentRoleByTournamentAndUser(Tournament tournament, User user);
-<<<<<<< HEAD
+
     List<UserTournamentRole> findUserTournamentRoleByRoleAndAndTournament(UserRole role, Tournament tournament);
 
     @Query(value="SELECT u FROM UserTournamentRole u WHERE u.user.id=:iduser")
     UserTournamentRole findUserTournamentRoleByUserId(@Param("iduser") Integer iduser);
-=======
+
     List<UserTournamentRole> findUserTournamentRoleByRoleAndTournament(UserRole role, Tournament tournament);
     List<UserTournamentRole> findUserTournamentRoleByTournamentAndUserAndRole(Tournament tournament, User user, UserRole role);
 
->>>>>>> PreProd
 }
