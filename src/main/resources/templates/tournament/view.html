@@ -186,13 +186,13 @@
 
             <th:block th:if="${tournament.getStatus.displayValue != 'Fermé'}">
                 <h2 class="partTitle" th:text=" 'Phase №' + ${tournament.getIndexPhase()}">Index de la phase</h2>
-                <a style="text-decoration: none" th:href="'/phase/view?id=' + ${tournament.getPhases().get(tournament.getIndexPhase()-1).getId()} + '&phaseIndex=' + ${tournament.getIndexPhase()}">
+                <a id="inProgressPhaseButton" th:href="'/phase/view?id=' + ${tournament.getPhases().get(tournament.getIndexPhase()-1).getId()} + '&phaseIndex=' + ${tournament.getIndexPhase()}">
                     <button  id="id" name="visible" class="primaryButton" type="submit">Voir la phase en cours</button>
                 </a>
             </th:block>
 
 
-            <form th:if=" ${user != null} and ${tournament.getPhases().size() != (tournament.getIndexPhase()) }
+            <form id="nextPhaseFormButton" th:if=" ${user != null} and ${tournament.getPhases().size() != (tournament.getIndexPhase()) }
                     and ${currentPhase.finished == true}"
                   action="#" th:action="@{/phase/generate}" method="post" class="formContainer">
                 <input hidden th:value="${tournament.phases[__${tournament.getIndexPhase()}__].id}" th:name="id"/>
@@ -201,13 +201,13 @@
             </form>
 
             <form th:if=" ${user != null} and ${#strings.equals(user.role, 'ADM')}
-            and ${currentPhase.rounds[__${currentPhase.rounds.size()-1}__].finished == true}
+            and ${currentPhase.rounds[__${currentPhase.rounds.size()-1}__].finished == true} and ${currentPhase.finished == false}
             and (${#strings.equals(phasesType[__${tournament.getIndexPhase()-1}__].getPhaseType(),'KNOCKOUT')  }
             or ${#strings.equals(phasesType[__${tournament.getIndexPhase()-1}__].getPhaseType(),'SWISSPOOL')})"
                   action="#" th:action="@{/phase/round}" method="post" class="formContainer">
                 <input hidden th:value="${tournament.phases[__${tournament.getIndexPhase()-1}__].id}" th:name="id"/>
                 <label class="inputLabel">Nombre de manches dans la prochaine étape </label>
-                <input style="margin-bottom: 10px;" name="nbSet" class="inputPhase" th:name="nbSet" type="number"
+                <input style="margin-bottom: 10px;" name="nbSet" class="inputPhase" th:name="nbSet" type="number" required="required"
                        min="1">
                 <button id="idNextKnockout" name="visible" class="primaryButton" type="submit">Passer à l'étape
                     suivante

@@ -156,7 +156,7 @@ public class SetService {
     }
 
     public Boolean isSetFinished(Set set, UserTournamentRoleModel user){
-        if (set.getScore1Orga()==50 || set.getScore2Orga()==50){
+        if (set.getScore1Orga()==50 ^ set.getScore2Orga()==50){
             set.setScore1Final(set.getScore1Orga());
             set.setScore2Final(set.getScore2Orga());
             return true;

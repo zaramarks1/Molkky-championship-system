@@ -207,3 +207,11 @@ li.teamMember{
     padding: 10px;
     box-shadow: 0 0 7px #C4C4C4;
 }
+
+#inProgressPhaseButton{
+    text-decoration: none;
+}
+
+#nextPhaseFormButton{
+    margin-top: 10px;
+}
