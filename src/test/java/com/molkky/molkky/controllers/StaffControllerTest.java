@@ -91,7 +91,10 @@ class StaffControllerTest {
 
         when(tournamentRepository.findById(89475)).thenReturn(tournament);
         when(userRepository.existsUserByEmail(mail)).thenReturn(true);
-
+        User mockedUser = mock(User.class);
+        when(mockedUser.getPassword()).thenReturn("password");
+        when(userRepository.findUserByEmail(anyString())).thenReturn(mockedUser);
+        when(userRepository.save(any(User.class))).thenReturn(mockedUser);
         mockMvc.perform(post("/staff/add")
                         .flashAttr("staff", staff))
                 .andExpect(status().is3xxRedirection())
@@ -110,7 +113,6 @@ class StaffControllerTest {
         mails.add(addStaff);
         staff.setMails(mails);
         User mockedUser = mock(User.class);
-        when(mockedUser.getPassword()).thenReturn("password");
         when(userRepository.findUserByEmail(anyString())).thenReturn(mockedUser);
         when(userRepository.save(any(User.class))).thenReturn(mockedUser);
         boolean result = staffController.areAllDistinct(staff);
