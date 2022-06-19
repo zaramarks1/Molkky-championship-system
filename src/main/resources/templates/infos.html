@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <div th:replace="fragments/header"></div>
+    <link rel="stylesheet" th:href="@{/styles/infos/infos.css}" />
     <title>Informations personnelles</title>
 </head>
 <body class="bg">
@@ -24,7 +25,7 @@
                             <div>
                                 <input class="inputFilter" required="required" type="text" th:name="pseudo" placeholder="Changer pseudo" >
                             </div>
-                            <button class = "filter"  type="submit">Changer votre pseudo
+                            <button class = "primaryButton"  type="submit">Changer votre pseudo
                             </button>
                         </form>
                         <br>
@@ -34,7 +35,7 @@
                             <div>
                                 <input class="inputFilter" required="required" type="text" th:name="forename" placeholder="Changer prénom" >
                             </div>
-                            <button class = "filter" type="submit">Changer votre prénom
+                            <button class = "primaryButton" type="submit">Changer votre prénom
                             </button>
                         </form>
                         <br>
@@ -44,14 +45,14 @@
                             <div>
                                 <input class="inputFilter" required="required" type="text" th:name="surname" placeholder="Changer nom de famille" >
                             </div>
-                            <button class = "filter" type="submit">Changer votre nom de famille
+                            <button class = "primaryButton" type="submit">Changer votre nom de famille
                             </button>
                         </form>
                         <br>
                         Votre Tournoi : <span id="tournament" th:text="${user.tournament.name}" />
                         <br>
                         <br>
-                        Votre Role : <span id="role" th:text="${user.role}" />
+                        Votre Role : <span id="role" th:text="${user.role.getDisplayValue()}" />
                         <br>
                         <br>
                         <div th:if="${#strings.equals(user.role, 'PLAYER')}">
@@ -65,14 +66,15 @@
                                 <input class="inputFilter" type="password" required="required" th:name="pwd1" id = "pwd1" placeholder="Nouveau mot de passe" >
                                 <input class="inputFilter" type="password" required="required" th:name="pwd2"  id = "pwd2" placeholder="Confirmation mot de passe" >
                             </div>
-                            <button class = "filter" onclick = "changePwd()" type="submit">Changer votre mot de passe
+                            <button class = "primaryButton" onclick = "changePwd()" type="submit">Changer votre mot de passe
                             </button>
                         </form>
                         <br>
                         <br>
                         <th:block th:unless="${#strings.equals(user.role, 'ADM')}">
                             <form onsubmit="return confirm('Voulez vous réellement vous désinscrire ? Si oui, vous serez déconnecté');" method="post" th:action="@{/cancelRegisteration}" autocomplete="off">
-                                <button class = "filter"  type="submit">Se désinscrire du tournoi <span th:text="${user.tournament.name}" /> en tant que <span th:text="${user.role}" />
+                                <button class = "primaryButton"  type="submit">
+                                    Se désinscrire du tournoi&nbsp; <span th:text="${user.tournament.name}" />&nbsp;en tant que&nbsp; <span th:text="${user.role.getDisplayValue()}" />
                                 </button>
                             </form>
                         </th:block>

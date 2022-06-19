@@ -1,8 +1,8 @@
 package type;
 
 public enum UserRole {
-    ADM("Administrateur"),
-    STAFF("Organisateur"),
+    ADM("Organisateur"),
+    STAFF("Staff"),
     PLAYER("Joueur");
 
     private final String displayValue;

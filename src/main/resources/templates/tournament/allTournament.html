@@ -38,7 +38,7 @@
                     <a class="boxOneCard"  th:href="@{'/tournament/view?tournamentId='+${tournament.id}}">
                         <span class="insideText tournamentTitleInside nameCard" th:text="${tournament.name}"/>
                         <span class="insideText dateCard" th:text="${#dates.format(tournament.date, 'dd/MM/yyyy')}"/>
-                        <span class="insideText nbCard" th:text="${tournament.nbPlayersPerTeam}+' joueurs par équipes'"/>
+                        <span class="insideText nbCard" th:text="${tournament.nbPlayersPerTeam}+' joueurs par équipe'"/>
                         <p class="insideText" th:if="${!tournament.getTeams().isEmpty()}">
                             <span class="textPlayer textPlayer"
                                   th:text="${tournament.getTeams().size()}*${tournament.nbPlayersPerTeam}+' / '+${tournament.getMaxTeam()}*${tournament.getNbPlayersPerTeam()}+' Joueurs'"/>

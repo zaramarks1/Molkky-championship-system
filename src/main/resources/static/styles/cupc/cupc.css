@@ -8,3 +8,8 @@
 #cu, #pc {
     text-align: justify;
 }
+
+li, p{
+    font-size: 14px;
+    font-weight: 400;
+}

@@ -26,3 +26,15 @@ hr {
 #matchLinkTag {
     color: inherit;
 }
+
+input.inputFilter{
+    width: 50%;
+    height: 20px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    border: 0;
+    background-color: #F8FAFC;
+    padding: 10px;
+    box-shadow: 0 0 7px #c4c4c4;
+}
