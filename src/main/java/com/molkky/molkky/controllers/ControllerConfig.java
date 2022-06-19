@@ -33,7 +33,7 @@ public class ControllerConfig implements WebMvcConfigurer {
         String uploadPath = uploadDir.toFile().getAbsolutePath();
         System.out.println(uploadPath);
         System.out.println("file:"+ uploadPath + "/");
-        registry.addResourceHandler("/" + "images/" + "/**").addResourceLocations("file:/"+ uploadPath + "/");
+        registry.addResourceHandler("/" + "images/" + "/**").addResourceLocations("file:"+ uploadPath + "/");
     }
 
     @Bean
