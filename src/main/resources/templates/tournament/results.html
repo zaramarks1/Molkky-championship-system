@@ -22,9 +22,13 @@
                             th:text="${team.getName()}"></h3>
                         <h3 class="teamName" th:if="${team.eliminated == false}" th:text="${team.getName()}"></h3>
                         <div class="cardContentContainer">
-                            <p class="teamLogo"></p>
-                            <p class=""
-                               th:text="${team.present == true ? 'Présence confirmée' : 'Présence non confirmée'}"></p>
+                            <th:block th:if="${team.photo.isEmpty()}">
+                                <img class="teamLogo" th:src="@{/assets/teams.svg}" alt="Team icon"/>
+                            </th:block>
+                            <th:block th:unless="${team.photo.isEmpty()}">
+                                <img class='teamLogo' th:src="@{'/images/teampics/'+${team.getId()}+'/'+${team.photo}}"
+                                     alt="Team icon"/>
+                            </th:block>
                             <ul class="roundsList">
                                 <th:block th:each="team : ${team.getUserTournamentRoles()}">
                                     <li class="teamMember" th:text="${team.getUser().getPseudo()}"></li>
@@ -44,9 +48,13 @@
                             th:text="${team.getName()}"></h3>
                         <h3 class="teamName" th:if="${team.eliminated == false}" th:text="${team.getName()}"></h3>
                         <div class="cardContentContainer">
-                            <p class="teamLogo"></p>
-                            <p class=""
-                               th:text="${team.present == true ? 'Présence confirmée' : 'Présence non confirmée'}"></p>
+                            <th:block th:if="${team.photo.isEmpty()}">
+                                <img class="teamLogo" th:src="@{/assets/teams.svg}" alt="Team icon"/>
+                            </th:block>
+                            <th:block th:unless="${team.photo.isEmpty()}">
+                                <img class='teamLogo' th:src="@{'/images/teampics/'+${team.getId()}+'/'+${team.photo}}"
+                                     alt="Team icon"/>
+                            </th:block>
                             <ul class="roundsList">
                                 <th:block th:each="team : ${team.getUserTournamentRoles()}">
                                     <li class="teamMember" th:text="${team.getUser().getPseudo()}"></li>

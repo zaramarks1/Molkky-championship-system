@@ -69,7 +69,7 @@ public class TeamController extends DefaultAttributes {
         String fileNameString = StringUtils.cleanPath(multipartFile.getOriginalFilename());
         teamNew.setPhoto(fileNameString);
         Team teamSave = teamRepository.save(teamNew);
-        String uploadDir = "./src/main/resources/static/teamPhotos/" + teamSave.getId();
+        String uploadDir = "images/teampics/" + teamSave.getId();
         FileUploadUtil.saveFile(uploadDir, fileNameString, multipartFile);
         //Fin
         model.addAttribute("team", teamNew);

@@ -10,6 +10,8 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 @Configuration
@@ -24,6 +26,13 @@ public class ControllerConfig implements WebMvcConfigurer {
     public DeviceResolverHandlerInterceptor
     deviceResolverHandlerInterceptor() {
         return new DeviceResolverHandlerInterceptor();
+    }
+
+    private void exposeDirectory(ResourceHandlerRegistry registry) {
+        Path uploadDir = Paths.get("images");
+        String uploadPath = uploadDir.toFile().getAbsolutePath();
+
+        registry.addResourceHandler("/" + "images/" + "/**").addResourceLocations("file:/"+ uploadPath + "/");
     }
 
     @Bean
@@ -53,5 +62,6 @@ public class ControllerConfig implements WebMvcConfigurer {
             registry.addResourceHandler("/**").addResourceLocations(
                     CLASSPATH_RESOURCE_LOCATIONS);
         }
+        exposeDirectory(registry);
     }
 }
