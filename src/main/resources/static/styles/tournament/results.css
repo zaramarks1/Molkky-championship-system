@@ -25,3 +25,20 @@ p {
     text-align: justify;
 }
 
+.podiumContainer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.resultItem {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+}
+
+.resultText {
+    font-weight: 500;
+    font-size: 24px;
+    text-align: center;
+}

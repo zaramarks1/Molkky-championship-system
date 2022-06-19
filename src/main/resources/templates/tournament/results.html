@@ -3,6 +3,7 @@
 <head>
     <div th:replace="fragments/header"></div>
     <link rel="stylesheet" th:href="@{/styles/tournament/results.css}" href="../"/>
+    <link rel="stylesheet" th:href="@{/styles/tournament/view.css}" href="../"/>
     <title>Résultat de votre tournoi</title>
 </head>
 <body class="bg">
@@ -11,18 +12,49 @@
     <div class="contentContainer">
         <div th:replace="fragments/searchbar"></div>
         <div class="partContainer">
-            <h2 class="partTitle">Vainqueur du tournoi</h2>
-            <div id="eachWinner" th:each="winner, itemStat: ${winners}" th:if="${winners.size() > 0}">
-                <p th:text="${itemStat.index+1} + ' place: ' "> </p>
-                <p th:text="${winner.getName()}"></p>
-                <p th:text="'Eliminé :' + ${winner.isEliminated()}"></p>
-                <div class="teamImage">
-                        <img th:if="${winner.photo.isEmpty()}"   class="teamImage" th:src="@{/assets/teams.svg}" alt="Team icon"/>
-                        <img th:unless="${winner.photo.isEmpty()}"  class="teamImage" th:src="@{'/teamPhotos/'+${winner.id}+'/'+${winner.photo}}" alt="Team icon"/>
+            <div class="partTitle">Podium</div>
+            <div class="podiumContainer">
+                <div th:if="${itemStat.index} < 3" class="resultItem" th:each="team, itemStat: ${winners}">
+                    <div class="resultText" th:if="${itemStat.index} == 0">1er</div>
+                    <div class="resultText" th:unless="${itemStat.index} == 0" th:text="${itemStat.index+1} + 'ème'">2ème</div>
+                    <a style="text-decoration: none" class="teamCard" th:href="'/team/view?teamId=' + ${team.getId()}">
+                        <h3 class="teamNameEliminated" th:if="${team.eliminated == true}"
+                            th:text="${team.getName()}"></h3>
+                        <h3 class="teamName" th:if="${team.eliminated == false}" th:text="${team.getName()}"></h3>
+                        <div class="cardContentContainer">
+                            <p class="teamLogo"></p>
+                            <p class=""
+                               th:text="${team.present == true ? 'Présence confirmée' : 'Présence non confirmée'}"></p>
+                            <ul class="roundsList">
+                                <th:block th:each="team : ${team.getUserTournamentRoles()}">
+                                    <li class="teamMember" th:text="${team.getUser().getPseudo()}"></li>
+                                </th:block>
+                            </ul>
+                        </div>
+                    </a>
                 </div>
-                <!--<div th:each="player: ${players}">
-                    <p id="namePlayer" th:text="${player.getForename()} + ' ' + ${player.getSurname()}"></p>
-                </div> -->
+            </div>
+            <div class="partTitle" th:if="${winners.size() > 3}">Le reste</div>
+            <div class="podiumContainer">
+                <div th:if="${itemStat.index} > 2" class="resultItem" th:each="team, itemStat: ${winners}">
+                    <div class="resultText" th:if="${itemStat.index} == 0">1er</div>
+                    <div class="resultText" th:unless="${itemStat.index} == 0" th:text="${itemStat.index+1} + 'ème'">2ème</div>
+                    <a style="text-decoration: none" class="teamCard" th:href="'/team/view?teamId=' + ${team.getId()}">
+                        <h3 class="teamNameEliminated" th:if="${team.eliminated == true}"
+                            th:text="${team.getName()}"></h3>
+                        <h3 class="teamName" th:if="${team.eliminated == false}" th:text="${team.getName()}"></h3>
+                        <div class="cardContentContainer">
+                            <p class="teamLogo"></p>
+                            <p class=""
+                               th:text="${team.present == true ? 'Présence confirmée' : 'Présence non confirmée'}"></p>
+                            <ul class="roundsList">
+                                <th:block th:each="team : ${team.getUserTournamentRoles()}">
+                                    <li class="teamMember" th:text="${team.getUser().getPseudo()}"></li>
+                                </th:block>
+                            </ul>
+                        </div>
+                    </a>
+                </div>
             </div>
             <p th:unless="${winners.size() > 0}">
                 Pas de vainqueur pour ce tournoi.
