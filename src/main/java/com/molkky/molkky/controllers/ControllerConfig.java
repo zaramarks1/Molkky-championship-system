@@ -31,7 +31,8 @@ public class ControllerConfig implements WebMvcConfigurer {
     private void exposeDirectory(ResourceHandlerRegistry registry) {
         Path uploadDir = Paths.get("images");
         String uploadPath = uploadDir.toFile().getAbsolutePath();
-
+        System.out.println(uploadPath);
+        System.out.println("file:/"+ uploadPath + "/");
         registry.addResourceHandler("/" + "images/" + "/**").addResourceLocations("file:/"+ uploadPath + "/");
     }
 
