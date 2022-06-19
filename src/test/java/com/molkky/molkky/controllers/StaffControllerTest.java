@@ -7,6 +7,7 @@ import com.molkky.molkky.model.AddStaffList;
 import com.molkky.molkky.repository.TournamentRepository;
 import com.molkky.molkky.repository.UserRepository;
 import com.molkky.molkky.repository.UserTournamentRoleRepository;
+import com.molkky.molkky.service.EmailSenderService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -42,6 +43,9 @@ class StaffControllerTest {
     TournamentRepository tournamentRepository;
 
     @MockBean
+    EmailSenderService emailSenderService;
+
+    @MockBean
     UserTournamentRoleRepository userTournamentRoleRepository;
 
     @Test
@@ -56,7 +60,10 @@ class StaffControllerTest {
         addStaff.setTournamentId(89475);
         mails.add(addStaff);
         staff.setMails(mails);
-
+        User mockedUser = mock(User.class);
+        when(mockedUser.getPassword()).thenReturn("password");
+        when(userRepository.findUserByEmail(anyString())).thenReturn(mockedUser);
+        when(userRepository.save(any(User.class))).thenReturn(mockedUser);
         when(tournamentRepository.findById(89475)).thenReturn(tournament);
         mockMvc.perform(post("/staff/add")
                         .flashAttr("staff", staff))
@@ -102,7 +109,10 @@ class StaffControllerTest {
         addStaff.setMail(mail);
         mails.add(addStaff);
         staff.setMails(mails);
-
+        User mockedUser = mock(User.class);
+        when(mockedUser.getPassword()).thenReturn("password");
+        when(userRepository.findUserByEmail(anyString())).thenReturn(mockedUser);
+        when(userRepository.save(any(User.class))).thenReturn(mockedUser);
         boolean result = staffController.areAllDistinct(staff);
 
         Assertions.assertTrue(result);
