@@ -51,6 +51,8 @@ public class Knockout extends Phase {
         this.setTimePhase(knockoutModel.getTimePhase());
         this.setScoreMode(knockoutModel.getScoreMode());
         this.setNotifEveryRound(knockoutModel.isNotifEveryRound());
+        this.setAvoidConfrontationClub(knockoutModel.getAvoidConfrontationClub());
+
         this.setTournament(tournament);
     }
 

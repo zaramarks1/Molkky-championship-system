@@ -41,6 +41,7 @@ public class Finnish extends Phase {
         this.setNumberPlayoffQualify(finnishModel.getNumberPlayoffQualify());
         this.setConsolation(finnishModel.isConsolation());
         this.setNumberConsolationQualify(finnishModel.getNumberConsolationQualify());
+        this.setAvoidConfrontationClub(finnishModel.getAvoidConfrontationClub());
         this.setTournament(tournament);
     }
 

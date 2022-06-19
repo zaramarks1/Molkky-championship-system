@@ -32,6 +32,7 @@ public class SimpleGame extends Phase {
         this.setScoreMode(simpleModel.getScoreMode());
         this.setNotifBeginningPhase(simpleModel.isNotifBeginningPhase());
         this.setConsolation(simpleModel.isConsolation());
+        this.setAvoidConfrontationClub(simpleModel.getAvoidConfrontationClub());
         this.setTournament(tournament);
     }
 
