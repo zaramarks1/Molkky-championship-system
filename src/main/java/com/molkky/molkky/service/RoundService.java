@@ -358,7 +358,7 @@ public class RoundService {
         for (Phase p : tournament.getPhases()) {
             if (Boolean.FALSE.equals(p.getFinished())) return false;
         }
-        tournament.setStatus(TournamentStatus.ENDED);
+        tournament.setStatus(TournamentStatus.CLOSED);
         tournament.setFinished(true);
         tournamentRepository.save(tournament);
 

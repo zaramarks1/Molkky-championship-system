@@ -27,20 +27,13 @@
         <label class="inputLabel" for="sameClub">Tenir compte des affrontements même club</label>
         <input class="inputPhase" id="sameClub" type="checkbox" th:field="*{phases[__${itemStat.index}__].playTeamSameClub}">
     </div>
-    <div th:insert="phase/utiles/score"></div>
     <div class="inputContainer">
         <label class="inputLabel" for="notifStartPhase">Notification début de la phase</label>
         <input class="inputPhase" id="notifStartPhase" type="checkbox" th:field="*{phases[__${itemStat.index}__].notifBeginningPhase}">
     </div>
     <div class="inputContainer">
-        <label class="inputLabel" for="notifEachDay">Notification début de chaque journée</label>
-        <input class="inputPhase" id="notifEachDay" type="checkbox" th:field="*{phases[__${itemStat.index}__].notifEachDay}">
-    </div>
-    <div class="inputContainer">
         <label class="inputLabel" for="numberQualifyTeam">Nombre d'équipes qualifiées</label>
         <input class="inputPhase" required id="numberQualifyTeam" type="number" min="1" th:field="*{phases[__${itemStat.index}__].nbTeamsQualified}">
     </div>
-    <div th:insert="phase/utiles/playoff"></div>
-    <div th:insert="phase/utiles/consolation"></div>
 </body>
 </html>

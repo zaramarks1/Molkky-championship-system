@@ -111,7 +111,7 @@ class TournamentViewAddCourtTest {
         String tournamentNameIHM = config.getDriver().findElement(new By.ById("tournament_name")).getText();
         Assertions.assertEquals(tournament.getName(),tournamentNameIHM);
         String dateLocationIHM = config.getDriver().findElement(new By.ById("date-and-location")).getText();
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
         String dateAndLocationDB = "Le tournoi "+tournament.getName() +" aura lieu à " + "Angers et débutera le " + simpleDateFormat.format(tournament.getDate()) +".";
         Assertions.assertEquals(dateAndLocationDB,dateLocationIHM);
         String nbTeamsIHM = config.getDriver().findElement(new By.ById("teams-extremums")).getText();

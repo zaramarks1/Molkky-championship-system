@@ -29,7 +29,7 @@ class EmailSenderServiceTest {
     void testMail() throws IOException, InterruptedException {
         if(getCurrentGitBranch().equals("US53DEV_Sacha")){
             Assertions.assertDoesNotThrow(() -> emailSenderService.sendEmail("calembel.molkky@gmail.com", "GPI LESGO", "Fonctionnement de l'envoi de test"));
-
         }
     }
+
 }

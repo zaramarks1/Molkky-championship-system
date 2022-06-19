@@ -20,23 +20,27 @@
                 </button>
             </form>
             <div class="cardContainer">
-            <ul th:each="team: ${teams}" class="cardTeam" th:href="@{'/team/view?teamId='+${team.id}}">
-                <li class="clickableCard" th:onclick="'window.location.href=\'/team/view?teamId=' + ${team.id} + '\''">
-                <div class="teamHeader">
-                    <div class="teamName">
-                        <p th:text="${team.getName()}"></p>
+                <a th:each="team: ${teams}" class="cardTeam" th:href="@{'/team/view?teamId='+${team.id}}">
+                    <div class="teamHeader">
+                        <div class="teamName">
+                            <p th:text="${team.getName()}"></p>
+                        </div>
                     </div>
-                </div>
-                <div class="cardContentContainer">
-                    <th:block th:if="${team.photo.isEmpty()}">
-                        <img class="teamLogo" th:src="@{/assets/teams.svg}" alt="Team icon"/>
-                    </th:block>
-                    <th:block th:unless="${team.photo.isEmpty()}">
-                        <img class='teamPhoto' th:src="@{'/teamPhotos/'+${team.getId()}+'/'+${team.photo}}" alt="Team icon"/>
-                    </th:block>
-                </div>
-                </li>
-            </ul>
+                    <div class="cardContentContainer">
+                        <th:block th:if="${team.photo.isEmpty()}">
+                            <img class="teamLogo" th:src="@{/assets/teams.svg}" alt="Team icon"/>
+                        </th:block>
+                        <th:block th:unless="${team.photo.isEmpty()}">
+                            <img class='teamPhoto' th:src="@{'/teamPhotos/'+${team.getId()}+'/'+${team.photo}}" alt="Team icon"/>
+                        </th:block>
+                        <th:block th:if="${team.photo.isEmpty()}">
+                            <img class="teamLogo" th:src="@{/assets/teams.svg}" alt="Team icon"/>
+                        </th:block>
+                        <th:block th:unless="${team.photo.isEmpty()}">
+                            <img class='teamPhoto' th:src="@{'/teamPhotos/'+${team.getId()}+'/'+${team.photo}}" alt="Team icon"/>
+                        </th:block>
+                    </div>
+                </a>
             </div>
 
         </div>

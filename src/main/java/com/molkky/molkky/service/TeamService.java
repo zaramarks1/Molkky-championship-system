@@ -33,6 +33,9 @@ public class TeamService {
     @Autowired
     ClubRepository clubRepository;
 
+    @Autowired
+    EmailSenderService emailSenderService;
+
 
     public Team create(CreateTeamModel team){
 
@@ -82,6 +85,13 @@ public class TeamService {
             if(!userRepository.existsUserByEmail(user.getEmail())){
                 user.setPassword(createCode(5));
                 user = userRepository.save(user);
+                emailSenderService.sendEmail(user.getEmail(), "Molky - Création de votre compte", "Bonjour " + user.getForename() + ",\n\n" +
+                        "Vous venez de créer votre compte sur Molky.\n\n" +
+                        "Votre mot de passe est : " + user.getPassword() + "\n\n" +
+                        "Votre code d'équipe est : " + team.getCode() + "\n\n" +
+                        "Vous pouvez vous connecter sur le site en utilisant votre adresse email et votre mot de passe.\n\n" +
+                        "Bon jeu sur Molky !\n\n" +
+                        "L'équipe Molky");
             }else{
                 user = userRepository.findUserByEmail(user.getEmail());
             }

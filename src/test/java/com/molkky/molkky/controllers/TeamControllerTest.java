@@ -107,8 +107,11 @@ class TeamControllerTest {
         List<AddPlayerModel> list = new ArrayList<>();
         list.add(addPlayerModel1);
 
+        Tournament t = new Tournament();
+        t.setId(1);
         Team team = new Team();
         team.setId(1);
+        team.setTournament(t);
         Club club = new Club();
         club.setName("A");
 
@@ -122,7 +125,7 @@ class TeamControllerTest {
         mockMvc.perform(post("/team/addPlayer")
                         .flashAttr("form",addPlayerlistModel))
                 .andDo(print())
-                .andExpect(view().name("redirect:/team/create"))
+                .andExpect(view().name("redirect:/tournament/view?tournamentId=1"))
                 .andExpect(status().is3xxRedirection());
 
         Mockito.verify(addPlayerlistModel,Mockito.times(1)).getPlayers();

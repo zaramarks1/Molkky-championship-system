@@ -15,7 +15,6 @@
         <label class="inputLabel" for="victoryValue">Valeur victoire</label>
         <input class="inputPhase" required id="victoryValue" type="number" min="2" max="3" th:field="*{phases[__${itemStat.index}__].victoryValue}">
     </div>
-    <div th:insert="phase/utiles/score"></div>
     <div class="inputContainer">
         <label class="inputLabel" for="notifStartPhase">Notification début de la phase</label>
         <input class="inputPhase" id="notifStartPhase" type="checkbox" th:field="*{phases[__${itemStat.index}__].notifBeginningPhase}">
@@ -24,6 +23,5 @@
         <label class="inputLabel" for="numberQualifyTeam">Nombre d'équipes qualifiées</label>
         <input class="inputPhase" required id="numberQualifyTeam" type="number" min="1" th:field="*{phases[__${itemStat.index}__].nbTeamsQualified}">
     </div>
-    <div th:insert="phase/utiles/playoff"></div>
 </body>
 </html>

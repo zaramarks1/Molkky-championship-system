@@ -15,12 +15,16 @@ import type.UserRole;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.molkky.molkky.utility.StringUtilities.createCode;
 
 
 @Service
 public class TournamentService {
+
+    @Autowired
+    EmailSenderService emailSenderService;
 
     @Autowired
     TournamentRepository tournamentRepository;
@@ -39,6 +43,19 @@ public class TournamentService {
 
     public final Date currentDate = new Date();
 
+    public Boolean isTournamentReady(Tournament tournament) {
+        List<Team> totalTeams = tournament.getTeams();
+        List<Team> notEliminatedTeams;
+
+        notEliminatedTeams = totalTeams.stream().filter(team -> !team.isEliminated()).collect(Collectors.toList());
+        if (tournament.getMinTeam() > notEliminatedTeams.size()) {
+            return false;
+        }
+        if (tournament.getCourts().isEmpty()) {
+            return false;
+        }
+        return !userTournamentRoleRepository.findUserTournamentRoleByRoleAndTournament(UserRole.STAFF, tournament).isEmpty();
+    }
 
 
     public Tournament create(TournamentModel tournamentModel) {
@@ -50,10 +67,16 @@ public class TournamentService {
 
         User user = new User();
 
+//        creating the admin
         if (!userRepository.existsUserByEmail(mail)) {
             user.setEmail(mail);
             user.setPassword(createCode(5));
             user = userRepository.save(user);
+            emailSenderService.sendEmail(mail, "Bienvenue sur Molkky", "Bonjour,\n\n" +
+                    "Vous êtes bien inscrit sur Molkky.\n" +
+                    "Votre mot de passe est : " + user.getPassword() + "\n\n" +
+                    "Bon jeu sur Molkky !\n\n" +
+                    "L'équipe Molkky");
         } else {
             user = userRepository.findUserByEmail(mail);
         }
@@ -69,7 +92,7 @@ public class TournamentService {
         return tournament;
     }
 
-    public Tournament modifyTournament(TournamentModel tournamentModel){
+    public Tournament modifyTournament(TournamentModel tournamentModel) {
         Tournament tournament = tournamentRepository.findById(tournamentModel.getId());
         tournament.editTournamentInfo(tournamentModel);
         return tournamentRepository.save(tournament);
@@ -104,22 +127,22 @@ public class TournamentService {
 
     // Récupère le gagnant du tournoi
     // Format return list car possibilité qu'il y ait plusieurs gagnants pas écartée pour le moment
-    public List<Team> getWinners(Tournament tournament){
+    public List<Team> getWinners(Tournament tournament) {
 
-        int nbPhases = tournament.getPhases().size()-1;
+        int nbPhases = tournament.getPhases().size() - 1;
         List<Team> teams = new ArrayList<>();
         List<PhaseRankingModel> phaseRankingModels;
-        for(int i = nbPhases; i >=0; i--){
+        for (int i = nbPhases; i >= 0; i--) {
             Phase phase = tournament.getPhases().get(i);
             phaseRankingModels = roundService.orderTeamsByScoreInPhase(phase, phase.getVictoryValue());
 
-            for(PhaseRankingModel r : phaseRankingModels) if(!teams.contains(r.getTeam())) teams.add(r.getTeam());
+            for (PhaseRankingModel r : phaseRankingModels) if (!teams.contains(r.getTeam())) teams.add(r.getTeam());
         }
         return teams;
     }
 
-    public String getEmailAdmin(Tournament tournament){
-        List<UserTournamentRole> userTournamentRoles = userTournamentRoleRepository.findUserTournamentRoleByRoleAndTournament(UserRole.ADM,tournament);
+    public String getEmailAdmin(Tournament tournament) {
+        List<UserTournamentRole> userTournamentRoles = userTournamentRoleRepository.findUserTournamentRoleByRoleAndTournament(UserRole.ADM, tournament);
         return userTournamentRoles.get(0).getUser().getEmail();
     }
 

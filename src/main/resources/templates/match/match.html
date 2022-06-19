@@ -89,7 +89,7 @@
                         </div>
                     </div>
                     <div class="submitContainer" >
-                        <input th:if="${match.finished == false} and ${set.finished == false}" type="submit" class="primaryButton" th:id="'submitSet' + ${iStat.index}"/>
+                        <input th:if="${match.finished == false} and ${set.finished == false} and ${setTeamIndex.displayValue != 'outsider'}" type="submit" class="primaryButton" th:id="'submitSet' + ${iStat.index}" value="Envoyer"/>
                     </div>
                 </form>
             </div>

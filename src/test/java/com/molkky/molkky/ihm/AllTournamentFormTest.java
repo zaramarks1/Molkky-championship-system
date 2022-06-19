@@ -109,7 +109,7 @@ class AllTournamentFormTest {
     void testAllTournament() {
         List<WebElement> nbPage = config.getDriver().findElements(new By.ByClassName("boxOneCard"));
         int nbBDD = tournamentRepository.findAll().size();
-        Assertions.assertEquals(nbPage.size()/2, nbBDD);
+        Assertions.assertEquals(nbPage.size(), nbBDD);
     }
 
 

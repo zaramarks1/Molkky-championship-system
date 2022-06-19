@@ -36,7 +36,7 @@ public class User implements Serializable {
     private String forename;
 
     @ManyToOne
-    @JoinColumn(name="club")
+    @JoinColumn(name="idClub")
     private Club club;
 
     @Column(name = "email")

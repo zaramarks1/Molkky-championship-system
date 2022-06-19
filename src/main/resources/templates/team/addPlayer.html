@@ -22,7 +22,7 @@
             </div>
 
             <div class="inputContainer" th:if="${!isDiffMail}">
-                <span th:if="${!isDiffMail}">S'il vous plait, entrez des mails différents pour chaque joueur !</span>
+                <span class="errorDiffMail" th:if="${!isDiffMail}">S'il vous plait, entrez des mails différents pour chaque joueur !</span>
             </div>
 
 
@@ -36,11 +36,15 @@
                         </div>
                         <div class="inputContainer">
                             <label  for="surname" class="inputLabel">Nom de famille</label>
-                            <input id = "surname" th:field="*{players[__${itemStat.index}__].surname}" class="inputTournament"/>
+                            <input required id = "surname" th:field="*{players[__${itemStat.index}__].surname}" class="inputTournament"/>
                         </div>
                         <div class="inputContainer">
                             <label for="email" class="inputLabel">Mail</label>
                             <input  required="true" type="email" id = "email" th:field="*{players[__${itemStat.index}__].mail}"  class="inputTournament"/>
+                        </div>
+                        <div class="inputContainer">
+                            <label for="pseudo" class="inputLabel">Pseudo</label>
+                            <input  required="true" id = "pseudo" th:field="*{players[__${itemStat.index}__].pseudo}"  class="inputTournament"/>
                         </div>
                     </div>
                     <input hidden th:name="|players[${itemStat.index}].teamId|" th:value="${team.id}"/>

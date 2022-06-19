@@ -136,6 +136,7 @@ public class PhaseController extends DefaultAttributes {
         Tournament t = tournamentRepository.findById(phasesModel.getPhases().get(0).getTournament());
         List<Phase> phases = new ArrayList<>();
         for(PhaseModel phase : phasesModel.getPhases()){
+            phase.setRandomStaff(true);
             switch (phase.getPhaseType()){
                 case POOL:
                     phases.add(new Pool(phase,t));
@@ -178,11 +179,6 @@ public class PhaseController extends DefaultAttributes {
     public String changeInfoPhases(@ModelAttribute("listPhase")PhaseListModel phasesModel, ModelMap model){
         Tournament t = phaseService.editPhasesInfo(phasesModel);
         return tournamentView+t.getId();
-    }
-
-    @PostMapping("/view")
-    public String viewPost( @RequestParam(name= "id") Integer id,  @RequestParam(name= "phaseIndex") Integer phaseIndex ){
-        return phaseView+id + "&phaseIndex=" + phaseIndex;
     }
 
     @GetMapping("/view")

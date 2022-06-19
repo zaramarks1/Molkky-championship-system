@@ -23,7 +23,7 @@
 
                 <div class="inputContainer">
                     <label for="tournament" class="inputLabel">Sélectionnez un tournoi</label>
-                    <select class="inputTournament" id="tournament" th:field="*{tournament}" >
+                    <select required class="inputTournament" id="tournament" th:field="*{tournament}" >
                         <option th:each="tournament : ${tournaments}" th:value="${tournament.id}" th:text="${tournament.name}" class="inputTournament" >
                     </option>
                     </select>

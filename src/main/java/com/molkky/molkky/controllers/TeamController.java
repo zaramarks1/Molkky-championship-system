@@ -111,7 +111,7 @@ public class TeamController extends DefaultAttributes {
         }
 
         teamService.addPlayers(form);
-        return new ModelAndView( "redirect:/team/create", model) ;
+        return new ModelAndView( "redirect:/tournament/view?tournamentId="+team.getTournament().getId(), model) ;
     }
 
     boolean areAllDistinct(List<User> users) {

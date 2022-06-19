@@ -71,7 +71,7 @@ public class SwissService {
     void generateNotificationAfterRoundSwiss(List<Team> teams){
 
         for (int i = 0; i <teams.size();i++) {
-            String message = " Ton quipe a fini " +i+1+ "dans ce sub round de poule swiss";
+            String message = " Ton équipe a fini " +i+1+ " dans ce sous-round de poule Suisse";
             notificationService.sendNotificationToList(message, "", teams.get(i).getUserTournamentRoles());
 
         }

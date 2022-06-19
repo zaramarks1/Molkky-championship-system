@@ -31,8 +31,8 @@
         <div class="contentTitle">
             Liste des joueurs de l'équipe :
             <div class="contentText" th:each="user: ${users}">
-                Nom du joueur: <span id="nomTournament" th:text="${user.pseudo}"/> <br> <br>
-                Club du joueur: <span id="nomTournament" th:text="${user.club}"/> <br> <br>
+                Pseudo du joueur: <span id="nomTournament" th:text="${user.pseudo}"/> <br> <br>
+                Club du joueur: <span id="nomTournament" th:text="${user.club.getName()}"/> <br> <br>
             </div>
         </div>
     </div>
