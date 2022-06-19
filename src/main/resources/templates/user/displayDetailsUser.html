@@ -14,10 +14,10 @@
 
         <!-- Emplacement pour les informations d'un user-->
         <div class="contentTitle">
-            Informations de l'utlisateur <span id="userPseudo" th:text="${user.pseudo}"/>
+            Informations de l'utilisateur <span id="userPseudo" th:text="${user.pseudo}"/>
             <div class="contentText">
                 Email de l'utilisateur : <span id="userMail" th:text="${user.email}"/> <br>
-                Club de l'utilisateur : <span id="userClub" th:text="${user.club}"/> <br>
+                Club de l'utilisateur : <span id="userClub" th:text="${user.club.getName()}"/> <br>
                 Nom de l'utilisateur : <span id="userNom" th:text="${user.surname}"/> <br>
                 Prénom de l'utilisateur : <span id="userPrenom" th:text="${user.forename}"/> <br>
             </div>
@@ -27,7 +27,7 @@
             Liste des tournois de l'utilisateur <span id="userPseudo2" th:text="${user.pseudo}"/>
             <div class="contentText" th:each="tournament: ${tournament}">
                 Nom du tournoi : <span id="nomTournament" th:text="${tournament.name}"/> <br>
-                Date du tournoi  <span id="dateTournament" th:text="${tournament.date}"/> <br>
+                Date du tournoi  <span id="dateTournament" th:text="${#dates.format(tournament.date, 'dd-MM-yyyy')}"/> <br>
                 <a style="text-decoration: none;" th:href="${'/tournament/view?tournamentId=' + tournament.getId()}">
                     <button class="primaryButton">Accéder au tournoi</button>
                 </a>

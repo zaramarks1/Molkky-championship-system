@@ -31,12 +31,12 @@
             <p id="teams-extremums"
                th:text="|Le nombre d'équipes pour ce tournoi est compris entre ${tournament.minTeam} et ${tournament.maxTeam}.|"></p>
             <p id="nbTeam" th:text="|Il y a actuellement ${nbTeam} équipes inscrites à ce tournoi.|"></p>
-            <p id="current-phase" th:text="|La phase courante est la phase n°${tournament.indexPhase}.|"></p>
+            <p id="current-phase" th:text="|La phase courante est la phase n°${tournament.indexPhase+1}.|"></p>
         </div>
 
         <div class="partContainer">
             <h2 class="partTitle">Format du tournoi</h2>
-            <p>Le tournoi suit un format classique, à savoir une phase de poule suivie d'un bracket.</p>
+            <p>Vous pouvez retrouver ci-dessous les phases et l'ordre dans lequel elles seront jouées ainsi que les différentes équipes qui vont participer.</p>
             <h3 class="partSubtitle">Rounds</h3>
             <div class="dir">
                 <div>

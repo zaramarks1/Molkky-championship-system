@@ -33,7 +33,7 @@
                                 <li class="teamMember">Vide</li>
                             </th:block>
                             <th:block th:each="team : ${team.getUserTournamentRoles()}">
-                                <li class="teamMember" th:text="${team.getUser().getForename()}"></li>
+                                <li class="teamMember" th:text="${team.getUser().getPseudo()}"></li>
                             </th:block>
                         </div>
                     </div>
