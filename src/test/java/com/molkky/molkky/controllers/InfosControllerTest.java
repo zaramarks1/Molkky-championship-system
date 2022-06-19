@@ -5,8 +5,6 @@ import com.molkky.molkky.domain.User;
 import com.molkky.molkky.domain.UserTournamentRole;
 import com.molkky.molkky.model.CreateTeamModel;
 import com.molkky.molkky.model.UserLogged;
-import com.molkky.molkky.repository.MatchRepository;
-import com.molkky.molkky.repository.TournamentRepository;
 import com.molkky.molkky.repository.UserRepository;
 import com.molkky.molkky.repository.UserTournamentRoleRepository;
 import com.molkky.molkky.service.NotificationService;
@@ -43,11 +41,6 @@ class InfosControllerTest {
     @MockBean
     private UserTournamentRoleRepository userTournamentRoleRepository;
 
-    @MockBean
-    private MatchRepository matchRepository;
-
-    @MockBean
-    private TournamentRepository tournamentRepository;
     @Autowired
     private InfosController infosController;
 
