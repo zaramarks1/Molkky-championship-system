@@ -64,7 +64,7 @@
     width: -moz-available;          /* WebKit-based browsers will ignore this. */
     width: -webkit-fill-available;  /* Mozilla-based browsers will ignore this. */
     width: fill-available;
-    height: 2em;
+    height: 20px;
     background: #5B5A58;
     border-top-left-radius: 7px;
     border-top-right-radius: 7px;
@@ -92,6 +92,9 @@
 
 .textCard{
     text-decoration: none;
+    font-size: 16px;
+    font-weight: 700;
+    text-transform: uppercase;
 }
 
 .clickableCard{
