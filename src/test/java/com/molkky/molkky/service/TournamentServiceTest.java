@@ -61,8 +61,8 @@ class TournamentServiceTest {
     @MockBean
     private User user;
 
-    private String cutOffDate_string = "26-05-2022";
-    private String date_string = "28-06-2023";
+    private String cutOffDate_string = "26/05/2022";
+    private String date_string = "28/06/2023";
 
     @BeforeEach
     void setUp() {

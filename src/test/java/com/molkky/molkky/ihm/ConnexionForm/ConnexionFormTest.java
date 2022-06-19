@@ -128,7 +128,7 @@ class ConnexionFormTest {
         config.getDriver().findElement(new By.ById("infos_sidebar")).click();
         Assertions.assertEquals(emailPlayer, config.getDriver().findElement(new By.ById("email")).getText());
         Assertions.assertEquals(teamName, config.getDriver().findElement(new By.ById("team")).getText());
-        Assertions.assertEquals("PLAYER", config.getDriver().findElement(new By.ById("role")).getText());
+        Assertions.assertEquals("Joueur", config.getDriver().findElement(new By.ById("role")).getText());
         Assertions.assertEquals(tournamentName, config.getDriver().findElement(new By.ById("tournament")).getText());
 
     }
@@ -160,7 +160,7 @@ class ConnexionFormTest {
         Assertions.assertEquals("Accueil", config.getDriver().getTitle());
         config.getDriver().findElement(new By.ById("infos_sidebar")).click();
         Assertions.assertEquals(emailAdmin, config.getDriver().findElement(new By.ById("email")).getText());
-        Assertions.assertEquals("ADM", config.getDriver().findElement(new By.ById("role")).getText());
+        Assertions.assertEquals("Organisateur", config.getDriver().findElement(new By.ById("role")).getText());
         Assertions.assertEquals(tournamentName, config.getDriver().findElement(new By.ById("tournament")).getText());
     }
     @AfterAll
