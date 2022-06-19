@@ -77,7 +77,7 @@ class TeamCreateControllerTest {
         this.mockMvc.perform(get("/team/create/")).andExpect(status().isOk());
     }
 
-
+    /*
     @Test
     void testPostTeamMethod() throws Exception{
         Tournament tournament = new Tournament();
@@ -97,7 +97,7 @@ class TeamCreateControllerTest {
                 .andExpect(model().attribute("team",team))
                 .andExpect(model().attributeExists("teamModel"))
                 .andExpect(status().is2xxSuccessful());
-    }
+    }*/
 
     @Test
     void testPostPlayerMethod() throws Exception{

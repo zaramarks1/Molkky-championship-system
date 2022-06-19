@@ -58,8 +58,8 @@ public class PhaseController extends DefaultAttributes {
             return "redirect:/connexion";
         }
 
+        Phase phase = phaseRepository.findById(Integer.valueOf(id));
         if(user.getRole().equals(UserRole.ADM) ){
-            Phase phase = phaseRepository.findById(Integer.valueOf(id));
 
             if(Boolean.TRUE.equals(phase.getFinished())) return tournamentView+phase.getTournament().getId();
 
@@ -73,7 +73,7 @@ public class PhaseController extends DefaultAttributes {
         }else{
             return "redirect:/";
         }
-        return phaseView+id;
+        return phaseView+id+"&phaseIndex="+phase.getTournament().getIndexPhase();
     }
 
     @PostMapping("/round")
@@ -99,8 +99,7 @@ public class PhaseController extends DefaultAttributes {
         }else{
             return "redirect:/";
         }
-        return phaseView+id;
-
+        return phaseView+id+"&phaseIndex="+phase.getTournament().getIndexPhase();
     }
 
     @GetMapping("/choosePhases")
@@ -211,5 +210,4 @@ public class PhaseController extends DefaultAttributes {
 
         return "/phase/view";
     }
-
 }

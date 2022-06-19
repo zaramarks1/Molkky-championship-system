@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -24,11 +23,7 @@ import type.UserRole;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 import static com.molkky.molkky.utility.StringUtilities.createCode;
 import static org.mockito.Mockito.*;
@@ -85,9 +80,13 @@ class TournamentServiceTest {
     @Test
     void createTournamentServiceWithUser() {
         when(this.tournamentModel.getName()).thenReturn("TEST 1");
+        when(this.tournamentModel.getEmail()).thenReturn("testmail@mail.fr");
         when(this.tournamentRepository.save(Mockito.any(Tournament.class))).thenAnswer(i -> i.getArguments()[0]);
-
+        User mockedUser = mock(User.class);
+        when(mockedUser.getPassword()).thenReturn("randompassword");
         // On force le test vérifiant l'existence de l'utilisateur à true
+        when(userRepository.findUserByEmail(anyString())).thenReturn(mockedUser);
+        when(userRepository.save(any(User.class))).thenReturn(mockedUser);
         when(this.userRepository.existsUserByEmail(this.user.getEmail())).thenReturn(true);
 
         Tournament test = this.tournamentService.create(this.tournamentModel);

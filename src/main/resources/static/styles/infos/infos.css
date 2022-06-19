@@ -1,0 +1,28 @@
+.infoContainer {
+    background-color: #fff;
+    border-radius: 10px;
+    width: 50vw;
+    padding: 20px;
+}
+
+p.firstLabel.label { margin: 0; }
+
+hr {
+    color: rgba(0, 0, 0, .3);
+}
+
+#infoContainer>.label {
+    text-transform: uppercase;
+}
+
+#infoContainer>span {
+    font-weight: 600;
+}
+
+#matches {
+    margin-bottom: 10px;
+}
+
+#matchLinkTag {
+    color: inherit;
+}

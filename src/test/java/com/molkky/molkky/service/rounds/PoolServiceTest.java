@@ -234,29 +234,6 @@ import java.util.*;
 
     }
 
-    @Test
-    @Rollback(false)
-    @Transactional
-    void testTeamsInsertByClub() {
-        Tournament tournament = createTournament();
-
-        tournament = createPool(tournament, 1, 2, 2, false, false);
-        tournament = createPool(tournament, 2, 1, 1 ,false, false);
-
-        insertTeam(tournament, 8);
-
-        Map<Round, List<Match>> results =  phaseService.generate(tournament.getPhases().get(0).getId().toString());
-        tournament.getTeams().get(0).setEliminated(true);
-        Team t1 = teamRepository.save(tournament.getTeams().get(0));
-
-        Map<Round, List<Match>> results2 =  phaseService.generate(tournament.getPhases().get(1).getId().toString());
-
-        tournament = tournamentRepository.findById(tournament.getId());
-
-        Assertions.assertTrue(true);
-
-    }
-
     Tournament createTournament(){
         Tournament tournament = new Tournament(
                 "tournament test pool service",

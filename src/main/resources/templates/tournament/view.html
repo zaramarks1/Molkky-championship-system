@@ -36,7 +36,8 @@
 
         <div class="partContainer">
             <h2 class="partTitle">Format du tournoi</h2>
-            <p>Vous pouvez retrouver ci-dessous les phases et l'ordre dans lequel elles seront jouées ainsi que les différentes équipes qui vont participer.</p>
+            <p>Vous pouvez retrouver ci-dessous les phases et l'ordre dans lequel elles seront jouées ainsi que les
+                différentes équipes qui vont participer.</p>
             <h3 class="partSubtitle">Rounds</h3>
             <div class="dir">
                 <div>
@@ -74,10 +75,14 @@
                         <h3 class="teamNameEliminated" th:if="${team.eliminated == true}"
                             th:text="${team.getName()}"></h3>
                         <h3 class="teamName" th:if="${team.eliminated == false}" th:text="${team.getName()}"></h3>
-                        <div class="cardContentContainer">
-                            <p class="teamLogo"></p>
-                            <p class=""
-                               th:text="${team.present == true ? 'Présence confirmée' : 'Présence non confirmée'}"></p>
+                        <div class="cardContentContainer" th:if="th">
+                            <th:block th:if="${team.photo.isEmpty()}">
+                                <img class="teamLogo" th:src="@{/assets/teams.svg}" alt="Team icon"/>
+                            </th:block>
+                            <th:block th:unless="${team.photo.isEmpty()}">
+                                <img class='teamLogo' th:src="@{'/teamPhotos/'+${team.getId()}+'/'+${team.photo}}"
+                                     alt="Team icon"/>
+                            </th:block>
                             <ul class="roundsList">
                                 <th:block th:each="team : ${team.getUserTournamentRoles()}">
                                     <li class="teamMember" th:text="${team.getUser().getPseudo()}"></li>
@@ -113,10 +118,10 @@
             <h2 class="partTitle">Staff</h2>
             <div id="staffContainer" class="cardListContainer">
                 <th:block th:each="user : ${tournament.getUserTournamentRoles()}">
-                    <a class="teamCard" style="text-decoration: none" th:if="${#strings.equals(user.getRole(), 'STAFF')}">
+                    <a class="teamCard" style="text-decoration: none" th:href="'/user/view?teamId=' + ${user.getId()}"
+                       th:if="${#strings.equals(user.getRole(), 'STAFF')}">
                         <h3 class="teamName" th:text="${user.getUser().getSurname()}"></h3>
                         <div class="cardContentContainer">
-                            <p class="teamLogo"></p>
                             <ul class="roundsList">
                                 <li class="teamMember" th:text="${user.getUser().getEmail()}"></li>
                             </ul>
@@ -149,7 +154,6 @@
                     <div class="teamCard">
                         <h3 class="teamName" th:text="${court.getName()}"></h3>
                         <div class="cardContentContainer">
-                            <p class="teamLogo"></p>
                             <ul class="roundsList">
                                 <li class="courtCard" th:text="${court.getName()}"></li>
                             </ul>
@@ -179,15 +183,19 @@
         <div class="partContainer" th:if="${tournament.getIndexPhase()} !=0">
             <h2 class="partTitle">Voir les phases précédentes</h2>
             <div class="cardListContainer pastPhaseContainer">
-                <a style="text-decoration: none" th:href="'/phase/view?id=' + ${phase.getId()} + '&phaseIndex=' + ${itemStat.index + 1}" th:each="phase, itemStat : ${tournament.getPhases()}">
-                    <button id="idHistoric" name="visible" class="primaryButton pastPhase" type="submit" th:text="'Voir phase ' + ${itemStat.index + 1}"></button>
+                <a style="text-decoration: none"
+                   th:href="'/phase/view?id=' + ${phase.getId()} + '&phaseIndex=' + ${itemStat.index + 1}"
+                   th:each="phase, itemStat : ${tournament.getPhases()}">
+                    <button id="idHistoric" name="visible" class="primaryButton pastPhase" type="submit"
+                            th:text="'Voir phase ' + ${itemStat.index + 1}"></button>
                 </a>
             </div>
 
             <th:block th:if="${tournament.getStatus.displayValue != 'Fermé'}">
                 <h2 class="partTitle" th:text=" 'Phase №' + ${tournament.getIndexPhase()}">Index de la phase</h2>
-                <a id="inProgressPhaseButton" th:href="'/phase/view?id=' + ${tournament.getPhases().get(tournament.getIndexPhase()-1).getId()} + '&phaseIndex=' + ${tournament.getIndexPhase()}">
-                    <button  id="id" name="visible" class="primaryButton" type="submit">Voir la phase en cours</button>
+                <a id="inProgressPhaseButton"
+                   th:href="'/phase/view?id=' + ${tournament.getPhases().get(tournament.getIndexPhase()-1).getId()} + '&phaseIndex=' + ${tournament.getIndexPhase()}">
+                    <button id="id" name="visible" class="primaryButton" type="submit">Voir la phase en cours</button>
                 </a>
             </th:block>
 
@@ -207,7 +215,8 @@
                   action="#" th:action="@{/phase/round}" method="post" class="formContainer">
                 <input hidden th:value="${tournament.phases[__${tournament.getIndexPhase()-1}__].id}" th:name="id"/>
                 <label class="inputLabel">Nombre de manches dans la prochaine étape </label>
-                <input style="margin-bottom: 10px;" name="nbSet" class="inputPhase" th:name="nbSet" type="number" required="required"
+                <input style="margin-bottom: 10px;" name="nbSet" class="inputPhase" th:name="nbSet" type="number"
+                       required="required"
                        min="1">
                 <button id="idNextKnockout" name="visible" class="primaryButton" type="submit">Passer à l'étape
                     suivante

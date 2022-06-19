@@ -3,6 +3,7 @@ package com.molkky.molkky.service;
 import com.molkky.molkky.domain.*;
 import com.molkky.molkky.domain.Set;
 import com.molkky.molkky.domain.rounds.Knockout;
+import com.molkky.molkky.domain.rounds.Pool;
 import com.molkky.molkky.domain.rounds.SimpleGame;
 import com.molkky.molkky.domain.rounds.SwissPool;
 import com.molkky.molkky.model.phase.PhaseRankingModel;
@@ -163,6 +164,15 @@ public class RoundService {
 
         //changer pour eviter affrontation d'un meme club
         if (Boolean.TRUE.equals(phase.getAvoidConfrontationClub())) {
+            if(phase instanceof Pool){
+               Map<Club, List<Team>> teamsPool =  teams.stream().collect(Collectors.groupingBy(Team::getClub));
+                List<Team> teamsNew = new ArrayList<>();
+                for(Map.Entry<Club, List<Team>> entry : teamsPool.entrySet()){
+                    List<Team> t = teamsPool.get(entry.getKey());
+                    teamsNew.addAll(t);
+                }
+                return teamsNew;
+            }
             teams = sortByClub(teams);
         }
 
@@ -171,6 +181,7 @@ public class RoundService {
 
     public List<Team> sortByClub(List<Team> teams) {
         Map<Club, Integer> clubs = new HashMap<>();
+
 
         for (Team t : teams) {
             clubs.merge(t.getClub(), 1, (oldValue, newValue) -> oldValue + newValue);

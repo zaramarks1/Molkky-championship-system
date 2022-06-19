@@ -8,7 +8,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-
 @Repository
 public interface UserRepository extends JpaRepository<User, String>, JpaSpecificationExecutor<User> {
     User findById(Integer id);
@@ -28,3 +27,4 @@ public interface UserRepository extends JpaRepository<User, String>, JpaSpecific
             nativeQuery = true)
     List<User> searchUsersByName(String searchTerm, Integer n);
 }
+
