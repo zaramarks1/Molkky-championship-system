@@ -184,13 +184,15 @@
                 </a>
             </div>
 
+            <th:block th:if="${tournament.getStatus.displayValue != 'Fermé'}">
+                <h2 class="partTitle" th:text=" 'Phase №' + ${tournament.getIndexPhase()}">Index de la phase</h2>
+                <form action="#" th:action="@{/phase/view}" method="post" class="formContainer">
+                    <input hidden th:value="${currentPhase.id}" th:name="id"/>
+                    <input hidden th:value="${tournament.getIndexPhase()}" th:name="phaseIndex"/>
+                    <button id="id" name="visible" class="primaryButton" type="submit">Voir la phase en cours</button>
+                </form>
+            </th:block>
 
-            <h2 class="partTitle" th:text=" 'Phase №' + ${tournament.getIndexPhase()}">Index de la phase</h2>
-            <form action="#" th:action="@{/phase/view}" method="post" class="formContainer">
-                <input hidden th:value="${currentPhase.id}" th:name="id"/>
-                <input hidden th:value="${tournament.getIndexPhase()}" th:name="phaseIndex"/>
-                <button id="id" name="visible" class="primaryButton" type="submit">Voir la phase en cours</button>
-            </form>
 
             <form th:if=" ${user != null} and ${tournament.getPhases().size() != (tournament.getIndexPhase()) }
                     and ${currentPhase.finished == true}"
