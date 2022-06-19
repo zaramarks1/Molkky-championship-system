@@ -74,16 +74,13 @@
                         <h3 class="teamNameEliminated" th:if="${team.eliminated == true}"
                             th:text="${team.getName()}"></h3>
                         <h3 class="teamName" th:if="${team.eliminated == false}" th:text="${team.getName()}"></h3>
-                        <div class="cardContentContainer">
+                        <div class="cardContentContainer" th:if="th">
                             <th:block th:if="${team.photo.isEmpty()}">
                                 <img class="teamLogo" th:src="@{/assets/teams.svg}" alt="Team icon"/>
                             </th:block>
                             <th:block th:unless="${team.photo.isEmpty()}">
                                 <img class='teamPhoto' th:src="@{'/teamPhotos/'+${team.getId()}+'/'+${team.photo}}" alt="Team icon"/>
                             </th:block>
-                            <p class="teamLogo"></p>
-                            <p class=""
-                               th:text="${team.present == true ? 'Présence confirmée' : 'Présence non confirmée'}"></p>
                             <ul class="roundsList">
                                 <th:block th:each="team : ${team.getUserTournamentRoles()}">
                                     <li class="teamMember" th:text="${team.getUser().getPseudo()}"></li>
@@ -122,7 +119,6 @@
                     <a class="teamCard" style="text-decoration: none" th:href="'/user/view?teamId=' + ${user.getId()}" th:if="${#strings.equals(user.getRole(), 'STAFF')}">
                         <h3 class="teamName" th:text="${user.getUser().getSurname()}"></h3>
                         <div class="cardContentContainer">
-                            <p class="teamLogo"></p>
                             <ul class="roundsList">
                                 <li class="teamMember" th:text="${user.getUser().getEmail()}"></li>
                             </ul>
@@ -155,7 +151,6 @@
                     <div class="teamCard">
                         <h3 class="teamName" th:text="${court.getName()}"></h3>
                         <div class="cardContentContainer">
-                            <p class="teamLogo"></p>
                             <ul class="roundsList">
                                 <li class="courtCard" th:text="${court.getName()}"></li>
                             </ul>
