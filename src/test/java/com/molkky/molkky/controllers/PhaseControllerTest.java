@@ -25,13 +25,8 @@ import type.PhaseType;
 import type.TournamentStatus;
 import type.UserRole;
 
-
-import java.util.*;
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -124,7 +119,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
                         .sessionAttr("user", userLogged)
                         .param("id",id))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/phase/view?id=1"));
+                .andExpect(view().name("redirect:/phase/view?id=1&phaseIndex=1"));
     }
 
     @Test
@@ -168,7 +163,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
                         .param("id",id)
                 .param("nbSet", "2"))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/phase/view?id=1"));
+                .andExpect(view().name("redirect:/phase/view?id=1&phaseIndex=0"));
     }
 
     @Test
