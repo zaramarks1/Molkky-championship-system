@@ -1,0 +1,43 @@
+<!DOCTYPE>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html" lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <div th:replace="fragments/header"></div>
+    <title>Affichage des équipes</title>
+    <link rel="stylesheet" th:href="@{/styles/team/listTeam.css}" href="./"/>
+</head>
+<body class="bg">
+<div class="pageContainer">
+    <div th:replace="fragments/sidebar"></div>
+    <div class="contentContainer">
+        <div th:replace="fragments/searchbar"></div>
+
+        <!-- Emplacement pour les infomations de la team-->
+        <div class="contentTitle">
+            Informations de l'équipe <span id="teamName" th:text="${team.name}"/>
+            <div class="contentText">
+                Nombre de victoire de l'équipe <span id="nbWinTeam" th:text="${team.nbWins}"/> <br> <br>
+                Nombre de joueur dans l'équipe <span id="nbPlayerTeam" th:text="${team.nbPlayers}"/> <br> <br>
+                Tournoi associé : <span  th:text="${team.getTournament().getName()}" />
+                <th:block th:if="${team.isEliminated()}"><span class="textEliminated" >(éliminée)</span></th:block>
+                <th:block th:unless="${team.isEliminated()}"><span class="textInCompetition">(en compétition)</span></th:block> <br><br>
+                <a style="text-decoration: none;" th:href="${'/tournament/view?tournamentId=' + team.getTournament().getId()}">
+                    <button class="primaryButton">Accéder au tournoi</button>
+                </a><br>
+            </div>
+        </div>
+
+
+        <div class="contentTitle">
+            Liste des joueurs de l'équipe :
+            <div class="contentText" th:each="user: ${users}">
+                Pseudo du joueur: <span id="nomTournament" th:text="${user.pseudo}"/> <br> <br>
+                Club du joueur: <span id="nomTournament" th:text="${user.club.getName()}"/> <br> <br>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<div th:replace="fragments/footer"></div>
+</html>
+

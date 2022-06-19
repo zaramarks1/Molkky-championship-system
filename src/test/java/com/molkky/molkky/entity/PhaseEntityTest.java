@@ -4,6 +4,7 @@ import com.molkky.molkky.MolkkyApplication;
 import com.molkky.molkky.domain.*;
 import com.molkky.molkky.domain.rounds.Pool;
 import com.molkky.molkky.domain.rounds.SimpleGame;
+import com.molkky.molkky.model.phase.PhaseModel;
 import com.molkky.molkky.repository.*;
 import com.molkky.molkky.service.PhaseService;
 import org.junit.jupiter.api.Assertions;
@@ -16,6 +17,7 @@ import type.TournamentStatus;
 import type.UserRole;
 
 import javax.transaction.Transactional;
+import java.sql.Time;
 import java.util.*;
 
 @SpringBootTest(classes = MolkkyApplication.class)
@@ -51,6 +53,7 @@ import java.util.*;
                 new Date(),
                 1,
                 8,
+                true,
                 true,
                 2,
                 3,
@@ -145,5 +148,36 @@ import java.util.*;
                 " It should be a instance of pool");
         Assertions.assertEquals(true, tournament.getPhases().get(1) instanceof SimpleGame,
                 " It should be a instance of simple game");
+    }
+
+    @Test
+    void testSetDates(){
+        Phase phase = new Phase();
+        String timePhase = "11:00";
+        String hourPhaseStart = "11:00";
+        phase.setTimePhase(timePhase);
+        phase.setHourPhaseStart(hourPhaseStart);
+
+        Assertions.assertEquals(Time.valueOf("11:00:00"),phase.getTimePhase());
+        Assertions.assertEquals(Time.valueOf("11:00:00"),phase.getHourPhaseStart());
+    }
+
+    @Test
+    void testDiscriminator(){
+        Pool pool = new Pool();
+        Phase phase = phaseRepository.save(pool);
+        Assertions.assertEquals(PhaseType.POOL,phase.getDecriminatorValue());
+    }
+
+    @Test
+    void testEditGlobalInfo(){
+        PhaseModel phaseModel = new PhaseModel();
+        phaseModel.setHourPhaseStart("");
+        phaseModel.setTimePhase("");
+        phaseModel.setNbSets(4);
+        Phase phase= new Phase();
+        phase.editGlobalInfo(phaseModel);
+
+        Assertions.assertEquals(4,phase.getNbSets());
     }
 }

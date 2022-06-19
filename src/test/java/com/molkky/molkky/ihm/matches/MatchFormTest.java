@@ -3,24 +3,29 @@ package com.molkky.molkky.ihm.matches;
 import com.molkky.molkky.MolkkyApplication;
 import com.molkky.molkky.SeleniumConfig;
 import com.molkky.molkky.domain.*;
+import com.molkky.molkky.domain.Set;
 import com.molkky.molkky.repository.*;
 import com.molkky.molkky.service.MatchService;
 import org.apache.commons.lang.RandomStringUtils;
 import org.junit.jupiter.api.*;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
+import type.PhaseType;
 import type.UserRole;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 @SpringBootTest(classes = MolkkyApplication.class, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -50,6 +55,7 @@ class MatchFormTest {
     @Autowired
     private  PhaseRepository phaseRepository;
 
+    public final CountDownLatch count = new CountDownLatch(1);
 
     @BeforeAll
     void setUp() {
@@ -64,7 +70,7 @@ class MatchFormTest {
 //        when
         config.getDriver().get(url + "/matches/match?match_id=" + match.getId());
 //        then
-        Assertions.assertEquals(url + "/connexion", config.getDriver().getCurrentUrl());
+        Assertions.assertEquals(url + "/matches/match?match_id=" + match.getId(), config.getDriver().getCurrentUrl());
     }
 
     @Test
@@ -81,7 +87,7 @@ class MatchFormTest {
         Assertions.assertEquals(url + "/matches/match?match_id=" + match.getId(), config.getDriver().getCurrentUrl());
         Assertions.assertEquals(tournament.getName(), config.getDriver().findElement(By.className("tournamentTitle")).getText());
         Assertions.assertEquals(strDate, config.getDriver().findElement(By.className("tournamentDate")).getText());
-        Assertions.assertEquals(match.getCourt().getName(), config.getDriver().findElement(By.className("courtText")).getText());
+       // Assertions.assertEquals(match.getCourt().getName(), config.getDriver().findElement(By.className("courtText")).getText());
         Assertions.assertEquals(match.getFinished() ? "" : "En cours", config.getDriver().findElement(By.className("stateText")).getText());
         Assertions.assertEquals("Jeu en " + match.getNbSets() + " sets", config.getDriver().findElement(By.className("bestOfText")).getText());
     }
@@ -107,6 +113,26 @@ class MatchFormTest {
     }
 
     @Test
+    void testInsertScoreTeam1WrongScore() {
+//        given
+        Match match = createCompleteMatch();
+        loginUser(match.getTeams().get(0).getUserTournamentRoles().get(0).getUser());
+        config.getDriver().get(url + "/matches/match?match_id=" + match.getId());
+        int score1 = -10;
+        int score2 = 70;
+//        when
+        config.getDriver().findElement(By.name("score1Team1")).clear();
+        config.getDriver().findElement(By.name("score1Team1")).sendKeys(Integer.toString(score1));
+        config.getDriver().findElement(By.name("score2Team1")).clear();
+        config.getDriver().findElement(By.name("score2Team1")).sendKeys(Integer.toString(score2));
+        config.getDriver().findElement(By.id("submitSet0")).click();
+//        then
+//        score stays the same because nothing was sent
+        Assertions.assertEquals(Integer.toString(score1), config.getDriver().findElement(By.name("score1Team1")).getAttribute("value"));
+        Assertions.assertEquals(Integer.toString(score2), config.getDriver().findElement(By.name("score2Team1")).getAttribute("value"));
+    }
+
+    @Test
     void testInsertScoreTeam2() {
 //        given
         Match match = createCompleteMatch();
@@ -127,12 +153,14 @@ class MatchFormTest {
     }
 
     @Test
-    void testChangeCourt(){
+    void testChangeCourtOrga(){
 //        given
         Match match = createCompleteMatch();
         User user = createOrgaUser();
         loginUser(user);
         Court court = courtRepository.save(new Court(true, RandomStringUtils.randomAlphabetic(10)));
+        court.setTournament(match.getRound().getTournament());
+        courtRepository.save(court);
 //        when
         config.getDriver().get(url + "/matches/match?match_id=" + match.getId());
         Select courtSelect = new Select(config.getDriver().findElement(By.id("courtInput")));
@@ -142,6 +170,23 @@ class MatchFormTest {
         match = matchRepository.findById(match.getId());
         Assertions.assertEquals(match.getCourt().getName(), court.getName());
         Assertions.assertEquals(match.getCourt().getId(), court.getId());
+        Assertions.assertTrue(config.getDriver().findElement(By.id("courtFormSubmit")).isDisplayed());
+    }
+
+    @Test
+    void testChangeCourtPlayer(){
+//        given
+        Match match = createCompleteMatch();
+        User user = match.getTeams().get(0).getUserTournamentRoles().get(0).getUser();
+        loginUser(user);
+//        when
+        config.getDriver().get(url + "/matches/match?match_id=" + match.getId());
+//        then
+        WebDriver driver = config.getDriver();
+        By elementId = By.id("courtFormSubmit");
+        Assertions.assertThrows(NoSuchElementException.class, () -> {
+            driver.findElement(elementId);
+        });
     }
 
     @Test
@@ -150,6 +195,7 @@ class MatchFormTest {
         Match match = createCompleteMatch();
         User user = createOrgaUser();
         loginUser(user);
+
         config.getDriver().get(url + "/matches/match?match_id=" + match.getId());
         int score1 = new Random().nextInt(50);
         int score2 = new Random().nextInt(50);
@@ -163,6 +209,78 @@ class MatchFormTest {
 //        then
         Assertions.assertEquals(Integer.toString(score1), config.getDriver().findElement(By.name("score1Orga")).getAttribute("value"));
         Assertions.assertEquals(Integer.toString(score2), config.getDriver().findElement(By.name("score2Orga")).getAttribute("value"));
+    }
+
+    @Test
+    void testNotificationEnterScore() throws InterruptedException {
+
+        Match match = createCompleteMatch();
+        loginUser(match.getTeams().get(0).getUserTournamentRoles().get(0).getUser());
+        config.getDriver().get(url + "/matches/match?match_id=" + match.getId());
+        int score1 = new Random().nextInt(50);
+        int score2 = new Random().nextInt(50);
+//        when
+        config.getDriver().findElement(By.name("score1Team1")).clear();
+        config.getDriver().findElement(By.name("score1Team1")).sendKeys(Integer.toString(score1));
+        config.getDriver().findElement(By.name("score2Team1")).clear();
+        config.getDriver().findElement(By.name("score2Team1")).sendKeys(Integer.toString(score2));
+        config.getDriver().findElement(By.id("submitSet0")).click();
+
+        count.await(6,TimeUnit.SECONDS);
+
+        config.getDriver().get(url + "/");
+        config.getDriver().findElement(By.id("notLogged")).click();
+        loginUser(match.getTeams().get(1).getUserTournamentRoles().get(0).getUser());
+
+        Assertions.assertEquals("1",config.getDriver().findElement(new By.ById("unreadCount")).getText());
+
+        config.getDriver().findElement(new By.ById("unreadCount")).click();
+        WebElement notification = config.getDriver().findElement(new By.ById("notificationList")).findElements(new By.ByTagName("div")).get(0);
+        notification.click();
+
+        Assertions.assertEquals(url+"/matches/match?match_id=" + match.getId(),config.getDriver().getCurrentUrl());
+    }
+
+    @Test
+    void testNotifificationNotDisplayMatchOver() throws InterruptedException {
+
+        Match match = createCompleteMatch();
+        loginUser(match.getTeams().get(0).getUserTournamentRoles().get(0).getUser());
+        config.getDriver().get(url + "/matches/match?match_id=" + match.getId());
+        int score1 = 50;
+        int score2 = 25;
+//        when
+        config.getDriver().findElement(By.name("score1Team1")).clear();
+        config.getDriver().findElement(By.name("score1Team1")).sendKeys(Integer.toString(score1));
+        config.getDriver().findElement(By.name("score2Team1")).clear();
+        config.getDriver().findElement(By.name("score2Team1")).sendKeys(Integer.toString(score2));
+        config.getDriver().findElement(By.id("submitSet0")).click();
+
+        count.await(6,TimeUnit.SECONDS);
+
+        config.getDriver().get(url + "/");
+        config.getDriver().findElement(By.id("notLogged")).click();
+        loginUser(match.getTeams().get(1).getUserTournamentRoles().get(0).getUser());
+
+        config.getDriver().findElement(new By.ById("unreadCount")).click();
+        WebElement notification = config.getDriver().findElement(new By.ById("notificationList")).findElements(new By.ByTagName("div")).get(0);
+        notification.click();
+
+        config.getDriver().findElement(By.name("score1Team2")).clear();
+        config.getDriver().findElement(By.name("score1Team2")).sendKeys(Integer.toString(score1));
+        config.getDriver().findElement(By.name("score2Team2")).clear();
+        config.getDriver().findElement(By.name("score2Team2")).sendKeys(Integer.toString(score2));
+        config.getDriver().findElement(By.id("submitSet0")).click();
+
+        count.await(6,TimeUnit.SECONDS);
+
+        Assertions.assertEquals("1",config.getDriver().findElement(new By.ById("unreadCount")).getText());
+
+        config.getDriver().get(url + "/");
+        config.getDriver().findElement(By.id("notLogged")).click();
+        loginUser(match.getTeams().get(0).getUserTournamentRoles().get(0).getUser());
+
+        Assertions.assertEquals("1",config.getDriver().findElement(new By.ById("unreadCount")).getText());
     }
 
     void loginUser(User user) {
@@ -238,6 +356,8 @@ class MatchFormTest {
         Phase phase = new Phase();
         round.setTournament(tournament);
         round.setPhase(phase);
+        round.setTeams(Arrays.asList(team1, team2));
+        round.setType(PhaseType.SIMPLEGAME);
         phase.setTournament(tournament);
         phase.setRounds(List.of(round));
 
@@ -254,8 +374,6 @@ class MatchFormTest {
     }
 
     @AfterAll
-    void tearDown() {
-        config.getDriver().quit();
-    }
+    void tearDown() {config.getDriver().quit();}
 }
 

@@ -1,0 +1,127 @@
+.homeContainer {
+    width: 100%;
+}
+
+.cardRound {
+    width: 100%;
+    height: min-content;
+    display: flex;
+    flex-direction: column;
+    border-radius: 4px;
+    box-shadow: 0 1px 4px 0.5px rgba(0,0,0,0.25);
+    margin-right: 10px;
+    overflow: auto;
+    overflow-x: hidden;
+    max-height: 50%;
+}
+
+.cardRoundTopBar {
+    width: 100%;
+    height: auto;
+    margin-left: 15px;
+    display: flex;
+    flex-direction: row;
+    font-weight: 600;
+    font-size: 24px;
+    justify-content: space-between;
+    margin-right: 10px;
+}
+
+#buttonRounds {
+    height: fit-content;
+    width: fit-content;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-right: 25px;
+    margin-top: 10px;
+}
+
+.cardRoundContent{
+    height: min-content;
+    margin-left: 25px;
+    margin-right: 25px;
+    margin-bottom: 10px;
+}
+
+.phaseContainerTitle{
+    margin-left: 25px;
+}
+
+.phaseContainerContent{
+    margin-right: 15px;
+}
+
+table{
+    border-collapse: collapse;
+}
+
+.mainTable{
+    width: 100%;
+    overflow-x: auto;
+}
+
+.mainTableHeader{
+    margin: 10px;
+    text-align: center;
+    width:90%
+}
+
+.mainTableAllTeams{
+    text-align: center;
+}
+.matchFinished{
+    color : green;
+    font-size: 14px;
+    font-weight: 800;
+}
+.teamNameMatches{
+    background-color: forestgreen;
+    color: white;
+    font-weight: bold;
+    margin: 0;
+    padding: 5px 5px;
+    font-size: 16px;
+    border-top-right-radius: 7px;
+    border-top-left-radius: 7px;
+    text-transform: uppercase;
+    text-align: center;
+}
+.matchNotFinished{
+    color : red;
+    font-size: 14px;
+    font-weight: 800;
+}
+
+.teamName{
+    background-color: #8787A1
+}
+
+.matchCard{
+    width: 100%
+}
+
+.matchCardHeader{
+    margin: 10px;
+    text-align: center;
+    width:90%
+}
+
+.teamsScores{
+    text-align: center;
+}
+
+
+th,td {
+    border-bottom:solid;
+    border-color: rgba(0, 0, 0, 0.1);
+    border-width: 1px;
+    padding: 10px;
+}
+
+.simpleGameTeams span {
+    display: inline;
+}
+
+.tableContainer{
+    overflow-x: auto;
+}

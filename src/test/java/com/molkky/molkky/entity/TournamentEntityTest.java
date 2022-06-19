@@ -34,7 +34,8 @@ class TournamentEntityTest {
     private MatchRepository matchRepository;
     @Autowired
     private CourtRepository courtRepository;
-
+    @Autowired
+    private ClubRepository clubRepository;
     @Autowired
     private PhaseRepository phaseRepository;
 
@@ -47,6 +48,7 @@ class TournamentEntityTest {
                 new Date(),
                 1,
                 2,
+                true,
                 true,
                 2,
                 3,
@@ -69,6 +71,7 @@ class TournamentEntityTest {
                 1,
                 2,
                 true,
+                true,
                 2,
                 3,
                 2
@@ -89,11 +92,15 @@ class TournamentEntityTest {
                 1,
                 2,
                 true,
+                true,
                 2,
                 3,
                 2
         ));
-        User user = userRepository.save(new User("pseudoUser1", "surname1", "forename1", "club1", "email1"));
+        Club club = new Club();
+        club.setName("clubTest");
+        clubRepository.save(club);
+        User user = userRepository.save(new User("pseudoUser1", "surname1", "forename1", club, "email1"));
         List<UserTournamentRole> admins = new ArrayList<>();
         UserTournamentRole userTournamentRole = new UserTournamentRole();
         userTournamentRole.setUser(user);
@@ -116,6 +123,7 @@ class TournamentEntityTest {
                 new Date(),
                 1,
                 2,
+                true,
                 true,
                 2,
                 3,
@@ -232,5 +240,15 @@ class TournamentEntityTest {
         tournamentRepository.save(tournament);
 
         Assertions.assertEquals("tournament_name_full", tournament.getName(), "Tournament name should be tournament_name_full");
+    }
+
+    @Test
+    void testEditInfoTournament(){
+        TournamentModel model = new TournamentModel();
+        model.setName("Test");
+        Tournament tournament = new Tournament();
+        tournament.editTournamentInfo(model);
+
+        Assertions.assertEquals("Test",tournament.getName());
     }
 }

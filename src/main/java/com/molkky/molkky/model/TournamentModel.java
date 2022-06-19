@@ -7,13 +7,12 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.AssertTrue;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-import java.util.Objects;
+import java.util.*;
 
 @Data
 @NoArgsConstructor
 public class TournamentModel {
+    private Integer id;
     private String name;
     private String location;
     private Date date;
@@ -24,6 +23,7 @@ public class TournamentModel {
     private Integer nbCourts;
     private Integer nbPlayersPerTeam;
     private boolean visible;
+    private boolean registerAvailable;
     private String email;
 
     public void setDate(String date) throws ParseException {
@@ -38,6 +38,11 @@ public class TournamentModel {
         return new SimpleDateFormat("yyyy-MM-dd", Locale.FRANCE).parse(date);
     }
 
+    public void setDatesNull(){
+        this.date = null;
+        this.cutOffDate = null;
+    }
+
     @AssertTrue(message = "Date du tournoi avant la date de fin d'inscriptions")
     // Other rules can also be validated in other methods
     public boolean isCutoffDateBeforeDate() {
@@ -46,6 +51,7 @@ public class TournamentModel {
 
     public TournamentModel(Tournament tournament) {
         if(tournament.getId() != null) {
+            this.id = tournament.getId();
             this.name = tournament.getName();
             this.location = tournament.getLocation();
             this.date = tournament.getDate();
@@ -56,7 +62,16 @@ public class TournamentModel {
             this.nbCourts = tournament.getNbCourts();
             this.nbPlayersPerTeam = tournament.getNbPlayersPerTeam();
             this.visible = tournament.isVisible();
+            this.registerAvailable = tournament.isRegisterAvailable();
         }
+    }
+
+    public static List<TournamentModel> createTournamentModelsFromList(List<Tournament> tournamentList){
+        List<TournamentModel> modelList = new ArrayList<>();
+        for(Tournament tournament: tournamentList){
+           modelList.add(new TournamentModel(tournament));
+        }
+        return modelList;
     }
 
 }

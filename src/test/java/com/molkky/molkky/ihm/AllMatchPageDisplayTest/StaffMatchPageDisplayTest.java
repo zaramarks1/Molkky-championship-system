@@ -4,6 +4,7 @@ package com.molkky.molkky.ihm.AllMatchPageDisplayTest;
 import com.molkky.molkky.MolkkyApplication;
 import com.molkky.molkky.SeleniumConfig;
 import com.molkky.molkky.domain.*;
+import com.molkky.molkky.domain.rounds.Pool;
 import com.molkky.molkky.repository.*;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
@@ -36,6 +37,10 @@ class StaffMatchPageDisplayTest {
     private MatchRepository matchRepository;
     @Autowired
     private SetRepository setRepository;
+
+    @Autowired
+    private PhaseRepository phaseRepository;
+
     private SeleniumConfig config;
 
 
@@ -64,12 +69,20 @@ class StaffMatchPageDisplayTest {
             Team team2 = new Team();
             team2.setName(teamName2);
             teamRepository.save(team2);
+
+            Pool phase = new Pool();
             Round round = new Round();
+
+            //phase.setRounds(List.of(round));
+            phase.setTournament(tournament);
+            phaseRepository.save(phase);
+
+            round.setPhase(phase);
             round.setTournament(tournament);
-            roundRepository.save(round);
-            Court court = new Court();
-            court.setName("courtTestStaff");
-            courtRepository.save(court);
+            round = roundRepository.save(round);
+
+            //roundRepository.save(round);
+
             if(userRepository.findUserByEmail(emailStaff)==null) {
                 User staff = new User();
                 staff.setEmail(emailStaff);
@@ -88,8 +101,13 @@ class StaffMatchPageDisplayTest {
                 utr.get(0).setTournament(tournament);
                 userTournamentRoleRepository.save(utr.get(0));
             }
-            Match match = new Match();
+            Match match = matchRepository.save(new Match());
             match.setRound(round);
+
+            Court court = new Court();
+            court.setName("courtTestStaff");
+            court = courtRepository.save(court);
+
             match.setCourt(court);
             match.setFinished(false);
             List<Team> teams = new ArrayList<Team>();
@@ -97,7 +115,7 @@ class StaffMatchPageDisplayTest {
             teams.add(team2);
             match.setTeams(teams);
             User staff = userRepository.findUserByEmail(emailStaff);
-            match.setUser(staff);
+            match.setStaff(staff);
             matchRepository.save(match);
             Set set1 = new Set();
             set1.setScore1Team1(10);
@@ -133,8 +151,8 @@ class StaffMatchPageDisplayTest {
         if(nbMatchBDD!=0) {
             List<WebElement> nbMatch = config.getDriver().findElements(new By.ById("listMatches"));
             Assertions.assertEquals(nbMatchBDD, nbMatch.size());
-            String idDiv = config.getDriver().findElement(new By.ById("idMatchList")).getText();
-            String[] div = idDiv.split(" :");
+            String idDiv = config.getDriver().findElement(new By.ByClassName("boxOneCardMatches")).getAttribute("href");
+            String[] div = idDiv.split("=");
             String id = div[1];
             config.getDriver().findElement(new By.ById("listMatches")).click();
             Assertions.assertEquals("Match en cours", config.getDriver().getTitle());
@@ -151,8 +169,8 @@ class StaffMatchPageDisplayTest {
         if(nbMatchBDD!=0) {
             List<WebElement> nbMatch2 = config.getDriver().findElements(new By.ById("listMatches"));
             Assertions.assertEquals(nbMatchBDD, nbMatch2.size());
-            String idDiv2 = config.getDriver().findElement(new By.ById("idMatchList")).getText();
-            String[] div2 = idDiv2.split(" :");
+            String idDiv2 = config.getDriver().findElement(new By.ByClassName("boxOneCardMatches")).getAttribute("href");
+            String[] div2 = idDiv2.split("=");
             String id2 = div2[1];
             config.getDriver().findElement(new By.ById("listMatches")).click();
             Assertions.assertEquals("Match en cours", config.getDriver().getTitle());
@@ -165,12 +183,16 @@ class StaffMatchPageDisplayTest {
         config.getDriver().get(url + "/match/allMatches");
         config.getDriver().findElement(new By.ById("toCheck")).click();
         Assertions.assertEquals(url+"/match/validateMatch", config.getDriver().getCurrentUrl());
-        String idDiv3 = config.getDriver().findElement(new By.ById("idMatchList")).getText();
-        String[] div3 = idDiv3.split(" :");
-        String id3 = div3[1];
-        config.getDriver().findElement(new By.ById("listMatches")).click();
-        Assertions.assertEquals("Match en cours", config.getDriver().getTitle());
-        Assertions.assertEquals(url+"/matches/match?match_id="+id3, config.getDriver().getCurrentUrl());
+        int nbMatchBDD = matchRepository.findMatchAttributedToStaff(tournamentRepository.findByName("TournamentTestStaff"),
+                userRepository.findUserByEmail(emailStaff)).size();
+        if(nbMatchBDD!=0) {
+            String idDiv3 = config.getDriver().findElement(new By.ByClassName("boxOneCardMatches")).getAttribute("href");
+            String[] div3 = idDiv3.split("=");
+            String id3 = div3[1];
+            config.getDriver().findElement(new By.ById("listMatches")).click();
+            Assertions.assertEquals("Match en cours", config.getDriver().getTitle());
+            Assertions.assertEquals(url + "/matches/match?match_id=" + id3, config.getDriver().getCurrentUrl());
+        }
     }
     @Test
     void matchFinishedDisplay() {

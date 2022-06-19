@@ -4,6 +4,8 @@ import com.molkky.molkky.domain.Phase;
 import com.molkky.molkky.domain.Tournament;
 import com.molkky.molkky.model.phase.PhaseModel;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import type.PhaseStatus;
 
 import javax.persistence.Column;
@@ -12,13 +14,17 @@ import javax.persistence.Entity;
 import java.text.ParseException;
 
 
-@Data
 @Entity
+@Getter
+@Setter
 @DiscriminatorValue("KNOCKOUT")
 public class Knockout extends Phase {
 
     @Column(name = "nbMatch")
     private Integer nbMatch;
+
+    @Column(name = "nbRounds")
+    private Integer nbRounds;
 
     /*quarter-finals height of finals etc*/
     @Column(name = "teamsRemaining")
@@ -32,6 +38,7 @@ public class Knockout extends Phase {
 
     public Knockout(PhaseModel knockoutModel, Tournament tournament) throws ParseException {
         this.setStatus(PhaseStatus.NOTSTARTED);
+        this.setRandomStaff(knockoutModel.getRandomStaff());
         this.setNbSets(knockoutModel.getNbSets());
         this.setRanking(knockoutModel.getRanking());
         this.setTopSeeds(knockoutModel.getTopSeeds());
@@ -45,6 +52,12 @@ public class Knockout extends Phase {
         this.setScoreMode(knockoutModel.getScoreMode());
         this.setNotifEveryRound(knockoutModel.isNotifEveryRound());
         this.setTournament(tournament);
+    }
+
+    public void editInfoKnockout(PhaseModel knockoutModel){
+        this.editGlobalInfo(knockoutModel);
+        this.setRandomDraw(knockoutModel.isRandomDraw());
+        this.setNotifEveryRound(knockoutModel.isNotifEveryRound());
     }
 
     public Knockout() {

@@ -1,12 +1,13 @@
 package com.molkky.molkky.entity.rounds;
 
 import com.molkky.molkky.MolkkyApplication;
-import com.molkky.molkky.domain.Match;
 import com.molkky.molkky.domain.Phase;
 import com.molkky.molkky.domain.Tournament;
+import com.molkky.molkky.domain.rounds.Finnish;
 import com.molkky.molkky.domain.rounds.Knockout;
-import com.molkky.molkky.domain.rounds.SimpleGame;
-import com.molkky.molkky.repository.*;
+import com.molkky.molkky.model.phase.PhaseModel;
+import com.molkky.molkky.repository.PhaseRepository;
+import com.molkky.molkky.repository.TournamentRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,6 @@ import type.TournamentStatus;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -39,6 +39,7 @@ class KnockoutEntityTest {
                 new Date(),
                 1,
                 8,
+                true,
                 true,
                 2,
                 3,
@@ -67,5 +68,19 @@ class KnockoutEntityTest {
         Assertions.assertEquals(true, tournament.getPhases().get(0) instanceof Knockout,
                 " It should be a instance of knockout");
 
+    }
+
+    @Test
+    void testEditKnockoutInfo(){
+        PhaseModel phaseModel = new PhaseModel();
+        phaseModel.setRandomDraw(true);
+        phaseModel.setNotifEveryRound(true);
+        phaseModel.setTimePhase("");
+        phaseModel.setHourPhaseStart("");
+        Knockout knockout = new Knockout();
+        knockout.editInfoKnockout(phaseModel);
+
+        Assertions.assertTrue(knockout.isRandomDraw());
+        Assertions.assertTrue(knockout.isNotifEveryRound());
     }
 }

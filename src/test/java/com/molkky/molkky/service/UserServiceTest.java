@@ -1,14 +1,19 @@
 package com.molkky.molkky.service;
 
+import com.molkky.molkky.domain.Club;
 import com.molkky.molkky.domain.User;
 import com.molkky.molkky.model.UserLogged;
 import com.molkky.molkky.model.UserModel;
 import com.molkky.molkky.repository.UserRepository;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import type.UserRole;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @SpringBootTest
 class UserServiceTest {
@@ -16,6 +21,14 @@ class UserServiceTest {
     private UserService userService;
     @Autowired
     private UserRepository userRepository;
+
+    Club club = new Club();
+
+    @BeforeEach
+    void init() {
+        club.setName("club");
+    }
+
     @Test
     void createUserModelTest() {
 //        given
@@ -24,7 +37,7 @@ class UserServiceTest {
         user.setPseudo("bruhpseudo");
         user.setSurname("surname");
         user.setForename("forename");
-        user.setClub("club");
+        user.setClub(club);
 //        when
         UserModel userModel = UserService.createUserModel(user);
 //        then
@@ -32,7 +45,7 @@ class UserServiceTest {
         Assertions.assertEquals(user.getPseudo(), userModel.getPseudo());
         Assertions.assertEquals(user.getSurname(), userModel.getSurname());
         Assertions.assertEquals(user.getForename(), userModel.getForename());
-        Assertions.assertEquals(user.getClub(), userModel.getClub());
+        Assertions.assertEquals(user.getClub().getName(), userModel.getClub().getName());
     }
     @Test
     void createModelFromUserLoggedTest(){
@@ -56,5 +69,18 @@ class UserServiceTest {
         User userFromModel = userService.getUserFromModel(userModel);
 //        then
         Assertions.assertEquals(user.getId(), userFromModel.getId());
+    }
+
+    @Test
+    void getListOfModelsFromEntityTest(){
+//        given
+        List<User> users = new ArrayList<>();
+        for(int i = 0; i < 20; i++){
+            users.add(userRepository.save(new User()));
+        }
+//        when
+        List<UserModel> userModels = UserService.createUserModelList(users);
+//        then
+        Assertions.assertEquals(20, userModels.size());
     }
 }

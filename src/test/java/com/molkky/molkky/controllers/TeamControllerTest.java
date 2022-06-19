@@ -1,14 +1,12 @@
 package com.molkky.molkky.controllers;
 
+import com.molkky.molkky.domain.Club;
 import com.molkky.molkky.domain.Team;
 import com.molkky.molkky.domain.Tournament;
 import com.molkky.molkky.model.AddPlayerModel;
 import com.molkky.molkky.model.AddPlayerlistModel;
 import com.molkky.molkky.model.CreateTeamModel;
-import com.molkky.molkky.repository.TeamRepository;
-import com.molkky.molkky.repository.TournamentRepository;
-import com.molkky.molkky.repository.UserRepository;
-import com.molkky.molkky.repository.UserTournamentRoleRepository;
+import com.molkky.molkky.repository.*;
 import com.molkky.molkky.service.EmailSenderService;
 import com.molkky.molkky.service.NotificationService;
 import com.molkky.molkky.service.TeamService;
@@ -26,6 +24,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -64,6 +63,9 @@ class TeamControllerTest {
 
     @MockBean
     private TeamService teamService;
+
+    @MockBean
+    ClubRepository clubRepository;
 
     @Test
     void testTeamGetMethod() throws Exception{
@@ -105,20 +107,25 @@ class TeamControllerTest {
         List<AddPlayerModel> list = new ArrayList<>();
         list.add(addPlayerModel1);
 
+        Tournament t = new Tournament();
+        t.setId(1);
         Team team = new Team();
         team.setId(1);
+        team.setTournament(t);
+        Club club = new Club();
+        club.setName("A");
 
         Mockito.when(addPlayerlistModel.getPlayers()).thenReturn(list);
         Mockito.when(addPlayerModel1.getTeamId()).thenReturn(team.getId());
         Mockito.when(teamRepository.findById(Mockito.anyInt())).thenReturn(team);
         Mockito.when(addPlayerModel1.addPlayer()).thenCallRealMethod();
         Mockito.when(addPlayerModel1.getMail()).thenReturn("test@test.fr");
+        when(addPlayerModel1.getClub()).thenReturn(club);
 
         mockMvc.perform(post("/team/addPlayer")
                         .flashAttr("form",addPlayerlistModel))
                 .andDo(print())
-                .andExpect(view().name("redirect:/team/create"))
-                .andExpect(redirectedUrl("/team/create?unreadCount=0"))
+                .andExpect(view().name("redirect:/tournament/view?tournamentId=1"))
                 .andExpect(status().is3xxRedirection());
 
         Mockito.verify(addPlayerlistModel,Mockito.times(1)).getPlayers();
@@ -137,14 +144,18 @@ class TeamControllerTest {
 
         Team team = new Team();
         team.setId(1);
+        Club club = new Club();
+        club.setName("A");
 
         Mockito.when(addPlayerlistModel.getPlayers()).thenReturn(list);
         Mockito.when(addPlayerModel1.getTeamId()).thenReturn(team.getId());
         Mockito.when(teamRepository.findById(Mockito.anyInt())).thenReturn(team);
         Mockito.when(addPlayerModel1.addPlayer()).thenCallRealMethod();
         Mockito.when(addPlayerModel1.getMail()).thenReturn("test@test.fr");
+        when(addPlayerModel1.getClub()).thenReturn(club);
         Mockito.when(addPlayerModel2.addPlayer()).thenCallRealMethod();
         Mockito.when(addPlayerModel2.getMail()).thenReturn("test@test.fr");
+        when(addPlayerModel2.getClub()).thenReturn(club);
 
         mockMvc.perform(post("/team/addPlayer/")
                         .flashAttr("form", addPlayerlistModel))

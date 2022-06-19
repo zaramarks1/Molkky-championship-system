@@ -1,15 +1,16 @@
 package com.molkky.molkky.domain;
 
+import com.molkky.molkky.model.phase.PhaseModel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import type.PhaseStatus;
+import type.PhaseType;
 import type.ScoreMode;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Time;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,7 +60,7 @@ public class Phase  implements Serializable {
     private Integer nbSets;
 
     @Column(name = "isSeedingSystem")
-    private Boolean seedingSystem = false;
+    private Boolean seedingSystem = true;
 
     @Column(name = "isTopSeeds")
     private Boolean topSeeds;
@@ -87,10 +88,16 @@ public class Phase  implements Serializable {
 
 
     @Column(name = "victoryValue")
-    private Integer victoryValue;
+    private Integer victoryValue = 1;
 
     @Column(name = "isFinished")
     private Boolean finished = false;
+
+    @Column(name = "isStaffRandom")
+    private Boolean randomStaff = false;
+
+    @Column(name = "avoidConfrontationClub")
+    private Boolean avoidConfrontationClub = false;
 
     @ManyToOne
     @JoinColumn(name="tournament_id")
@@ -100,9 +107,18 @@ public class Phase  implements Serializable {
     @JoinColumn(name = "phase_id")
     private List<Round> rounds = new ArrayList<>();
 
+    @Transient
+    public String getDiscriminatorValue(){
+        DiscriminatorValue val = this.getClass().getAnnotation( DiscriminatorValue.class );
 
-    public void setHourPhaseStart(String hourPhaseStart) throws ParseException {
-        if(!hourPhaseStart.equals("")){
+        return val == null ? null : val.value();
+    }
+
+    public void setHourPhaseStart(String hourPhaseStart) {
+        if(hourPhaseStart == null){
+            this.hourPhaseStart = null;
+        }
+        else if(!hourPhaseStart.equals("")){
             hourPhaseStart = hourPhaseStart + ":00";
             this.hourPhaseStart = Time.valueOf(hourPhaseStart);
         }
@@ -111,13 +127,44 @@ public class Phase  implements Serializable {
         }
     }
 
-    public void setTimePhase(String timePhase) throws ParseException {
-        if(!timePhase.equals("")){
+    public void setTimePhase(String timePhase) {
+        if(timePhase == null){
+            this.timePhase = null;
+        }
+        else if(!timePhase.equals("")){
             timePhase = timePhase + ":00";
             this.timePhase = Time.valueOf(timePhase);
         }
         else{
             this.timePhase = null;
         }
+    }
+
+    @Transient
+    public PhaseType getDecriminatorValue() {
+        String type = this.getClass().getAnnotation(DiscriminatorValue.class).value();
+        return PhaseType.valueOf(type);
+    }
+
+    public void editGlobalInfo(PhaseModel phaseModel){
+        this.setStatus(phaseModel.getStatus());
+        this.setTerrainAffectation(phaseModel.getTerrainAffectation());
+        this.setNbCourts(phaseModel.getNbCourts());
+        this.setNbPhase(phaseModel.getNbPhase());
+        this.setNumStartCourt(phaseModel.getNumStartCourt());
+        this.setManagePlanning(phaseModel.isManagePlanning());
+
+        this.setScoreMode(phaseModel.getScoreMode());
+        this.setNbSets(phaseModel.getNbSets());
+        this.setSeedingSystem(phaseModel.getSeedingSystem());
+        this.setTopSeeds(phaseModel.getTopSeeds());
+        this.setRanking(phaseModel.getRanking());
+        this.setNotifBeginningPhase(phaseModel.isNotifBeginningPhase());
+        this.setNbTeamsQualified(phaseModel.getNbTeamsQualified());
+        this.setConsolation(phaseModel.isConsolation());
+        this.setNumberConsolationQualify(phaseModel.getNumberConsolationQualify());
+        this.setPlayoff(phaseModel.isPlayoff());
+        this.setNumberPlayoffQualify(phaseModel.getNumberPlayoffQualify());
+        this.setVictoryValue(phaseModel.getVictoryValue());
     }
 }

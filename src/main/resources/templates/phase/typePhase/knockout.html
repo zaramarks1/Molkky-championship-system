@@ -5,10 +5,10 @@
 <body>
     <div class="inputContainer">
         <label class="inputLabel" for="sets">Nombre de manches</label>
-        <input class="inputPhase" required id="sets" type="number" min="3" max="5" th:field="*{phases[__${itemStat.index}__].nbSets}">
+        <input class="inputPhase" required id="sets" type="number" min="1" max="5" th:field="*{phases[__${itemStat.index}__].nbSets}">
     </div>
     <div class="inputContainer">
-        <label class="inputLabel" for="ranking">Tenir compte de la phase précedante</label>
+        <label class="inputLabel" for="ranking">Tenir compte de la phase précedente</label>
         <input class="inputPhase" id="ranking" type="checkbox" th:field="*{phases[__${itemStat.index}__].ranking}">
     </div>
     <div class="inputContainer">
@@ -19,7 +19,6 @@
         <label class="inputLabel" for="randomDraw">Tirage au sort intégral à chaque tour</label>
         <input class="inputPhase" id="randomDraw" type="checkbox" th:field="*{phases[__${itemStat.index}__].randomDraw}">
     </div>
-    <div th:insert="phase/utiles/score"></div>
     <div class="inputContainer">
         <label class="inputLabel" for="notifEveryRound">Notification à chaque tour</label>
         <input class=inputPhase id="notifEveryRound" type="checkbox" th:field="*{phases[__${itemStat.index}__].notifEveryRound}">

@@ -2,20 +2,17 @@ package com.molkky.molkky.controllers;
 
 import com.molkky.molkky.domain.*;
 import com.molkky.molkky.domain.rounds.Pool;
-import com.molkky.molkky.model.CourtModel;
-import com.molkky.molkky.model.TeamModel;
-import com.molkky.molkky.model.TournamentModel;
+import com.molkky.molkky.domain.rounds.SwissPool;
 import com.molkky.molkky.model.UserLogged;
 import com.molkky.molkky.model.phase.PhaseListModel;
 import com.molkky.molkky.model.phase.PhaseModel;
+import com.molkky.molkky.model.phase.PhaseRankingModel;
 import com.molkky.molkky.repository.*;
-import com.molkky.molkky.service.MatchService;
+import com.molkky.molkky.service.NotificationService;
 import com.molkky.molkky.service.PhaseService;
-import com.molkky.molkky.service.SetService;
-import org.hibernate.validator.internal.engine.valueextraction.ValueExtractorResolver;
+import com.molkky.molkky.service.RoundService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,17 +22,20 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.web.servlet.MockMvc;
 import type.PhaseType;
-import type.SetTeamIndex;
 import type.TournamentStatus;
 import type.UserRole;
 
-import javax.servlet.http.HttpSession;
+
 import java.util.*;
+import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(value = PhaseController.class, excludeAutoConfiguration = {SecurityAutoConfiguration.class})
@@ -67,28 +67,49 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
     private PhaseService phaseService;
 
     @MockBean
+    private NotificationService notificationService;
+    @MockBean
     private Tournament tournament;
 
     @MockBean
     private PhaseListModel listModel;
 
     @MockBean
-    private  PhaseModel phase;
+    private PhaseModel phase;
+
+    @MockBean
+    private Phase phaseEntity;
+
+    @MockBean
+    private RoundRepository roundRepository;
+
+    @MockBean
+    private RoundService roundService;
 
 
     @Test
     void testControllerWithoutUser() throws Exception {
-        Phase phase = new Phase();
-        phase.setId(1);
-        mockMvc.perform(get("/phase/generate")
-                        .param("phase_id",phase.getId().toString()))
+        mockMvc.perform(post("/phase/generate")
+                        .param("id","1"))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/connexion"));
+                .andExpect(view().name("redirect:/connexion"));
     }
 
    @Test
     void testGeneratePhaseControllerWithUser() throws Exception {
-        UserLogged userLogged = Mockito.mock(UserLogged.class);
+       UserLogged userLogged = mock(UserLogged.class);
+       userLogged.setTournamentRoleId(1);
+       userLogged.setRole(UserRole.ADM);
+       userLogged.setTournament(tournament);
+       HttpSession session = new MockHttpSession(null, "user");
+       session.setAttribute("user", userLogged);
+
+       String id = "1";
+
+       when(phaseEntity.getId()).thenReturn(1);
+       when(phaseEntity.getTournament()).thenReturn(tournament);
+       when(tournament.getIndexPhase()).thenReturn(1);
+       when(this.phaseRepository.findById(Integer.valueOf(id))).thenReturn(phaseEntity);
 
         when(tournamentRepository.save(Mockito.any(Tournament.class))).thenAnswer(i -> i.getArguments()[0]);
         when(phaseRepository.save(Mockito.any(Phase.class))).thenAnswer(i -> i.getArguments()[0]);
@@ -99,25 +120,122 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         when(userLogged.getRole()).thenReturn(UserRole.ADM);
         when(phaseService.generate("1")).thenReturn(response);
 
-        this.mockMvc.perform(get("/phase/generate").sessionAttr("user", userLogged)
-                        .sessionAttr("user",userLogged)
-                        .param("phase_id","1"))
+        this.mockMvc.perform(post("/phase/generate").sessionAttr("user", userLogged)
+                        .sessionAttr("user", userLogged)
+                        .param("id",id))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/"))
-                .andExpect(redirectedUrl("/"));
+                .andExpect(view().name("redirect:/phase/view?id=1"));
+    }
+
+    @Test
+    void testNextRoundControllerWithoutUser() throws Exception {
+        Tournament tournament = new Tournament();
+        String id = "1";
+
+        this.mockMvc.perform(post("/phase/round")
+                        .param("id",id)
+                        .param("nbSet", "2"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/connexion"));
+    }
+
+    @Test
+    void testNextRoundControllerWithUserAdmin() throws Exception {
+        UserLogged userLogged = mock(UserLogged.class);
+        userLogged.setTournamentRoleId(1);
+        userLogged.setRole(UserRole.ADM);
+        userLogged.setTournament(tournament);
+        HttpSession session = new MockHttpSession(null, "user");
+        session.setAttribute("user", userLogged);
+        Tournament tournament = new Tournament();
+        String id = "1";
+
+        when(phaseEntity.getId()).thenReturn(1);
+        when(phaseEntity.getTournament()).thenReturn(tournament);
+        when(this.phaseRepository.findById(Integer.valueOf(id))).thenReturn(phaseEntity);
+        when(phaseEntity.getNbSets()).thenReturn(1);
+        when(tournamentRepository.save(Mockito.any(Tournament.class))).thenAnswer(i -> i.getArguments()[0]);
+        when(phaseRepository.save(Mockito.any(Phase.class))).thenAnswer(i -> i.getArguments()[0]);
+        when(userRepository.save(Mockito.any(User.class))).thenAnswer(i -> i.getArguments()[0]);
+        when(teamRepository.save(Mockito.any(Team.class))).thenAnswer(i -> i.getArguments()[0]);
+        Map<Round, List<Match>> response = createRounds();
+
+        when(userLogged.getRole()).thenReturn(UserRole.ADM);
+        when(phaseService.generate("1")).thenReturn(response);
+
+        this.mockMvc.perform(post("/phase/round").sessionAttr("user", userLogged)
+                        .sessionAttr("user",userLogged)
+                        .param("id",id)
+                .param("nbSet", "2"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/phase/view?id=1"));
+    }
+
+    @Test
+    void testNextRoundControllerWithUserNotAdmin() throws Exception {
+        UserLogged userLogged = mock(UserLogged.class);
+        userLogged.setTournamentRoleId(1);
+        userLogged.setRole(UserRole.PLAYER);
+        userLogged.setTournament(tournament);
+        HttpSession session = new MockHttpSession(null, "user");
+        session.setAttribute("user", userLogged);
+        Tournament tournament = new Tournament();
+        String id = "1";
+
+        when(phaseEntity.getId()).thenReturn(1);
+        when(phaseEntity.getTournament()).thenReturn(tournament);
+        when(this.phaseRepository.findById(Integer.valueOf(id))).thenReturn(phaseEntity);
+        when(phaseEntity.getNbSets()).thenReturn(1);
+        when(tournamentRepository.save(Mockito.any(Tournament.class))).thenAnswer(i -> i.getArguments()[0]);
+        when(phaseRepository.save(Mockito.any(Phase.class))).thenAnswer(i -> i.getArguments()[0]);
+        when(userRepository.save(Mockito.any(User.class))).thenAnswer(i -> i.getArguments()[0]);
+        when(teamRepository.save(Mockito.any(Team.class))).thenAnswer(i -> i.getArguments()[0]);
+        Map<Round, List<Match>> response = createRounds();
+
+        when(userLogged.getRole()).thenReturn(UserRole.PLAYER);
+        when(phaseService.generate("1")).thenReturn(response);
+
+        this.mockMvc.perform(post("/phase/round")
+                        .sessionAttr("user",userLogged)
+                        .param("id",id)
+                        .param("nbSet", "2"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/"));
+    }
+
+    @Test
+    void testGenerateControllerPhaseIsOver() throws Exception {
+        UserLogged userLogged = Mockito.mock(UserLogged.class);
+        String id = "1";
+
+        when(phaseEntity.getId()).thenReturn(1);
+        when(phaseEntity.getFinished()).thenReturn(true);
+        when(phaseEntity.getTournament()).thenReturn(tournament);
+        when(phaseEntity.getTournament().getId()).thenReturn(1);
+        when(this.phaseRepository.findById(Integer.valueOf(id))).thenReturn(phaseEntity);
+
+        this.mockMvc.perform(post("/phase/round").sessionAttr("user", userLogged)
+                        .sessionAttr("user",userLogged)
+                        .param("id",id))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/tournament/view?tournamentId=1"));
     }
 
     @Test
     void testGeneratePhaseControllerWithWrongRole() throws Exception {
         UserLogged userLogged = Mockito.mock(UserLogged.class);
         when(userLogged.getRole()).thenReturn(UserRole.PLAYER);
+        Tournament tournament = new Tournament();
+        String id = "1";
 
-        this.mockMvc.perform(get("/phase/generate").sessionAttr("user", userLogged)
+        when(phaseEntity.getTournament()).thenReturn(tournament);
+        when(this.phaseRepository.findById(Integer.valueOf(id))).thenReturn(phaseEntity);
+
+        this.mockMvc.perform(post("/phase/generate").sessionAttr("user", userLogged)
                         .sessionAttr("user",userLogged)
-                        .param("phase_id","1"))
+                        .param("id",id))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/"))
-                .andExpect(redirectedUrl("/"));
+                .andExpect(view().name("redirect:/"));
     }
 
     Map<Round, List<Match>> createRounds(){
@@ -128,6 +246,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
                 new Date(),
                 1,
                 8,
+                true,
                 true,
                 2,
                 3,
@@ -240,9 +359,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         when(phase.getPhaseType()).thenReturn(PhaseType.FINNISH);
         when(phase.getHourPhaseStart()).thenReturn("");
         when(phase.getTimePhase()).thenReturn("");
+        //when(phase.setNbPhase(1)).
+        //when(phase.getNbSets()).thenReturn(1);
 
         mockMvc.perform(post("/phase/editPhases")
-                .flashAttr("form",listModel))
+                .flashAttr("listPhase",listModel))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/tournament/view?tournamentId=1"));
 
@@ -273,9 +394,17 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         when(phase.getTimePhase()).thenReturn("");
 
         mockMvc.perform(post("/phase/editPhases")
-                        .flashAttr("form",listModel))
+                        .flashAttr("listPhase",listModel))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/tournament/view?tournamentId=1"));
+
+        verify(listModel,times(4)).getPhases();
+        verify(phase,times(2)).getTournament();
+        verify(phase,times(1)).getPhaseType();
+        verify(phase,times(1)).getHourPhaseStart();
+        verify(phase,times(1)).getTimePhase();
+        verify(tournamentRepository,times(1)).findById(1);
+        verify(tournamentRepository,times(1)).save(Mockito.any(Tournament.class));
     }
 
     @Test
@@ -296,9 +425,17 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         when(phase.getTimePhase()).thenReturn("");
 
         mockMvc.perform(post("/phase/editPhases")
-                        .flashAttr("form",listModel))
+                        .flashAttr("listPhase",listModel))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/tournament/view?tournamentId=1"));
+
+        verify(listModel,times(4)).getPhases();
+        verify(phase,times(2)).getTournament();
+        verify(phase,times(1)).getPhaseType();
+        verify(phase,times(1)).getHourPhaseStart();
+        verify(phase,times(1)).getTimePhase();
+        verify(tournamentRepository,times(1)).findById(1);
+        verify(tournamentRepository,times(1)).save(Mockito.any(Tournament.class));
     }
 
     @Test
@@ -319,9 +456,17 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         when(phase.getTimePhase()).thenReturn("");
 
         mockMvc.perform(post("/phase/editPhases")
-                        .flashAttr("form",listModel))
+                        .flashAttr("listPhase",listModel))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/tournament/view?tournamentId=1"));
+
+        verify(listModel,times(4)).getPhases();
+        verify(phase,times(2)).getTournament();
+        verify(phase,times(1)).getPhaseType();
+        verify(phase,times(1)).getHourPhaseStart();
+        verify(phase,times(1)).getTimePhase();
+        verify(tournamentRepository,times(1)).findById(1);
+        verify(tournamentRepository,times(1)).save(Mockito.any(Tournament.class));
     }
 
     @Test
@@ -342,8 +487,139 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         when(phase.getTimePhase()).thenReturn("");
 
         mockMvc.perform(post("/phase/editPhases")
-                        .flashAttr("form",listModel))
+                        .flashAttr("listPhase",listModel))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/tournament/view?tournamentId=1"));
+
+        verify(listModel,times(4)).getPhases();
+        verify(phase,times(2)).getTournament();
+        verify(phase,times(1)).getPhaseType();
+        verify(phase,times(1)).getHourPhaseStart();
+        verify(phase,times(1)).getTimePhase();
+        verify(tournamentRepository,times(1)).findById(1);
+        verify(tournamentRepository,times(1)).save(Mockito.any(Tournament.class));
+    }
+
+    @Test
+    void testPhaseControllerView() throws Exception {
+        Phase phase = new Phase();
+        phase.setId(17888);
+        List<Round> rounds = new ArrayList<>();
+        Round round = new Round();
+        round.setType(PhaseType.KNOCKOUT);
+        rounds.add(round);
+        phase.setRounds(rounds);
+        Tournament tournoi = new Tournament();
+        tournoi.setIndexPhase(1);
+        phase.setTournament(tournoi);
+        when(phaseRepository.findById(17888)).thenReturn(phase);
+
+        mockMvc.perform(get("/phase/view")
+                        .param("id", "17888")
+                         .param("phaseIndex", "1"))
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("rounds"))
+                .andExpect(model().attributeExists("roundTeams"))
+                .andExpect(model().attributeExists("currentPhase"))
+                .andExpect(model().attributeExists("currentTournament"))
+                .andExpect(view().name("/phase/view"));
+
+        verify(this.phaseRepository, times(1)).findById(anyInt());
+        verify(this.roundService, times(1)).orderTeamsByScoreInRound(any(Round.class), anyInt());
+
+        mockMvc.perform(get("/phase/view")
+                .param("id", "17888")
+                .param("phaseIndex", "1"))
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(view().name("/phase/view"));
+    }
+
+    @Test
+    void testGetModifyPhase() throws Exception {
+        Phase phase = mock(Phase.class);
+
+        when(tournamentRepository.findById(1)).thenReturn(tournament);
+        when(tournament.getPhases()).thenReturn(Arrays.asList(phase));
+        when(phase.getDecriminatorValue()).thenReturn(PhaseType.SIMPLEGAME);
+        when(phase.getTournament()).thenReturn(tournament);
+
+        mockMvc.perform(get("/phase/modify")
+                .param("tournamentId", "1"))
+                .andExpect(model().attributeExists("listPhase"))
+                .andExpect(view().name("/phase/modifyPhase"))
+                .andExpect(status().is2xxSuccessful());
+
+        verify(tournamentRepository,times(1)).findById(1);
+        verify(tournament,times(1)).getPhases();
+        verify(tournament,times(1)).getId();
+        verify(phase,times(2)).getDecriminatorValue();
+        verify(phase,times(1)).getTournament();
+
+        verifyNoMoreInteractions(tournamentRepository);
+        verifyNoMoreInteractions(tournament);
+    }
+
+    @Test
+    void testPostModifyPhase() throws Exception {
+
+        when(phaseService.editPhasesInfo(Mockito.any(PhaseListModel.class))).thenReturn(tournament);
+        when(tournament.getId()).thenReturn(1);
+
+        mockMvc.perform(post("/phase/modify"))
+                .andExpect(view().name("redirect:/tournament/view?tournamentId=1"))
+                .andExpect(status().is3xxRedirection());
+
+        verify(phaseService,times(1)).editPhasesInfo(Mockito.any(PhaseListModel.class));
+        verify(tournament,times(1)).getId();
+
+        verifyNoMoreInteractions(phaseService);
+    }
+
+    @Test
+    void testPhaseControllerViewWithSwissPool() throws Exception {
+        PhaseModel phaseModelSwissPool = new PhaseModel();
+        phaseModelSwissPool.setPhaseType(PhaseType.SWISSPOOL);
+        phaseModelSwissPool.setTournament(tournament.getId());
+        phaseModelSwissPool.setHourPhaseStart("");
+        phaseModelSwissPool.setTimePhase("");
+        List<Round> rounds = new ArrayList<>();
+        rounds.add(new Round());
+        phase.setRounds(rounds);
+        Tournament tournoi = new Tournament();
+        tournoi.setIndexPhase(1);
+
+        Phase phase = new SwissPool(phaseModelSwissPool, tournoi);
+        phase.setTournament(tournoi);
+        phase.setId(17888);
+        phase.setVictoryValue(3);
+
+        List<PhaseRankingModel> teams = new ArrayList<>();
+        PhaseRankingModel phaseRankingModel = new PhaseRankingModel();
+        Team team = new Team();
+
+        phaseRankingModel.setTeam(team);
+        phaseRankingModel.setTotalPoints(181);
+        teams.add(phaseRankingModel);
+
+        when(roundService.orderTeamsByScoreInPhase(phase, phase.getVictoryValue())).thenReturn(teams);
+        when(phaseRepository.findById(17888)).thenReturn(phase);
+
+        mockMvc.perform(get("/phase/view")
+                        .param("id", "17888")
+                        .param("phaseIndex", "1"))
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("rounds"))
+                .andExpect(model().attributeExists("roundTeams"))
+                .andExpect(model().attributeExists("currentPhase"))
+                .andExpect(model().attributeExists("currentTournament"))
+                .andExpect(view().name("/phase/view"));
+
+        verify(this.phaseRepository, times(1)).findById(anyInt());
+
+        mockMvc.perform(get("/phase/view")
+                        .param("id", "17888")
+                        .param("phaseIndex", "1"))
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(view().name("/phase/view"));
     }
 }

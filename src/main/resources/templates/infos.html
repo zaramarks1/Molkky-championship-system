@@ -16,6 +16,7 @@
                 <div class="contentTitle">Vos informations personnelles</div>
                 <div class="contentText">
                     <div th:if="${#session.getAttribute('user') != null }">
+<<<<<<< HEAD
                         <div class="infoContainer">
                             <p class="label firstLabel">Email</p>
                             <span id="email" th:text="${user.email}" />
@@ -36,9 +37,53 @@
                                 <p class="label">Nom</p>
                                 <span id="forename" th:text="${#session.getAttribute('forename')}" />
                             </div>
+=======
+                        Votre Email : <span id="email" th:text="${user.email}" />
+                        <br>
+                        <br>
+                        Votre Pseudo : <span id="pseudo" th:text="${user.pseudo}" />
+                        <br>
+                        <form method="post" th:action="@{/changePseudo}" autocomplete="off">
+                            <div>
+                                <input class="inputFilter" required="required" type="text" th:name="pseudo" placeholder="Changer pseudo" >
+                            </div>
+                            <button class = "filter"  type="submit">Changer votre pseudo
+                            </button>
+                        </form>
+                        <br>
+                        Votre Prénom : <span id="forename" th:text="${user.forename}" />
+                        <br>
+                        <form method="post" th:action="@{/changeForename}" autocomplete="off">
+                            <div>
+                                <input class="inputFilter" required="required" type="text" th:name="forename" placeholder="Changer prénom" >
+                            </div>
+                            <button class = "filter" type="submit">Changer votre prénom
+                            </button>
+                        </form>
+                        <br>
+                        Votre Nom de Famille : <span id="surname" th:text="${user.surname}" />
+                        <br>
+                        <form method="post" th:action="@{/changeSurname}" autocomplete="off">
+                            <div>
+                                <input class="inputFilter" required="required" type="text" th:name="surname" placeholder="Changer nom de famille" >
+                            </div>
+                            <button class = "filter" type="submit">Changer votre nom de famille
+                            </button>
+                        </form>
+                        <br>
+                        Votre Tournoi : <span id="tournament" th:text="${user.tournament.name}" />
+                        <br>
+                        <br>
+                        Votre Role : <span id="role" th:text="${user.role}" />
+                        <br>
+                        <br>
+                        <div th:if="${#strings.equals(user.role, 'PLAYER')}">
+                            Votre Equipe : <span id="team" th:text="${user.team.name}" />
+>>>>>>> PreProd
                         </div>
 
                         <br>
+<<<<<<< HEAD
 
                         <div th:if="${#strings.equals(user.role, 'STAFF')}">
                             <div th:if="${matchList==null}">
@@ -75,11 +120,30 @@
                                 </div>
                             </div>
                         </div>
+=======
+                        <br>
+                        Changer votre mot de passe
+                        <form id = "changePassword" method="post" th:action="@{/changePassword}" autocomplete="off">
+                            <div>
+                                <input class="inputFilter" type="password" required="required" th:name="pwd1" id = "pwd1" placeholder="Nouveau mot de passe" >
+                                <input class="inputFilter" type="password" required="required" th:name="pwd2"  id = "pwd2" placeholder="Confirmation mot de passe" >
+                            </div>
+                            <button class = "filter" onclick = "changePwd()" type="submit">Changer votre mot de passe
+                            </button>
+                        </form>
+                        <br>
+                        <br>
+                        <th:block th:unless="${#strings.equals(user.role, 'ADM')}">
+                            <form onsubmit="return confirm('Voulez vous réellement vous désinscrire ? Si oui, vous serez déconnecté');" method="post" th:action="@{/cancelRegisteration}" autocomplete="off">
+                                <button class = "filter"  type="submit">Se désinscrire du tournoi <span th:text="${user.tournament.name}" /> en tant que <span th:text="${user.role}" />
+                                </button>
+                            </form>
+                        </th:block>
+>>>>>>> PreProd
                     </div>
                     <div th:unless="${#session.getAttribute('user') != null}">
                         <h2 style="color:red" >Connectez-vous pour accéder à vos informations</h2>
                     </div>
-
                 </div>
             </div>
             <div th:replace="fragments/socials"></div>
@@ -87,5 +151,20 @@
     </div>
 </div>
 </body>
+<script th:inline = "javascript">
+
+    function changePwd(){
+        var pwd1 = document.getElementById("pwd1").value
+        var pwd2 = document.getElementById("pwd2").value
+
+        if(pwd1 === pwd2){
+            alert("Votre mot des passe a été bien changé")
+            $("#changePassword").submit();
+        }else{
+            alert("Les mot des passes doivent être les mêmes!")
+        }
+    }
+    
+</script>
 <div th:replace="fragments/footer"></div>
 </html>

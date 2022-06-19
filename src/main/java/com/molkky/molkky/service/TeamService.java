@@ -1,25 +1,18 @@
 package com.molkky.molkky.service;
 
-import com.molkky.molkky.domain.Team;
-import com.molkky.molkky.domain.Tournament;
-import com.molkky.molkky.domain.User;
-import com.molkky.molkky.domain.UserTournamentRole;
+import com.molkky.molkky.domain.*;
 import com.molkky.molkky.model.AddPlayerModel;
 import com.molkky.molkky.model.AddPlayerlistModel;
 import com.molkky.molkky.model.CreateTeamModel;
-import com.molkky.molkky.repository.TeamRepository;
-import com.molkky.molkky.repository.TournamentRepository;
-import com.molkky.molkky.repository.UserRepository;
-import com.molkky.molkky.repository.UserTournamentRoleRepository;
-
-
+import com.molkky.molkky.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import type.UserRole;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.molkky.molkky.utility.StringUtilities.createCode;
 
 
 @Service
@@ -37,6 +30,12 @@ public class TeamService {
     @Autowired
     TournamentRepository tournamentRepository;
 
+    @Autowired
+    ClubRepository clubRepository;
+
+    @Autowired
+    EmailSenderService emailSenderService;
+
 
     public Team create(CreateTeamModel team){
 
@@ -48,12 +47,29 @@ public class TeamService {
         teamCreate.setName(team.getName());
         teamCreate.setTournament(tournament);
 
-        teamCreate.setCode(createCode(5));
+        teamCreate.setCode(createTeamCode(5));
 
+        Club c;
+        if (team.getOption().equals("oldClub")) {
+            c = clubRepository.findById(team.getClubId());
+        }
+        else{
+            c = new Club();
+            c.setName(team.getNewClubName());
+        }
+
+        c = clubRepository.save(c);
+        teamCreate.setClub(c);
         return teamRepository.save(teamCreate);
 
+    }
 
-
+    public String createTeamCode(int n){
+        String code = "";
+        do {
+            code = createCode(n);
+        } while(Boolean.TRUE.equals(teamRepository.existsByCode(code)));
+        return code;
     }
 
     public Team addPlayers(AddPlayerlistModel addPlayerlistModel){
@@ -65,16 +81,17 @@ public class TeamService {
         for(AddPlayerModel player : players){
 
             User user = player.addPlayer();
-           /* TODO user.setTeam(team);
-            String pwd = user.getCode();
-            //emailSenderService.SendEmail(user.getEmail(),"Votre code d'identification au site Molkky","Voici votre code : "+ pwd);
-            PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-            String hashedPassword = passwordEncoder.encode(pwd);
-            user.setCode(hashedPassword);*/
 
             if(!userRepository.existsUserByEmail(user.getEmail())){
                 user.setPassword(createCode(5));
                 user = userRepository.save(user);
+                emailSenderService.sendEmail(user.getEmail(), "Molky - Création de votre compte", "Bonjour " + user.getForename() + ",\n\n" +
+                        "Vous venez de créer votre compte sur Molky.\n\n" +
+                        "Votre mot de passe est : " + user.getPassword() + "\n\n" +
+                        "Votre code d'équipe est : " + team.getCode() + "\n\n" +
+                        "Vous pouvez vous connecter sur le site en utilisant votre adresse email et votre mot de passe.\n\n" +
+                        "Bon jeu sur Molky !\n\n" +
+                        "L'équipe Molky");
             }else{
                 user = userRepository.findUserByEmail(user.getEmail());
             }
@@ -85,44 +102,14 @@ public class TeamService {
             userTournamentRole.setTeam(team);
             userTournamentRole.setRole(UserRole.PLAYER);
             userTournamentRoles.add(userTournamentRole);
-
-
-
         }
 
-
         userTournamentRoleRepository.saveAll(userTournamentRoles);
-
 
         return team;
     }
 
     boolean areAllDistinct(List<User> users) {
         return users.stream().map(User::getEmail).distinct().count() == users.size();
-    }
-
-    public String createCode(int n){
-        String alphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-                + "0123456789"
-                + "abcdefghijklmnopqrstuvxyz";
-
-        // create StringBuffer size of AlphaNumericString
-        StringBuilder sb = new StringBuilder(n);
-
-        for (int i = 0; i < n; i++) {
-
-            // generate a random number between
-            // 0 to AlphaNumericString variable length
-            int index
-                    = (int)(alphaNumericString.length()
-                    * Math.random());
-
-            // add Character one by one in end of sb
-            sb.append(alphaNumericString
-                    .charAt(index));
-        }
-
-        return sb.toString();
-
     }
 }

@@ -2,11 +2,8 @@ package com.molkky.molkky.ihm.tournament;
 
 import com.molkky.molkky.MolkkyApplication;
 import com.molkky.molkky.SeleniumConfig;
-import com.molkky.molkky.domain.Phase;
 import com.molkky.molkky.domain.Tournament;
-import com.molkky.molkky.domain.rounds.*;
 import com.molkky.molkky.model.TournamentModel;
-import com.molkky.molkky.repository.PhaseRepository;
 import com.molkky.molkky.repository.TournamentRepository;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
@@ -16,7 +13,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.text.ParseException;
-import java.util.List;
 
 @SpringBootTest(classes = MolkkyApplication.class, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -24,8 +20,6 @@ import java.util.List;
 
     @Autowired
     private TournamentRepository tournamentRepository;
-
-
 
     private SeleniumConfig config;
     @Value("${server.port}")
@@ -36,10 +30,7 @@ import java.util.List;
     void setUp()  throws ParseException {
         config = new SeleniumConfig();
         url = String.format("http://localhost:%s", port.toString());
-
     }
-
-
 
     @BeforeEach
     void configTournament(){
@@ -56,6 +47,7 @@ import java.util.List;
         String randomNbRounds = "2";
         String randomNbCounts = "1";
         String randomNbPlayersPerTeam = "3";
+        String randomMail = "test@sfr.fr";
 
         config.getDriver().findElement(new By.ById("nom")).sendKeys(randomName);
         config.getDriver().findElement(new By.ById("location")).sendKeys(randomLocation);
@@ -67,11 +59,12 @@ import java.util.List;
         config.getDriver().findElement(new By.ById("visible")).click();
         config.getDriver().findElement(new By.ById("nbRounds")).sendKeys(randomNbRounds);
         config.getDriver().findElement(new By.ById("nbCourts")).sendKeys(randomNbCounts);
+        config.getDriver().findElement(new By.ById("email")).sendKeys(randomMail);
         config.getDriver().findElement(new By.ById("sendTournament")).click();
     }
 
     @Test
-    void testPlayerFormGetPage(){
+    void testFormGetPage(){
         Assertions.assertEquals("Choix de la/des phase(s)", config.getDriver().getTitle());
     }
 
@@ -116,11 +109,6 @@ import java.util.List;
 
         Tournament tournament = tournamentRepository.findById(Integer.valueOf(idTournament));
         Assertions.assertNotNull(tournament,"Tournament not found");
-
-
-
-
-
     }
 
 

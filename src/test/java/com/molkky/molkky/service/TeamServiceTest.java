@@ -7,13 +7,11 @@ import com.molkky.molkky.domain.UserTournamentRole;
 import com.molkky.molkky.model.AddPlayerModel;
 import com.molkky.molkky.model.AddPlayerlistModel;
 import com.molkky.molkky.model.CreateTeamModel;
-import com.molkky.molkky.repository.TeamRepository;
-import com.molkky.molkky.repository.TournamentRepository;
-import com.molkky.molkky.repository.UserRepository;
-import com.molkky.molkky.repository.UserTournamentRoleRepository;
+import com.molkky.molkky.repository.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,12 +22,18 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.molkky.molkky.utility.StringUtilities.createCode;
+import static org.mockito.Mockito.when;
+
 @WebMvcTest(value = TeamService.class, excludeAutoConfiguration = {SecurityAutoConfiguration.class})
 @ExtendWith(MockitoExtension.class)
 class TeamServiceTest {
 
     @Autowired
     private TeamService teamService;
+
+    @MockBean
+    private EmailSenderService emailSenderService;
 
     @MockBean
     private CreateTeamModel teamModel;
@@ -55,6 +59,22 @@ class TeamServiceTest {
     @MockBean
     private User user;
 
+    @MockBean
+    ClubRepository clubRepository;
+
+
+    @Test
+    void createTeamCodeTest(){
+        String letters = "0123456789ABCDEFGHIJKLMNOPQRSTUVWYXZ";
+        for(int i = 0; i < letters.length(); i++){
+            when(teamRepository.existsByCode(String.valueOf(letters.charAt(i)))).thenReturn(true);
+            String code = teamService.createTeamCode(1);
+            when(teamRepository.existsByCode(String.valueOf(letters.charAt(i)))).thenReturn(false);
+            Assertions.assertNotEquals(String.valueOf(letters.charAt(i)), code);
+        }
+
+    }
+
     @Test
     void testCreateTeam(){
         Integer idTournament = 1;
@@ -62,10 +82,15 @@ class TeamServiceTest {
         Tournament tournament = new Tournament();
         tournament.setId(idTournament);
 
+
         Mockito.when(teamModel.getTournament()).thenReturn(idTournament);
         Mockito.when(tournamentRepository.findById(idTournament)).thenReturn(tournament);
         Mockito.when(teamModel.getName()).thenReturn(teamName);
         Mockito.when(teamRepository.save(Mockito.any(Team.class))).thenAnswer(i -> i.getArguments()[0]);
+        Mockito.when(teamModel.getOption()).thenReturn("newClub");
+        Mockito.when(teamModel.getNewClubName()).thenReturn("new club name");
+
+
 
         Team team = teamService.create(teamModel);
 
@@ -73,10 +98,11 @@ class TeamServiceTest {
         Mockito.verify(teamModel,Mockito.times(1)).getName();
         Mockito.verify(tournamentRepository,Mockito.times(1)).findById(idTournament);
         Mockito.verify(teamRepository,Mockito.times(1)).save(team);
+        Mockito.verify(teamModel,Mockito.times(1)).getOption();
+        Mockito.verify(teamModel,Mockito.times(1)).getNewClubName();
         Mockito.verifyNoMoreInteractions(teamModel);
         Mockito.verifyNoMoreInteractions(teamModel);
         Mockito.verifyNoMoreInteractions(tournamentRepository);
-        Mockito.verifyNoMoreInteractions(teamRepository);
 
         Assertions.assertNotNull(team,"Team null");
         Assertions.assertEquals(teamName,team.getName(),"Nom different");
@@ -100,15 +126,15 @@ class TeamServiceTest {
         Team teamMock = new Team();
         teamMock.setId(id_team);
 
-        Mockito.when(addPlayerlistModel.getPlayers()).thenReturn(listPlayer);
-        Mockito.when(addPlayerModel1.getTeamId()).thenReturn(id_team);
-        Mockito.when(teamRepository.findById(listPlayer.get(0).getTeamId())).thenReturn(teamMock);
+        when(addPlayerlistModel.getPlayers()).thenReturn(listPlayer);
+        when(addPlayerModel1.getTeamId()).thenReturn(id_team);
+        when(teamRepository.findById(listPlayer.get(0).getTeamId())).thenReturn(teamMock);
 
-        Mockito.when(addPlayerModel1.addPlayer()).thenReturn(user);
-        Mockito.when(user.getEmail()).thenReturn(email);
+        when(addPlayerModel1.addPlayer()).thenReturn(user);
+        when(user.getEmail()).thenReturn(email);
 
-        Mockito.when(userRepository.existsUserByEmail(email)).thenReturn(false);
-        Mockito.when(userRepository.save(Mockito.any(User.class))).thenAnswer(i -> i.getArguments()[0]);
+        when(userRepository.existsUserByEmail(email)).thenReturn(false);
+        when(userRepository.save(Mockito.any(User.class))).thenAnswer(i -> i.getArguments()[0]);
 
         teamService.addPlayers(addPlayerlistModel);
 
@@ -116,7 +142,7 @@ class TeamServiceTest {
         Mockito.verify(teamRepository,Mockito.times(1)).findById(listPlayer.get(0).getTeamId());
         Mockito.verify(addPlayerModel1,Mockito.times(3)).getTeamId();
         Mockito.verify(addPlayerModel1,Mockito.times(1)).addPlayer();
-        Mockito.verify(user,Mockito.atMost(1)).getEmail();
+        Mockito.verify(user,Mockito.atMost(2)).getEmail();
         Mockito.verify(user,Mockito.atMost(1)).setPassword(Mockito.anyString());
         Mockito.verify(userRepository,Mockito.atMost(1)).existsUserByEmail(email);
         Mockito.verify(userRepository,Mockito.atMost(1)).save(Mockito.any(User.class));
@@ -125,7 +151,6 @@ class TeamServiceTest {
         Mockito.verifyNoMoreInteractions(addPlayerlistModel);
         Mockito.verifyNoMoreInteractions(addPlayerModel1);
         Mockito.verifyNoMoreInteractions(teamRepository);
-        Mockito.verifyNoMoreInteractions(user);
         Mockito.verifyNoMoreInteractions(userRepository);
         Mockito.verifyNoMoreInteractions(userTounamentRoleRepository);
     }
@@ -146,14 +171,14 @@ class TeamServiceTest {
         Team teamMock = new Team();
         teamMock.setId(id_team);
 
-        Mockito.when(addPlayerlistModel.getPlayers()).thenReturn(listPlayer);
-        Mockito.when(addPlayerModel1.getTeamId()).thenReturn(id_team);
-        Mockito.when(teamRepository.findById(listPlayer.get(0).getTeamId())).thenReturn(teamMock);
+        when(addPlayerlistModel.getPlayers()).thenReturn(listPlayer);
+        when(addPlayerModel1.getTeamId()).thenReturn(id_team);
+        when(teamRepository.findById(listPlayer.get(0).getTeamId())).thenReturn(teamMock);
 
-        Mockito.when(addPlayerModel1.addPlayer()).thenReturn(user);
-        Mockito.when(user.getEmail()).thenReturn(email);
+        when(addPlayerModel1.addPlayer()).thenReturn(user);
+        when(user.getEmail()).thenReturn(email);
 
-        Mockito.when(userRepository.existsUserByEmail(email)).thenReturn(true);
+        when(userRepository.existsUserByEmail(email)).thenReturn(true);
 
         teamService.addPlayers(addPlayerlistModel);
 
@@ -187,7 +212,7 @@ class TeamServiceTest {
 
     @Test
     void testCreateCodeLength(){
-        String code = teamService.createCode(10);
+        String code = createCode(10);
         Assertions.assertEquals(10,code.length());
     }
 }

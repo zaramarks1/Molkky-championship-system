@@ -1,6 +1,7 @@
 package com.molkky.molkky.service;
 
 import com.molkky.molkky.MolkkyApplication;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -10,11 +11,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 @SpringBootTest(classes = MolkkyApplication.class)
-public class EmailSenderServiceTest {
+class EmailSenderServiceTest {
     @Autowired
     private EmailSenderService emailSenderService;
 
-    public static String getCurrentGitBranch() throws IOException, InterruptedException {
+    static String getCurrentGitBranch() throws IOException, InterruptedException {
         Process process = Runtime.getRuntime().exec( "git rev-parse --abbrev-ref HEAD" );
         process.waitFor();
 
@@ -27,7 +28,8 @@ public class EmailSenderServiceTest {
     @Test
     void testMail() throws IOException, InterruptedException {
         if(getCurrentGitBranch().equals("US53DEV_Sacha")){
-            emailSenderService.sendEmail("calembel.molkky@gmail.com", "GPI LESGO", "Fonctionnement de l'envoi de test");
+            Assertions.assertDoesNotThrow(() -> emailSenderService.sendEmail("calembel.molkky@gmail.com", "GPI LESGO", "Fonctionnement de l'envoi de test"));
         }
     }
+
 }

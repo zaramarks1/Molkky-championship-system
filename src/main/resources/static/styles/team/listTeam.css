@@ -1,0 +1,213 @@
+/* Card 1 */
+.cardContainer{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+
+}
+
+.cardTeam{
+    box-sizing: border-box;
+    text-decoration: none;
+    color: black;
+    /* Auto layout */
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px;
+
+    width: 246px;
+    height: 125px;
+    margin-bottom: 30px;
+
+    background: #F4F4F8;
+    /* secondary */
+
+    border: 1px solid #C4C4C4;
+    box-shadow: 0px 0px 7px 2px rgba(196, 196, 196, 0.25);
+    border-radius: 7px;
+
+    /* Inside auto layout */
+
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+}
+
+@media only screen and (max-width: 600px) {
+    .cardTeam {
+        width: 100%;
+    }
+}
+
+.teamHeader{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: -moz-available;          /* WebKit-based browsers will ignore this. */
+    width: -webkit-fill-available;  /* Mozilla-based browsers will ignore this. */
+    width: fill-available;
+    height: 2em;
+    padding: 5px 5px;
+    background: #5B5A58;
+    border-top-left-radius: 7px;
+    border-top-right-radius: 7px;
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+}
+.teamInfo {
+    width: -moz-available;          /* WebKit-based browsers will ignore this. */
+    width: -webkit-fill-available;  /* Mozilla-based browsers will ignore this. */
+    width: fill-available;
+    height: -webkit-fill-available;
+}
+.playerName{
+    width: 246px;
+    height: 31px;
+}
+.teamPicture{
+    width: 246px;
+    height: 31px;
+}
+
+.teamName{
+    color: white;
+    font-weight: bold;
+    margin: 0;
+    padding: 5px 5px;
+    font-size: 16px;
+    border-top-right-radius: 7px;
+    border-top-left-radius: 7px;
+    text-transform: uppercase;
+}
+
+.partTitle {
+    font-weight: bold;
+    font-size: 20px;
+}
+.partSubtitle {
+    font-size: 18px;
+}
+ul.roundsList {
+    list-style: none;
+}
+.dir {
+    display: flex;
+    justify-content: left;
+    flex-direction: row;
+    font-size : 16px;
+}
+.imgBracket {
+    object-fit: cover;
+}
+.teamCard {
+    width: fit-content;
+    background-color: #F4F4F8;
+    box-sizing: border-box;
+    box-shadow: 0px 0px 7px 2px rgba(0, 0, 0, 0.25);
+    border-radius: 7px;
+}
+#participantContainer {
+    display: flex;
+    flex-direction: row;
+}
+
+#staffContainer {
+    display: flex;
+    flex-direction: row;
+}
+
+
+.cardContentContainer {
+    padding: 5px;
+    display: flex;
+    margin-inline: 10px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    width: -webkit-fill-available;
+}
+.teamLogo {
+    height: 60px;
+    width: 60px;
+    margin-right: 10px;
+    margin-bottom: 15px;
+}
+
+li.teamMember{
+    list-style: none;
+}
+
+.tb {
+    display: table;
+    width: 100%;
+}
+
+.td {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.inputFilter,
+.filter {
+    color: #8787A1;
+    background-color: transparent;
+    border-width: 2px;
+    border-style: inset;
+    border-color: transparent;
+    border-image: initial;
+    margin: 10px;
+}
+
+#cover {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #E7E7ED;
+    border-radius: 7px;
+    width: 350px;
+    margin-bottom: 25px;
+}
+
+@media only screen and (max-width: 600px) {
+    #cover {
+        width: 100%;
+    }
+}
+
+.teamMember {
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 22px;
+    text-align: justify;
+}
+
+.searchIconFilter {
+    filter: grayscale(1);
+}
+
+.inputFilter {
+    width: 100%;
+    font-size: 20px;
+    line-height: 1;
+}
+.inputFilter:focus, textarea:focus, select:focus{
+    outline: none;
+}
+
+.inputFilter::placeholder {
+    color: #8787A1;
+}
+
+.filter {
+    position: relative;
+    display: block;
+    cursor: pointer;
+}

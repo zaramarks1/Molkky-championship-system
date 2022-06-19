@@ -4,6 +4,8 @@ import com.molkky.molkky.domain.Phase;
 import com.molkky.molkky.domain.Tournament;
 import com.molkky.molkky.model.phase.PhaseModel;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import type.PhaseStatus;
 
 import javax.persistence.Column;
@@ -11,7 +13,8 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import java.text.ParseException;
 
-@Data
+@Getter
+@Setter
 @Entity
 @DiscriminatorValue("FINNISH")
 public class Finnish extends Phase {
@@ -21,6 +24,7 @@ public class Finnish extends Phase {
 
     public Finnish(PhaseModel finnishModel, Tournament tournament) throws ParseException {
         this.setStatus(PhaseStatus.NOTSTARTED);
+        this.setRandomStaff(finnishModel.getRandomStaff());
         this.setNbFinnish(finnishModel.getNbFinnish());
         this.setRanking(finnishModel.getRanking());
         this.setTopSeeds(finnishModel.getTopSeeds());
@@ -38,6 +42,12 @@ public class Finnish extends Phase {
         this.setConsolation(finnishModel.isConsolation());
         this.setNumberConsolationQualify(finnishModel.getNumberConsolationQualify());
         this.setTournament(tournament);
+    }
+
+    public void editInfoFinnish(PhaseModel finnishModel){
+        this.editGlobalInfo(finnishModel);
+        this.setNbFinnish(finnishModel.getNbFinnish());
+
     }
 
     public Finnish() {

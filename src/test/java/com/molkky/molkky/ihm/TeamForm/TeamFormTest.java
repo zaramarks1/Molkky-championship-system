@@ -48,12 +48,14 @@ class TeamFormTest {
         Assertions.assertTrue(config.getDriver().findElement(new By.ById("nom")).isDisplayed());
         Assertions.assertTrue(config.getDriver().findElement(new By.ById("tournament")).isDisplayed());
         Assertions.assertTrue(config.getDriver().findElement(new By.ById("sendTeam")).isDisplayed());
+        Assertions.assertTrue(config.getDriver().findElement(new By.ById("newClub")).isDisplayed());
+        Assertions.assertTrue(config.getDriver().findElement(new By.ById("oldClub")).isDisplayed());
 
         Assertions.assertEquals("Créer une équipe",config.getDriver().findElement
                 (new By.ByClassName("contentTitle")).getText());
         Assertions.assertEquals("Nom de l'équipe",config.getDriver().findElement
                 (new By.ByCssSelector("body > div > div.contentContainer > form > div:nth-child(1) > label")).getText());
-        Assertions.assertEquals("Selectionnez un tournoi",config.getDriver().findElement
+        Assertions.assertEquals("Sélectionnez un tournoi",config.getDriver().findElement
                 (new By.ByCssSelector("body > div > div.contentContainer > form > div:nth-child(2) > label")).getText());
         Assertions.assertEquals("Étape suivante",config.getDriver().findElement(new By.ById("sendTeam")).getText());
     }
@@ -63,11 +65,14 @@ class TeamFormTest {
         config.getDriver().get(url + "/team/create");
         String teamName = "Test" + Math.floor(Math.random() * 100);
 
-
         config.getDriver().findElement(new By.ById("nom")).sendKeys(teamName);
         Select select = new Select(config.getDriver().findElement(new By.ById("tournament")));
         select.selectByIndex(select.getOptions().size() - 1);
         String idTournament = config.getDriver().findElement(new By.ById("tournament")).getAttribute("value");
+
+        config.getDriver().findElement(new By.ById("newClub")).click();
+
+        config.getDriver().findElement(new By.ById("createClubInput")).sendKeys("new club");
         config.getDriver().findElement(new By.ById("sendTeam")).click();
 
         Team team = teamRepository.findByName(teamName);
@@ -93,7 +98,6 @@ class TeamFormTest {
         Tournament tournament1 = new Tournament(tournament);
         tournamentRepository.save(tournament1);
     }
-
 
     @AfterAll
     void tearDown() {

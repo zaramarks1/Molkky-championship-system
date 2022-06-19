@@ -6,7 +6,6 @@ html, body {
 
 #pageContainerItem {
     display: flex;
-    flex-direction: row;
     width: 100%;
     align-items: center;
     flex-direction: column;
@@ -16,9 +15,18 @@ html, body {
     margin-bottom: 20px;
     width: 750px;
 }
-div{
+
+@media only screen and (max-width: 1000px) {
+    .primaryButton {
+        width: 100%!important;
+    }
+}
+
+.choiceTitle {
     text-align:center;
     font-family: "Inter", sans-serif;
+    font-size: 16px;
+    font-weight: 600;
 }
 
 #listTournaments {

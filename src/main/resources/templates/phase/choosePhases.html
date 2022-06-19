@@ -14,11 +14,11 @@
                 <div class="inputContainer" th:each="phase, itemStat : *{phases}">
                     <strong class="contentText" th:text="Phase + ' ' + ${itemStat.index+1}"></strong>
                     <input id = "tournament" hidden th:field="*{phases[__${itemStat.index}__].tournament}" th:value="${phase.tournament}">
-                    <select  name="phase" th:field="*{phases[__${itemStat.index}__].phaseType}">
-                        <option th:each="phaseOpt : ${T(type.PhaseType).values()}"
-                                th:value="${phaseOpt}"
-                                th:text="${phaseOpt}"
-                        ></option>
+                    <select  class ="selectInputContainer" name="phase" th:field="*{phases[__${itemStat.index}__].phaseType}">
+                        <option th:value="${T(type.PhaseType).POOL}" th:text="${T(type.PhaseType).POOL}"></option>
+                        <option th:value="${T(type.PhaseType).SWISSPOOL}" th:text="${T(type.PhaseType).SWISSPOOL}"></option>
+                        <option th:value="${T(type.PhaseType).KNOCKOUT}" th:text="${T(type.PhaseType).KNOCKOUT}"></option>
+                        <option th:value="${T(type.PhaseType).SIMPLEGAME}" th:text="${T(type.PhaseType).SIMPLEGAME}"></option>
                     </select>
                 </div>
             <div class="submitContainer">

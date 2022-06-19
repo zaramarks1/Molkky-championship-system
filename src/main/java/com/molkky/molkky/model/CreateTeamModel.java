@@ -10,13 +10,12 @@ public class CreateTeamModel {
     private String name;
     private Integer nbPlayers;
     private Integer tournament;
+    private Integer clubId;
+    private String newClubName;
+    private String option;
 
     public CreateTeamModel(){
     }
 
-    public CreateTeamModel(String name, Integer nbPlayers, Integer tournament) {
-        this.name = name;
-        this.nbPlayers = nbPlayers;
-        this.tournament = tournament;
-    }
+
 }

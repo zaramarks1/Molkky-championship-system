@@ -1,0 +1,217 @@
+.partContainer {
+    width: 95%;
+    height: auto;
+    border-radius: 7px;
+    margin-bottom: 25px;
+}
+
+@media only screen and (max-width: 1000px) {
+    .partContainer {
+        width: auto;
+    }
+}
+
+p{
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 22px;
+    text-align: justify;
+}
+
+
+.sidebarButton p {
+    font-weight: 600;
+    font-size : 14px;
+    text-align: left;
+    margin-left: 17px;
+    bottom: -0.46%;
+    line-height: inherit;
+}
+.partTitle {
+    font-weight: bold;
+    font-size: 20px;
+}
+.partSubtitle {
+    font-size: 18px;
+}
+ul.roundsList {
+    list-style: none;
+}
+
+li.teamMember{
+    list-style: none;
+}
+.dir {
+    display: flex;
+    justify-content: left;
+    flex-direction: row;
+    font-size : 16px;
+}
+.imgBracket {
+    object-fit: cover;
+}
+
+.teamCard {
+    color: black;
+    width: fit-content;
+    background-color: #F4F4F8;
+    box-sizing: border-box;
+    box-shadow: 0px 0px 7px 2px rgba(0, 0, 0, 0.25);
+    margin-right: 20px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    border-radius: 7px;
+}
+
+.pastPhase {
+    margin-right: 10px;
+}
+
+@media only screen and (max-width: 600px) {
+    .pastPhaseContainer {
+        justify-content: space-between!important;
+    }
+    .pastPhase {
+        margin: 10px 0;
+    }
+
+}
+
+@media only screen and (max-width: 1000px) {
+    .teamCard {
+        margin: 10px 0!important;
+        width: -moz-available;          /* WebKit-based browsers will ignore this. */
+        width: -webkit-fill-available;  /* Mozilla-based browsers will ignore this. */
+        width: fill-available;
+    }
+}
+
+#participantContainer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.cardListContainer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+.teamName {
+    background-color: forestgreen;
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+    margin: 0;
+    padding: 5px 5px;
+    border-top-right-radius: 7px;
+    border-top-left-radius: 7px;
+    text-transform: uppercase;
+}
+
+.teamNameEliminated {
+    background-color: darkred;
+    color: white;
+    font-weight: bold;
+    margin: 0;
+    font-size: 16px;
+    padding: 5px 5px;
+    border-top-right-radius: 7px;
+    border-top-left-radius: 7px;
+    text-transform: uppercase;
+}
+.cardContentContainer {
+    margin-inline: 10px;
+    padding: 5px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+}
+.teamLogo {
+    height: 60px;
+    width: 60px;
+    margin-right: 10px;
+    border-radius: 7px;
+    background-color: #6D41F3;
+}
+.teamMember {
+    margin: 3px;
+    font-size: 14px;
+}
+.courtCard {
+    margin: 3px;
+    font-size: 14px;
+}
+.statusCircleGreen {
+    height: 15px;
+    width: 15px;
+    border-radius: 50%;
+    background-color: green;
+}
+.statusCircleRed {
+    height: 15px;
+    width: 15px;
+    border-radius: 50%;
+    background-color: red;
+}
+.statusCircleOrange {
+    height: 15px;
+    width: 15px;
+    border-radius: 50%;
+    background-color: orange;
+}
+.setInline {
+    display:  inline-block;
+    margin: 0px;
+}
+
+.inputStaff {
+    width: 160px;
+    height: 48px;
+    border-radius: 4px;
+    border: 0;
+    background-color: #F8FAFC;
+    padding: 10px;
+    box-shadow: 0 0 7px #c4c4c4;
+}
+
+.inputValidatePresenceTeam{
+    width: -webkit-fill-available;
+    height: 48px;
+    border-radius: 4px;
+    border: 0;
+    background-color: #F8FAFC;
+    padding: 10px;
+    box-shadow: 0 0 7px #c4c4c4;
+}
+
+#courtContainer{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+#buttonModify{
+    margin: 10px 0px 40px;
+}
+
+.inputPhase{
+    width: 460px;
+    height: 48px;
+    border-radius: 4px;
+    border: 0;
+    background-color: #F8FAFC;
+    padding: 10px;
+    box-shadow: 0 0 7px #C4C4C4;
+}
+
+#inProgressPhaseButton{
+    text-decoration: none;
+}
+
+#nextPhaseFormButton{
+    margin-top: 10px;
+}

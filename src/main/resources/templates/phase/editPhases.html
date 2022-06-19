@@ -9,7 +9,7 @@
         <div th:replace="fragments/sidebar"> </div>
         <div class="contentContainer">
         <div th:replace="fragments/searchbar"> </div>
-        <div class="contentTitle">Veuillez editer les différentes informations de la/des phase(s)</div>
+        <div class="contentTitle">Veuillez éditer les différentes informations de la/des phase(s)</div>
         <br>
         <form class="formContainer" method="post" th:action="@{/phase/editPhases}" th:object="${listPhase}">
             <div th:each="phase, itemStat : *{phases}">
@@ -17,7 +17,11 @@
                 <input hidden th:field="*{phases[__${itemStat.index}__].nbPhase}" th:value="${phase.nbPhase}">
                 <input hidden th:field="*{phases[__${itemStat.index}__].tournament}" th:value="${phase.tournament}">
                 <input hidden th:field="*{phases[__${itemStat.index}__].phaseType}" th:value="${phase.phaseType}">
-                <div th:insert="phase/utiles/courtAndPlanning"></div>
+<!--                <div th:insert="phase/utiles/courtAndPlanning"></div>-->
+<!--                <div class="inputContainer">-->
+<!--                    <label class="inputLabel" for="randomStaff">Attribuer des matchs aux staff de façon aléatoire </label>-->
+<!--                    <input class="inputPhase" id="randomStaff" type="checkbox" th:field="*{phases[__${itemStat.index}__].randomStaff}">-->
+<!--                </div>-->
                 <div th:switch="${phase.phaseType}">
                     <div th:case="${T(type.PhaseType).POOL}">
                         <div th:insert="phase/typePhase/pool"></div>
