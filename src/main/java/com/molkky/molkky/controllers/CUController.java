@@ -9,7 +9,6 @@ import javax.servlet.http.HttpSession;
 
 @Controller
 public class CUController extends DefaultAttributes {
-    //CHNAGER ADRESSE API
-    @GetMapping("/conditionsUtilisation")
+    @GetMapping("/cu")
     public String index(Model model, HttpSession session) { return "conditionsUtilisation"; }
 }

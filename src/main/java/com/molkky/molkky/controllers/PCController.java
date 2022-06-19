@@ -9,6 +9,6 @@ import javax.servlet.http.HttpSession;
 
 @Controller
 public class PCController extends DefaultAttributes {
-    @GetMapping("/politiqueConfidentialite")
+    @GetMapping("/pc")
     public String index(Model model, HttpSession session) { return "politiqueConfidentialite"; }
 }
