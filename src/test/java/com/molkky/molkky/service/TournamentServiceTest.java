@@ -83,17 +83,6 @@ class TournamentServiceTest {
     }
 
     @Test
-    void createTournamentServiceWithoutUser() {
-        when(this.tournamentModel.getName()).thenReturn("TEST 1");
-        when(this.tournamentRepository.save(Mockito.any(Tournament.class))).thenAnswer(i -> i.getArguments()[0]);
-
-        Tournament test = this.tournamentService.create(this.tournamentModel);
-
-        // Vérification de la création du tournoi et du nom qui est bien assigné
-        Assertions.assertEquals("TEST 1", test.getName(), "Name incorrect");
-    }
-
-    @Test
     void createTournamentServiceWithUser() {
         when(this.tournamentModel.getName()).thenReturn("TEST 1");
         when(this.tournamentRepository.save(Mockito.any(Tournament.class))).thenAnswer(i -> i.getArguments()[0]);
