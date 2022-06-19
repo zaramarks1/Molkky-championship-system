@@ -76,7 +76,7 @@ public class TournamentService {
             user = userRepository.findUserByEmail(mail);
         }
         emailSenderService.sendEmail(mail, "Bienvenue sur Molkky", "Bonjour,\n\n" +
-                "Vosu avez bien créé un tournoi sur Molkky.\n" +
+                "Vous avez bien créé un tournoi sur Molkky.\n" +
                 "Votre mot de passe est : " + user.getPassword() + "\n\n" +
                 "Bon jeu sur Molkky !\n\n" +
                 "L'équipe Molkky");
