@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class LegalController extends DefaultAttributes {
     @GetMapping("/politiqueConfidentialite")
     public String politique() {
-        return "legal/politique";
+        return "politiqueConfidentialite";
     }
     @GetMapping("/conditionsUtilisation")
     public String conditions() {
-        return "legal/cu";
+        return "conditionsUtilisation";
     }
 }
