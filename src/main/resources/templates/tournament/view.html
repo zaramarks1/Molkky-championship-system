@@ -79,7 +79,7 @@
                                 <img class="teamLogo" th:src="@{/assets/teams.svg}" alt="Team icon"/>
                             </th:block>
                             <th:block th:unless="${team.photo.isEmpty()}">
-                                <img class='teamPhoto' th:src="@{'/teamPhotos/'+${team.getId()}+'/'+${team.photo}}" alt="Team icon"/>
+                                <img class='teamLogo' th:src="@{'/teamPhotos/'+${team.getId()}+'/'+${team.photo}}" alt="Team icon"/>
                             </th:block>
                             <ul class="roundsList">
                                 <th:block th:each="team : ${team.getUserTournamentRoles()}">

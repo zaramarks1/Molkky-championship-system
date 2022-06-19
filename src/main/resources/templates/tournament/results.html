@@ -16,7 +16,10 @@
                 <p th:text="${itemStat.index+1} + ' place: ' "> </p>
                 <p th:text="${winner.getName()}"></p>
                 <p th:text="'Eliminé :' + ${winner.isEliminated()}"></p>
-                <div class="teamImage"></div>
+                <div class="teamImage">
+                        <img th:if="${winner.photo.isEmpty()}"   class="teamImage" th:src="@{/assets/teams.svg}" alt="Team icon"/>
+                        <img th:unless="${winner.photo.isEmpty()}"  class="teamImage" th:src="@{'/teamPhotos/'+${winner.id}+'/'+${winner.photo}}" alt="Team icon"/>
+                </div>
                 <!--<div th:each="player: ${players}">
                     <p id="namePlayer" th:text="${player.getForename()} + ' ' + ${player.getSurname()}"></p>
                 </div> -->
