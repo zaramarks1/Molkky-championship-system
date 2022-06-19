@@ -70,11 +70,12 @@
                         </form>
                         <br>
                         <br>
-                        <form onsubmit="return confirm('Voulez vous réellement vous désinscrire ? Si oui, vous serez déconnecté');" method="post" th:action="@{/cancelRegisteration}" autocomplete="off">
-                            <button class = "filter"  type="submit">Se désinscrire du tournoi <span th:text="${user.tournament.name}" /> en tant que <span th:text="${user.role}" />
-                            </button>
-                        </form>
-
+                        <th:block th:unless="${#strings.equals(user.role, 'ADM')}">
+                            <form onsubmit="return confirm('Voulez vous réellement vous désinscrire ? Si oui, vous serez déconnecté');" method="post" th:action="@{/cancelRegisteration}" autocomplete="off">
+                                <button class = "filter"  type="submit">Se désinscrire du tournoi <span th:text="${user.tournament.name}" /> en tant que <span th:text="${user.role}" />
+                                </button>
+                            </form>
+                        </th:block>
                     </div>
                     <div th:unless="${#session.getAttribute('user') != null}">
                         <h2 style="color:red" >Connectez-vous pour accéder à vos informations</h2>
