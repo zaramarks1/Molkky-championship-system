@@ -113,7 +113,6 @@ class TournamentServiceTest {
         List<Court> courts = mock(List.class);
         when(courts.isEmpty()).thenReturn(false);
         List<Team> teams = mock(List.class);
-        when(teams.size()).thenReturn(2);
         when(tournament.getTeams()).thenReturn(teams);
         when(tournament.getCourts()).thenReturn(courts);
         List<UserTournamentRole> mockedUserTournamentRoles = mock(List.class);
@@ -130,7 +129,6 @@ class TournamentServiceTest {
         List<Court> courts = mock(List.class);
         when(courts.isEmpty()).thenReturn(true);
         List<Team> teams = mock(List.class);
-        when(teams.size()).thenReturn(2);
         when(tournament.getTeams()).thenReturn(teams);
         when(tournament.getCourts()).thenReturn(courts);
         List<UserTournamentRole> mockedUserTournamentRoles = mock(List.class);
@@ -154,7 +152,6 @@ class TournamentServiceTest {
         List<Court> courts = mock(List.class);
         when(courts.isEmpty()).thenReturn(false);
         List<Team> teams = mock(List.class);
-        when(teams.size()).thenReturn(2);
         when(tournament.getTeams()).thenReturn(teams);
         when(tournament.getCourts()).thenReturn(courts);
         List<UserTournamentRole> mockedUserTournamentRoles = mock(List.class);
