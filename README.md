@@ -2,10 +2,10 @@
 
 ## TECHNOLOGIES 
 
-### Languages : Java, HTML, CSS, JavaScript, MySQL
-### Framework/Libraries/Platforms: Spring, Thymeleaf, Docker, Sonarlint. 
-### Server: Jenkins
-### Testing : jUnit, Mock and Selenium.
+ Languages : Java, HTML, CSS, JavaScript, MySQL
+ Framework/Libraries/Platforms: Spring, Thymeleaf, Docker, Sonarlint. 
+ Server: Jenkins
+ Testing : jUnit, Mock and Selenium.
 
 ## Types of Users : 
 
